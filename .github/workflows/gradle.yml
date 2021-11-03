@@ -9,14 +9,14 @@ on:
       - '**.java'
       - '**/build.gradle.kts'
       - 'gradle.properties'
-    branches: [ dev ]
+    branches: [ main, dev ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ 8,11 ]
+        java: [ 8, 11 ]
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK
