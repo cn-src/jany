@@ -3,6 +3,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/a3a61ff2d17541c493b2fa8b69e1948b)](https://www.codacy.com/gh/cn-src/jany/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cn-src/jany&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/cn-src/jany/branch/dev/graph/badge.svg)](https://codecov.io/gh/cn-src/jany)
 [![](https://jitpack.io/v/cn.javaer/jany.svg)](https://jitpack.io/#cn.javaer/jany)
+[![Java Version](https://img.shields.io/badge/Java-8%20|%2011%20-blue)](https://adoptopenjdk.net/)
 
 # jany
 Java 常用代码
