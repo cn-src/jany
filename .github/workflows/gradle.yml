@@ -5,8 +5,10 @@ name: CI
 
 on:
   push:
-    branches: [ dev ]
-  pull_request:
+    paths:
+      - '**.java'
+      - '**/build.gradle.kts'
+      - 'gradle.properties'
     branches: [ dev ]
 
 jobs:
