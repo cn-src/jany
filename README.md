@@ -21,7 +21,7 @@ Maven
 ```xml
 <dependency>
     <groupId>cn.javaer.jany</groupId>
-    <artifactId>jany-archunit</artifactId>
+    <artifactId>jany-core</artifactId>
     <version>dev-SNAPSHOT</version>
 </dependency>
 ```
