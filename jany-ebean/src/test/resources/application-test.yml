@@ -1,0 +1,5 @@
+ebean:
+  test:
+    platform: h2 # h2, postgres, mysql, mariadb, oracle, sqlserver, hana, clickhouse, sqlite
+    ddlMode: dropCreate # none | dropCreate | migration
+    dbName: test

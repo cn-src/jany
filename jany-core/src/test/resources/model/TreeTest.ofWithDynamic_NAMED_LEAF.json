@@ -1,0 +1,65 @@
+[
+  {
+    "name": "河北省",
+    "children": [
+      {
+        "name": "",
+        "children": [
+          {
+            "name": "长安区",
+            "children": [],
+            "depth": 3,
+            "index": 0,
+            "leaf": true
+          }
+        ],
+        "depth": 2,
+        "index": 0,
+        "leaf": false
+      }, {
+        "name": null,
+        "children": [
+          {
+            "name": "新华区",
+            "children": [],
+            "depth": 3,
+            "index": 0,
+            "leaf": true
+          }
+        ],
+        "depth": 2,
+        "index": 1,
+        "leaf": false
+      }, {
+        "name": "唐山市",
+        "children": [],
+        "depth": 2,
+        "index": 2,
+        "leaf": true
+      }
+    ],
+    "depth": 1,
+    "index": 0,
+    "leaf": false
+  }, {
+  "name": null,
+  "children": [
+    {
+      "name": "太原市",
+      "children": [],
+      "depth": 2,
+      "index": 0,
+      "leaf": true
+    }
+  ],
+  "depth": 1,
+  "index": 1,
+  "leaf": false
+}, {
+  "name": "山东省",
+  "children": [],
+  "depth": 1,
+  "index": 2,
+  "leaf": true
+}
+]

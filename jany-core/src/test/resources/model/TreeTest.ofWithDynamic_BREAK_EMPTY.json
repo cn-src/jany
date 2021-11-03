@@ -1,0 +1,23 @@
+[
+  {
+    "name": "河北省",
+    "children": [
+      {
+        "name": "唐山市",
+        "children": [],
+        "leaf": true,
+        "depth": 2,
+        "index": 0
+      }
+    ],
+    "leaf": false,
+    "depth": 1,
+    "index": 0
+  }, {
+  "name": "山东省",
+  "children": [],
+  "leaf": true,
+  "depth": 1,
+  "index": 1
+}
+]

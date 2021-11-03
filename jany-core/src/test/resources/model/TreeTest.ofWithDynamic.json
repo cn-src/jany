@@ -1,0 +1,67 @@
+[
+  {
+    "name": "河北省",
+    "children": [
+      {
+        "name": "石家庄市",
+        "children": [
+          {
+            "name": "长安区",
+            "children": [],
+            "depth": 3,
+            "index": 0,
+            "leaf": true
+          }, {
+            "name": "新华区",
+            "children": [],
+            "depth": 3,
+            "index": 1,
+            "leaf": true
+          }
+        ],
+        "depth": 2,
+        "index": 0,
+        "leaf": false
+      }, {
+        "name": "唐山市",
+        "children": [
+          {
+            "name": "开平区",
+            "children": [],
+            "depth": 3,
+            "index": 0,
+            "leaf": true
+          }
+        ],
+        "depth": 2,
+        "index": 1,
+        "leaf": false
+      }
+    ],
+    "depth": 1,
+    "index": 0,
+    "leaf": false
+  }, {
+  "name": "山东省",
+  "children": [
+    {
+      "name": "太原市",
+      "children": [
+        {
+          "name": "小店区",
+          "children": [],
+          "depth": 3,
+          "index": 0,
+          "leaf": true
+        }
+      ],
+      "depth": 2,
+      "index": 0,
+      "leaf": false
+    }
+  ],
+  "depth": 1,
+  "index": 1,
+  "leaf": false
+}
+]

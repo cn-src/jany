@@ -1,0 +1,15 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.javaer.jany.spring.autoconfigure.jackson.JacksonPlusAutoConfiguration,\
+cn.javaer.jany.spring.autoconfigure.web.exception.ExceptionAutoConfiguration,\
+cn.javaer.jany.spring.autoconfigure.web.WebAutoConfiguration,\
+cn.javaer.jany.spring.autoconfigure.task.SchedulersAutoConfiguration,\
+cn.javaer.jany.spring.autoconfigure.task.ExecutorsAutoConfiguration
+
+# Failure Analysis Reporters
+org.springframework.boot.diagnostics.FailureAnalysisReporter=\
+cn.javaer.jany.spring.boot.diagnostics.analyzer.ZhLoggingFailureAnalysisReporter
+
+# Failure Analyzers
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+ZhPortInUseFailureAnalyzer

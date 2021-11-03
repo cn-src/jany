@@ -1,0 +1,44 @@
+[
+  {
+    "name": "河北省",
+    "children": [
+      {
+        "name": "石家庄市",
+        "children": [
+          {
+            "name": "新华区",
+            "children": [],
+            "sort": 1
+          }, {
+            "name": "长安区",
+            "children": [],
+            "sort": 4
+          }
+        ]
+      }, {
+        "name": "唐山市",
+        "children": [
+          {
+            "name": "开平区",
+            "children": [],
+            "sort": 2
+          }
+        ]
+      }
+    ]
+  }, {
+  "name": "山东省",
+  "children": [
+    {
+      "name": "太原市",
+      "children": [
+        {
+          "name": "小店区",
+          "children": [],
+          "sort": 3
+        }
+      ]
+    }
+  ]
+}
+]

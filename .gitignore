@@ -1,0 +1,8 @@
+*.iml
+.idea/*
+!.idea/inspectionProfiles/
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**
+!**/src/test/**
