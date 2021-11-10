@@ -11,4 +11,5 @@ dependencies {
     testImplementation("io.ebean:ebean-test")
     testImplementation("com.h2database:h2")
     testImplementation(project(":jany-test"))
+    testAnnotationProcessor("io.ebean:querybean-generator")
 }
