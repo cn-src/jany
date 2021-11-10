@@ -6,7 +6,6 @@ import cn.javaer.jany.test.JsonAssert;
 import cn.javaer.jany.test.Log;
 import io.ebean.DB;
 import io.ebean.Database;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,12 +19,7 @@ class BaseFinderTest {
 
     @BeforeEach
     void setUp() {
-        db.beginTransaction();
-    }
-
-    @AfterEach
-    void tearDown() {
-        db.rollbackTransaction();
+        db.truncate("DEMO");
     }
 
     @Test
@@ -37,7 +31,7 @@ class BaseFinderTest {
 
     @Test
     void pagedSort() {
-//        db.script().run("/BaseFinderTest.allSort.in.sql");
+        db.script().run("/BaseFinderTest.allSort.in.sql");
         final Page<Demo> demos = Demo.find.pagedSorted(PageParam.of(1, 2));
         JsonAssert.assertEqualsAndOrder("BaseFinderTest.pagedSort.out.json", Log.json(demos));
     }

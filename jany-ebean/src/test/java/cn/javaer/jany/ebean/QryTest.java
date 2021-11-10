@@ -3,7 +3,6 @@ package cn.javaer.jany.ebean;
 import cn.javaer.jany.ebean.query.QDemo;
 import io.ebean.DB;
 import io.ebean.Database;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,12 +20,7 @@ class QryTest {
 
     @BeforeEach
     void setUp() {
-        db.beginTransaction();
-    }
-
-    @AfterEach
-    void tearDown() {
-        db.rollbackTransaction();
+        db.truncate("DEMO");
     }
 
     @Test
