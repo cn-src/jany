@@ -60,6 +60,7 @@ dependencies {
         api("io.ebean:ebean-maven-plugin:${p["ebeanMavenPluginVersion"]}")
         api("io.ebean:ebean-test-docker:${p["ebeanTestDockerVersion"]}")
         api("io.ebean:ebean:${p["ebeanVersion"]}")
+        api("io.ebean:ebean-annotation:${p["ebeanAnnotation"]}")
         api("io.ebean:ebean-api:${p["ebeanVersion"]}")
         api("io.ebean:ebean-core:${p["ebeanVersion"]}")
         api("io.ebean:ebean-core-type:${p["ebeanVersion"]}")
