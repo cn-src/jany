@@ -1,7 +1,7 @@
 package cn.javaer.jany.spring.web.exception;
 
-import cn.javaer.jany.spring.exception.Error;
 import cn.javaer.jany.spring.exception.DefinedErrorInfo;
+import cn.javaer.jany.spring.exception.Error;
 import cn.javaer.jany.spring.exception.ErrorMappings;
 import cn.javaer.jany.spring.exception.ErrorMessageSource;
 import cn.javaer.jany.spring.exception.RuntimeErrorInfo;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.util.NestedServletException;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -97,6 +98,9 @@ public class ErrorInfoExtractor {
         Class<? extends Throwable> clazz = t.getClass();
         if (t.getCause() instanceof InvalidFormatException) {
             clazz = InvalidFormatException.class;
+        }
+        if (t instanceof NestedServletException) {
+            clazz = t.getCause().getClass();
         }
         return this.getErrorInfo(clazz);
     }
