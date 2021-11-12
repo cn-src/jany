@@ -121,6 +121,10 @@ dependencies {
         runtime("com.taobao.arthas:arthas-spring-boot-starter:${p["arthasSpringBootVersion"]}")
         api("com.baomidou:dynamic-datasource-spring-boot-starter:${p["dynamicDatasourceVersion"]}")
         api("com.github.lianjiatech:retrofit-spring-boot-starter:${p["retrofitSpringBootVersion"]}")
+        api("cn.dev33:sa-token-spring-boot-starter:${p["saTokenVersion"]}")
+
+        api("org.mapstruct:mapstruct:${p["mapstructVersion"]}")
+        api("org.mapstruct:mapstruct-processor:${p["mapstructVersion"]}")
 
         api("org.apache.shardingsphere:shardingsphere-jdbc-core:${p["shardingsphereVersion"]}")
         api("org.apache.shardingsphere.elasticjob:elasticjob-lite-core:${p["elasticjobVersion"]}")
