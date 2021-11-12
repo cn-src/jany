@@ -16,10 +16,10 @@
 
 package cn.javaer.jany.spring.web.exception;
 
-import cn.javaer.jany.spring.exception.RuntimeErrorInfo;
-import cn.javaer.jany.spring.web.WebAppContext;
 import cn.javaer.jany.spring.exception.ErrorMessageSource;
+import cn.javaer.jany.spring.exception.RuntimeErrorInfo;
 import cn.javaer.jany.util.TimeUtils;
+import com.yomahub.tlog.context.TLogContext;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.error.ErrorAttributeOptions.Include;
@@ -135,7 +135,7 @@ public class GlobalErrorAttributes implements ErrorAttributes, HandlerExceptionR
         this.addStatus(errorAttributes, webRequest, errorInfo);
         this.addErrorDetails(errorAttributes, webRequest, includeStackTrace, errorInfo);
         this.addPath(errorAttributes, webRequest);
-        errorAttributes.put(WebAppContext.REQUEST_ID_PARAM, WebAppContext.getRequestId());
+        errorAttributes.put("requestId", TLogContext.getTraceId());
         return errorAttributes;
     }
 
