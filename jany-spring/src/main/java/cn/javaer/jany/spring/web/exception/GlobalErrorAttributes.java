@@ -18,8 +18,8 @@ package cn.javaer.jany.spring.web.exception;
 
 import cn.javaer.jany.spring.exception.ErrorMessageSource;
 import cn.javaer.jany.spring.exception.RuntimeErrorInfo;
+import cn.javaer.jany.spring.web.WebAppContext;
 import cn.javaer.jany.util.TimeUtils;
-import com.yomahub.tlog.context.TLogContext;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.error.ErrorAttributeOptions.Include;
@@ -91,8 +91,7 @@ public class GlobalErrorAttributes implements ErrorAttributes, HandlerExceptionR
     @Override
     public ModelAndView resolveException(final @NotNull HttpServletRequest request,
                                          final @NotNull HttpServletResponse response,
-                                         final Object handler,
-                                         final @NotNull Exception ex) {
+                                         final Object handler, final @NotNull Exception ex) {
         this.storeErrorAttributes(request, ex);
         return null;
     }
@@ -135,7 +134,7 @@ public class GlobalErrorAttributes implements ErrorAttributes, HandlerExceptionR
         this.addStatus(errorAttributes, webRequest, errorInfo);
         this.addErrorDetails(errorAttributes, webRequest, includeStackTrace, errorInfo);
         this.addPath(errorAttributes, webRequest);
-        errorAttributes.put("requestId", TLogContext.getTraceId());
+        errorAttributes.put(WebAppContext.REQUEST_ID_PARAM, WebAppContext.getRequestId());
         return errorAttributes;
     }
 
@@ -165,8 +164,7 @@ public class GlobalErrorAttributes implements ErrorAttributes, HandlerExceptionR
     }
 
     private void addErrorDetails(final Map<String, Object> errorAttributes,
-                                 final WebRequest webRequest,
-                                 final boolean includeStackTrace,
+                                 final WebRequest webRequest, final boolean includeStackTrace,
                                  final RuntimeErrorInfo errorInfo) {
         Throwable error = this.getError(webRequest);
         if (error != null) {
@@ -183,8 +181,9 @@ public class GlobalErrorAttributes implements ErrorAttributes, HandlerExceptionR
             return;
         }
 
-        final String message = ErrorMessageSource.getMessage((String) errorAttributes.get("error"),
-            "No message available");
+        final String message =
+            ErrorMessageSource.getMessage((String) errorAttributes.get("error"), "No message " +
+                "available");
         errorAttributes.put("message", message);
     }
 
