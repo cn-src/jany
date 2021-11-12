@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.web.exception;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.javaer.jany.spring.exception.DefinedErrorInfo;
 import cn.javaer.jany.spring.web.exception.ErrorInfoController;
 import cn.javaer.jany.spring.web.exception.ErrorInfoExtractor;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.View;
 
 import java.util.HashMap;
@@ -67,15 +69,21 @@ public class ExceptionAutoConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        final Map<String, ExceptionMappingProperties.Error> mapping =
-            this.exceptionMappingProperties.getMapping();
+        final Map<String, String> mapping = this.exceptionMappingProperties.getMapping();
 
         if (!CollectionUtils.isEmpty(mapping)) {
             this.useMapping = new HashMap<>(mapping.size());
-            for (final Map.Entry<String, ExceptionMappingProperties.Error> entry :
-                mapping.entrySet()) {
-                this.useMapping.put(entry.getKey(),
-                    DefinedErrorInfo.of(entry.getValue().getError(), entry.getValue().getStatus()));
+            for (final Map.Entry<String, String> entry : mapping.entrySet()) {
+                final String value = entry.getValue();
+                if (StringUtils.hasText(value)) {
+                    final String[] split = StringUtils.split(value, ",");
+                    if (ArrayUtil.length(split) < 2) {
+                        continue;
+                    }
+                    final DefinedErrorInfo errorInfo = DefinedErrorInfo.of(split[1].trim(),
+                        Integer.parseInt(split[0].trim()));
+                    this.useMapping.put(entry.getKey(), errorInfo);
+                }
             }
         }
     }
