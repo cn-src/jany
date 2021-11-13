@@ -2,9 +2,7 @@ package cn.javaer.jany.model;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import lombok.Value;
 import org.springdoc.api.annotations.ParameterObject;
 
 /**
@@ -12,17 +10,11 @@ import org.springdoc.api.annotations.ParameterObject;
  *
  * @author cn-src
  */
-@Data
+@Value
 @ParameterObject
-@Setter(AccessLevel.PACKAGE)
 public class PageParam {
-
-    PageParam() {
-        this.page = 1;
-        this.size = 20;
-    }
-
-    PageParam(final int page, final int size) {
+    
+    public PageParam(final int page, final int size) {
         this.page = Math.max(page, 1);
         this.size = Math.max(size, 1);
     }
