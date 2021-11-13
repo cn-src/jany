@@ -44,4 +44,8 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
     public static String getMessage(final String error, final Object[] args) {
         return ACCESSOR.getMessage(error, args, Locale.CHINESE);
     }
+
+    public static String getMessage(String error) {
+        return ACCESSOR.getMessage(error, Locale.CHINESE);
+    }
 }
