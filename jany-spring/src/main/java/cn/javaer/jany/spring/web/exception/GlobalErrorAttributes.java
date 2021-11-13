@@ -29,6 +29,7 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
         final ErrorInfo errorInfo = extractor.getErrorInfo(throwable);
         final Map<String, Object> attributes = super.getErrorAttributes(webRequest, options);
         attributes.put(RuntimeErrorInfo.Fields.traceMessage, attributes.get("message"));
+        attributes.put(RuntimeErrorInfo.Fields.message, ErrorMessageSource.getMessage(errorInfo));
         attributes.put(RuntimeErrorInfo.Fields.error, errorInfo.getError());
         attributes.put(RuntimeErrorInfo.Fields.status, errorInfo.getStatus());
         attributes.put(RuntimeErrorInfo.Fields.timestamp, LocalDateTime.now());

@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.web.exception;
 
+import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.WebAppContext;
 import org.slf4j.Logger;
@@ -36,14 +37,15 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler({Exception.class})
     public ResponseEntity<RuntimeErrorInfo> handleBadRequestException(
         final HttpServletRequest request, final Exception e) {
-        final RuntimeErrorInfo errorInfo = new RuntimeErrorInfo(errorInfoExtractor.getErrorInfo(e));
-        errorInfo.setMessage(ErrorMessageSource.getMessage(errorInfo.getError()));
-        errorInfo.setTraceMessage(errorInfoExtractor.getRuntimeMessage(e));
-        if (errorInfo.getStatus() >= 500) {
+        final ErrorInfo errorInfo = errorInfoExtractor.getErrorInfo(e);
+        final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
+        runtimeErrorInfo.setMessage(ErrorMessageSource.getMessage(errorInfo));
+        runtimeErrorInfo.setTraceMessage(errorInfoExtractor.getRuntimeMessage(e));
+        if (runtimeErrorInfo.getStatus() >= 500) {
             this.logger.error("", e);
         }
-        this.fillInfo(errorInfo, request, e);
-        return ResponseEntity.status(errorInfo.getStatus()).body(errorInfo);
+        this.fillInfo(runtimeErrorInfo, request, e);
+        return ResponseEntity.status(runtimeErrorInfo.getStatus()).body(runtimeErrorInfo);
     }
 
     private void fillInfo(final RuntimeErrorInfo runtimeErrorInfo,

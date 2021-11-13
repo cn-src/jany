@@ -15,12 +15,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -45,27 +42,6 @@ public class ErrorInfoExtractor {
         if (!CollectionUtils.isEmpty(internal)) {
             this.internalErrorMapping.putAll(internal);
         }
-    }
-
-    public Map<String, ErrorInfo> getControllersErrorMapping(final Collection<Object> controllers) {
-        final Map<String, ErrorInfo> result = new HashMap<>(20);
-        for (final Object ctr : controllers) {
-            final Method[] methods = ctr.getClass().getDeclaredMethods();
-            for (final Method method : methods) {
-                if (null != AnnotationUtils.findAnnotation(method, RequestMapping.class)) {
-                    final Class<?>[] exceptionTypes = method.getExceptionTypes();
-                    if (exceptionTypes != null && exceptionTypes.length > 0) {
-                        for (final Class<?> type : exceptionTypes) {
-                            @SuppressWarnings("unchecked")
-                            final Class<? extends Throwable> t = (Class<? extends Throwable>) type;
-                            final ErrorInfo extract = this.getErrorInfo(t);
-                            result.put(t.getName(), extract);
-                        }
-                    }
-                }
-            }
-        }
-        return result;
     }
 
     @NotNull

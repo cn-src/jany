@@ -1,7 +1,10 @@
 package cn.javaer.jany.spring.web.exception;
 
+import cn.javaer.jany.exception.ErrorInfo;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -30,19 +33,15 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
         return ACCESSOR;
     }
 
-    public static String getMessage(final String error) {
-        return ACCESSOR.getMessage(error, Locale.CHINESE);
-    }
-
-    public static String getMessage(final String error, final String defaultMessage) {
-        return ACCESSOR.getMessage(error, defaultMessage);
+    public static String getMessage(final ErrorInfo errorInfo) {
+        final String message = ACCESSOR.getMessage(errorInfo.getError(), Locale.CHINESE);
+        if (StringUtils.hasText(message)) {
+            return message;
+        }
+        return HttpStatus.valueOf(errorInfo.getStatus()).getReasonPhrase();
     }
 
     public static String getMessage(final String error, final Object[] args) {
         return ACCESSOR.getMessage(error, args, Locale.CHINESE);
     }
-
-//    public static DefinedErrorInfo replaceMessage(final DefinedErrorInfo errorInfo) {
-//        return errorInfo.withMessage(ACCESSOR.getMessage(errorInfo.getError(), Locale.CHINESE));
-//    }
 }
