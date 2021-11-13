@@ -6,7 +6,6 @@ dependencies {
     api(project(":jany-core"))
     api(project(":jany-spring"))
     api(project(":jany-jackson"))
-    api(project(":jany-spring-exception"))
 
     optionalApi("org.jooq:jooq:$jooqVersion")
     optionalApi("org.springframework.boot:spring-boot-starter-web")

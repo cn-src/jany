@@ -13,7 +13,6 @@ dependencies {
         api(project(":jany-jooq-codegen"))
         api(project(":jany-p6spy"))
         api(project(":jany-spring"))
-        api(project(":jany-spring-exception"))
         api(project(":jany-spring-boot-starter"))
         api(project(":jany-spring-boot-starter-handlebars"))
         api(project(":jany-spring-boot-starter-minio"))

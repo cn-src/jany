@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
     api(project(":jany-core"))
-    optionalApi(project(":jany-spring-exception"))
     optionalApi(project(":jany-jackson"))
 
     optionalApi("com.yomahub:tlog-common")
