@@ -1,6 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.springdoc;
 
-import cn.javaer.jany.spring.exception.DefinedErrorInfo;
+import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.spring.web.exception.ErrorInfoExtractor;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.Operation;
@@ -49,17 +49,16 @@ class ExceptionResponseBuilder extends GenericResponseService {
         final ApiResponses apiResponses = super.build(components, handlerMethod, operation,
             methodAttributes);
         final Class<?>[] exceptionTypes = handlerMethod.getMethod().getExceptionTypes();
-        final TreeSet<DefinedErrorInfo> errorInfos = new TreeSet<>();
+        final TreeSet<ErrorInfo> errorInfos = new TreeSet<>();
         for (final Class<?> exceptionType : exceptionTypes) {
             @SuppressWarnings("unchecked")
-            final DefinedErrorInfo errorInfo = this.errorInfoExtractor.getErrorInfoWithMessage(
+            final ErrorInfo errorInfo = this.errorInfoExtractor.getErrorInfo(
                 (Class<? extends Throwable>) exceptionType);
             errorInfos.add(errorInfo);
         }
-        for (final DefinedErrorInfo errorInfo : errorInfos) {
+        for (final ErrorInfo errorInfo : errorInfos) {
             final ApiResponse response = new ApiResponse();
-            response.setDescription(String.format("%s: %s", errorInfo.getError(),
-                errorInfo.getMessage()));
+            response.setDescription(errorInfo.getError());
             apiResponses.addApiResponse(String.valueOf(errorInfo.getStatus()), response);
         }
         return apiResponses;

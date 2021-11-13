@@ -67,37 +67,6 @@ public class ErrorInfoExtractor {
         }
         return result;
     }
-//
-//    public RuntimeErrorInfo getRuntimeErrorInfo(final Throwable t, final boolean
-//    includeTraceMessage) {
-//        final RuntimeErrorInfo errorInfo = new RuntimeErrorInfo(this.getErrorInfo(t));
-//        errorInfo.set
-////        if (includeMessage) {
-////            final String msg = this.getMessage(t);
-////            if (StringUtils.hasLength(msg)) {
-////                errorInfo.setMessage(msg);
-////            }
-////            else {
-////                final String message = ErrorMessageSource.getMessage(errorInfo.getError());
-////                if (StringUtils.hasLength(message)) {
-////                    errorInfo.setMessage(message);
-////                }
-////            }
-////        }
-////        else {
-////            errorInfo.setMessage(null);
-////        }
-//        return errorInfo;
-//    }
-
-//    public DefinedErrorInfo getErrorInfoWithMessage(final Class<? extends Throwable> clazz) {
-//        final DefinedErrorInfo errorInfo = this.getErrorInfo(clazz);
-//        final String message = ErrorMessageSource.getMessage(errorInfo.getError());
-//        if (StringUtils.hasLength(message)) {
-//            return errorInfo.withMessage(message);
-//        }
-//        return errorInfo;
-//    }
 
     @NotNull
     public ErrorInfo getErrorInfo(final Throwable t) {
