@@ -1,10 +1,9 @@
 package cn.javaer.jany.spring.web.exception;
 
-import cn.javaer.jany.spring.exception.DefinedErrorInfo;
-import cn.javaer.jany.spring.exception.Error;
-import cn.javaer.jany.spring.exception.ErrorMappings;
-import cn.javaer.jany.spring.exception.ErrorMessageSource;
-import cn.javaer.jany.spring.exception.RuntimeErrorInfo;
+import cn.hutool.core.util.ArrayUtil;
+import cn.javaer.jany.exception.ErrorCode;
+import cn.javaer.jany.exception.ErrorInfo;
+import cn.javaer.jany.util.IoUtils;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.util.NestedServletException;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -27,6 +25,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.StringJoiner;
 
 /**
@@ -34,17 +33,22 @@ import java.util.StringJoiner;
  */
 public class ErrorInfoExtractor {
 
-    private final Map<String, DefinedErrorInfo> configuredErrorMapping = new HashMap<>();
+    private final Map<String, ErrorInfo> internalErrorMapping = new HashMap<>();
+    private final Map<String, ErrorInfo> configuredErrorMapping = new HashMap<>();
 
-    public ErrorInfoExtractor(final Map<String, DefinedErrorInfo> errorMapping) {
+    public ErrorInfoExtractor(final Map<String, ErrorInfo> errorMapping) {
 
         if (!CollectionUtils.isEmpty(errorMapping)) {
             this.configuredErrorMapping.putAll(errorMapping);
         }
+        final Map<String, ErrorInfo> internal = internalErrorMapping();
+        if (!CollectionUtils.isEmpty(internal)) {
+            this.internalErrorMapping.putAll(internal);
+        }
     }
 
-    public Map<String, DefinedErrorInfo> getControllersErrorMapping(final Collection<Object> controllers) {
-        final Map<String, DefinedErrorInfo> result = new HashMap<>(20);
+    public Map<String, ErrorInfo> getControllersErrorMapping(final Collection<Object> controllers) {
+        final Map<String, ErrorInfo> result = new HashMap<>(20);
         for (final Object ctr : controllers) {
             final Method[] methods = ctr.getClass().getDeclaredMethods();
             for (final Method method : methods) {
@@ -54,7 +58,7 @@ public class ErrorInfoExtractor {
                         for (final Class<?> type : exceptionTypes) {
                             @SuppressWarnings("unchecked")
                             final Class<? extends Throwable> t = (Class<? extends Throwable>) type;
-                            final DefinedErrorInfo extract = this.getErrorInfoWithMessage(t);
+                            final ErrorInfo extract = this.getErrorInfo(t);
                             result.put(t.getName(), extract);
                         }
                     }
@@ -63,79 +67,81 @@ public class ErrorInfoExtractor {
         }
         return result;
     }
+//
+//    public RuntimeErrorInfo getRuntimeErrorInfo(final Throwable t, final boolean
+//    includeTraceMessage) {
+//        final RuntimeErrorInfo errorInfo = new RuntimeErrorInfo(this.getErrorInfo(t));
+//        errorInfo.set
+////        if (includeMessage) {
+////            final String msg = this.getMessage(t);
+////            if (StringUtils.hasLength(msg)) {
+////                errorInfo.setMessage(msg);
+////            }
+////            else {
+////                final String message = ErrorMessageSource.getMessage(errorInfo.getError());
+////                if (StringUtils.hasLength(message)) {
+////                    errorInfo.setMessage(message);
+////                }
+////            }
+////        }
+////        else {
+////            errorInfo.setMessage(null);
+////        }
+//        return errorInfo;
+//    }
 
-    public RuntimeErrorInfo getRuntimeErrorInfo(final Throwable t, final boolean includeMessage) {
-        final RuntimeErrorInfo errorInfo = new RuntimeErrorInfo(this.getErrorInfo(t));
-        if (includeMessage) {
-            final String msg = this.getMessage(t);
-            if (StringUtils.hasLength(msg)) {
-                errorInfo.setMessage(msg);
-            }
-            else {
-                final String message = ErrorMessageSource.getMessage(errorInfo.getError());
-                if (StringUtils.hasLength(message)) {
-                    errorInfo.setMessage(message);
-                }
-            }
-        }
-        else {
-            errorInfo.setMessage(null);
-        }
-        return errorInfo;
-    }
-
-    public DefinedErrorInfo getErrorInfoWithMessage(final Class<? extends Throwable> clazz) {
-        final DefinedErrorInfo errorInfo = this.getErrorInfo(clazz);
-        final String message = ErrorMessageSource.getMessage(errorInfo.getError());
-        if (StringUtils.hasLength(message)) {
-            return errorInfo.withMessage(message);
-        }
-        return errorInfo;
-    }
+//    public DefinedErrorInfo getErrorInfoWithMessage(final Class<? extends Throwable> clazz) {
+//        final DefinedErrorInfo errorInfo = this.getErrorInfo(clazz);
+//        final String message = ErrorMessageSource.getMessage(errorInfo.getError());
+//        if (StringUtils.hasLength(message)) {
+//            return errorInfo.withMessage(message);
+//        }
+//        return errorInfo;
+//    }
 
     @NotNull
-    public DefinedErrorInfo getErrorInfo(final Throwable t) {
+    public ErrorInfo getErrorInfo(final Throwable t) {
         Class<? extends Throwable> clazz = t.getClass();
         if (t.getCause() instanceof InvalidFormatException) {
             clazz = InvalidFormatException.class;
-        }
-        if (t instanceof NestedServletException) {
-            clazz = t.getCause().getClass();
         }
         return this.getErrorInfo(clazz);
     }
 
     @NotNull
-    public DefinedErrorInfo getErrorInfo(final Class<? extends Throwable> clazz) {
+    public ErrorInfo getErrorInfo(final Class<? extends Throwable> clazz) {
         if (this.configuredErrorMapping.containsKey(clazz.getName())) {
             return this.configuredErrorMapping.get(clazz.getName());
         }
-        final Error error = AnnotatedElementUtils.findMergedAnnotation(clazz, Error.class);
-        if (error != null) {
-            return DefinedErrorInfo.of(error);
+        final ErrorCode errorCode = AnnotatedElementUtils.findMergedAnnotation(clazz,
+            ErrorCode.class);
+        if (errorCode != null) {
+            return ErrorInfo.of(errorCode);
         }
         final ResponseStatus responseStatus = AnnotationUtils.findAnnotation(
             clazz, ResponseStatus.class);
         if (null != responseStatus) {
-            return DefinedErrorInfo.of(responseStatus);
+            return ErrorInfo.of(responseStatus.code().name(),
+                responseStatus.code().value());
         }
-        if (ErrorMappings.containsError(clazz.getName())) {
-            return ErrorMappings.getErrorInfo(clazz.getName());
+        if (internalErrorMapping.containsKey(clazz.getName())) {
+            return internalErrorMapping.get(clazz.getName());
         }
-        return DefinedErrorInfo.of(HttpStatus.INTERNAL_SERVER_ERROR);
+        return ErrorInfo.of(HttpStatus.INTERNAL_SERVER_ERROR.name(),
+            HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
     @Nullable
-    private String getMessage(final Throwable e) {
+    public String getRuntimeMessage(final Throwable e) {
         if (e.getCause() instanceof InvalidFormatException) {
             final InvalidFormatException cause = (InvalidFormatException) e.getCause();
             return ErrorMessageSource.getMessage(
-                "PARAM_INVALID_FORMAT", new Object[]{cause.getValue()});
+                "RUNTIME_PARAM_INVALID_FORMAT", new Object[]{cause.getValue()});
         }
         if (e instanceof MethodArgumentTypeMismatchException) {
             final MethodArgumentTypeMismatchException ec = (MethodArgumentTypeMismatchException) e;
             return ErrorMessageSource.getMessage(
-                "PARAM_INVALID_TYPE", new Object[]{ec.getName(), ec.getValue()});
+                "RUNTIME_PARAM_INVALID_TYPE", new Object[]{ec.getName(), ec.getValue()});
         }
         if (e instanceof MethodArgumentNotValidException) {
             final MethodArgumentNotValidException ec = (MethodArgumentNotValidException) e;
@@ -143,7 +149,7 @@ public class ErrorInfoExtractor {
             final StringJoiner sb = new StringJoiner("; ");
             for (final FieldError fieldError : fieldErrors) {
                 final String message = ErrorMessageSource.getMessage(
-                    "PARAM_INVALID", new Object[]{fieldError.getField(),
+                    "RUNTIME_PARAM_INVALID", new Object[]{fieldError.getField(),
                         fieldError.getRejectedValue(),
                         fieldError.getDefaultMessage()});
                 sb.add(message);
@@ -154,7 +160,39 @@ public class ErrorInfoExtractor {
     }
 
     @UnmodifiableView
-    public Map<String, DefinedErrorInfo> getConfiguredErrorMapping() {
+    public Map<String, ErrorInfo> getConfiguredErrorMapping() {
         return Collections.unmodifiableMap(this.configuredErrorMapping);
+    }
+
+    public static Map<String, ErrorInfo> convert(Map<String, String> mapping) {
+
+        if (!CollectionUtils.isEmpty(mapping)) {
+            Map<String, ErrorInfo> errorInfoMap = new HashMap<>(mapping.size());
+            for (final Map.Entry<String, String> entry : mapping.entrySet()) {
+                final String value = entry.getValue();
+                if (StringUtils.hasText(value)) {
+                    final String[] split = StringUtils.split(value, ",");
+                    if (ArrayUtil.length(split) != 2) {
+                        // TODO
+                        throw new RuntimeException(value);
+                    }
+                    final ErrorInfo errorInfo = ErrorInfo.of(split[1].trim(),
+                        Integer.parseInt(split[0].trim()));
+                    errorInfoMap.put(entry.getKey(), errorInfo);
+                }
+            }
+            return Collections.unmodifiableMap(errorInfoMap);
+        }
+        return Collections.emptyMap();
+    }
+
+    private static Map<String, ErrorInfo> internalErrorMapping() {
+        final Properties props = IoUtils.readProperties(
+            ErrorInfoExtractor.class.getResourceAsStream("/default-errors-mappings.properties"));
+        Map<String, String> mapping = new HashMap<>(props.size());
+        for (String propertyName : props.stringPropertyNames()) {
+            mapping.put(propertyName, props.getProperty(propertyName));
+        }
+        return convert(mapping);
     }
 }

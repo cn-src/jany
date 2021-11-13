@@ -1,7 +1,7 @@
 package cn.javaer.jany.spring.web.exception;
 
+import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.WebAppContext;
-import cn.javaer.jany.spring.exception.RuntimeErrorInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
@@ -25,23 +25,23 @@ public class GlobalExceptionAdvice {
 
     private final ErrorProperties errorProperties;
     private final ErrorInfoExtractor errorInfoExtractor;
-    private final boolean includeMessage;
 
     public GlobalExceptionAdvice(final ErrorProperties errorProperties,
                                  final ErrorInfoExtractor errorInfoExtractor) {
         this.errorProperties = errorProperties;
         this.errorInfoExtractor = errorInfoExtractor;
-        this.includeMessage =
-            errorProperties.getIncludeMessage() == ErrorProperties.IncludeAttribute.ALWAYS;
     }
 
     @ResponseBody
     @ExceptionHandler({Exception.class})
     public ResponseEntity<RuntimeErrorInfo> handleBadRequestException(
         final HttpServletRequest request, final Exception e) {
-        this.logger.error("", e);
-        final RuntimeErrorInfo errorInfo = this.errorInfoExtractor.getRuntimeErrorInfo(
-            e, this.includeMessage);
+        final RuntimeErrorInfo errorInfo = new RuntimeErrorInfo(errorInfoExtractor.getErrorInfo(e));
+        errorInfo.setMessage(ErrorMessageSource.getMessage(errorInfo.getError()));
+        errorInfo.setTraceMessage(errorInfoExtractor.getRuntimeMessage(e));
+        if (errorInfo.getStatus() >= 500) {
+            this.logger.error("", e);
+        }
         this.fillInfo(errorInfo, request, e);
         return ResponseEntity.status(errorInfo.getStatus()).body(errorInfo);
     }
@@ -59,7 +59,9 @@ public class GlobalExceptionAdvice {
         }
 
         if (ErrorProperties.IncludeAttribute.ALWAYS.equals(this.errorProperties.getIncludeStacktrace())) {
-            runtimeErrorInfo.setTraceMessage(e.getMessage());
+            if (runtimeErrorInfo.getTraceMessage() != null) {
+                runtimeErrorInfo.setTraceMessage(e.getMessage());
+            }
             final StringWriter stackTrace = new StringWriter();
             e.printStackTrace(new PrintWriter(stackTrace));
             stackTrace.flush();
