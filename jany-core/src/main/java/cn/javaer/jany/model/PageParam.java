@@ -1,6 +1,5 @@
 package cn.javaer.jany.model;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -23,10 +22,9 @@ public class PageParam {
         this.size = 20;
     }
 
-    PageParam(final int page, final int size, final int offset) {
+    PageParam(final int page, final int size) {
         this.page = Math.max(page, 1);
         this.size = Math.max(size, 1);
-        this.offset = Math.max(offset, 0);
     }
 
     @Parameter(description = "分页-页码", schema =
@@ -37,10 +35,11 @@ public class PageParam {
     @Schema(type = "integer", minimum = "1", defaultValue = "20"))
     int size;
 
-    @Hidden
-    int offset;
-
     public static PageParam of(final int page, final int size) {
-        return new PageParam(page, size, (page - 1) * size);
+        return new PageParam(page, size);
+    }
+
+    public int getOffset() {
+        return Math.max((page - 1) * size, 0);
     }
 }
