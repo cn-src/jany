@@ -36,8 +36,7 @@ public class SpringBoot {
                 InetAddress used = null;
                 for (InetAddress address : addresses) {
                     try {
-                        if (address.getHostAddress().matches(
-                            "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}") && address.isReachable(1)) {
+                        if (address.isReachable(1)) {
                             used = address;
                             break;
                         }
@@ -47,7 +46,7 @@ public class SpringBoot {
                 }
                 if (null != used) {
                     adminProps.put("spring.boot.admin.client.instance.service-url",
-                        "http://${server.address:" + used.getHostAddress() + "}:${server" +
+                        "http://" + used.getHostAddress() + ":${server" +
                             ".port:8080}");
                 }
                 props.putAll(adminProps);
