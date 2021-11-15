@@ -41,7 +41,10 @@ public class GlobalExceptionAdvice {
         final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
         runtimeErrorInfo.setMessage(ErrorMessageSource.getMessage(errorInfo));
         runtimeErrorInfo.setTraceMessage(errorInfoExtractor.getRuntimeMessage(e));
-        if (runtimeErrorInfo.getStatus() >= 500) {
+        if (runtimeErrorInfo.getStatus() < 500) {
+            this.logger.debug("", e);
+        }
+        else {
             this.logger.error("", e);
         }
         this.fillInfo(runtimeErrorInfo, request, e);
