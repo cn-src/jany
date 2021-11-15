@@ -36,7 +36,8 @@ public class SpringBoot {
                 InetAddress used = null;
                 for (InetAddress address : addresses) {
                     try {
-                        if (address.isReachable(1)) {
+                        if (address.getHostAddress().matches(
+                            "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}") && address.isReachable(1)) {
                             used = address;
                             break;
                         }
