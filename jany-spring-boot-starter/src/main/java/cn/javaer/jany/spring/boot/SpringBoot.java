@@ -43,7 +43,8 @@ public class SpringBoot {
                     }
                 }
                 if (null != used) {
-                    adminProps.put("server.address", used.getHostAddress());
+                    adminProps.put("spring.boot.admin.client.instance.service-url",
+                        "http://${server.address:" + used + "}:${server.port:8080}");
                 }
                 props.putAll(adminProps);
             });
