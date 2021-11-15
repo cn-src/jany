@@ -1,6 +1,7 @@
 package cn.javaer.jany.ebean;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.util.ReflectionUtils;
@@ -90,19 +91,20 @@ public class BaseFinder<I, T> extends Finder<I, T> {
     }
 
     public int updateById(Object obj, I id) {
-        final Map<String, Object> beanMap = BeanUtil.beanToMap(obj);
         final UpdateQuery<T> updateQuery = update();
-        for (Map.Entry<String, Object> entry : beanMap.entrySet()) {
-            updateQuery.set(entry.getKey(), entry.getValue());
-        }
-        updateQuery.where().idEq(id);
+        update(obj, updateQuery).where().idEq(id);
         return updateQuery.update();
     }
 
     public UpdateQuery<T> update(Object obj, UpdateQuery<T> updateQuery) {
         final Map<String, Object> beanMap = BeanUtil.beanToMap(obj);
         for (Map.Entry<String, Object> entry : beanMap.entrySet()) {
-            updateQuery.set(entry.getKey(), entry.getValue());
+            if (ObjectUtil.isEmpty(entry.getValue())) {
+                updateQuery.setNull(entry.getKey());
+            }
+            else {
+                updateQuery.set(entry.getKey(), entry.getValue());
+            }
         }
         return updateQuery;
     }
