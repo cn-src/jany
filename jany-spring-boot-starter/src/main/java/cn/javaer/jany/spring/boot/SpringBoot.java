@@ -62,13 +62,14 @@ public class SpringBoot {
                     }
                 }
 
-                try {
-                    used = InetAddress.getLocalHost();
+                if (used == null) {
+                    try {
+                        used = InetAddress.getLocalHost();
+                    }
+                    catch (UnknownHostException e) {
+                        // ignore
+                    }
                 }
-                catch (UnknownHostException e) {
-                    // ignore
-                }
-
                 if (null != used) {
                     adminProps.put("spring.boot.admin.client.instance.service-url",
                         "http://${server.address:" + used.getHostAddress() + "}:${server" +
