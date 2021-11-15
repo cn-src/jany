@@ -13,6 +13,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * @author cn-src
  */
 public class PageParamArgumentResolver implements HandlerMethodArgumentResolver {
+
+    public static final PageParamArgumentResolver INSTANCE = new PageParamArgumentResolver();
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return PageParam.class.equals(parameter.getParameterType());
