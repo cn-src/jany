@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public class ErrorMessageSource extends ResourceBundleMessageSource {
 
     private static final MessageSourceAccessor ACCESSOR =
-        new MessageSourceAccessor(new ErrorMessageSource());
+        new MessageSourceAccessor(new ErrorMessageSource(), Locale.CHINESE);
 
     public ErrorMessageSource() {
         this.setDefaultEncoding("UTF-8");
@@ -34,7 +34,7 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
     }
 
     public static String getMessage(final ErrorInfo errorInfo) {
-        final String message = ACCESSOR.getMessage(errorInfo.getError(), Locale.CHINESE);
+        final String message = ACCESSOR.getMessage(errorInfo.getError());
         if (StringUtils.hasText(message)) {
             return message;
         }
@@ -42,10 +42,10 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
     }
 
     public static String getMessage(final String error, final Object[] args) {
-        return ACCESSOR.getMessage(error, args, Locale.CHINESE);
+        return ACCESSOR.getMessage(error, args);
     }
 
     public static String getMessage(String error) {
-        return ACCESSOR.getMessage(error, Locale.CHINESE);
+        return ACCESSOR.getMessage(error);
     }
 }
