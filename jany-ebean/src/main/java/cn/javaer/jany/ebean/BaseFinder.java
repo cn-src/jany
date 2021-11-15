@@ -89,7 +89,7 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
 
-    public int update(Object obj, I id) {
+    public int updateById(I id, Object obj) {
         final Map<String, Object> beanMap = BeanUtil.beanToMap(obj);
         final UpdateQuery<T> updateQuery = update();
         for (Map.Entry<String, Object> entry : beanMap.entrySet()) {
@@ -97,5 +97,13 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         }
         updateQuery.where().idEq(id);
         return updateQuery.update();
+    }
+
+    public UpdateQuery<T> update(UpdateQuery<T> updateQuery, Object obj) {
+        final Map<String, Object> beanMap = BeanUtil.beanToMap(obj);
+        for (Map.Entry<String, Object> entry : beanMap.entrySet()) {
+            updateQuery.set(entry.getKey(), entry.getValue());
+        }
+        return updateQuery;
     }
 }
