@@ -33,14 +33,14 @@ public class SpringBoot {
                     !address.isLoopbackAddress() && address instanceof Inet4Address);
 
                 InetAddress used = null;
-                try {
-                    for (InetAddress address : addresses) {
+                for (InetAddress address : addresses) {
+                    try {
                         if (address.isSiteLocalAddress() && address.isReachable(1)) {
                             used = address;
                         }
                     }
-                }
-                catch (IOException ignore) {
+                    catch (IOException ignore) {
+                    }
                 }
                 if (null != used) {
                     adminProps.put("server.address", used.getHostAddress());
