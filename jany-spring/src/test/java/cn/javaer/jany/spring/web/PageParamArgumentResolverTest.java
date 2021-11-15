@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -41,8 +40,7 @@ class PageParamArgumentResolverTest {
         contextRunner.withUserConfiguration(Config.class, ArgumentConfig.class)
             .run(context -> {
                 final MockMvc mockMvc = context.getBean(MockMvc.class);
-                final MvcResult mvcResult =
-                    mockMvc.perform(get("/demo")).andExpect(status().isOk()).andReturn();
+                mockMvc.perform(get("/demo")).andExpect(status().isOk()).andReturn();
             });
     }
 
