@@ -1,16 +1,19 @@
 package cn.javaer.jany.ebean;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.util.ReflectionUtils;
 import io.ebean.Finder;
 import io.ebean.PagedList;
 import io.ebean.Query;
+import io.ebean.UpdateQuery;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -84,5 +87,14 @@ public class BaseFinder<I, T> extends Finder<I, T> {
     public Page<T> pagedSorted(PageParam pageParam) {
         final PagedList<T> pagedList = pagedSortedQuery(pageParam).findPagedList();
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
+    }
+
+    public int update(Object obj) {
+        final Map<String, Object> beanMap = BeanUtil.beanToMap(obj);
+        final UpdateQuery<T> updateQuery = update();
+        for (Map.Entry<String, Object> entry : beanMap.entrySet()) {
+            updateQuery.set(entry.getKey(), entry.getValue());
+        }
+        return updateQuery.update();
     }
 }
