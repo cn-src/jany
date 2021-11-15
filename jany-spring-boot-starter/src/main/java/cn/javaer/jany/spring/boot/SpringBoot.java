@@ -17,6 +17,7 @@ import java.util.Properties;
  * @author cn-src
  */
 public class SpringBoot {
+
     public static ConfigurableApplicationContext run(final Class<?> primarySource,
                                                      final String... args) {
         final SpringApplication app = new SpringApplication(primarySource);
@@ -35,7 +36,8 @@ public class SpringBoot {
                 InetAddress used = null;
                 for (InetAddress address : addresses) {
                     try {
-                        if (address.isSiteLocalAddress() && address.isReachable(1)) {
+                        if (address.isSiteLocalAddress() && address.getHostAddress().matches(
+                            "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}") && address.isReachable(1)) {
                             used = address;
                         }
                     }
