@@ -1,6 +1,7 @@
 package cn.javaer.jany.spring.web.exception;
 
 import cn.javaer.jany.exception.ErrorInfo;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
     }
 
     public static String getMessage(final ErrorInfo errorInfo) {
-        final String message = ACCESSOR.getMessage(errorInfo.getError());
+        final String message = getMessage(errorInfo.getError());
         if (StringUtils.hasText(message)) {
             return message;
         }
@@ -46,6 +47,11 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
     }
 
     public static String getMessage(String error) {
-        return ACCESSOR.getMessage(error);
+        try {
+            return ACCESSOR.getMessage(error);
+        }
+        catch (NoSuchMessageException e) {
+            return "";
+        }
     }
 }
