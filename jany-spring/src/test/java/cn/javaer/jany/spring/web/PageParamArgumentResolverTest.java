@@ -1,6 +1,7 @@
 package cn.javaer.jany.spring.web;
 
 import cn.javaer.jany.model.PageParam;
+import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
@@ -40,7 +41,8 @@ class PageParamArgumentResolverTest {
         contextRunner.withUserConfiguration(Config.class, ArgumentConfig.class)
             .run(context -> {
                 final MockMvc mockMvc = context.getBean(MockMvc.class);
-                mockMvc.perform(get("/demo")).andExpect(status().isOk()).andReturn();
+                mockMvc.perform(get("/demo1")).andExpect(status().isOk()).andReturn();
+                mockMvc.perform(get("/demo2?name=name&page=2&size=50")).andExpect(status().isOk()).andReturn();
             });
     }
 
@@ -62,11 +64,24 @@ class PageParamArgumentResolverTest {
 
     @RestController
     static class DemoController {
-        @GetMapping("demo")
-        String demo(PageParam pageParam) {
+        @GetMapping("demo1")
+        String demo1(PageParam pageParam) {
             assertThat(pageParam.getPage()).isEqualTo(1);
             assertThat(pageParam.getSize()).isEqualTo(20);
             return "ok";
         }
+
+        @GetMapping("demo2")
+        String demo2(Demo demo, PageParam pageParam) {
+            assertThat(pageParam.getPage()).isEqualTo(2);
+            assertThat(pageParam.getSize()).isEqualTo(50);
+            assertThat(demo.getName()).isEqualTo("name");
+            return "ok";
+        }
+    }
+
+    @Data
+    static class Demo {
+        private String name;
     }
 }
