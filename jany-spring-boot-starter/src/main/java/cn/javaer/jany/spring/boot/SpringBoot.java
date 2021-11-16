@@ -1,16 +1,11 @@
 package cn.javaer.jany.spring.boot;
 
-import cn.hutool.core.net.NetUtil;
 import cn.javaer.jany.util.IoUtils;
 import cn.javaer.jany.util.ReflectionUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.util.LinkedHashSet;
 import java.util.Properties;
 
 /**
@@ -30,25 +25,6 @@ public class SpringBoot {
                 final InputStream adminInput = SpringBoot.class
                     .getResourceAsStream("/default-boot-admin-local.properties");
                 final Properties adminProps = IoUtils.readProperties(adminInput);
-                final LinkedHashSet<InetAddress> addresses = NetUtil.localAddressList(address ->
-                    !address.isLoopbackAddress() && address instanceof Inet4Address);
-
-                InetAddress used = null;
-                for (InetAddress address : addresses) {
-                    try {
-                        if (address.isReachable(1)) {
-                            used = address;
-                            break;
-                        }
-                    }
-                    catch (IOException ignore) {
-                    }
-                }
-                if (null != used) {
-                    adminProps.put("spring.boot.admin.client.instance.service-url",
-                        "http://" + used.getHostAddress() + ":${server" +
-                            ".port:8080}");
-                }
                 props.putAll(adminProps);
             });
         app.setDefaultProperties(props);
