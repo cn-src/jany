@@ -23,11 +23,11 @@ import java.util.Properties;
 @RequestMapping
 public class ErrorInfoController implements InitializingBean {
 
-    private Map<Object, Object> errorsMap;
+    private Map<String, String> errorsMap;
 
     @Operation(summary = "错误码表")
     @GetMapping("error_infos")
-    public Map<Object, Object> errorInfos() {
+    public Map<String, String> errorInfos() {
         return errorsMap;
     }
 
@@ -36,7 +36,12 @@ public class ErrorInfoController implements InitializingBean {
         if (resource.exists()) {
             try {
                 Properties props = IoUtils.readProperties(resource.getInputStream());
-                errorsMap.putAll(props);
+                for (String propertyName : props.stringPropertyNames()) {
+                    if (propertyName.startsWith("RUNTIME_")) {
+                        continue;
+                    }
+                    errorsMap.put(propertyName, props.getProperty(propertyName));
+                }
             }
             catch (IOException e) {
                 throw new UncheckedIOException(e);
