@@ -40,7 +40,7 @@ public class ErrorInfoController implements InitializingBean {
                     if (propertyName.startsWith("RUNTIME_")) {
                         continue;
                     }
-                    errorsMap.put(propertyName, props.getProperty(propertyName));
+                    errorsMap.put(propertyName, ErrorMessageSource.getMessage(propertyName));
                 }
             }
             catch (IOException e) {
