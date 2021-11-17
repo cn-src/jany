@@ -47,7 +47,7 @@ public class ErrorInfoController implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         errorsMap = new LinkedHashMap<>();
-        load("default-errors-messages");
-        load("errors-messages");
+        load("default-errors-messages_zh.properties");
+        load("errors-messages_zh.properties");
     }
 }
