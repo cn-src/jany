@@ -1,5 +1,6 @@
 package cn.javaer.jany.jackson;
 
+import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.util.ReflectionUtils;
 import cn.javaer.jany.util.TimeUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -23,6 +24,7 @@ import java.io.UncheckedIOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -117,6 +119,9 @@ public class Json {
     }
 
     public <T> T read(final String json, final Class<T> clazz) {
+        if (StrUtil.isEmpty(json)) {
+            return null;
+        }
         try {
             return this.objectMapper.readValue(json, clazz);
         }
@@ -126,6 +131,9 @@ public class Json {
     }
 
     public <T> T read(final String json, final TypeReference<T> valueTypeRef) {
+        if (StrUtil.isEmpty(json)) {
+            return null;
+        }
         try {
             return this.objectMapper.readValue(json, valueTypeRef);
         }
@@ -135,6 +143,9 @@ public class Json {
     }
 
     public <T> List<T> readList(final String json, final Class<T> clazz) {
+        if (StrUtil.isEmpty(json)) {
+            return Collections.emptyList();
+        }
         JavaType javaType =
             objectMapper.getTypeFactory().constructParametricType(List.class, clazz);
         try {
@@ -146,6 +157,9 @@ public class Json {
     }
 
     public JsonNode read(final String json) {
+        if (StrUtil.isEmpty(json)) {
+            return null;
+        }
         try {
             return this.objectMapper.readTree(json);
         }
