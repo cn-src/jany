@@ -6,6 +6,7 @@ import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
@@ -25,14 +26,30 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
     @Override
     public Map<String, Object> getErrorAttributes(WebRequest webRequest,
                                                   ErrorAttributeOptions options) {
-        final Throwable throwable = super.getError(webRequest);
-        final ErrorInfo errorInfo = extractor.getErrorInfo(throwable);
         final Map<String, Object> attributes = super.getErrorAttributes(webRequest, options);
         attributes.put(RuntimeErrorInfo.Fields.traceMessage, attributes.get("message"));
-        attributes.put(RuntimeErrorInfo.Fields.message, ErrorMessageSource.getMessage(errorInfo));
-        attributes.put(RuntimeErrorInfo.Fields.error, errorInfo.getError());
-        attributes.put(RuntimeErrorInfo.Fields.status, errorInfo.getStatus());
         attributes.put(RuntimeErrorInfo.Fields.timestamp, LocalDateTime.now());
+
+        final Throwable throwable = super.getError(webRequest);
+        if (throwable != null) {
+            final ErrorInfo errorInfo = extractor.getErrorInfo(throwable);
+            attributes.put(RuntimeErrorInfo.Fields.message,
+                ErrorMessageSource.getMessage(errorInfo));
+            attributes.put(RuntimeErrorInfo.Fields.error, errorInfo.getError());
+            attributes.put(RuntimeErrorInfo.Fields.status, errorInfo.getStatus());
+        }
+        else {
+            final int status = (Integer) attributes.get("status");
+            final HttpStatus httpStatus = HttpStatus.resolve(status);
+            if (httpStatus == null) {
+                attributes.put(RuntimeErrorInfo.Fields.message, "No message");
+                attributes.put(RuntimeErrorInfo.Fields.error, "UNKNOWN");
+            }
+            else {
+                attributes.put(RuntimeErrorInfo.Fields.message, httpStatus.getReasonPhrase());
+                attributes.put(RuntimeErrorInfo.Fields.error, httpStatus.name());
+            }
+        }
         return attributes;
     }
 }

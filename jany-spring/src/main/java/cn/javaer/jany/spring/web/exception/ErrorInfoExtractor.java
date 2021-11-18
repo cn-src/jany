@@ -45,7 +45,7 @@ public class ErrorInfoExtractor {
     }
 
     @NotNull
-    public ErrorInfo getErrorInfo(final Throwable t) {
+    public ErrorInfo getErrorInfo(@NotNull final Throwable t) {
         Class<? extends Throwable> clazz = t.getClass();
         if (t.getCause() instanceof InvalidFormatException) {
             clazz = InvalidFormatException.class;
@@ -54,7 +54,7 @@ public class ErrorInfoExtractor {
     }
 
     @NotNull
-    public ErrorInfo getErrorInfo(final Class<? extends Throwable> clazz) {
+    public ErrorInfo getErrorInfo(@NotNull final Class<? extends Throwable> clazz) {
         if (this.configuredErrorMapping.containsKey(clazz.getName())) {
             return this.configuredErrorMapping.get(clazz.getName());
         }
