@@ -42,10 +42,10 @@ public class GlobalExceptionAdvice {
         runtimeErrorInfo.setMessage(ErrorMessageSource.getMessage(errorInfo));
         runtimeErrorInfo.setTraceMessage(errorInfoExtractor.getRuntimeMessage(e));
         if (runtimeErrorInfo.getStatus() < 500) {
-            this.logger.debug("", e);
+            this.logger.debug("Http status {}", runtimeErrorInfo.getStatus(), e);
         }
         else {
-            this.logger.error("", e);
+            this.logger.error("Http status {}", runtimeErrorInfo.getStatus(), e);
         }
         this.fillInfo(runtimeErrorInfo, request, e);
         return ResponseEntity.status(runtimeErrorInfo.getStatus()).body(runtimeErrorInfo);
