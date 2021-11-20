@@ -9,9 +9,9 @@ val hutoolVersion: String by project
 dependencies {
     implementation(project(":jany-jooq"))
     implementation("org.jooq:jooq-codegen:$jooqVersion")
-    implementation("cn.hutool:hutool-core:$hutoolVersion")
-    implementation("com.github.jknack:handlebars:$handlebarsVersion")
-    implementation("io.github.classgraph:classgraph:$classgraphVersion")
+//    implementation("cn.hutool:hutool-core:$hutoolVersion")
+//    implementation("com.github.jknack:handlebars:$handlebarsVersion")
+//    implementation("io.github.classgraph:classgraph:$classgraphVersion")
 
     testImplementation("com.h2database:h2")
     testImplementation("org.postgresql:postgresql")
