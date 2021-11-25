@@ -237,6 +237,7 @@ dependencies {
         api("org.testcontainers:spock:${p["testcontainersVersion"]}")
         api("org.testcontainers:junit-jupiter:${p["testcontainersVersion"]}")
 
+        // testcontainers 的 SpringBoot 集成
         api("com.playtika.testcontainers:testcontainers-common:${p["playtikaVersion"]}")
         api("com.playtika.testcontainers:embedded-aerospike:${p["playtikaVersion"]}")
         api("com.playtika.testcontainers:embedded-couchbase:${p["playtikaVersion"]}")
