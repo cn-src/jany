@@ -13,4 +13,5 @@ public class MinioProperties {
     private String accessKey;
     private String secretKey;
     private String defaultBucket;
+    private int expiry = 10 * 60;
 }
