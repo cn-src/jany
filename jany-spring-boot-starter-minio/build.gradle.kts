@@ -7,5 +7,6 @@ dependencies {
     api("io.minio:minio:$minioVersion")
 
     optionalApi("org.springframework.boot:spring-boot-starter")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    optionalApi("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("com.playtika.testcontainers:embedded-minio")
 }
