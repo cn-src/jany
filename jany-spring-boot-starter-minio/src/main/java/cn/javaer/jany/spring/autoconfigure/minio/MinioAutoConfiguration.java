@@ -28,4 +28,11 @@ public class MinioAutoConfiguration {
             .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
             .build();
     }
+    
+    @Bean
+    @ConditionalOnMissingBean(MinioService.class)
+    MinioService minioService(final MinioClient minioClient,
+                              final MinioProperties minioProperties) {
+        return new MinioServiceImpl(minioClient, minioProperties);
+    }
 }

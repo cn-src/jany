@@ -7,7 +7,7 @@ import io.minio.http.Method;
 /**
  * @author cn-src
  */
-public class MinioServiceImpl {
+public class MinioServiceImpl implements MinioService {
 
     private final MinioClient minioClient;
     private final MinioProperties minioProperties;
@@ -17,6 +17,7 @@ public class MinioServiceImpl {
         this.minioProperties = minioProperties;
     }
 
+    @Override
     public String getPresignedObjectUrl(String objectName) {
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
