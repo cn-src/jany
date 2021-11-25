@@ -18,10 +18,40 @@ public class MinioServiceImpl implements MinioService {
     }
 
     @Override
-    public String getPresignedObjectUrl(String objectName) {
+    public String generateGetObjectUrl(String objectName) {
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(Method.GET)
+                .bucket(minioProperties.getDefaultBucket())
+                .object(objectName)
+                .expiry(minioProperties.getExpiry())
+                .build());
+        }
+        catch (Exception e) {
+            throw new MinioException(e);
+        }
+    }
+
+    @Override
+    public String generatePutObjectUrl(String objectName) {
+        try {
+            return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                .method(Method.PUT)
+                .bucket(minioProperties.getDefaultBucket())
+                .object(objectName)
+                .expiry(minioProperties.getExpiry())
+                .build());
+        }
+        catch (Exception e) {
+            throw new MinioException(e);
+        }
+    }
+
+    @Override
+    public String generateDeleteObjectUrl(String objectName) {
+        try {
+            return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                .method(Method.DELETE)
                 .bucket(minioProperties.getDefaultBucket())
                 .object(objectName)
                 .expiry(minioProperties.getExpiry())

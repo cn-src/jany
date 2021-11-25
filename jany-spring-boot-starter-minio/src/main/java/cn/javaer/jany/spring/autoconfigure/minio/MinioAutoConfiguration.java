@@ -28,7 +28,7 @@ public class MinioAutoConfiguration {
             .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
             .build();
     }
-    
+
     @Bean
     @ConditionalOnMissingBean(MinioService.class)
     MinioService minioService(final MinioClient minioClient,
