@@ -22,9 +22,9 @@ public class MinioServiceImpl implements MinioService {
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(Method.GET)
-                .bucket(minioProperties.getDefaultBucket())
+                .bucket(minioProperties.getDefaultBucket().getName())
                 .object(objectName)
-                .expiry(minioProperties.getExpiry())
+                .expiry(minioProperties.getDefaultBucket().getReadUrlExpiry())
                 .build());
         }
         catch (Exception e) {
@@ -37,9 +37,9 @@ public class MinioServiceImpl implements MinioService {
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(Method.PUT)
-                .bucket(minioProperties.getDefaultBucket())
+                .bucket(minioProperties.getDefaultBucket().getName())
                 .object(objectName)
-                .expiry(minioProperties.getExpiry())
+                .expiry(minioProperties.getDefaultBucket().getWriteUrlExpiry())
                 .build());
         }
         catch (Exception e) {
@@ -52,9 +52,9 @@ public class MinioServiceImpl implements MinioService {
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(Method.DELETE)
-                .bucket(minioProperties.getDefaultBucket())
+                .bucket(minioProperties.getDefaultBucket().getName())
                 .object(objectName)
-                .expiry(minioProperties.getExpiry())
+                .expiry(minioProperties.getDefaultBucket().getWriteUrlExpiry())
                 .build());
         }
         catch (Exception e) {
