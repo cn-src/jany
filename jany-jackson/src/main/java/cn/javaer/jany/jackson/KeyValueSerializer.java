@@ -22,6 +22,10 @@ public class KeyValueSerializer extends StdSerializer<KeyValue> {
     @Override
     public void serialize(final KeyValue keyValue, final JsonGenerator jsonGenerator,
                           final SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeObjectField(keyValue.getKey(), keyValue.getValue());
+        jsonGenerator.writeStartObject();
+        if (keyValue.getKey() != null) {
+            jsonGenerator.writeObjectField(keyValue.getKey(), keyValue.getValue());
+        }
+        jsonGenerator.writeEndObject();
     }
 }
