@@ -56,47 +56,48 @@ public class Json {
      */
     public static final Json NON_EMPTY;
 
+    public static final SimpleModule MODULE = new SimpleModule();
+
     static {
         // @formatter:off
-        final SimpleModule module = new SimpleModule();
-        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(TimeUtils.DATE_TIME_FORMATTER));
-        module.addSerializer(LocalDate.class, new LocalDateSerializer(TimeUtils.DATE_FORMATTER));
-        module.addSerializer(LocalTime.class, new LocalTimeSerializer(TimeUtils.TIME_FORMATTER));
-        module.addSerializer(KeyValue.class, KeyValueSerializer.INSTANCE);
+        MODULE.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(TimeUtils.DATE_TIME_FORMATTER));
+        MODULE.addSerializer(LocalDate.class, new LocalDateSerializer(TimeUtils.DATE_FORMATTER));
+        MODULE.addSerializer(LocalTime.class, new LocalTimeSerializer(TimeUtils.TIME_FORMATTER));
+        MODULE.addSerializer(KeyValue.class, KeyValueSerializer.INSTANCE);
 
-        module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(TimeUtils.DATE_TIME_FORMATTER));
-        module.addDeserializer(LocalDate.class, new LocalDateDeserializer(TimeUtils.DATE_FORMATTER));
-        module.addDeserializer(LocalTime.class, new LocalTimeDeserializer(TimeUtils.TIME_FORMATTER));
-        module.addDeserializer(KeyValue.class, KeyValueDeserializer.INSTANCE);
+        MODULE.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(TimeUtils.DATE_TIME_FORMATTER));
+        MODULE.addDeserializer(LocalDate.class, new LocalDateDeserializer(TimeUtils.DATE_FORMATTER));
+        MODULE.addDeserializer(LocalTime.class, new LocalTimeDeserializer(TimeUtils.TIME_FORMATTER));
+        MODULE.addDeserializer(KeyValue.class, KeyValueDeserializer.INSTANCE);
 
         // @formatter:on
 
         ReflectionUtils.getClass("org.jooq.JSONB").ifPresent(it -> {
             @SuppressWarnings({"unchecked"})
             final Class<JSONB> clazz = (Class<JSONB>) it;
-            module.addSerializer(clazz, JooqJsonbSerializer.INSTANCE);
-            module.addDeserializer(clazz, JooqJsonbDeserializer.INSTANCE);
+            MODULE.addSerializer(clazz, JooqJsonbSerializer.INSTANCE);
+            MODULE.addDeserializer(clazz, JooqJsonbDeserializer.INSTANCE);
         });
         ReflectionUtils.getClass("org.jooq.Record").ifPresent(it -> {
             @SuppressWarnings({"unchecked"})
             final Class<Record> clazz = (Class<Record>) it;
-            module.addSerializer(clazz, JooqRecordSerializer.INSTANCE);
+            MODULE.addSerializer(clazz, JooqRecordSerializer.INSTANCE);
         });
 
         final ObjectMapper aDefault = new ObjectMapper();
         aDefault.setAnnotationIntrospector(DateTimeFormatIntrospector.INSTANCE);
-        aDefault.registerModule(module);
+        aDefault.registerModule(MODULE);
         DEFAULT = new Json(aDefault);
 
         final ObjectMapper lenient = new ObjectMapper();
         lenient.setAnnotationIntrospector(DateTimeFormatIntrospector.INSTANCE);
-        lenient.registerModule(module);
+        lenient.registerModule(MODULE);
         lenient.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         LENIENT = new Json(aDefault);
 
         final ObjectMapper nonEmpty = new ObjectMapper();
         nonEmpty.setAnnotationIntrospector(DateTimeFormatIntrospector.INSTANCE);
-        nonEmpty.registerModule(module);
+        nonEmpty.registerModule(MODULE);
         nonEmpty.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         NON_EMPTY = new Json(nonEmpty);
     }
