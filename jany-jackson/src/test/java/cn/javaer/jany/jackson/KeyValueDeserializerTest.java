@@ -75,4 +75,12 @@ class KeyValueDeserializerTest {
         assertThat(keyValue.getKey()).isEqualTo("name");
         assertThat(keyValue.getValue()).isEqualTo("value1");
     }
+
+    @Test
+    void deserialize7() throws JsonProcessingException {
+        final KeyValue<?> keyValue = objectMapper.readValue("{\"name\": \"value1\"}",
+            KeyValue.class);
+        assertThat(keyValue.getKey()).isEqualTo("name");
+        assertThat(keyValue.getValue()).isEqualTo("value1");
+    }
 }
