@@ -33,6 +33,6 @@ public class KeyValueDeserializer extends StdDeserializer<KeyValue> {
             return KeyValue.EMPTY;
         }
         final String key = treeNode.fieldNames().next();
-        return KeyValue.of(key, treeNode.get(key));
+        return KeyValue.of(key, treeNode.get(key).traverse().currentValue());
     }
 }
