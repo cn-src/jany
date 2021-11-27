@@ -4,6 +4,7 @@ import cn.javaer.jany.model.KeyValue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ class KeyValueDeserializerTest {
 
     @Test
     void deserialize3() {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(MismatchedInputException.class, () -> {
             objectMapper.readValue("[]",
                 new TypeReference<KeyValue<String>>() {});
         });
@@ -57,5 +58,12 @@ class KeyValueDeserializerTest {
             objectMapper.readValue("{\"name\": \"value1\", \"value2\": \"value2\"}",
                 new TypeReference<KeyValue<String>>() {});
         });
+    }
+
+    @Test
+    void deserialize5() throws JsonProcessingException {
+        final KeyValue<String> keyValue = objectMapper.readValue("{\"name\": \"value1\"}",
+            new TypeReference<KeyValue<String>>() {});
+        System.out.println(keyValue);
     }
 }

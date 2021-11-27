@@ -2,37 +2,59 @@ package cn.javaer.jany.jackson;
 
 import cn.javaer.jany.model.KeyValue;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.TreeNode;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
 
+import static com.fasterxml.jackson.core.JsonToken.VALUE_NULL;
+
 /**
  * @author cn-src
  */
-@SuppressWarnings("rawtypes")
-public class KeyValueDeserializer extends StdDeserializer<KeyValue> {
+public class KeyValueDeserializer extends StdDeserializer<KeyValue<?>> implements ContextualDeserializer {
 
     public static final KeyValueDeserializer INSTANCE = new KeyValueDeserializer();
 
-    protected KeyValueDeserializer() {
+    public KeyValueDeserializer() {
         super(KeyValue.class);
+    }
+
+    public KeyValueDeserializer(JavaType valueType) {
+        super(valueType);
     }
 
     @Override
     public KeyValue<?> deserialize(final JsonParser parser, final DeserializationContext cont) throws IOException {
-        final TreeNode treeNode = parser.readValueAsTree();
-        if (!treeNode.isObject()) {
-            throw new IllegalArgumentException("The value must be an object.");
+        final JsonToken token = parser.currentToken();
+        if (token != JsonToken.START_OBJECT) {
+            cont.handleUnexpectedToken(KeyValue.class, parser);
         }
-        if (treeNode.size() > 1) {
-            throw new IllegalArgumentException("KeyValue must have only one element.");
-        }
-        if (!treeNode.fieldNames().hasNext()) {
+        String key = parser.nextFieldName();
+        if (key == null) {
             return KeyValue.EMPTY;
         }
-        final String key = treeNode.fieldNames().next();
-        return KeyValue.of(key, treeNode.get(key).traverse().currentValue());
+        final JavaType javaType = _valueType.containedTypeOrUnknown(0);
+        final JsonDeserializer<Object> deserializer = cont.findRootValueDeserializer(javaType);
+        JsonToken jsonToken = parser.nextToken();
+        Object value = (jsonToken != VALUE_NULL) ? deserializer.deserialize(parser, cont) :
+            deserializer.getNullValue(cont);
+        key = parser.nextFieldName();
+        if (null != key) {
+            cont.handleUnexpectedToken(KeyValue.class, parser);
+        }
+        return KeyValue.of(key, value);
+    }
+
+    @Override
+    public JsonDeserializer<?> createContextual(DeserializationContext ctxt,
+                                                BeanProperty property) {
+
+        return new KeyValueDeserializer(ctxt.getContextualType());
     }
 }
