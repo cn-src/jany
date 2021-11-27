@@ -5,6 +5,9 @@ import cn.javaer.jany.jackson.JooqJsonbDeserializer;
 import cn.javaer.jany.jackson.JooqJsonbSerializer;
 import cn.javaer.jany.jackson.JooqRecordSerializer;
 import cn.javaer.jany.jackson.Json;
+import cn.javaer.jany.jackson.KeyValueDeserializer;
+import cn.javaer.jany.jackson.KeyValueSerializer;
+import cn.javaer.jany.model.KeyValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -60,6 +63,8 @@ public class JacksonPlusAutoConfiguration {
                 new LocalDateDeserializer(dateFormatter));
             it.deserializerByType(LocalTime.class,
                 new LocalTimeDeserializer(timeFormatter));
+            it.deserializerByType(KeyValue.class,
+                KeyValueDeserializer.INSTANCE);
 
             it.serializerByType(LocalDateTime.class,
                 new LocalDateTimeSerializer(dateTimeFormatter));
@@ -67,6 +72,8 @@ public class JacksonPlusAutoConfiguration {
                 new LocalDateSerializer(dateFormatter));
             it.serializerByType(LocalTime.class,
                 new LocalTimeSerializer(timeFormatter));
+            it.serializerByType(KeyValue.class,
+                KeyValueSerializer.INSTANCE);
         };
     }
 
