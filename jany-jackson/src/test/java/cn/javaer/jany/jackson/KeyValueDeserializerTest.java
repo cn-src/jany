@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -82,5 +84,14 @@ class KeyValueDeserializerTest {
             KeyValue.class);
         assertThat(keyValue.getKey()).isEqualTo("name");
         assertThat(keyValue.getValue()).isEqualTo("value1");
+    }
+
+    @Test
+    void deserialize8() throws JsonProcessingException {
+        //language=JSON
+        final KeyValue<List<String>> keyValue = objectMapper.readValue("{\"name\": [\"value1\"]}",
+            new TypeReference<KeyValue<List<String>>>() {});
+        assertThat(keyValue.getKey()).isEqualTo("name");
+        assertThat(keyValue.getValue()).hasSize(1).containsExactly("value1");
     }
 }
