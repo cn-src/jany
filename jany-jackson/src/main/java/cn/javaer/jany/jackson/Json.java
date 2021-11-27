@@ -1,6 +1,7 @@
 package cn.javaer.jany.jackson;
 
 import cn.hutool.core.util.StrUtil;
+import cn.javaer.jany.model.KeyValue;
 import cn.javaer.jany.util.ReflectionUtils;
 import cn.javaer.jany.util.TimeUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -61,10 +62,13 @@ public class Json {
         module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(TimeUtils.DATE_TIME_FORMATTER));
         module.addSerializer(LocalDate.class, new LocalDateSerializer(TimeUtils.DATE_FORMATTER));
         module.addSerializer(LocalTime.class, new LocalTimeSerializer(TimeUtils.TIME_FORMATTER));
+        module.addSerializer(KeyValue.class, KeyValueSerializer.INSTANCE);
 
         module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(TimeUtils.DATE_TIME_FORMATTER));
         module.addDeserializer(LocalDate.class, new LocalDateDeserializer(TimeUtils.DATE_FORMATTER));
         module.addDeserializer(LocalTime.class, new LocalTimeDeserializer(TimeUtils.TIME_FORMATTER));
+        module.addDeserializer(KeyValue.class, KeyValueDeserializer.INSTANCE);
+
         // @formatter:on
 
         ReflectionUtils.getClass("org.jooq.JSONB").ifPresent(it -> {
