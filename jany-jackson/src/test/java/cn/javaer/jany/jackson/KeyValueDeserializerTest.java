@@ -53,7 +53,7 @@ class KeyValueDeserializerTest {
 
     @Test
     void deserialize4() {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(MismatchedInputException.class, () -> {
             //language=JSON
             objectMapper.readValue("{\"name\": \"value1\", \"value2\": \"value2\"}",
                 new TypeReference<KeyValue<String>>() {});
@@ -64,6 +64,15 @@ class KeyValueDeserializerTest {
     void deserialize5() throws JsonProcessingException {
         final KeyValue<String> keyValue = objectMapper.readValue("{\"name\": \"value1\"}",
             new TypeReference<KeyValue<String>>() {});
-        System.out.println(keyValue);
+        assertThat(keyValue.getKey()).isEqualTo("name");
+        assertThat(keyValue.getValue()).isEqualTo("value1");
+    }
+
+    @Test
+    void deserialize6() throws JsonProcessingException {
+        final KeyValue<?> keyValue = objectMapper.readValue("{\"name\": \"value1\"}",
+            new TypeReference<KeyValue<?>>() {});
+        assertThat(keyValue.getKey()).isEqualTo("name");
+        assertThat(keyValue.getValue()).isEqualTo("value1");
     }
 }

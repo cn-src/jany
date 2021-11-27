@@ -44,8 +44,7 @@ public class KeyValueDeserializer extends StdDeserializer<KeyValue<?>> implement
         JsonToken jsonToken = parser.nextToken();
         Object value = (jsonToken != VALUE_NULL) ? deserializer.deserialize(parser, cont) :
             deserializer.getNullValue(cont);
-        key = parser.nextFieldName();
-        if (null != key) {
+        if (null != parser.nextFieldName()) {
             cont.handleUnexpectedToken(KeyValue.class, parser);
         }
         return KeyValue.of(key, value);
