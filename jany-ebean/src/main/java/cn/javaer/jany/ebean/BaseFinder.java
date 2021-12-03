@@ -13,7 +13,6 @@ import io.ebean.Query;
 import io.ebean.UpdateQuery;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -45,6 +44,11 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         this.sort = true;
     }
 
+    public Query<T> query(PageParam pageParam) {
+        return query().setMaxRows(pageParam.getSize())
+            .setFirstRow(pageParam.getOffset());
+    }
+
     public Query<T> querySort() {
         final Query<T> query = query();
         whenModifiedOpt.ifPresent(it -> query.orderBy().desc(it));
@@ -52,34 +56,21 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         return query;
     }
 
-    public Query<T> queryPage(PageParam pageParam) {
-        if (sort) {
-            return querySort().setMaxRows(pageParam.getSize())
-                .setFirstRow(pageParam.getOffset());
-        }
-        return query()
-            .setMaxRows(pageParam.getSize())
+    public Query<T> querySort(PageParam pageParam) {
+        return querySort().setMaxRows(pageParam.getSize())
             .setFirstRow(pageParam.getOffset());
     }
 
-    @Override
-    public @NotNull List<T> all() {
-        if (sort) {
-            return querySort().findList();
-        }
-        return super.all();
-    }
-
     public List<T> all(PageParam pageParam) {
-        return queryPage(pageParam).findList();
+        return query(pageParam).findList();
     }
 
     public int count() {
         return query().findCount();
     }
 
-    public Page<T> paged(PageParam pageParam) {
-        final PagedList<T> pagedList = queryPage(pageParam).findPagedList();
+    public Page<T> page(PageParam pageParam) {
+        final PagedList<T> pagedList = query(pageParam).findPagedList();
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
 
