@@ -21,8 +21,7 @@ public class Qry<E, QR extends TQRootBean<E, QR>> {
         this.rootBean = rootBean;
     }
 
-    public <V> Qry<E, QR> opt(@NotNull final Consumer<V> fun,
-                              final V value) {
+    public <V> Qry<E, QR> opt(@NotNull final Consumer<V> fun, final V value) {
         if (ObjectUtil.isEmpty(value)) {
             return this;
         }
@@ -30,8 +29,7 @@ public class Qry<E, QR extends TQRootBean<E, QR>> {
         return this;
     }
 
-    public <V> Qry<E, QR> opt(@NotNull final BiConsumer<V, V> fun,
-                              final V value1, final V value2) {
+    public <V> Qry<E, QR> opt(@NotNull final BiConsumer<V, V> fun, final V value1, final V value2) {
         if (ObjectUtil.isEmpty(value1) || ObjectUtil.isEmpty(value2)) {
             return this;
         }
@@ -40,8 +38,7 @@ public class Qry<E, QR extends TQRootBean<E, QR>> {
     }
 
     public Page<E> all(PageParam pageParam) {
-        rootBean.setMaxRows(pageParam.getSize())
-            .setFirstRow(pageParam.getOffset());
+        rootBean.setMaxRows(pageParam.getSize()).setFirstRow(pageParam.getOffset());
         final PagedList<E> pagedList = rootBean.findPagedList();
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
