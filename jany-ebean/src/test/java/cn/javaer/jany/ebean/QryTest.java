@@ -27,13 +27,13 @@ class QryTest {
     void build() {
         db.script().run("/BaseFinderTest.allSort.in.sql");
         final QDemo qDemo = new QDemo();
-        final List<Demo> list = Qry.of(qDemo).opt(qDemo.id::eq, 1L).rb().findList();
+        final List<Demo> list = Qry.of(qDemo).opt(qDemo.id::eq, 1L).q().findList();
         assertThat(list).hasSize(1);
 
         final List<Demo> list2 = Qry.of(qDemo)
             .opt(qDemo.id::eq, 1L)
             .opt(qDemo.createdDate::between, LocalDateTime.now(), LocalDateTime.now())
-            .rb().findList();
+            .q().findList();
         assertThat(list2).isEmpty();
     }
 }

@@ -46,7 +46,7 @@ public class Qry<E, QR extends TQRootBean<E, QR>> {
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
 
-    public QR rb() {
+    public QR q() {
         return rootBean;
     }
 
