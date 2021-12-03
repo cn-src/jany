@@ -13,6 +13,7 @@ import io.ebean.Query;
 import io.ebean.UpdateQuery;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -44,34 +45,34 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         this.sort = true;
     }
 
-    public Query<T> sort() {
+    public Query<T> querySort() {
         final Query<T> query = query();
         whenModifiedOpt.ifPresent(it -> query.orderBy().desc(it));
         whenCreatedOpt.ifPresent(it -> query.orderBy().desc(it));
         return query;
     }
 
-    public Query<T> page(PageParam pageParam) {
+    public Query<T> queryPage(PageParam pageParam) {
+        if (sort) {
+            return querySort().setMaxRows(pageParam.getSize())
+                .setFirstRow(pageParam.getOffset());
+        }
         return query()
             .setMaxRows(pageParam.getSize())
             .setFirstRow(pageParam.getOffset());
     }
 
-    public Query<T> query(PageParam pageParam) {
-        final Query<T> query = query()
-            .setMaxRows(pageParam.getSize())
-            .setFirstRow(pageParam.getOffset());
-        whenModifiedOpt.ifPresent(it -> query.orderBy().desc(it));
-        whenCreatedOpt.ifPresent(it -> query.orderBy().desc(it));
-        return query;
+    @Override
+    public @NotNull
+    List<T> all() {
+        if (sort) {
+            return querySort().findList();
+        }
+        return super.all();
     }
 
     public List<T> all(PageParam pageParam) {
-        return page(pageParam).findList();
-    }
-
-    public List<T> allSorted(PageParam pageParam) {
-        return query(pageParam).findList();
+        return queryPage(pageParam).findList();
     }
 
     public int count() {
@@ -79,12 +80,7 @@ public class BaseFinder<I, T> extends Finder<I, T> {
     }
 
     public Page<T> paged(PageParam pageParam) {
-        final PagedList<T> pagedList = page(pageParam).findPagedList();
-        return Page.of(pagedList.getList(), pagedList.getTotalCount());
-    }
-
-    public Page<T> pagedSorted(PageParam pageParam) {
-        final PagedList<T> pagedList = query(pageParam).findPagedList();
+        final PagedList<T> pagedList = queryPage(pageParam).findPagedList();
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
 
