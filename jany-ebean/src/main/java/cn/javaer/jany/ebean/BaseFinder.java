@@ -63,8 +63,7 @@ public class BaseFinder<I, T> extends Finder<I, T> {
     }
 
     @Override
-    public @NotNull
-    List<T> all() {
+    public @NotNull List<T> all() {
         if (sort) {
             return querySort().findList();
         }
