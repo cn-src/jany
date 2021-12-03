@@ -49,15 +49,15 @@ public class BaseFinder<I, T> extends Finder<I, T> {
             .setFirstRow(pageParam.getOffset());
     }
 
-    public Query<T> querySort() {
+    public Query<T> sort() {
         final Query<T> query = query();
         whenModifiedOpt.ifPresent(it -> query.orderBy().desc(it));
         whenCreatedOpt.ifPresent(it -> query.orderBy().desc(it));
         return query;
     }
 
-    public Query<T> querySort(PageParam pageParam) {
-        return querySort().setMaxRows(pageParam.getSize())
+    public Query<T> sort(PageParam pageParam) {
+        return sort().setMaxRows(pageParam.getSize())
             .setFirstRow(pageParam.getOffset());
     }
 

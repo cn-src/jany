@@ -25,7 +25,7 @@ class BaseFinderTest {
     @Test
     void allSort() {
         db.script().run("/BaseFinderTest.allSort.in.sql");
-        final List<Demo> demos = Demo.find.querySort().findList();
+        final List<Demo> demos = Demo.find.sort().findList();
         JsonAssert.assertEqualsAndOrder("BaseFinderTest.allSort.out.json", Log.json(demos));
     }
 
