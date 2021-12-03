@@ -39,7 +39,7 @@ public class Qry<E, QR extends TQRootBean<E, QR>> {
         return this;
     }
 
-    public Page<E> findAll(PageParam pageParam) {
+    public Page<E> all(PageParam pageParam) {
         rootBean.setMaxRows(pageParam.getSize())
             .setFirstRow(pageParam.getOffset());
         final PagedList<E> pagedList = rootBean.findPagedList();
