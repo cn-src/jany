@@ -1,7 +1,9 @@
 package cn.javaer.jany.ebean;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.util.ReflectionUtils;
@@ -11,7 +13,6 @@ import io.ebean.Query;
 import io.ebean.UpdateQuery;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -22,36 +23,41 @@ import java.util.Optional;
  */
 public class BaseFinder<I, T> extends Finder<I, T> {
 
+    private final boolean sort;
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private final Optional<String> whenCreatedOpt;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private final Optional<String> whenModifiedOpt;
 
-    public BaseFinder(Class<T> type) {
-        this(type, null);
+    public BaseFinder() {
+        this(null);
     }
 
-    public BaseFinder(Class<T> type, String databaseName) {
-        super(type, databaseName);
-        this.whenCreatedOpt = ReflectionUtils.fieldNameByAnnotation(type, WhenCreated.class);
-        this.whenModifiedOpt = ReflectionUtils.fieldNameByAnnotation(type, WhenModified.class);
+    public BaseFinder(String databaseName) {
+        //noinspection ConstantConditions
+        super(null, databaseName);
+        final Class<?> clazz = ClassUtil.getTypeArgument(this.getClass(), 1);
+        ReflectUtil.setFieldValue(this, "type", clazz);
+        this.whenCreatedOpt = ReflectionUtils.fieldNameByAnnotation(clazz, WhenCreated.class);
+        this.whenModifiedOpt = ReflectionUtils.fieldNameByAnnotation(clazz, WhenModified.class);
+        this.sort = true;
     }
 
-    public Query<T> sortedQuery() {
+    public Query<T> sort() {
         final Query<T> query = query();
         whenModifiedOpt.ifPresent(it -> query.orderBy().desc(it));
         whenCreatedOpt.ifPresent(it -> query.orderBy().desc(it));
         return query;
     }
 
-    public Query<T> pagedQuery(PageParam pageParam) {
+    public Query<T> page(PageParam pageParam) {
         return query()
             .setMaxRows(pageParam.getSize())
             .setFirstRow(pageParam.getOffset());
     }
 
-    public Query<T> pagedSortedQuery(PageParam pageParam) {
+    public Query<T> query(PageParam pageParam) {
         final Query<T> query = query()
             .setMaxRows(pageParam.getSize())
             .setFirstRow(pageParam.getOffset());
@@ -60,20 +66,12 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         return query;
     }
 
-    public @NotNull List<T> allSorted() {
-        return sortedQuery().findList();
+    public List<T> all(PageParam pageParam) {
+        return page(pageParam).findList();
     }
 
-    public List<T> list(PageParam pageParam) {
-        return query().setMaxRows(pageParam.getSize())
-            .setFirstRow(pageParam.getOffset())
-            .findList();
-    }
-
-    public List<T> listSorted(PageParam pageParam) {
-        return sortedQuery().setMaxRows(pageParam.getSize())
-            .setFirstRow(pageParam.getOffset())
-            .findList();
+    public List<T> allSorted(PageParam pageParam) {
+        return query(pageParam).findList();
     }
 
     public int count() {
@@ -81,12 +79,12 @@ public class BaseFinder<I, T> extends Finder<I, T> {
     }
 
     public Page<T> paged(PageParam pageParam) {
-        final PagedList<T> pagedList = pagedQuery(pageParam).findPagedList();
+        final PagedList<T> pagedList = page(pageParam).findPagedList();
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
 
     public Page<T> pagedSorted(PageParam pageParam) {
-        final PagedList<T> pagedList = pagedSortedQuery(pageParam).findPagedList();
+        final PagedList<T> pagedList = query(pageParam).findPagedList();
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
 
