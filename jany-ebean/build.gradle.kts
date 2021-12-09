@@ -1,6 +1,6 @@
 plugins {
     id("jany-library")
-    id("io.ebean") version "12.12.3"
+    id("io.ebean") version "12.13.1"
 }
 
 val ebeanVersion: String by project
