@@ -23,11 +23,11 @@ public class PageParam {
     public static final int DEFAULT_SIZE = 20;
 
     @JsonCreator
-    @ConstructorProperties({Fields.page, Fields.size, Fields.sortByAudit})
-    public PageParam(final int page, final int size, boolean sortByAudit) {
+    @ConstructorProperties({Fields.page, Fields.size, Fields.sort})
+    public PageParam(final int page, final int size, Sort sort) {
         this.page = Math.max(page, 1);
         this.size = Math.max(size, 1);
-        this.sortByAudit = sortByAudit;
+        this.sort = sort;
     }
 
     @Parameter(description = "分页-页码", schema =
@@ -38,10 +38,10 @@ public class PageParam {
     @Schema(type = "integer", minimum = "1", defaultValue = "20"))
     int size;
 
-    boolean sortByAudit;
+    Sort sort;
 
     public static PageParam of(final int page, final int size) {
-        return new PageParam(page, size, true);
+        return new PageParam(page, size, Sort.DEFAULT);
     }
 
     public int getOffset() {

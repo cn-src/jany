@@ -2,6 +2,7 @@ package cn.javaer.jany.ebean;
 
 import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
+import cn.javaer.jany.model.Sort;
 import cn.javaer.jany.test.JsonAssert;
 import cn.javaer.jany.test.Log;
 import io.ebean.DB;
@@ -25,7 +26,7 @@ class BaseFinderTest {
     @Test
     void allSort() {
         db.script().run("/BaseFinderTest.allSort.in.sql");
-        final List<Demo> demos = Demo.find.sort().findList();
+        final List<Demo> demos = Demo.find.list(Sort.DEFAULT);
         JsonAssert.assertEqualsAndOrder("BaseFinderTest.allSort.out.json", Log.json(demos));
     }
 

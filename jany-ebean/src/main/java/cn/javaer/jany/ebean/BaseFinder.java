@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
+import cn.javaer.jany.model.Sort;
 import cn.javaer.jany.util.ReflectionUtils;
 import io.ebean.Finder;
 import io.ebean.PagedList;
@@ -46,16 +47,25 @@ public class BaseFinder<I, T> extends Finder<I, T> {
 
     public Query<T> query(PageParam pageParam) {
         final Query<T> query = query();
-        if (pageParam.isSortByAudit()) {
+        if (pageParam.getSort().isByAudit()) {
             whenModifiedOpt.ifPresent(it -> query.orderBy().desc(it));
             whenCreatedOpt.ifPresent(it -> query.orderBy().desc(it));
         }
+        Dsl.sort(query, pageParam.getSort());
         return query.setMaxRows(pageParam.getSize())
             .setFirstRow(pageParam.getOffset());
     }
 
+    public Query<T> query(Sort sort) {
+        return Dsl.sort(query(), sort);
+    }
+
     public List<T> list(PageParam pageParam) {
         return query(pageParam).findList();
+    }
+
+    public List<T> list(Sort sort) {
+        return query(sort).findList();
     }
 
     public int count() {
