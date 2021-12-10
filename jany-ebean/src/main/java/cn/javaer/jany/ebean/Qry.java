@@ -3,10 +3,12 @@ package cn.javaer.jany.ebean;
 import cn.hutool.core.util.ObjectUtil;
 import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
+import cn.javaer.jany.model.Sort;
 import io.ebean.PagedList;
 import io.ebean.typequery.TQRootBean;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -41,6 +43,10 @@ public class Qry<E, QR extends TQRootBean<E, QR>> {
         Dsl.page(rootBean.query(), pageParam);
         final PagedList<E> pagedList = rootBean.findPagedList();
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
+    }
+
+    public List<E> list(Sort sort) {
+        return Dsl.sort(rootBean.query(), sort).findList();
     }
 
     public QR q() {
