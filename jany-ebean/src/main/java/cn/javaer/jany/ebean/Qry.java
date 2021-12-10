@@ -9,6 +9,7 @@ import io.ebean.typequery.TQRootBean;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -47,6 +48,18 @@ public class Qry<E, QR extends TQRootBean<E, QR>> {
 
     public List<E> list(Sort sort) {
         return Dsl.sort(rootBean.query(), sort).findList();
+    }
+
+    public List<E> list() {
+        return rootBean.findList();
+    }
+
+    public E one() {
+        return rootBean.findOne();
+    }
+
+    public Optional<E> oneOrEmpty() {
+        return rootBean.findOneOrEmpty();
     }
 
     public QR q() {
