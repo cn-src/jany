@@ -45,23 +45,16 @@ public class BaseFinder<I, T> extends Finder<I, T> {
     }
 
     public Query<T> query(PageParam pageParam) {
-        return query().setMaxRows(pageParam.getSize())
-            .setFirstRow(pageParam.getOffset());
-    }
-
-    public Query<T> sort() {
         final Query<T> query = query();
-        whenModifiedOpt.ifPresent(it -> query.orderBy().desc(it));
-        whenCreatedOpt.ifPresent(it -> query.orderBy().desc(it));
-        return query;
-    }
-
-    public Query<T> sort(PageParam pageParam) {
-        return sort().setMaxRows(pageParam.getSize())
+        if (pageParam.isSortByAudit()) {
+            whenModifiedOpt.ifPresent(it -> query.orderBy().desc(it));
+            whenCreatedOpt.ifPresent(it -> query.orderBy().desc(it));
+        }
+        return query.setMaxRows(pageParam.getSize())
             .setFirstRow(pageParam.getOffset());
     }
 
-    public List<T> all(PageParam pageParam) {
+    public List<T> list(PageParam pageParam) {
         return query(pageParam).findList();
     }
 
