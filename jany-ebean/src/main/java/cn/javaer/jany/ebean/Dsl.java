@@ -1,5 +1,6 @@
 package cn.javaer.jany.ebean;
 
+import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
 import cn.javaer.jany.util.ReflectionUtils;
 import io.ebean.Query;
@@ -12,11 +13,26 @@ import io.ebean.annotation.WhenModified;
 public interface Dsl {
 
     /**
-     * 排序。
+     * Page query.
      *
-     * @param <T> t
-     * @param query query
-     * @param sort sort
+     * @param <T> the type parameter
+     * @param query the query
+     * @param pageParam the page param
+     *
+     * @return the query
+     */
+    static <T> Query<T> page(Query<T> query, PageParam pageParam) {
+        return sort(query, pageParam.getSort())
+            .setMaxRows(pageParam.getSize())
+            .setFirstRow(pageParam.getOffset());
+    }
+
+    /**
+     * Sort query.
+     *
+     * @param <T> the type parameter
+     * @param query the query
+     * @param sort the sort
      *
      * @return the query
      */

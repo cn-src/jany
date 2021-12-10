@@ -32,9 +32,7 @@ public class BaseFinder<I, T> extends Finder<I, T> {
     }
 
     public Query<T> query(PageParam pageParam) {
-        return Dsl.sort(query(), pageParam.getSort())
-            .setMaxRows(pageParam.getSize())
-            .setFirstRow(pageParam.getOffset());
+        return Dsl.page(query(), pageParam);
     }
 
     public Query<T> query(Sort sort) {

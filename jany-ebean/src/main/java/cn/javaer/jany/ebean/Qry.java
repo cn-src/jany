@@ -37,8 +37,8 @@ public class Qry<E, QR extends TQRootBean<E, QR>> {
         return this;
     }
 
-    public Page<E> all(PageParam pageParam) {
-        rootBean.setMaxRows(pageParam.getSize()).setFirstRow(pageParam.getOffset());
+    public Page<E> page(PageParam pageParam) {
+        Dsl.page(rootBean.query(), pageParam);
         final PagedList<E> pagedList = rootBean.findPagedList();
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
