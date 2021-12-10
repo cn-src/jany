@@ -42,13 +42,13 @@ public class Qry<T> {
     }
 
     public Page<T> page(PageParam pageParam) {
-        Dsl.page(query, pageParam);
+        Dsl.query(query, pageParam);
         final PagedList<T> pagedList = query.findPagedList();
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
 
     public List<T> list(Sort sort) {
-        return Dsl.sort(query, sort).findList();
+        return Dsl.query(query, sort).findList();
     }
 
     public List<T> list() {
