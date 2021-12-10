@@ -5,6 +5,7 @@ import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
 import io.ebean.PagedList;
+import io.ebean.Query;
 import io.ebean.typequery.TQRootBean;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,15 +17,15 @@ import java.util.function.Consumer;
 /**
  * @author cn-src
  */
-public class Qry<E, QR extends TQRootBean<E, QR>> {
+public class Qry<T> {
 
-    private final QR rootBean;
+    private final Query<T> query;
 
-    private Qry(QR rootBean) {
-        this.rootBean = rootBean;
+    private Qry(Query<T> query) {
+        this.query = query;
     }
 
-    public <V> Qry<E, QR> opt(@NotNull final Consumer<V> fun, final V value) {
+    public <V> Qry<T> opt(@NotNull final Consumer<V> fun, final V value) {
         if (ObjectUtil.isEmpty(value)) {
             return this;
         }
@@ -32,7 +33,7 @@ public class Qry<E, QR extends TQRootBean<E, QR>> {
         return this;
     }
 
-    public <V> Qry<E, QR> opt(@NotNull final BiConsumer<V, V> fun, final V value1, final V value2) {
+    public <V> Qry<T> opt(@NotNull final BiConsumer<V, V> fun, final V value1, final V value2) {
         if (ObjectUtil.isEmpty(value1) || ObjectUtil.isEmpty(value2)) {
             return this;
         }
@@ -40,33 +41,37 @@ public class Qry<E, QR extends TQRootBean<E, QR>> {
         return this;
     }
 
-    public Page<E> page(PageParam pageParam) {
-        Dsl.page(rootBean.query(), pageParam);
-        final PagedList<E> pagedList = rootBean.findPagedList();
+    public Page<T> page(PageParam pageParam) {
+        Dsl.page(query, pageParam);
+        final PagedList<T> pagedList = query.findPagedList();
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
 
-    public List<E> list(Sort sort) {
-        return Dsl.sort(rootBean.query(), sort).findList();
+    public List<T> list(Sort sort) {
+        return Dsl.sort(query, sort).findList();
     }
 
-    public List<E> list() {
-        return rootBean.findList();
+    public List<T> list() {
+        return query.findList();
     }
 
-    public E one() {
-        return rootBean.findOne();
+    public T one() {
+        return query.findOne();
     }
 
-    public Optional<E> oneOrEmpty() {
-        return rootBean.findOneOrEmpty();
+    public Optional<T> oneOrEmpty() {
+        return query.findOneOrEmpty();
     }
 
-    public QR q() {
-        return rootBean;
+    public Query<T> query() {
+        return query;
     }
 
-    public static <E, QR extends TQRootBean<E, QR>> Qry<E, QR> of(QR rootBean) {
-        return new Qry<>(rootBean);
+    public static <T> Qry<T> of(Query<T> query) {
+        return new Qry<>(query);
+    }
+
+    public static <R, T, QR extends TQRootBean<T, R>> Qry<T> of(QR rootBean) {
+        return new Qry<>(rootBean.query());
     }
 }
