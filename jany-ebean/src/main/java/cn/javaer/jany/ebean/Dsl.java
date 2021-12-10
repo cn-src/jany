@@ -1,7 +1,10 @@
 package cn.javaer.jany.ebean;
 
 import cn.javaer.jany.model.Sort;
+import cn.javaer.jany.util.ReflectionUtils;
 import io.ebean.Query;
+import io.ebean.annotation.WhenCreated;
+import io.ebean.annotation.WhenModified;
 
 /**
  * @author cn-src
@@ -11,9 +14,11 @@ public interface Dsl {
     /**
      * 排序。
      *
+     * @param <T> t
      * @param query query
      * @param sort sort
-     * @param <T> t
+     *
+     * @return the query
      */
     static <T> Query<T> sort(Query<T> query, Sort sort) {
         if (sort.isSorted()) {
@@ -25,6 +30,13 @@ public interface Dsl {
                     query.orderBy().desc(order.getProperty());
                 }
             }
+        }
+        if (sort.isByAudit()) {
+            final Class<T> beanType = query.getBeanType();
+            ReflectionUtils.fieldNameByAnnotation(beanType, WhenModified.class)
+                .ifPresent(fieldName -> query.orderBy().desc(fieldName));
+            ReflectionUtils.fieldNameByAnnotation(beanType, WhenCreated.class)
+                .ifPresent(fieldName -> query.orderBy().desc(fieldName));
         }
         return query;
     }

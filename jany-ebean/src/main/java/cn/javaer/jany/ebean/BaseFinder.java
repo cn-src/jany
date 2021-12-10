@@ -7,29 +7,18 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
-import cn.javaer.jany.util.ReflectionUtils;
 import io.ebean.Finder;
 import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.UpdateQuery;
-import io.ebean.annotation.WhenCreated;
-import io.ebean.annotation.WhenModified;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * @author cn-src
  */
 public class BaseFinder<I, T> extends Finder<I, T> {
-
-    private final boolean sort;
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private final Optional<String> whenCreatedOpt;
-
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private final Optional<String> whenModifiedOpt;
 
     public BaseFinder() {
         this(null);
@@ -40,19 +29,11 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         super(null, databaseName);
         final Class<?> clazz = ClassUtil.getTypeArgument(this.getClass(), 1);
         ReflectUtil.setFieldValue(this, "type", clazz);
-        this.whenCreatedOpt = ReflectionUtils.fieldNameByAnnotation(clazz, WhenCreated.class);
-        this.whenModifiedOpt = ReflectionUtils.fieldNameByAnnotation(clazz, WhenModified.class);
-        this.sort = true;
     }
 
     public Query<T> query(PageParam pageParam) {
-        final Query<T> query = query();
-        if (pageParam.getSort().isByAudit()) {
-            whenModifiedOpt.ifPresent(it -> query.orderBy().desc(it));
-            whenCreatedOpt.ifPresent(it -> query.orderBy().desc(it));
-        }
-        Dsl.sort(query, pageParam.getSort());
-        return query.setMaxRows(pageParam.getSize())
+        return Dsl.sort(query(), pageParam.getSort())
+            .setMaxRows(pageParam.getSize())
             .setFirstRow(pageParam.getOffset());
     }
 
