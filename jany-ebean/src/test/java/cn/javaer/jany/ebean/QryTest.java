@@ -33,7 +33,7 @@ class QryTest {
         final List<Demo> list2 = Qry.of(qDemo)
             .opt(qDemo.id::eq, 1L)
             .opt(qDemo.createdDate::between, LocalDateTime.now(), LocalDateTime.now())
-            .q().findList();
+            .list();
         assertThat(list2).isEmpty();
     }
 }
