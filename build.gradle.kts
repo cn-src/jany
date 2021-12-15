@@ -4,17 +4,20 @@ subprojects {
     version = "0.0.1-SNAPSHOT"
 
     repositories {
-        mavenLocal()
-        maven { url = uri("https://maven.aliyun.com/repository/public/") }
         mavenCentral()
+//        maven { url = uri("https://maven.aliyun.com/repository/public/") }
     }
     configure<PublishingExtension> {
         repositories {
             maven {
-                val releasesRepoUrl = uri("$buildDir/repos/releases")
-                val snapshotsRepoUrl = uri("$buildDir/repos/snapshots")
+                val releasesRepoUrl = uri(System.getenv("publicReleasesRepoUrl"))
+                val snapshotsRepoUrl = uri(System.getenv("publicSnapshotsRepoUrl"))
                 val isSnapshot = (version as String).endsWith("SNAPSHOT")
                 url = if (isSnapshot) snapshotsRepoUrl else releasesRepoUrl
+                credentials {
+                    username = System.getenv("publicRepoUsername")
+                    password = System.getenv("publicRepoPassword")
+                }
             }
         }
     }
