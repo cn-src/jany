@@ -50,6 +50,28 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+            pom {
+                name = 'jany'
+                description = 'A Java library'
+                url = 'https://github.com/cn-src/jany'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        name = 'cn-src'
+                        email = 'public@javaer.cn'
+                    }
+                }
+                scm {
+                    connection = 'scm:git@github.com:cn-src/jany.git'
+                    developerConnection = 'scm:git@github.com:cn-src/jany.git'
+                    url = 'https://github.com/cn-src/jany.git'
+                }
+            }
             pom.withXml {
                 asNode().remove(asNode().dependencyManagement)
                 asNode().dependencies.'*'.findAll() {
