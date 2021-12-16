@@ -18,7 +18,7 @@ public class MinioServiceImpl implements MinioService {
     }
 
     @Override
-    public String generateGetUrl(String objectName) {
+    public String presignedGetUrl(String objectName) {
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(Method.GET)
@@ -33,7 +33,7 @@ public class MinioServiceImpl implements MinioService {
     }
 
     @Override
-    public String generatePutUrl(String objectName) {
+    public String presignedPutUrl(String objectName) {
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(Method.PUT)
@@ -48,7 +48,7 @@ public class MinioServiceImpl implements MinioService {
     }
 
     @Override
-    public String generateDeleteUrl(String objectName) {
+    public String presignedDeleteUrl(String objectName) {
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(Method.DELETE)

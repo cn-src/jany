@@ -18,6 +18,6 @@ class MinioAutoConfigurationTest {
 
     @Test
     void name() {
-        System.out.println(minioService.generateGetUrl("demo"));
+        System.out.println(minioService.presignedGetUrl("demo"));
     }
 }
