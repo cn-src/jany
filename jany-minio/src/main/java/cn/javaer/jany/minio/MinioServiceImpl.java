@@ -4,6 +4,8 @@ import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.http.Method;
 
+import java.time.LocalDateTime;
+
 /**
  * @author cn-src
  */
@@ -56,6 +58,24 @@ public class MinioServiceImpl implements MinioService {
                 .object(objectName)
                 .expiry(bucketConfig.getWriteUrlExpiry())
                 .build());
+        }
+        catch (Exception e) {
+            throw new MinioException(e);
+        }
+    }
+
+    @Override
+    public PresignedObject createPresignedObject(String objectName) {
+        try {
+            final GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
+                .method(Method.PUT)
+                .bucket(bucketConfig.getName())
+                .object(objectName)
+                .expiry(bucketConfig.getReadUrlExpiry())
+                .build();
+            final String url = minioClient.getPresignedObjectUrl(args);
+            return new PresignedObject(objectName, url,
+                LocalDateTime.now().plusSeconds(bucketConfig.getReadUrlExpiry()));
         }
         catch (Exception e) {
             throw new MinioException(e);
