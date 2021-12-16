@@ -25,28 +25,28 @@ public class MinioAutoConfiguration {
     @Primary
     @ConditionalOnMissingBean(MinioClient.class)
     public MinioClient minioClient(final MinioProperties minioProperties) {
-        final MinioClient client = MinioClient.builder()
+
+        return MinioClient.builder()
             .endpoint(minioProperties.getEndpoint())
             .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
             .build();
-        try {
-            final BucketExistsArgs.Builder args = BucketExistsArgs.builder()
-                .bucket(minioProperties.getDefaultBucket().getName());
-            if (!client.bucketExists(args.build())) {
-                client.makeBucket(MakeBucketArgs.builder()
-                    .bucket(minioProperties.getDefaultBucket().getName()).build());
-            }
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return client;
     }
 
     @Bean
     @ConditionalOnMissingBean(MinioService.class)
     MinioService minioService(final MinioClient minioClient,
                               final MinioProperties minioProperties) {
+        try {
+            final BucketExistsArgs.Builder args = BucketExistsArgs.builder()
+                .bucket(minioProperties.getDefaultBucket().getName());
+            if (!minioClient.bucketExists(args.build())) {
+                minioClient.makeBucket(MakeBucketArgs.builder()
+                    .bucket(minioProperties.getDefaultBucket().getName()).build());
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return new MinioServiceImpl(minioClient, minioProperties);
     }
 }
