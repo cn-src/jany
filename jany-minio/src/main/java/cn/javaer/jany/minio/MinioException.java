@@ -1,10 +1,10 @@
-package cn.javaer.jany.spring.autoconfigure.minio;
+package cn.javaer.jany.minio;
 
 /**
  * @author cn-src
  */
 public class MinioException extends RuntimeException {
-    
+
     public MinioException(String message) {
         super(message);
     }

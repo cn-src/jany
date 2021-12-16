@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.minio;
 
+import cn.javaer.jany.minio.BucketConfig;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -21,20 +22,4 @@ public class MinioProperties {
     private BucketConfig defaultBucket;
 
     private Map<String, BucketConfig> buckets;
-
-    @Data
-    public static class BucketConfig {
-
-        private String name;
-
-        /**
-         * 默认 10 分钟
-         */
-        private int readUrlExpiry = 10 * 60;
-
-        /**
-         * 默认 10 分钟
-         */
-        private int writeUrlExpiry = 10 * 60;
-    }
 }

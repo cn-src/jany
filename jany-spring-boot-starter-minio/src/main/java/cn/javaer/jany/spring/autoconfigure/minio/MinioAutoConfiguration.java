@@ -1,5 +1,7 @@
 package cn.javaer.jany.spring.autoconfigure.minio;
 
+import cn.javaer.jany.minio.MinioService;
+import cn.javaer.jany.minio.MinioServiceImpl;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
@@ -48,6 +50,6 @@ public class MinioAutoConfiguration {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return new MinioServiceImpl(minioClient, minioProperties);
+        return new MinioServiceImpl(minioClient, minioProperties.getDefaultBucket());
     }
 }

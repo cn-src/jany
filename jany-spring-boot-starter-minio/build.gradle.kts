@@ -5,6 +5,7 @@ plugins {
 val minioVersion: String by project
 dependencies {
     api("io.minio:minio:$minioVersion")
+    api(project(":jany-minio"))
 
     optionalApi("org.springframework.boot:spring-boot-starter-web")
     optionalApi("org.springframework.boot:spring-boot-starter-test")
