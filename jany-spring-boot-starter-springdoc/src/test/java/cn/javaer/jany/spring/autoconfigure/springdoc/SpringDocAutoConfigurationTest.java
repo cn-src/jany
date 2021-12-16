@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springdoc.core.Constants;
 import org.springdoc.core.SpringDocConfigProperties;
 import org.springdoc.core.SpringDocConfiguration;
-import org.springdoc.core.SpringDocHints;
 import org.springdoc.data.rest.SpringDocDataRestConfiguration;
 import org.springdoc.webmvc.core.MultipleOpenApiSupportConfiguration;
 import org.springdoc.webmvc.core.SpringDocWebMvcConfiguration;
@@ -41,13 +40,11 @@ class SpringDocAutoConfigurationTest {
     private final WebApplicationContextRunner contextRunner = new WebApplicationContextRunner()
         .withConfiguration(
             AutoConfigurations.of(
-                SpringDocPlusConfiguration.class,
                 SpringDocAutoConfiguration.class,
                 ExceptionAutoConfiguration.class,
 
                 SpringDocConfiguration.class,
                 SpringDocConfigProperties.class,
-                SpringDocHints.class,
 
                 SpringDocWebMvcConfiguration.class,
                 MultipleOpenApiSupportConfiguration.class,
