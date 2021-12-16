@@ -33,9 +33,10 @@ public class MinioAutoConfiguration {
     }
 
     @Bean
+    @Primary
     @ConditionalOnMissingBean(MinioService.class)
-    MinioService minioService(final MinioClient minioClient,
-                              final MinioProperties minioProperties) {
+    public MinioService minioService(final MinioClient minioClient,
+                                     final MinioProperties minioProperties) {
         try {
             final BucketExistsArgs.Builder args = BucketExistsArgs.builder()
                 .bucket(minioProperties.getDefaultBucket().getName());
