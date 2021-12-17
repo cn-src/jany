@@ -11,9 +11,7 @@ import java.util.function.Supplier;
  */
 public class WebContext {
 
-    String REQUEST_ID_PARAM = "requestId";
-
-    private static Supplier<String> requestIdFun = Empty.SUPPLIER;
+    private static Supplier<String> requestIdFun = Empty.supplier();
 
     static {
         ReflectionUtils.getClass("com.yomahub.tlog.context.TLogContext").ifPresent(aClass -> {
@@ -26,7 +24,7 @@ public class WebContext {
      *
      * @return the request id
      */
-    static String getRequestId() {
+    public static String getRequestId() {
         return requestIdFun.get();
     }
 }

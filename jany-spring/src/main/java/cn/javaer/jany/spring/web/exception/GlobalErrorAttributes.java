@@ -2,6 +2,7 @@ package cn.javaer.jany.spring.web.exception;
 
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
+import cn.javaer.jany.spring.web.WebContext;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.core.Ordered;
@@ -29,6 +30,7 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
         final Map<String, Object> attributes = super.getErrorAttributes(webRequest, options);
         attributes.put(RuntimeErrorInfo.Fields.traceMessage, attributes.get("message"));
         attributes.put(RuntimeErrorInfo.Fields.timestamp, LocalDateTime.now());
+        attributes.put(RuntimeErrorInfo.Fields.requestId, WebContext.getRequestId());
 
         final Throwable throwable = super.getError(webRequest);
         if (throwable != null) {
