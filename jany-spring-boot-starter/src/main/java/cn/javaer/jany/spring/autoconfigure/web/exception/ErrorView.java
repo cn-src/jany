@@ -1,6 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.web.exception;
 
-import cn.javaer.jany.spring.web.WebContext;
+import cn.javaer.jany.exception.RuntimeErrorInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +37,7 @@ class ErrorView implements View {
         final Object timestamp = model.get("timestamp");
         final Object message = model.get("message");
         final Object trace = model.get("trace");
-        final Object requestId = model.get(WebContext.REQUEST_ID_PARAM);
+        final Object requestId = model.get(RuntimeErrorInfo.Fields.requestId);
         if (response.getContentType() == null) {
             response.setContentType(this.getContentType());
         }
