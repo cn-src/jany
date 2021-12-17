@@ -5,7 +5,7 @@ import com.yomahub.tlog.context.TLogContext;
 /**
  * @author cn-src
  */
-public interface WebAppContext {
+public interface WebContext {
     String REQUEST_ID_PARAM = "requestId";
 
     /**
