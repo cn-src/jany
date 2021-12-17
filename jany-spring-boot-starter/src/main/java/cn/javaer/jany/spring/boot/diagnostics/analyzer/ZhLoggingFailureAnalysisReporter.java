@@ -6,6 +6,9 @@ import org.springframework.boot.diagnostics.FailureAnalysis;
 import org.springframework.boot.diagnostics.FailureAnalysisReporter;
 import org.springframework.util.StringUtils;
 
+/**
+ * @author cn-src
+ */
 public final class ZhLoggingFailureAnalysisReporter implements FailureAnalysisReporter {
 
     private static final Log logger = LogFactory.getLog(ZhLoggingFailureAnalysisReporter.class);
