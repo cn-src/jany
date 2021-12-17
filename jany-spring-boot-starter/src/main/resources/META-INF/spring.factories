@@ -12,4 +12,4 @@ cn.javaer.jany.spring.boot.diagnostics.analyzer.ZhLoggingFailureAnalysisReporter
 
 # Failure Analyzers
 org.springframework.boot.diagnostics.FailureAnalyzer=\
-ZhPortInUseFailureAnalyzer
+cn.javaer.jany.spring.boot.diagnostics.analyzer.ZhPortInUseFailureAnalyzer
