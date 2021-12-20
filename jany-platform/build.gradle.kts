@@ -1,5 +1,6 @@
 plugins {
     `java-platform`
+    `maven-publish`
 }
 val p = project
 operator fun Project.get(prop: String) = project.property(prop)
