@@ -1,0 +1,52 @@
+{
+  "properties": [
+    {
+      "name": "datasource",
+      "type": "java.util.Map<java.lang.String,cn.javaer.jany.ebean.metadata.DataSourceConfig>"
+    },
+    {
+      "name": "search.packages",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "migration.run",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "ddl.generate",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "ddl.run",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "ddl.extra",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "ddl.createOnly",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "ddl.initSql",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "ddl.seedSql",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "ddl.strictMode",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "ddl.placeholders",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "ddl.header",
+      "type": "java.lang.String"
+    }
+  ]
+}
