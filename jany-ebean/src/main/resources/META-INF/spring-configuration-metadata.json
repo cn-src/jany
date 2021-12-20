@@ -5,48 +5,80 @@
       "type": "java.util.Map<java.lang.String,cn.javaer.jany.ebean.metadata.DataSourceConfig>"
     },
     {
-      "name": "search.packages",
+      "name": "ebean.currentUserProvider",
+      "type": "java.lang.String"
+    }, {
+      "name": "ebean.search.packages",
       "type": "java.lang.String"
     },
     {
-      "name": "migration.run",
+      "name": "ebean.jsonInclude",
+      "type": "io.ebean.config.JsonConfig.Include"
+    }, {
+      "name": "ebean.jsonDateTime",
+      "type": "io.ebean.config.JsonConfig.DateTime"
+    }, {
+      "name": "ebean.jsonDate",
+      "type": "io.ebean.config.JsonConfig.Date"
+    }, {
+      "name": "ebean.jsonMutationDetection",
+      "type": "io.ebean.annotation.MutationDetection"
+    },
+    {
+      "name": "ebean.skipDataSourceCheck",
+      "type": "java.lang.Boolean"
+    }, {
+      "name": "ebean.migration.run",
       "type": "java.lang.Boolean"
     },
     {
-      "name": "ddl.generate",
+      "name": "ebean.ddl.generate",
       "type": "java.lang.Boolean"
     },
     {
-      "name": "ddl.run",
+      "name": "ebean.ddl.run",
       "type": "java.lang.Boolean"
     },
     {
-      "name": "ddl.extra",
+      "name": "ebean.ddl.extra",
       "type": "java.lang.Boolean"
     },
     {
-      "name": "ddl.createOnly",
+      "name": "ebean.ddl.createOnly",
       "type": "java.lang.Boolean"
     },
     {
-      "name": "ddl.initSql",
+      "name": "ebean.ddl.initSql",
       "type": "java.lang.String"
     },
     {
-      "name": "ddl.seedSql",
+      "name": "ebean.ddl.seedSql",
       "type": "java.lang.String"
     },
     {
-      "name": "ddl.strictMode",
-      "type": "java.lang.Boolean"
+      "name": "ebean.ddl.strictMode",
+      "type": "ebean.java.lang.Boolean"
     },
     {
-      "name": "ddl.placeholders",
+      "name": "ebean.ddl.placeholders",
       "type": "java.lang.String"
     },
     {
-      "name": "ddl.header",
+      "name": "ebean.ddl.header",
       "type": "java.lang.String"
+    }
+  ],
+  "hints": [
+    {
+      "name": "ebean.currentUserProvider",
+      "providers": [
+        {
+          "name": "class-reference",
+          "parameters": {
+            "target": "io.ebean.config.CurrentUserProvider"
+          }
+        }
+      ]
     }
   ]
 }
