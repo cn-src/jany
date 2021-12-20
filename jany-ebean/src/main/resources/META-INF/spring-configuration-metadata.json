@@ -2,13 +2,16 @@
   "properties": [
     {
       "name": "datasource",
+      "description": "Ebean 数据源配置",
       "type": "java.util.Map<java.lang.String,cn.javaer.jany.ebean.metadata.DataSourceConfig>"
     },
     {
       "name": "ebean.currentUserProvider",
+      "description": "Ebean 提供获取当前用户的实现类",
       "type": "java.lang.String"
     }, {
       "name": "ebean.search.packages",
+      "description": "Ebean 扫描的实体类包",
       "type": "java.lang.String"
     },
     {
@@ -29,6 +32,7 @@
       "type": "java.lang.Boolean"
     }, {
       "name": "ebean.migration.run",
+      "description": "Ebean 是否运行数据库迁移",
       "type": "java.lang.Boolean"
     },
     {
