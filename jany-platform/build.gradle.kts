@@ -40,7 +40,7 @@ dependencies {
         api("cn.hutool:hutool-crypto:${p["hutoolVersion"]}")
         api("cn.hutool:hutool-db:${p["hutoolVersion"]}")
         api("cn.hutool:hutool-dfa:${p["hutoolVersion"]}")
-        api("cn.hutool:hutool-pra:${p["hutoolVersion"]}")
+        api("cn.hutool:hutool-extra:${p["hutoolVersion"]}")
         api("cn.hutool:hutool-http:${p["hutoolVersion"]}")
         api("cn.hutool:hutool-log:${p["hutoolVersion"]}")
         api("cn.hutool:hutool-script:${p["hutoolVersion"]}")
@@ -51,6 +51,7 @@ dependencies {
         api("cn.hutool:hutool-poi:${p["hutoolVersion"]}")
         api("cn.hutool:hutool-captcha:${p["hutoolVersion"]}")
         api("cn.hutool:hutool-socket:${p["hutoolVersion"]}")
+        api("cn.hutool:hutool-jwt:${p["hutoolVersion"]}")
 
         api("io.ebean:ebean-ddl-runner:${p["ebeanDdlRunnerVersion"]}")
         api("io.ebean:ebean-migration-auto:${p["ebeanMigrationAutoVersion"]}")
