@@ -7,6 +7,7 @@ dependencies {
     optionalApi(project(":jany-jackson"))
 
     optionalApi("com.yomahub:tlog-common")
+    optionalApi("cn.hutool:hutool-extra")
     optionalApi("org.springframework.boot:spring-boot-starter-web")
     optionalApi("org.springframework.boot:spring-boot-starter-data-jdbc")
     optionalApi("org.springframework.boot:spring-boot-starter-jooq")

@@ -25,6 +25,7 @@ public class GlobalExceptionAdvice {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final ErrorProperties errorProperties;
+
     private final ErrorInfoExtractor errorInfoExtractor;
 
     public GlobalExceptionAdvice(final ErrorProperties errorProperties,
@@ -56,7 +57,7 @@ public class GlobalExceptionAdvice {
                           final Exception e) {
         runtimeErrorInfo.setPath(request.getServletPath());
         runtimeErrorInfo.setTimestamp(LocalDateTime.now());
-        runtimeErrorInfo.setRequestId(WebContext.getRequestId());
+        runtimeErrorInfo.setRequestId(WebContext.requestId());
         // exception
         final String clazz = e.getClass().getName();
         if (this.errorProperties.isIncludeException()) {

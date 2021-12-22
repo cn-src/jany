@@ -30,7 +30,7 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
         final Map<String, Object> attributes = super.getErrorAttributes(webRequest, options);
         attributes.put(RuntimeErrorInfo.Fields.traceMessage, attributes.get("message"));
         attributes.put(RuntimeErrorInfo.Fields.timestamp, LocalDateTime.now());
-        attributes.put(RuntimeErrorInfo.Fields.requestId, WebContext.getRequestId());
+        attributes.put(RuntimeErrorInfo.Fields.requestId, WebContext.requestId());
 
         final Throwable throwable = super.getError(webRequest);
         if (throwable != null) {
