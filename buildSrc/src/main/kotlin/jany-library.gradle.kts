@@ -82,17 +82,18 @@ publishing {
                     url.set("https://github.com/cn-src/jany.git")
                 }
             }
+            @Suppress("UNCHECKED_CAST")
             pom.withXml {
-                @Suppress("UNCHECKED_CAST")
-                (asNode().get("dependencyManagement") as List<Node>).firstOrNull().let {
+                fun Node.first(key: String): Node? = (this.get(key) as List<Node>?)?.firstOrNull()
+                fun Node.select(predicate: (Node) -> Boolean): List<Node>? =
+                    (this.children() as List<Node>?)?.filter(predicate)
+
+                asNode().first("dependencyManagement")?.let {
                     asNode().remove(it)
                 }
-                @Suppress("UNCHECKED_CAST")
-                val dependencies = (asNode().get("dependencies") as List<Node>?)?.firstOrNull()
-                @Suppress("UNCHECKED_CAST")
-                (dependencies?.children() as List<Node>?)?.filter {
-                    "true" == (it.get("optional") as List<Node>?)?.firstOrNull()?.text()
-                }?.forEach { dependencies?.remove(it) }
+                val dependencies = asNode().first("dependencies")
+                dependencies?.select { "true" == it.first("optional")?.text() }
+                    ?.forEach { dependencies.remove(it) }
             }
         }
     }
