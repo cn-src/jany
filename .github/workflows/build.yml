@@ -42,3 +42,11 @@ jobs:
         env:
           CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
         run: bash <(curl -s https://codecov.io/bash)
+      - name: Sync To Gitee
+        uses: Yikun/hub-mirror-action@master
+        with:
+          src: github/cn-src
+          dst: gitee/cn-src
+          dst_key: ${{secrets.GITEE_PRIVATE_KEY}}
+          dst_token: ${{secrets.GITEE_TOKEN}}
+          static_list: "jany"
