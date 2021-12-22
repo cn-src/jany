@@ -18,14 +18,6 @@ jobs:
       matrix:
         java: [ 8, 11 ]
     steps:
-      - name: Sync To Gitee
-        uses: Yikun/hub-mirror-action@master
-        with:
-          src: github/cn-src
-          dst: gitee/cn-src
-          dst_key: ${{secrets.GITEE_PRIVATE_KEY}}
-          dst_token: ${{secrets.GITEE_TOKEN}}
-          static_list: "jany"
       - uses: actions/checkout@v2
       - name: Set up JDK
         uses: actions/setup-java@v1
@@ -50,3 +42,14 @@ jobs:
         env:
           CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
         run: bash <(curl -s https://codecov.io/bash)
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync To Gitee
+        uses: Yikun/hub-mirror-action@master
+        with:
+          src: github/cn-src
+          dst: gitee/cn-src
+          dst_key: ${{secrets.GITEE_PRIVATE_KEY}}
+          dst_token: ${{secrets.GITEE_TOKEN}}
+          static_list: "jany"
