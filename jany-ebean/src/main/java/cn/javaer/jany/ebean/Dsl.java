@@ -18,13 +18,13 @@ import java.util.Map;
 public interface Dsl {
 
     /**
-     * Page query.
+     * 对已有的查询 query 添加分页条件部分。
      *
-     * @param <T> the type parameter
-     * @param query the query
-     * @param pageParam the page param
+     * @param <T> 实体类型
+     * @param query 查询
+     * @param pageParam 分页条件
      *
-     * @return the query
+     * @return 添加分页条件的查询
      */
     static <T> Query<T> query(Query<T> query, PageParam pageParam) {
         return query(query, pageParam.getSort())
@@ -33,13 +33,13 @@ public interface Dsl {
     }
 
     /**
-     * Sort query.
+     * 对已有的查询 query 添加排序条件部分。
      *
-     * @param <T> the type parameter
-     * @param query the query
-     * @param sort the sort
+     * @param <T> 实体类型
+     * @param query 查询
+     * @param sort 排序条件
      *
-     * @return the query
+     * @return 添加排序条件的查询
      */
     static <T> Query<T> query(Query<T> query, Sort sort) {
         if (sort.isSorted()) {
