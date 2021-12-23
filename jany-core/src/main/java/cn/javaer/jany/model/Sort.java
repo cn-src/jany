@@ -17,8 +17,17 @@ import java.util.Set;
 @Value
 public class Sort {
 
+    /**
+     * 默认排序条件。
+     */
     public static final Sort DEFAULT = new Sort(true, Collections.emptyList());
 
+    /**
+     * 是否启用通过审计字段（更新时间和创建时间字段）排序，注解了{@link io.ebean.annotation.WhenCreated} 或
+     * {@link io.ebean.annotation.WhenModified} 的字段。
+     * <P/>
+     * 最近更新的数据排在前面，其次最近创建的排在前面。
+     */
     boolean byAudit;
 
     List<Order> orders;
@@ -73,6 +82,7 @@ public class Sort {
     @Value
     public static class Order {
         String property;
+
         Direction direction;
     }
 }
