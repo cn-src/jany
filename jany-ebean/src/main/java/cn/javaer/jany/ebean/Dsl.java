@@ -63,13 +63,13 @@ public interface Dsl {
     }
 
     /**
-     * Update query.
+     * 对已有的更新查询 updateQuery 添加 SQL SET 部分，其不会忽略空值，如果是空值将会设置为 null。
      *
-     * @param <T> the type parameter
-     * @param updateQuery the update query
-     * @param obj the obj
+     * @param <T> 实体类型
+     * @param updateQuery 更新查询
+     * @param obj 值对象
      *
-     * @return the update query
+     * @return 添加 SQL SET 部分的更新查询
      */
     static <T> UpdateQuery<T> update(UpdateQuery<T> updateQuery, Object obj) {
         final Map<String, Object> beanMap = BeanUtil.beanToMap(obj);
