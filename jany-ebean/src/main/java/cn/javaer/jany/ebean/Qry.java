@@ -15,6 +15,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
+ * 构建动态查询条件的 Builder 模式类。
+ *
  * @author cn-src
  */
 public class Qry<T> {
