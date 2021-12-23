@@ -61,7 +61,7 @@ public class Sort {
          */
         ASC,
         /**
-         * 倒序
+         * 降序
          */
         DESC;
 
