@@ -81,8 +81,15 @@ public class Sort {
 
     @Value
     public static class Order {
+
+        /**
+         * 排序的属性名。
+         */
         String property;
 
+        /**
+         * 排序的方向（升序和降序）。
+         */
         Direction direction;
     }
 }
