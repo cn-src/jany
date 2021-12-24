@@ -22,10 +22,18 @@ import java.util.Optional;
 /**
  * 反射相关的工具类.
  *
- * @author cn -src
+ * @author cn-src
  */
 public interface ReflectionUtils {
 
+    /**
+     * 获取指定 class 中标注了指定注解的字段的名称。
+     *
+     * @param clazz class
+     * @param annClazz 注解
+     *
+     * @return 字段名称
+     */
     static Optional<String> fieldNameByAnnotation(Class<?> clazz,
                                                   Class<? extends Annotation> annClazz) {
         return Arrays.stream(ReflectUtil.getFields(clazz))
