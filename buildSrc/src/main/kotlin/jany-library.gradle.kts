@@ -3,6 +3,7 @@ import groovy.util.Node
 plugins {
     `java-library`
     `maven-publish`
+    signing
     jacoco
     id("com.github.ben-manes.versions")
     id("io.spring.dependency-management")
@@ -97,4 +98,8 @@ publishing {
             }
         }
     }
+}
+signing {
+    isRequired = !version.toString().endsWith("SNAPSHOT") && project.hasProperty("signing.keyId")
+    sign(publishing.publications["maven"])
 }

@@ -1,6 +1,7 @@
 plugins {
     `java-platform`
     `maven-publish`
+    signing
 }
 val p = project
 operator fun Project.get(prop: String) = project.property(prop)
@@ -228,4 +229,8 @@ publishing {
             from(components["javaPlatform"])
         }
     }
+}
+signing {
+    isRequired = !version.toString().endsWith("SNAPSHOT") && project.hasProperty("signing.keyId")
+    sign(publishing.publications["maven"])
 }
