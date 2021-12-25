@@ -231,6 +231,8 @@ publishing {
     }
 }
 signing {
-    isRequired = !version.toString().endsWith("SNAPSHOT") && project.hasProperty("signing.keyId")
     sign(publishing.publications["maven"])
+}
+tasks.withType<Sign>().configureEach {
+    onlyIf { !version.toString().endsWith("SNAPSHOT") && project.hasProperty("signing.keyId") }
 }
