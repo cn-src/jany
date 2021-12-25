@@ -40,7 +40,7 @@ jobs:
         run: ./gradlew build
       - name: codacy
         env:
-          CODECOV_TOKEN: ${{secrets.CODACY_PROJECT_TOKEN}}
+          CODACY_PROJECT_TOKEN: ${{secrets.CODACY_PROJECT_TOKEN}}
         run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -l Java $(find -path '**/jacoco/report.xml' -printf '-r %p ')
   sync:
     runs-on: ubuntu-latest
