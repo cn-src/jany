@@ -227,6 +227,28 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["javaPlatform"])
+            pom {
+                name.set("jany")
+                description.set("A Java library")
+                url.set("https://github.com/cn-src/jany")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+                developers {
+                    developer {
+                        name.set("cn-src")
+                        email.set("public@javaer.cn")
+                    }
+                }
+                scm {
+                    connection.set("scm:git@github.com:cn-src/jany.git")
+                    developerConnection.set("scm:git@github.com:cn-src/jany.git")
+                    url.set("https://github.com/cn-src/jany.git")
+                }
+            }
         }
     }
 }

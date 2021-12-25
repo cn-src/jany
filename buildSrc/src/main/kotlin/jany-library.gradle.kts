@@ -17,6 +17,7 @@ java {
         usingSourceSet(sourceSets["main"])
     }
     withSourcesJar()
+    withJavadocJar()
 }
 
 val springBootVersion: String by project
