@@ -19,7 +19,9 @@ java {
     withSourcesJar()
     withJavadocJar()
 }
-
+tasks.withType(Javadoc::class.java) {
+    isFailOnError = false
+}
 val springBootVersion: String by project
 dependencies {
     api(platform(project(":jany-platform")))
