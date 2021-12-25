@@ -1,7 +1,7 @@
 subprojects {
     apply(plugin = "maven-publish")
     group = "cn.javaer.jany"
-    version = "0.0.1-SNAPSHOT"
+    version = "latest-SNAPSHOT"
 
     repositories {
 //        mavenCentral()
@@ -10,10 +10,10 @@ subprojects {
     configure<PublishingExtension> {
         repositories {
             maven {
-                val releasesRepoUrl = uri(System.getenv("publicReleasesRepoUrl"))
-                val snapshotsRepoUrl = uri(System.getenv("publicSnapshotsRepoUrl"))
-                val isSnapshot = (version as String).endsWith("SNAPSHOT")
-                url = if (isSnapshot) snapshotsRepoUrl else releasesRepoUrl
+                if (!project.hasProperty("signing.keyId")) {
+                    version = "latest-SNAPSHOT"
+                }
+                url = uri(System.getenv("publicSnapshotsRepoUrl"))
                 credentials {
                     username = System.getenv("publicRepoUsername")
                     password = System.getenv("publicRepoPassword")
