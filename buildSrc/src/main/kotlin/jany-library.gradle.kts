@@ -57,7 +57,9 @@ tasks.named<Test>("test") {
 tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
+        xml.outputLocation.set(File("${buildDir}/reports/jacoco/report.xml"))
         csv.required.set(false)
+        html.required.set(false)
     }
 }
 publishing {
