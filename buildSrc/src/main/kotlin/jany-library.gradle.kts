@@ -49,12 +49,14 @@ dependencyManagement {
         enabled(false)
     }
 }
-tasks.named<Test>("test") {
+tasks.test {
     useJUnitPlatform()
     failFast = false
     jvmArgs = jvmArgs.apply { add("-Dorg.jooq.no-logo=true") }
+    finalizedBy(tasks.jacocoTestReport)
 }
 tasks.jacocoTestReport {
+    dependsOn(tasks.test)
     reports {
         xml.required.set(true)
         xml.outputLocation.set(File("${buildDir}/reports/jacoco/report.xml"))
