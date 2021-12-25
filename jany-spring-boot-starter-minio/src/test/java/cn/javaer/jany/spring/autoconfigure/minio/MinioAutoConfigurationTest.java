@@ -3,6 +3,7 @@ package cn.javaer.jany.spring.autoconfigure.minio;
 import cn.javaer.jany.minio.MinioService;
 import cn.javaer.jany.spring.autoconfigure.minio.empty.EmptyConfig;
 import cn.javaer.jany.spring.autoconfigure.minio.test.MinioTest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
  */
 @MinioTest
 @ContextConfiguration(classes = {EmptyConfig.class})
+@Disabled
 class MinioAutoConfigurationTest {
 
     @Autowired
