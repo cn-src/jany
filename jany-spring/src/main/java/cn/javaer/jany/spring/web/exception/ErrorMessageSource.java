@@ -22,7 +22,9 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
     public ErrorMessageSource() {
         this.setDefaultEncoding("UTF-8");
         try {
-            ResourceBundle.getBundle("errors-messages");
+            final ClassLoader classLoader = getBundleClassLoader() == null ?
+                Thread.currentThread().getContextClassLoader() : getBundleClassLoader();
+            ResourceBundle.getBundle("errors-messages", Locale.CHINESE, classLoader);
             this.setBasenames("errors-messages", "default-errors-messages");
         }
         catch (final MissingResourceException ignore) {
