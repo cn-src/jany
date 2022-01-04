@@ -36,4 +36,17 @@ class QryTest {
             .list();
         assertThat(list2).isEmpty();
     }
+
+    @Test
+    void orTest() {
+        db.script().run("/BaseFinderTest.allSort.in.sql");
+        final QDemo q = new QDemo();
+        final List<Demo> list = Qry.of(q)
+            .fn(q::or)
+            .opt(q.id::eq, 1L)
+            .opt(q.id::eq, (Long) null)
+            .fn(q::endOr)
+            .list();
+        assertThat(list).hasSize(1);
+    }
 }
