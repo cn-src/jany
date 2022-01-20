@@ -4,8 +4,8 @@ subprojects {
     version = "latest-SNAPSHOT"
 
     repositories {
-//        mavenCentral()
-        maven { url = uri("https://maven.aliyun.com/repository/public/") }
+        mavenCentral()
+//        maven { url = uri("https://maven.aliyun.com/repository/public/") }
     }
     configure<PublishingExtension> {
         repositories {
