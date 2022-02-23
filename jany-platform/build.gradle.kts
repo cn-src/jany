@@ -121,6 +121,7 @@ dependencies {
         runtime("com.taobao.arthas:arthas-spring-boot-starter:${p["arthasSpringBootVersion"]}")
         api("com.baomidou:dynamic-datasource-spring-boot-starter:${p["dynamicDatasourceVersion"]}")
         api("com.github.lianjiatech:retrofit-spring-boot-starter:${p["retrofitSpringBootVersion"]}")
+        api("org.ssssssss:magic-api-spring-boot-starter:${p["magicApiVersion"]}")
 
         api("cn.dev33:sa-token-core:${p["saTokenVersion"]}")
         api("cn.dev33:sa-token-alone-redis:${p["saTokenVersion"]}")
