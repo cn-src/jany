@@ -71,10 +71,11 @@ public interface Dsl {
      *
      * @return 添加 SQL SET 部分的更新查询
      */
-    static <T> UpdateQuery<T> update(UpdateQuery<T> updateQuery, Object obj) {
+    static <T> UpdateQuery<T> update(UpdateQuery<T> updateQuery, Object obj,
+                                     boolean ignoreEmpty) {
         final Map<String, Object> beanMap = BeanUtil.beanToMap(obj);
         for (Map.Entry<String, Object> entry : beanMap.entrySet()) {
-            if (ObjectUtil.isEmpty(entry.getValue())) {
+            if (!ignoreEmpty && ObjectUtil.isEmpty(entry.getValue())) {
                 updateQuery.setNull(entry.getKey());
             }
             else {

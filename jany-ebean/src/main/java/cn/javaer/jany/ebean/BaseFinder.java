@@ -55,11 +55,11 @@ public class BaseFinder<I, T> extends Finder<I, T> {
 
     public int updateById(Object obj, I id) {
         final UpdateQuery<T> updateQuery = update();
-        Dsl.update(updateQuery, obj).where().idEq(id);
+        Dsl.update(updateQuery, obj, false).where().idEq(id);
         return updateQuery.update();
     }
 
     public int update(UpdateQuery<T> updateQuery, Object obj) {
-        return Dsl.update(updateQuery, obj).update();
+        return Dsl.update(updateQuery, obj, false).update();
     }
 }
