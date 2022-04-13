@@ -78,7 +78,7 @@ public interface Dsl {
         Map<String, RangeStore> rangeMap = new HashMap<>();
         ReflectUtil.getFieldMap(example.getClass()).forEach((fieldName, field) -> {
             final Object value = ReflectUtil.getFieldValue(example, fieldName);
-            if (ObjectUtil.isNotEmpty(value)) {
+            if (ObjectUtil.isNotEmpty(value) && !fieldName.startsWith("$")) {
                 final QueryExpr queryExpr =
                     Optional.ofNullable(field.getAnnotation(QueryExpr.class)).orElse(QueryExpr.DEFAULT);
                 final ExprValueType exprValueType = queryExpr.valueType();

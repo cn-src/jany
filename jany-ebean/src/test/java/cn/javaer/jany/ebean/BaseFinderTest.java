@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author cn-src
  */
@@ -31,9 +33,18 @@ class BaseFinderTest {
     }
 
     @Test
-    void pagedSort() {
+    void page() {
         db.script().run("/BaseFinderTest.allSort.in.sql");
         final Page<Demo> demos = Demo.find.page(PageParam.of(1, 2));
         JsonAssert.assertEqualsAndOrder("BaseFinderTest.pagedSort.out.json", Log.json(demos));
+    }
+
+    @Test
+    void pageExample() {
+        db.script().run("/BaseFinderTest.allSort.in.sql");
+        final Page<Demo> demos = Demo.find.page(new DemoExample().setName("name2"),
+            PageParam.of(1, 2));
+        assertThat(demos.getTotal()).isEqualTo(1);
+        assertThat(demos.getContent().get(0).getName()).isEqualTo("name2");
     }
 }
