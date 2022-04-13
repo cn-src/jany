@@ -53,6 +53,12 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
 
+    public Page<T> page(Object example, PageParam pageParam) {
+        final Query<T> query = Dsl.queryExample(query(), example);
+        final PagedList<T> pagedList = Dsl.query(query, pageParam).findPagedList();
+        return Page.of(pagedList.getList(), pagedList.getTotalCount());
+    }
+
     public int updateById(Object obj, I id) {
         final UpdateQuery<T> updateQuery = update();
         Dsl.update(updateQuery, obj, false).where().idEq(id);

@@ -2,15 +2,25 @@ package cn.javaer.jany.ebean;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReflectUtil;
+import cn.javaer.jany.ebean.expression.ExprOperator;
+import cn.javaer.jany.ebean.expression.ExprValueType;
+import cn.javaer.jany.ebean.expression.QueryExpr;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
 import cn.javaer.jany.util.ReflectionUtils;
+import io.ebean.ExpressionFactory;
+import io.ebean.ExpressionList;
 import io.ebean.Query;
 import io.ebean.UpdateQuery;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author cn-src
@@ -60,6 +70,48 @@ public interface Dsl {
                 .ifPresent(fieldName -> query.orderBy().desc(fieldName));
         }
         return query;
+    }
+
+    static <T> Query<T> queryExample(Query<T> query, Object example) {
+        final ExpressionFactory factory = query.getExpressionFactory();
+        final ExpressionList<T> where = query.where();
+        Map<String, RangeStore> rangeMap = new HashMap<>();
+        ReflectUtil.getFieldMap(example.getClass()).forEach((fieldName, field) -> {
+            final Object value = ReflectUtil.getFieldValue(example, fieldName);
+            if (ObjectUtil.isNotEmpty(value)) {
+                final QueryExpr queryExpr =
+                    Optional.ofNullable(field.getAnnotation(QueryExpr.class)).orElse(QueryExpr.DEFAULT);
+                final ExprValueType exprValueType = queryExpr.valueType();
+                String property = ObjectUtil.defaultIfEmpty(queryExpr.property(), fieldName);
+
+                if (exprValueType == ExprValueType.DEFAULT) {
+                    where.add(queryExpr.value().getFun().apple(factory, property, value));
+                }
+                else if (exprValueType == ExprValueType.RANGE_START) {
+                    rangeMap.compute(property, (k, v) -> v == null ?
+                        new RangeStore().setStartValue(value) : v.setStartValue(value));
+                }
+                else if (exprValueType == ExprValueType.RANGE_END) {
+                    rangeMap.compute(property, (k, v) -> v == null ?
+                        new RangeStore().setEndValue(value) : v.setEndValue(value));
+                }
+            }
+        });
+        for (Map.Entry<String, RangeStore> entry : rangeMap.entrySet()) {
+            where.add(entry.getValue().operator.getFun().apple(factory, entry.getKey(),
+                new Object[]{entry.getValue().startValue, entry.getValue().endValue}));
+        }
+        return query;
+    }
+
+    @Data
+    @Accessors(chain = true)
+    class RangeStore {
+        private ExprOperator operator;
+
+        private Object startValue;
+
+        private Object endValue;
     }
 
     /**
