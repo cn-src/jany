@@ -19,6 +19,11 @@ import static cn.javaer.jany.ebean.expression.ExprOperator.eq;
 public @interface QueryExpr {
     ExprOperator value() default eq;
 
+    /**
+     * 不配置属性名称时，默认取样例对象的字段名称，当 valueType 为 RANGE_* 时，则必须配置为实体类的属性名称。
+     *
+     * @return 属性名称
+     */
     String property() default "";
 
     ExprValueType valueType() default ExprValueType.DEFAULT;
