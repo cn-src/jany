@@ -59,6 +59,21 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
 
+    public T save(T bean) {
+        db().save(bean);
+        return bean;
+    }
+    
+    public T insert(T bean) {
+        db().insert(bean);
+        return bean;
+    }
+
+    public T update(T bean) {
+        db().update(bean);
+        return bean;
+    }
+
     @Deprecated
     public int updateById(Object obj, I id) {
         final UpdateQuery<T> updateQuery = update();
