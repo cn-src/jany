@@ -59,6 +59,7 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         return Page.of(pagedList.getList(), pagedList.getTotalCount());
     }
 
+    @Deprecated
     public int updateById(Object obj, I id) {
         final UpdateQuery<T> updateQuery = update();
         Dsl.update(updateQuery, obj, false).where().idEq(id);
