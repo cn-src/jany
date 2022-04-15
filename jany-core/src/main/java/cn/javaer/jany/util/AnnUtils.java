@@ -79,15 +79,15 @@ public interface AnnUtils {
     /**
      * 从被注解的元素中获取指定类型的注解实例，如果当前注解实例就是要获取的，就返回当前注解实例，否则从其元注解上查找获取。
      *
-     * @param clazz 要获取的注解类型
-     * @param element 被注解的元素
      * @param <T> T
+     * @param element 被注解的元素
+     * @param clazz 要获取的注解类型
      *
      * @return 返回注解实例
      */
     @Nullable
-    static <T extends Annotation> T getAnnotation(final Class<T> clazz,
-                                                  final AnnotatedElement element) {
+    static <T extends Annotation> T getAnnotation(final AnnotatedElement element,
+                                                  final Class<T> clazz) {
         final Annotation[] annotations = element.getAnnotations();
         for (final Annotation annotation : annotations) {
             final T ann = getAnnotation(clazz, annotation);
