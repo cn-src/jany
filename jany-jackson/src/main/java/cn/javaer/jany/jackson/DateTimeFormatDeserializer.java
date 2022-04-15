@@ -3,7 +3,7 @@ package cn.javaer.jany.jackson;
 import cn.javaer.jany.format.DateMaxTime;
 import cn.javaer.jany.format.DateMinTime;
 import cn.javaer.jany.format.DateTimeFormat;
-import cn.javaer.jany.util.ReflectionUtils;
+import cn.javaer.jany.util.AnnUtils;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -50,7 +50,7 @@ public class DateTimeFormatDeserializer extends JsonDeserializer<LocalDateTime> 
     @Override
     public JsonDeserializer<?> createContextual(final DeserializationContext context,
                                                 final BeanProperty property) {
-        final DateTimeFormat format = ReflectionUtils.getAnnotation(DateTimeFormat.class,
+        final DateTimeFormat format = AnnUtils.getAnnotation(DateTimeFormat.class,
             property.getAnnotation(DateTimeFormat.class),
             property.getAnnotation(DateMinTime.class),
             property.getAnnotation(DateMaxTime.class)

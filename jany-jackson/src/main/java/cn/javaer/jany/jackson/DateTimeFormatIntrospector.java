@@ -3,7 +3,7 @@ package cn.javaer.jany.jackson;
 import cn.javaer.jany.format.DateMaxTime;
 import cn.javaer.jany.format.DateMinTime;
 import cn.javaer.jany.format.DateTimeFormat;
-import cn.javaer.jany.util.ReflectionUtils;
+import cn.javaer.jany.util.AnnUtils;
 import com.fasterxml.jackson.databind.introspect.Annotated;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 
@@ -19,7 +19,7 @@ public class DateTimeFormatIntrospector extends JacksonAnnotationIntrospector {
 
     @Override
     public Object findDeserializer(final Annotated a) {
-        final DateTimeFormat format = ReflectionUtils.getAnnotation(DateTimeFormat.class,
+        final DateTimeFormat format = AnnUtils.getAnnotation(DateTimeFormat.class,
             a.getAnnotation(DateTimeFormat.class),
             a.getAnnotation(DateMinTime.class),
             a.getAnnotation(DateMaxTime.class)
