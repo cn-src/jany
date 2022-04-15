@@ -6,6 +6,7 @@ import io.ebean.Transaction;
 import io.ebean.bean.EntityBean;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 /**
  * 相对于官方的 Model 类部分方法改成了链式调用。
@@ -16,6 +17,7 @@ import javax.persistence.MappedSuperclass;
 @SuppressWarnings("unchecked")
 public abstract class BaseModel<E> {
 
+    @Transient
     private final String _$dbName;
 
     public BaseModel() {
