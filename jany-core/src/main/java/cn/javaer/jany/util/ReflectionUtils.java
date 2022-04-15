@@ -201,7 +201,10 @@ public interface ReflectionUtils {
      * @param clazz 需要继承带泛型的父类，并且此类需要泛型实参
      *
      * @return 泛型类型
+     *
+     * @deprecated 使用 hutool
      */
+    @Deprecated
     static Class<?>[] getSuperclassGenerics(final Class<?> clazz) {
         Objects.requireNonNull(clazz);
         final Type type = clazz.getGenericSuperclass();
