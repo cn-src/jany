@@ -7,7 +7,7 @@ import io.ebean.ExpressionFactory;
 /**
  * @author cn-src
  */
-public enum ExprOperator {
+public enum Operator {
 
     arrayContains((factory, property, value) ->
         factory.arrayContains(property, ObjUtils.toObjectArray(value))),
@@ -15,7 +15,6 @@ public enum ExprOperator {
         factory.arrayNotContains(property, ObjUtils.toObjectArray(value))),
     eq(ExpressionFactory::eq),
 
-    eqOrNull(ExpressionFactory::eqOrNull),
     ne(ExpressionFactory::ne),
     ieq((factory, property, value) ->
         factory.ieq(property, ObjectUtil.toString(value))),
@@ -29,12 +28,8 @@ public enum ExprOperator {
         Object[] values = (Object[]) value;
         return factory.between(property, values[0], values[1]);
     }),
-    gtOrNull(ExpressionFactory::gtOrNull),
-    geOrNull(ExpressionFactory::geOrNull),
     gt(ExpressionFactory::gt),
     ge(ExpressionFactory::ge),
-    ltOrNull(ExpressionFactory::ltOrNull),
-    leOrNull(ExpressionFactory::leOrNull),
     lt(ExpressionFactory::lt),
     le(ExpressionFactory::le),
     like((factory, property, value) ->
@@ -55,18 +50,16 @@ public enum ExprOperator {
         factory.icontains(property, ObjectUtil.toString(value))),
     in((factory, property, value) ->
         factory.in(property, ObjUtils.toCollection(value))),
-    inOrEmpty((factory, property, value) ->
-        factory.inOrEmpty(property, ObjUtils.toCollection(value))),
     notIn((factory, property, value) ->
         factory.notIn(property, ObjUtils.toCollection(value)));
 
-    private final QueryExpr.ExprFunction fun;
+    private final WhereExpression.ExprFunction fun;
 
-    ExprOperator(QueryExpr.ExprFunction fun) {
+    Operator(WhereExpression.ExprFunction fun) {
         this.fun = fun;
     }
 
-    public QueryExpr.ExprFunction getFun() {
+    public WhereExpression.ExprFunction getFun() {
         return fun;
     }
 }

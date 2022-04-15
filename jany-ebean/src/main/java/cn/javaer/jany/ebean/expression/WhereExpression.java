@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static cn.javaer.jany.ebean.expression.ExprOperator.eq;
+import static cn.javaer.jany.ebean.expression.Operator.eq;
 
 /**
  * 使用样例：
@@ -18,23 +18,23 @@ import static cn.javaer.jany.ebean.expression.ExprOperator.eq;
  * @ParameterObject
  * public class UserQuery {
  *
- *     @QueryExpr(ExprOperator.contains)
+ *     @WhereExpression(Operator.contains)
  *     @Schema(description = "姓名")
  *     private String name;
  *
- *     @QueryExpr(ExprOperator.contains)
+ *     @WhereExpression(Operator.contains)
  *     @Schema(description = "手机号")
  *     private String mobile;
  *
- *     @QueryExpr(ExprOperator.contains)
+ *     @WhereExpression(Operator.contains)
  *     @Schema(description = "邮箱")
  *     private String email;
  *
- *     @QueryExpr(value = ExprOperator.inRange, property = "createTime",valueType = ExprValueType.RANGE_START)
+ *     @WhereExpression(value = Operator.inRange, property = "createTime",type = Type.RANGE_START)
  *     @Schema(description = "查询开始时间")
  *     private LocalDate startCreateTime;
  *
- *     @QueryExpr(value = ExprOperator.inRange, property = "createTime",valueType = ExprValueType.RANGE_END)
+ *     @WhereExpression(value = Operator.inRange, property = "createTime",type = Type.RANGE_END)
  *     @Schema(description = "查询结束时间")
  *     private LocalDate endCreateTime;
  *
@@ -47,8 +47,8 @@ import static cn.javaer.jany.ebean.expression.ExprOperator.eq;
  */
 @Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface QueryExpr {
-    ExprOperator value() default eq;
+public @interface WhereExpression {
+    Operator value() default eq;
 
     /**
      * 不配置属性名称时，默认取样例对象的字段名称，当 valueType 为 RANGE_* 时，则必须配置为实体类的属性名称。
@@ -62,16 +62,16 @@ public @interface QueryExpr {
      *
      * @return ExprValueType
      */
-    ExprValueType valueType() default ExprValueType.DEFAULT;
+    Type type() default Type.DEFAULT;
 
-    QueryExpr DEFAULT = new QueryExpr() {
+    WhereExpression DEFAULT = new WhereExpression() {
         @Override
         public Class<? extends Annotation> annotationType() {
-            return QueryExpr.class;
+            return WhereExpression.class;
         }
 
         @Override
-        public ExprOperator value() {
+        public Operator value() {
             return eq;
         }
 
@@ -81,8 +81,8 @@ public @interface QueryExpr {
         }
 
         @Override
-        public ExprValueType valueType() {
-            return ExprValueType.DEFAULT;
+        public Type type() {
+            return Type.DEFAULT;
         }
     };
 

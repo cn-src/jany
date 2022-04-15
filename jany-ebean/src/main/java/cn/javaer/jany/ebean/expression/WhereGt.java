@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@QueryExpr(value = ExprOperator.inRange, valueType = ExprValueType.RANGE_START)
-public @interface QueryInRangeStart {
+@WhereExpression(value = Operator.gt)
+public @interface WhereGt {
     String property() default "";
 }

@@ -3,9 +3,9 @@ package cn.javaer.jany.ebean;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
-import cn.javaer.jany.ebean.expression.ExprOperator;
-import cn.javaer.jany.ebean.expression.ExprValueType;
-import cn.javaer.jany.ebean.expression.QueryExpr;
+import cn.javaer.jany.ebean.expression.Operator;
+import cn.javaer.jany.ebean.expression.Type;
+import cn.javaer.jany.ebean.expression.WhereExpression;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
 import cn.javaer.jany.util.AnnUtils;
@@ -80,20 +80,20 @@ public interface Dsl {
         ReflectUtil.getFieldMap(example.getClass()).forEach((fieldName, field) -> {
             final Object value = ReflectUtil.getFieldValue(example, fieldName);
             if (ObjectUtil.isNotEmpty(value) && !fieldName.startsWith("$")) {
-                final QueryExpr queryExpr = Optional.ofNullable(
-                    AnnUtils.findMergedAnnotation(field, QueryExpr.class)).orElse(QueryExpr.DEFAULT);
+                final WhereExpression whereExpression = Optional.ofNullable(
+                    AnnUtils.findMergedAnnotation(field, WhereExpression.class)).orElse(WhereExpression.DEFAULT);
 
-                final ExprValueType exprValueType = queryExpr.valueType();
-                String property = ObjectUtil.defaultIfEmpty(queryExpr.property(), fieldName);
+                final Type type = whereExpression.type();
+                String property = ObjectUtil.defaultIfEmpty(whereExpression.property(), fieldName);
 
-                if (exprValueType == ExprValueType.DEFAULT) {
-                    where.add(queryExpr.value().getFun().apple(factory, property, value));
+                if (type == Type.DEFAULT) {
+                    where.add(whereExpression.value().getFun().apple(factory, property, value));
                 }
-                else if (exprValueType == ExprValueType.RANGE_START) {
+                else if (type == Type.RANGE_START) {
                     rangeMap.compute(property, (k, v) -> v == null ?
                         new RangeStore().setStartValue(value) : v.setStartValue(value));
                 }
-                else if (exprValueType == ExprValueType.RANGE_END) {
+                else if (type == Type.RANGE_END) {
                     rangeMap.compute(property, (k, v) -> v == null ?
                         new RangeStore().setEndValue(value) : v.setEndValue(value));
                 }
@@ -109,7 +109,7 @@ public interface Dsl {
     @Data
     @Accessors(chain = true)
     class RangeStore {
-        private ExprOperator operator;
+        private Operator operator;
 
         private Object startValue;
 
