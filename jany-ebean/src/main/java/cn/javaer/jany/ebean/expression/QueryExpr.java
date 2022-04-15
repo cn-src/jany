@@ -12,6 +12,37 @@ import java.lang.annotation.Target;
 import static cn.javaer.jany.ebean.expression.ExprOperator.eq;
 
 /**
+ * 使用样例：
+ * <pre>{@code
+ * @Data
+ * @ParameterObject
+ * public class UserQuery {
+ *
+ *     @QueryExpr(ExprOperator.contains)
+ *     @Schema(description = "姓名")
+ *     private String name;
+ *
+ *     @QueryExpr(ExprOperator.contains)
+ *     @Schema(description = "手机号")
+ *     private String mobile;
+ *
+ *     @QueryExpr(ExprOperator.contains)
+ *     @Schema(description = "邮箱")
+ *     private String email;
+ *
+ *     @QueryExpr(value = ExprOperator.inRange, property = "createTime",valueType = ExprValueType.RANGE_START)
+ *     @Schema(description = "查询开始时间")
+ *     private LocalDate startCreateTime;
+ *
+ *     @QueryExpr(value = ExprOperator.inRange, property = "createTime",valueType = ExprValueType.RANGE_END)
+ *     @Schema(description = "查询结束时间")
+ *     private LocalDate endCreateTime;
+ *
+ *     @Schema(description = "启用")
+ *     private Boolean enabled;
+ * }
+ * }</pre>
+ *
  * @author cn-src
  */
 @Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
@@ -26,6 +57,11 @@ public @interface QueryExpr {
      */
     String property() default "";
 
+    /**
+     * 当使用 inRange, between 这样的范围操作时需要标注当前字段是作为范围的开始值，还是结束值。
+     *
+     * @return ExprValueType
+     */
     ExprValueType valueType() default ExprValueType.DEFAULT;
 
     QueryExpr DEFAULT = new QueryExpr() {
