@@ -1,6 +1,5 @@
 package cn.javaer.jany.util;
 
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
@@ -13,28 +12,11 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author cn-src
  */
 public interface AnnUtils {
-    /**
-     * 判断元素上是否有指定的注解.
-     *
-     * @param element 可注解的元素
-     * @param annotation 注解
-     *
-     * @return 有指定的注解返回 true.
-     */
-    @SuppressWarnings("unchecked")
-    static boolean isAnnotated(final AnnotatedElement element, final String annotation) {
-        Objects.requireNonNull(element);
-        Assert.notEmpty(annotation);
-
-        return ReflectUtils.getClass(annotation).map(it -> element.getAnnotation((Class<Annotation>) it))
-            .isPresent();
-    }
 
     /**
      * 查找合成的注解实例：

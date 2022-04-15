@@ -10,10 +10,7 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -103,23 +100,5 @@ public interface ReflectUtils {
         catch (final UtilException e) {
             return Optional.empty();
         }
-    }
-
-    /**
-     * 获取继承自父类的泛型类型.
-     *
-     * @param clazz 需要继承带泛型的父类，并且此类需要泛型实参
-     *
-     * @return 泛型类型
-     *
-     * @deprecated 使用 hutool
-     */
-    @Deprecated
-    static Class<?>[] getSuperclassGenerics(final Class<?> clazz) {
-        Objects.requireNonNull(clazz);
-        final Type type = clazz.getGenericSuperclass();
-        final ParameterizedType pType = (ParameterizedType) type;
-        return Arrays.stream(pType.getActualTypeArguments())
-            .map(Class.class::cast).toArray(Class[]::new);
     }
 }
