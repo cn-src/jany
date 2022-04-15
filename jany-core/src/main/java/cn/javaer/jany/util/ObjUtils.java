@@ -10,6 +10,25 @@ import java.util.Collection;
  */
 public interface ObjUtils {
 
+    /**
+     * 强转 String 类型。
+     *
+     * @param obj 对象
+     *
+     * @return String
+     *
+     * @throws IllegalArgumentException 如果对象不是 String 类型
+     */
+    static String castString(Object obj) {
+        if (null == obj) {
+            return null;
+        }
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        throw new IllegalArgumentException("Object must be String, but was " + obj.getClass());
+    }
+
     static Collection<?> toCollection(Object obj) {
         if (obj == null) {
             return null;
@@ -20,7 +39,7 @@ public interface ObjUtils {
         throw new IllegalArgumentException("unsupported type: " + obj.getClass());
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({"rawtypes", "unchecked"})
     static Object[] toObjectArray(Object obj) {
         if (obj == null) {
             return null;
