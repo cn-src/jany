@@ -5,11 +5,14 @@ import io.ebean.Database;
 import io.ebean.Transaction;
 import io.ebean.bean.EntityBean;
 
+import javax.persistence.MappedSuperclass;
+
 /**
  * 相对于官方的 Model 类部分方法改成了链式调用。
  *
  * @author cn-src
  */
+@MappedSuperclass
 @SuppressWarnings("unchecked")
 public abstract class BaseModel<E> {
 
