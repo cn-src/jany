@@ -108,9 +108,17 @@ public interface ReflectionUtils {
             .isPresent();
     }
 
+    /**
+     * 获取指定的注解实例，如果当前注解实例就是要获取的，就返回当前注解实例，否则从其元注解上查找获取。
+     *
+     * @param clazz 要获取的注解类型
+     * @param ann 注解的实例
+     * @param <T> T
+     *
+     * @return 返回注解实例
+     */
     @Nullable
-    static <T extends Annotation>
-    T getAnnotation(final Class<T> clazz, final Annotation ann) {
+    static <T extends Annotation> T getAnnotation(final Class<T> clazz, final Annotation ann) {
         if (clazz.equals(ann.annotationType())) {
             @SuppressWarnings("unchecked")
             final T t = (T) ann;
@@ -120,8 +128,8 @@ public interface ReflectionUtils {
     }
 
     @Nullable
-    static <T extends Annotation>
-    T getAnnotation(final Class<T> clazz, final Annotation... annotations) {
+    static <T extends Annotation> T getAnnotation(final Class<T> clazz,
+                                                  final Annotation... annotations) {
         if (ArrayUtil.isEmpty(annotations)) {
             return null;
         }
