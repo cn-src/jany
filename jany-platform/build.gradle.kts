@@ -123,6 +123,16 @@ dependencies {
         api("com.github.lianjiatech:retrofit-spring-boot-starter:${p["retrofitSpringBootVersion"]}")
         api("org.ssssssss:magic-api-spring-boot-starter:${p["magicApiVersion"]}")
 
+        api("com.squareup.okhttp3:logging-interceptor:${p["okhttp3Version"]}")
+        api("com.squareup.okhttp3:mockwebserver:${p["okhttp3Version"]}")
+        api("com.squareup.okhttp3:okcurl:${p["okhttp3Version"]}")
+        api("com.squareup.okhttp3:okhttp:${p["okhttp3Version"]}")
+        api("com.squareup.okhttp3:okhttp-dnsoverhttps:${p["okhttp3Version"]}")
+        api("com.squareup.okhttp3:okhttp-sse:${p["okhttp3Version"]}")
+        api("com.squareup.okhttp3:okhttp-testing-support:${p["okhttp3Version"]}")
+        api("com.squareup.okhttp3:okhttp-tls:${p["okhttp3Version"]}")
+        api("com.squareup.okhttp3:okhttp-urlconnection:${p["okhttp3Version"]}")
+
         api("cn.dev33:sa-token-core:${p["saTokenVersion"]}")
         api("cn.dev33:sa-token-alone-redis:${p["saTokenVersion"]}")
         api("cn.dev33:sa-token-dao-redis:${p["saTokenVersion"]}")

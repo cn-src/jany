@@ -23,6 +23,7 @@ tasks.withType(Javadoc::class.java) {
     isFailOnError = false
 }
 val springBootVersion: String by project
+val okhttp3Version: String by project
 dependencies {
     api(platform(project(":jany-platform")))
     annotationProcessor(platform(project(":jany-platform")))
@@ -43,7 +44,9 @@ dependencies {
 }
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
+        mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion") {
+            bomProperty("okhttp3.version", "$okhttp3Version")
+        }
     }
     generatedPomCustomization {
         enabled(false)
