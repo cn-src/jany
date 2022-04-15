@@ -51,6 +51,7 @@ public interface AnnUtils {
 
     /**
      * 从多个注解实例中获取指定类型的注解实例，如果当前注解实例就是要获取的，就返回当前注解实例，否则从其元注解上查找获取。
+     * 注意：仅支持一层元注解，不递归查找，不支持注解合并。
      *
      * @param clazz 要获取的注解类型
      * @param annotations 注解实例
@@ -78,6 +79,7 @@ public interface AnnUtils {
 
     /**
      * 从被注解的元素中获取指定类型的注解实例，如果当前注解实例就是要获取的，就返回当前注解实例，否则从其元注解上查找获取。
+     * 注意：仅支持一层元注解，不递归查找，不支持注解合并。
      *
      * @param <T> T
      * @param element 被注解的元素
@@ -108,9 +110,9 @@ public interface AnnUtils {
      * @return 注解的属性值
      */
     @SuppressWarnings("unchecked")
-    static Optional<Object> getAnnotationAttributeValue(final AnnotatedElement element,
-                                                        final String annotation,
-                                                        final String attributeName) {
+    static Optional<Object> getAttributeValue(final AnnotatedElement element,
+                                              final String annotation,
+                                              final String attributeName) {
         Objects.requireNonNull(element);
         Assert.notEmpty(annotation);
         Assert.notEmpty(attributeName);
