@@ -10,16 +10,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author cn-src
  */
-class QueryExprTest {
+class WhereExpressionTest {
     @Test
     void name() throws Exception {
         final Field name = Demo.class.getField("name");
-        final QueryExpr queryExpr = AnnUtils.findMergedAnnotation(name, QueryExpr.class);
-        assertThat(queryExpr.property()).isEqualTo("name");
+        final WhereExpression whereExpression = AnnUtils.findMergedAnnotation(name,
+            WhereExpression.class);
+        assertThat(whereExpression.property()).isEqualTo("name");
     }
 
     static class Demo {
-        @QueryInRangeStart(property = "name")
+        @WhereInRangeStart(property = "name")
         public String name;
     }
 }
