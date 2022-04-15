@@ -2,12 +2,18 @@ package cn.javaer.jany.util;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReflectUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author cn-src
@@ -40,13 +46,31 @@ public interface AnnUtils {
      * @return 返回注解实例
      */
     @Nullable
+    @SuppressWarnings({"unchecked"})
     static <T extends Annotation> T getAnnotation(final Class<T> clazz, final Annotation ann) {
         if (clazz.equals(ann.annotationType())) {
-            @SuppressWarnings("unchecked")
-            final T t = (T) ann;
-            return t;
+            return (T) ann;
         }
-        return ann.annotationType().getAnnotation(clazz);
+        final T meta = ann.annotationType().getAnnotation(clazz);
+        if (null == meta) {
+            return null;
+        }
+        final Map<String, Object> annValues = getAnnotationValueMap(ann);
+        if (annValues.values().stream().allMatch(ObjectUtil::isEmpty)) {
+            return meta;
+        }
+        final Map<String, Object> metaValues = getAnnotationValueMap(meta);
+
+        for (Map.Entry<String, Object> entry : annValues.entrySet()) {
+            if (ObjectUtil.isNotEmpty(entry.getValue()) && metaValues.containsKey(entry.getKey())) {
+                metaValues.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        InvocationHandler handler = new SynthesizedAnnotationInvocationHandler(meta, metaValues);
+        Class<?>[] exposedInterfaces = new Class<?>[]{meta.annotationType()};
+        return (T) Proxy.newProxyInstance(meta.getClass().getClassLoader(),
+            exposedInterfaces, handler);
     }
 
     /**
@@ -100,31 +124,24 @@ public interface AnnUtils {
         return null;
     }
 
-    /**
-     * 获取元素上指定注解的属性值.
-     *
-     * @param element 可注解的元素
-     * @param annotation 注解
-     * @param attributeName 注解的属性名
-     *
-     * @return 注解的属性值
-     */
-    @SuppressWarnings("unchecked")
-    static Optional<Object> getAttributeValue(final AnnotatedElement element,
-                                              final String annotation,
-                                              final String attributeName) {
-        Objects.requireNonNull(element);
-        Assert.notEmpty(annotation);
-        Assert.notEmpty(attributeName);
-        return ReflectUtils.getClass(annotation)
-            .map(it -> element.getAnnotation((Class<Annotation>) it))
-            .map(it -> {
-                try {
-                    return it.annotationType().getField(attributeName).get(it);
-                }
-                catch (final IllegalAccessException | NoSuchFieldException e) {
-                    throw new IllegalStateException(e);
-                }
-            });
+    static Map<String, Object> getAnnotationValueMap(final Annotation annotation) {
+
+        final Method[] methods = ReflectUtil.getMethods(annotation.annotationType(), t -> {
+            if (ArrayUtil.isEmpty(t.getParameterTypes())) {
+                // 只读取无参方法
+                final String name = t.getName();
+                // 跳过自有的几个方法
+                return (!"hashCode".equals(name)) //
+                    && (!"toString".equals(name)) //
+                    && (!"annotationType".equals(name));
+            }
+            return false;
+        });
+
+        final HashMap<String, Object> result = new HashMap<>(methods.length, 1);
+        for (Method method : methods) {
+            result.put(method.getName(), ReflectUtil.invoke(annotation, method));
+        }
+        return result;
     }
 }
