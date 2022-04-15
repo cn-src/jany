@@ -2,7 +2,7 @@ package cn.javaer.jany.spring.web;
 
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.javaer.jany.util.Empty;
-import cn.javaer.jany.util.ReflectionUtils;
+import cn.javaer.jany.util.ReflectUtils;
 import com.yomahub.tlog.context.TLogContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -19,7 +19,7 @@ public class WebContext {
     private static Supplier<String> requestIdFun = Empty.supplier();
 
     static {
-        ReflectionUtils.getClass("com.yomahub.tlog.context.TLogContext").ifPresent(aClass -> {
+        ReflectUtils.getClass("com.yomahub.tlog.context.TLogContext").ifPresent(aClass -> {
             requestIdFun = TLogContext::getTraceId;
         });
     }

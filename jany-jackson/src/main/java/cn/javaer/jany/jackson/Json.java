@@ -2,7 +2,7 @@ package cn.javaer.jany.jackson;
 
 import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.model.KeyValue;
-import cn.javaer.jany.util.ReflectionUtils;
+import cn.javaer.jany.util.ReflectUtils;
 import cn.javaer.jany.util.TimeUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -72,13 +72,13 @@ public class Json {
 
         // @formatter:on
 
-        ReflectionUtils.getClass("org.jooq.JSONB").ifPresent(it -> {
+        ReflectUtils.getClass("org.jooq.JSONB").ifPresent(it -> {
             @SuppressWarnings({"unchecked"})
             final Class<JSONB> clazz = (Class<JSONB>) it;
             MODULE.addSerializer(clazz, JooqJsonbSerializer.INSTANCE);
             MODULE.addDeserializer(clazz, JooqJsonbDeserializer.INSTANCE);
         });
-        ReflectionUtils.getClass("org.jooq.Record").ifPresent(it -> {
+        ReflectUtils.getClass("org.jooq.Record").ifPresent(it -> {
             @SuppressWarnings({"unchecked"})
             final Class<Record> clazz = (Class<Record>) it;
             MODULE.addSerializer(clazz, JooqRecordSerializer.INSTANCE);

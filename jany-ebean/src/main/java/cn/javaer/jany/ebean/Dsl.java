@@ -8,7 +8,7 @@ import cn.javaer.jany.ebean.expression.ExprValueType;
 import cn.javaer.jany.ebean.expression.QueryExpr;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
-import cn.javaer.jany.util.ReflectionUtils;
+import cn.javaer.jany.util.ReflectUtils;
 import io.ebean.ExpressionFactory;
 import io.ebean.ExpressionList;
 import io.ebean.Query;
@@ -64,9 +64,9 @@ public interface Dsl {
         }
         if (sort.isByAudit()) {
             final Class<T> beanType = query.getBeanType();
-            ReflectionUtils.fieldNameByAnnotation(beanType, WhenModified.class)
+            ReflectUtils.fieldNameByAnnotation(beanType, WhenModified.class)
                 .ifPresent(fieldName -> query.orderBy().desc(fieldName));
-            ReflectionUtils.fieldNameByAnnotation(beanType, WhenCreated.class)
+            ReflectUtils.fieldNameByAnnotation(beanType, WhenCreated.class)
                 .ifPresent(fieldName -> query.orderBy().desc(fieldName));
         }
         return query;

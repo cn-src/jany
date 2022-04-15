@@ -21,7 +21,7 @@ import java.util.Optional;
  *
  * @author cn-src
  */
-public interface ReflectionUtils {
+public interface ReflectUtils {
 
     /**
      * 获取指定 class 中标注了指定注解的字段的名称。

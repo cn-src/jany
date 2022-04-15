@@ -26,7 +26,7 @@ public interface AnnUtils {
         Objects.requireNonNull(element);
         Assert.notEmpty(annotation);
 
-        return ReflectionUtils.getClass(annotation).map(it -> element.getAnnotation((Class<Annotation>) it))
+        return ReflectUtils.getClass(annotation).map(it -> element.getAnnotation((Class<Annotation>) it))
             .isPresent();
     }
 
@@ -114,7 +114,7 @@ public interface AnnUtils {
         Objects.requireNonNull(element);
         Assert.notEmpty(annotation);
         Assert.notEmpty(attributeName);
-        return ReflectionUtils.getClass(annotation)
+        return ReflectUtils.getClass(annotation)
             .map(it -> element.getAnnotation((Class<Annotation>) it))
             .map(it -> {
                 try {

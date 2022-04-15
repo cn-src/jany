@@ -1,7 +1,7 @@
 package cn.javaer.jany.spring.boot;
 
 import cn.javaer.jany.util.IoUtils;
-import cn.javaer.jany.util.ReflectionUtils;
+import cn.javaer.jany.util.ReflectUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -20,7 +20,7 @@ public class SpringBoot {
         final InputStream input = SpringBoot.class.getResourceAsStream("/default-boot.properties");
         final Properties props = IoUtils.readProperties(input);
 
-        ReflectionUtils.getClass("de.codecentric.boot.admin.server.config.EnableAdminServer")
+        ReflectUtils.getClass("de.codecentric.boot.admin.server.config.EnableAdminServer")
             .ifPresent(aClass -> {
                 final InputStream adminInput = SpringBoot.class
                     .getResourceAsStream("/default-boot-admin-local.properties");
