@@ -37,7 +37,11 @@ public interface AnnUtils {
     }
 
     /**
-     * 获取指定的注解实例，如果当前注解实例就是要获取的，就返回当前注解实例，否则从其元注解上查找获取。
+     * 查找合成的注解实例：
+     * 1. 如果当前注解实例就是要获取的类型，就返回当前注解实例；
+     * 2. 否则从其元注解上查找获取，然后以当前注解同名的非空属性值优先合成新的注解实例。
+     *
+     * 注意：仅支持一层元注解，不递归查找。
      *
      * @param clazz 要获取的注解类型
      * @param ann 注解的实例
@@ -47,7 +51,8 @@ public interface AnnUtils {
      */
     @Nullable
     @SuppressWarnings({"unchecked"})
-    static <T extends Annotation> T getAnnotation(final Class<T> clazz, final Annotation ann) {
+    static <T extends Annotation> T findMergedAnnotation(final Class<T> clazz,
+                                                         final Annotation ann) {
         if (clazz.equals(ann.annotationType())) {
             return (T) ann;
         }
@@ -74,18 +79,19 @@ public interface AnnUtils {
     }
 
     /**
-     * 从多个注解实例中获取指定类型的注解实例，如果当前注解实例就是要获取的，就返回当前注解实例，否则从其元注解上查找获取。
-     * 注意：仅支持一层元注解，不递归查找，不支持注解合并。
+     * 查找合成的注解实例，返回第一个符合的注解。
      *
      * @param clazz 要获取的注解类型
      * @param annotations 注解实例
      * @param <T> T
      *
      * @return 返回注解实例
+     *
+     * @see #findMergedAnnotation(Class, Annotation)
      */
     @Nullable
-    static <T extends Annotation> T getAnnotation(final Class<T> clazz,
-                                                  final Annotation... annotations) {
+    static <T extends Annotation> T findMergedAnnotation(final Class<T> clazz,
+                                                         final Annotation... annotations) {
         if (ArrayUtil.isEmpty(annotations)) {
             return null;
         }
@@ -93,7 +99,7 @@ public interface AnnUtils {
             if (annotation == null) {
                 continue;
             }
-            final T ann = getAnnotation(clazz, annotation);
+            final T ann = findMergedAnnotation(clazz, annotation);
             if (null != ann) {
                 return ann;
             }
@@ -102,21 +108,22 @@ public interface AnnUtils {
     }
 
     /**
-     * 从被注解的元素中获取指定类型的注解实例，如果当前注解实例就是要获取的，就返回当前注解实例，否则从其元注解上查找获取。
-     * 注意：仅支持一层元注解，不递归查找，不支持注解合并。
+     * 查找合成的注解实例，返回第一个符合的注解。
      *
      * @param <T> T
      * @param element 被注解的元素
      * @param clazz 要获取的注解类型
      *
      * @return 返回注解实例
+     *
+     * @see #findMergedAnnotation(Class, Annotation)
      */
     @Nullable
-    static <T extends Annotation> T getAnnotation(final AnnotatedElement element,
-                                                  final Class<T> clazz) {
+    static <T extends Annotation> T findMergedAnnotation(final AnnotatedElement element,
+                                                         final Class<T> clazz) {
         final Annotation[] annotations = element.getAnnotations();
         for (final Annotation annotation : annotations) {
-            final T ann = getAnnotation(clazz, annotation);
+            final T ann = findMergedAnnotation(clazz, annotation);
             if (null != ann) {
                 return ann;
             }

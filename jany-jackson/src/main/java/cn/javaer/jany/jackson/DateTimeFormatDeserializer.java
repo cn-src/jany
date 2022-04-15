@@ -50,7 +50,7 @@ public class DateTimeFormatDeserializer extends JsonDeserializer<LocalDateTime> 
     @Override
     public JsonDeserializer<?> createContextual(final DeserializationContext context,
                                                 final BeanProperty property) {
-        final DateTimeFormat format = AnnUtils.getAnnotation(DateTimeFormat.class,
+        final DateTimeFormat format = AnnUtils.findMergedAnnotation(DateTimeFormat.class,
             property.getAnnotation(DateTimeFormat.class),
             property.getAnnotation(DateMinTime.class),
             property.getAnnotation(DateMaxTime.class)

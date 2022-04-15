@@ -81,7 +81,7 @@ public interface Dsl {
             final Object value = ReflectUtil.getFieldValue(example, fieldName);
             if (ObjectUtil.isNotEmpty(value) && !fieldName.startsWith("$")) {
                 final QueryExpr queryExpr = Optional.ofNullable(
-                    AnnUtils.getAnnotation(field, QueryExpr.class)).orElse(QueryExpr.DEFAULT);
+                    AnnUtils.findMergedAnnotation(field, QueryExpr.class)).orElse(QueryExpr.DEFAULT);
 
                 final ExprValueType exprValueType = queryExpr.valueType();
                 String property = ObjectUtil.defaultIfEmpty(queryExpr.property(), fieldName);

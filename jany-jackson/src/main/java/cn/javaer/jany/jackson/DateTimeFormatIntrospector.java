@@ -19,7 +19,7 @@ public class DateTimeFormatIntrospector extends JacksonAnnotationIntrospector {
 
     @Override
     public Object findDeserializer(final Annotated a) {
-        final DateTimeFormat format = AnnUtils.getAnnotation(DateTimeFormat.class,
+        final DateTimeFormat format = AnnUtils.findMergedAnnotation(DateTimeFormat.class,
             a.getAnnotation(DateTimeFormat.class),
             a.getAnnotation(DateMinTime.class),
             a.getAnnotation(DateMaxTime.class)
