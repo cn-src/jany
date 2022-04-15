@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static cn.javaer.jany.ebean.expression.Operator.eq;
+import static cn.javaer.jany.ebean.expression.Operator.auto;
 
 /**
  * 使用样例：
@@ -48,7 +48,7 @@ import static cn.javaer.jany.ebean.expression.Operator.eq;
 @Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface WhereExpression {
-    Operator value() default eq;
+    Operator value() default auto;
 
     /**
      * 不配置属性名称时，默认取样例对象的字段名称，当 valueType 为 RANGE_* 时，则必须配置为实体类的属性名称。
@@ -72,7 +72,7 @@ public @interface WhereExpression {
 
         @Override
         public Operator value() {
-            return eq;
+            return auto;
         }
 
         @Override

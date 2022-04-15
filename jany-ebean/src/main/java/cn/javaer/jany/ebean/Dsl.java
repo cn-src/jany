@@ -6,6 +6,7 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.javaer.jany.ebean.expression.Operator;
 import cn.javaer.jany.ebean.expression.Type;
 import cn.javaer.jany.ebean.expression.WhereExpression;
+import cn.javaer.jany.ebean.expression.WhereIgnore;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
 import cn.javaer.jany.util.AnnUtils;
@@ -79,7 +80,8 @@ public interface Dsl {
         Map<String, RangeStore> rangeMap = new HashMap<>();
         ReflectUtil.getFieldMap(example.getClass()).forEach((fieldName, field) -> {
             final Object value = ReflectUtil.getFieldValue(example, fieldName);
-            if (ObjectUtil.isNotEmpty(value) && !fieldName.startsWith("$")) {
+            if (ObjectUtil.isNotEmpty(value) && !field.isAnnotationPresent(WhereIgnore.class)
+                && !fieldName.startsWith("$")) {
                 final WhereExpression whereExpression = Optional.ofNullable(
                     AnnUtils.findMergedAnnotation(field, WhereExpression.class)).orElse(WhereExpression.DEFAULT);
 
