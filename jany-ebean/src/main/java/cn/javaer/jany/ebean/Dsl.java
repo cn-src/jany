@@ -93,11 +93,13 @@ public interface Dsl {
                 }
                 else if (type == Type.RANGE_START) {
                     rangeMap.compute(property, (k, v) -> v == null ?
-                        new RangeStore().setStartValue(value) : v.setStartValue(value));
+                        new RangeStore().setOperator(whereExpression.value()).setStartValue(value)
+                        : v.setStartValue(value));
                 }
                 else if (type == Type.RANGE_END) {
                     rangeMap.compute(property, (k, v) -> v == null ?
-                        new RangeStore().setEndValue(value) : v.setEndValue(value));
+                        new RangeStore().setOperator(whereExpression.value()).setEndValue(value)
+                        : v.setEndValue(value));
                 }
             }
         });
