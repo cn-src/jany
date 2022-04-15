@@ -127,6 +127,15 @@ public interface ReflectionUtils {
         return ann.annotationType().getAnnotation(clazz);
     }
 
+    /**
+     * 从多个注解实例中获取指定类型的注解实例，如果当前注解实例就是要获取的，就返回当前注解实例，否则从其元注解上查找获取。
+     *
+     * @param clazz 要获取的注解类型
+     * @param annotations 注解实例
+     * @param <T> T
+     *
+     * @return 返回注解实例
+     */
     @Nullable
     static <T extends Annotation> T getAnnotation(final Class<T> clazz,
                                                   final Annotation... annotations) {
@@ -145,9 +154,18 @@ public interface ReflectionUtils {
         return null;
     }
 
+    /**
+     * 从被注解的元素中获取指定类型的注解实例，如果当前注解实例就是要获取的，就返回当前注解实例，否则从其元注解上查找获取。
+     *
+     * @param clazz 要获取的注解类型
+     * @param element 被注解的元素
+     * @param <T> T
+     *
+     * @return 返回注解实例
+     */
     @Nullable
-    static <T extends Annotation>
-    T getAnnotation(final Class<T> clazz, final AnnotatedElement element) {
+    static <T extends Annotation> T getAnnotation(final Class<T> clazz,
+                                                  final AnnotatedElement element) {
         final Annotation[] annotations = element.getAnnotations();
         for (final Annotation annotation : annotations) {
             final T ann = getAnnotation(clazz, annotation);
