@@ -8,7 +8,12 @@ import io.ebean.ExpressionFactory;
  * @author cn-src
  */
 public enum Operator {
-
+    auto((factory, property, value) -> {
+        if (value instanceof String) {
+            return factory.contains(property, (String) value);
+        }
+        return factory.eq(property, value);
+    }),
     arrayContains((factory, property, value) ->
         factory.arrayContains(property, ObjUtils.toObjectArray(value))),
     arrayNotContains((factory, property, value) ->
@@ -33,21 +38,21 @@ public enum Operator {
     lt(ExpressionFactory::lt),
     le(ExpressionFactory::le),
     like((factory, property, value) ->
-        factory.like(property, ObjectUtil.toString(value))),
+        factory.like(property, ObjUtils.castString(value))),
     ilike((factory, property, value) ->
-        factory.ilike(property, ObjectUtil.toString(value))),
+        factory.ilike(property, ObjUtils.castString(value))),
     startsWith((factory, property, value) ->
-        factory.startsWith(property, ObjectUtil.toString(value))),
+        factory.startsWith(property, ObjUtils.castString(value))),
     istartsWith((factory, property, value) ->
-        factory.istartsWith(property, ObjectUtil.toString(value))),
+        factory.istartsWith(property, ObjUtils.castString(value))),
     endsWith((factory, property, value) ->
-        factory.endsWith(property, ObjectUtil.toString(value))),
+        factory.endsWith(property, ObjUtils.castString(value))),
     iendsWith((factory, property, value) ->
-        factory.iendsWith(property, ObjectUtil.toString(value))),
+        factory.iendsWith(property, ObjUtils.castString(value))),
     contains((factory, property, value) ->
-        factory.contains(property, ObjectUtil.toString(value))),
+        factory.contains(property, ObjUtils.castString(value))),
     icontains((factory, property, value) ->
-        factory.icontains(property, ObjectUtil.toString(value))),
+        factory.icontains(property, ObjUtils.castString(value))),
     in((factory, property, value) ->
         factory.in(property, ObjUtils.toCollection(value))),
     notIn((factory, property, value) ->
