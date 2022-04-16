@@ -16,7 +16,6 @@ import java.util.concurrent.RejectedExecutionHandler;
 @Setter
 @ConfigurationProperties(prefix = "jany.scheduling")
 public class SchedulersProperties {
-    //    @NestedConfigurationProperty
     private Map<String, TaskProperties> schedulers = new LinkedHashMap<>();
 
     @Getter

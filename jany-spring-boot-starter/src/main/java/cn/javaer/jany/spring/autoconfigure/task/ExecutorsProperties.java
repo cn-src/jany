@@ -15,7 +15,7 @@ import java.util.Map;
 @Setter
 @ConfigurationProperties(prefix = "jany.execution")
 public class ExecutorsProperties {
-    //    @NestedConfigurationProperty
+    
     private Map<String, TaskProperties> executors = new LinkedHashMap<>();
 
     static class TaskProperties extends TaskExecutionProperties {
