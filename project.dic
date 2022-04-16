@@ -3,3 +3,8 @@ istarts
 iends
 icontains
 introspector
+anyelement
+STYPE
+SFUNC
+PGDSL
+presigned
