@@ -51,9 +51,9 @@ public class KeyValueDeserializer extends StdDeserializer<KeyValue<?>> implement
     }
 
     @Override
-    public JsonDeserializer<?> createContextual(DeserializationContext ctxt,
+    public JsonDeserializer<?> createContextual(DeserializationContext context,
                                                 BeanProperty property) {
 
-        return new KeyValueDeserializer(ctxt.getContextualType());
+        return new KeyValueDeserializer(context.getContextualType());
     }
 }
