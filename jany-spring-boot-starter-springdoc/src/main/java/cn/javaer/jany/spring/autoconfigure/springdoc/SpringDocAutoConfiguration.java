@@ -41,7 +41,6 @@ public class SpringDocAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     GenericResponseService responseBuilder(final OperationService operationBuilder,
                                            final ErrorInfoExtractor errorInfoExtractor,
                                            final List<ReturnTypeParser> returnTypeParsers,
