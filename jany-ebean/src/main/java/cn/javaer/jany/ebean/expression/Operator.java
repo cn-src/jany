@@ -8,6 +8,10 @@ import io.ebean.ExpressionFactory;
  * @author cn-src
  */
 public enum Operator {
+
+    /**
+     * 根据字段类型，自动选取对应的操作符。
+     */
     auto((factory, property, value) -> {
         if (value instanceof String) {
             return factory.contains(property, (String) value);
