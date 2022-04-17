@@ -9,20 +9,11 @@
 
 Java 常用代码
 
+文档地址：[https://docs.javaer.cn/jany.html](https://docs.javaer.cn/jany.html)
+
 ## 使用
 
 Maven
-
-```xml
-
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-
-```
 
 ```xml
 
@@ -34,13 +25,6 @@ Maven
 ```
 
 Gradle
-
-```groovy
-repositories {
-    maven { url 'https://jitpack.io' }
-    //kts: maven { url = uri("https://jitpack.io") }
-}
-```
 
 ```groovy
 dependencies {
