@@ -122,6 +122,7 @@ dependencies {
         api("com.baomidou:dynamic-datasource-spring-boot-starter:${p["dynamicDatasourceVersion"]}")
         api("com.github.lianjiatech:retrofit-spring-boot-starter:${p["retrofitSpringBootVersion"]}")
         api("org.ssssssss:magic-api-spring-boot-starter:${p["magicApiVersion"]}")
+        api("cloud.tianai.captcha:tianai-captcha-springboot-starter:${p["tianaiCaptchaVersion"]}")
 
         api("com.squareup.okhttp3:mockwebserver:${p["okhttp3Version"]}")
         api("com.squareup.okhttp3:okcurl:${p["okhttp3Version"]}")
