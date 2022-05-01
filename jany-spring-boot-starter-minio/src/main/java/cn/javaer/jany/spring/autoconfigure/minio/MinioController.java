@@ -1,6 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.minio;
 
-import cn.javaer.jany.minio.MinioService;
+import cn.javaer.jany.storage.minio.MinioService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

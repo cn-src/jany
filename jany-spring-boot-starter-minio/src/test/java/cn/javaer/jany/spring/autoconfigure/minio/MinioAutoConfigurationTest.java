@@ -1,8 +1,8 @@
 package cn.javaer.jany.spring.autoconfigure.minio;
 
-import cn.javaer.jany.minio.MinioService;
 import cn.javaer.jany.spring.autoconfigure.minio.empty.EmptyConfig;
 import cn.javaer.jany.spring.autoconfigure.minio.test.MinioTest;
+import cn.javaer.jany.storage.minio.MinioService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

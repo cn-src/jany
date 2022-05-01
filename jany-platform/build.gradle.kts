@@ -13,7 +13,7 @@ dependencies {
         api(project(":jany-jackson"))
         api(project(":jany-jooq"))
         api(project(":jany-jooq-codegen"))
-        api(project(":jany-minio"))
+        api(project(":jany-storage"))
         api(project(":jany-p6spy"))
         api(project(":jany-spring"))
         api(project(":jany-spring-boot-starter"))

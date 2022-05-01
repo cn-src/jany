@@ -1,4 +1,4 @@
-package cn.javaer.jany.minio;
+package cn.javaer.jany.storage.minio;
 
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class MinioServiceImpl implements MinioService {
 
     private final MinioClient minioClient;
+
     private final BucketConfig bucketConfig;
 
     public MinioServiceImpl(MinioClient minioClient, BucketConfig bucketConfig) {

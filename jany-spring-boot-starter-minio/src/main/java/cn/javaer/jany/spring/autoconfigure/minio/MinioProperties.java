@@ -1,6 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.minio;
 
-import cn.javaer.jany.minio.BucketConfig;
+import cn.javaer.jany.storage.minio.BucketConfig;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

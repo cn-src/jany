@@ -1,7 +1,7 @@
 package cn.javaer.jany.spring.autoconfigure.minio;
 
-import cn.javaer.jany.minio.MinioService;
-import cn.javaer.jany.minio.MinioServiceImpl;
+import cn.javaer.jany.storage.minio.MinioService;
+import cn.javaer.jany.storage.minio.MinioServiceImpl;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;

@@ -1,4 +1,4 @@
-package cn.javaer.jany.minio;
+package cn.javaer.jany.storage.minio;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Value;

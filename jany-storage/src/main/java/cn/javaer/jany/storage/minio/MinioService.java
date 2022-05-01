@@ -1,4 +1,4 @@
-package cn.javaer.jany.minio;
+package cn.javaer.jany.storage.minio;
 
 /**
  * The interface Minio service.
