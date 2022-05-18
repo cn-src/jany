@@ -49,4 +49,10 @@ public interface MinioService {
     StorableObject upload(String objectName, InputStream in);
 
     StorableObject uploadTmp(String filename, InputStream in);
+
+    void copy(String sourceObject, String targetObject);
+
+    void move(String sourceObject, String targetObject);
+
+    void delete(String objectName);
 }

@@ -120,6 +120,7 @@ public class MinioServiceImpl implements MinioService {
         return upload(objectName, in);
     }
 
+    @Override
     public void copy(String sourceObject, String targetObject) {
         try {
             minioClient.copyObject(CopyObjectArgs.builder()
@@ -137,11 +138,13 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
+    @Override
     public void move(String sourceObject, String targetObject) {
         copy(sourceObject, targetObject);
         delete(sourceObject);
     }
 
+    @Override
     public void delete(String objectName) {
         try {
             minioClient.removeObject(RemoveObjectArgs.builder().bucket(bucketConfig.getName())
