@@ -4,6 +4,8 @@ import cn.hutool.core.lang.Assert;
 import cn.javaer.jany.type.StorableObject;
 import io.minio.CopyObjectArgs;
 import io.minio.CopySource;
+import io.minio.GetObjectArgs;
+import io.minio.GetObjectResponse;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
@@ -31,6 +33,7 @@ public class MinioServiceImpl implements MinioService {
 
     @Override
     public String presignedGetUrl(String objectName) {
+        Assert.notBlank(objectName);
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(Method.GET)
@@ -46,6 +49,7 @@ public class MinioServiceImpl implements MinioService {
 
     @Override
     public String presignedPutUrl(String objectName) {
+        Assert.notBlank(objectName);
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(Method.PUT)
@@ -61,6 +65,7 @@ public class MinioServiceImpl implements MinioService {
 
     @Override
     public String presignedDeleteUrl(String objectName) {
+        Assert.notBlank(objectName);
         try {
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(Method.DELETE)
@@ -76,6 +81,7 @@ public class MinioServiceImpl implements MinioService {
 
     @Override
     public PresignedObject presignedObject(String objectName) {
+        Assert.notBlank(objectName);
         try {
             final GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
                 .method(Method.PUT)
@@ -120,8 +126,24 @@ public class MinioServiceImpl implements MinioService {
         return upload(objectName, in);
     }
 
+    public byte[] downloadToBytes(String objectName) {
+        Assert.notBlank(objectName);
+        GetObjectArgs getObjectArgs = GetObjectArgs.builder()
+            .bucket(bucketConfig.getName())
+            .object(objectName)
+            .build();
+        try (final GetObjectResponse response = minioClient.getObject(getObjectArgs);) {
+            return response.readAllBytes();
+        }
+        catch (Exception e) {
+            throw new MinioException(e);
+        }
+    }
+
     @Override
     public void copy(String sourceObject, String targetObject) {
+        Assert.notBlank(sourceObject);
+        Assert.notBlank(targetObject);
         try {
             minioClient.copyObject(CopyObjectArgs.builder()
                 .bucket(bucketConfig.getName())
@@ -146,6 +168,7 @@ public class MinioServiceImpl implements MinioService {
 
     @Override
     public void delete(String objectName) {
+        Assert.notBlank(objectName);
         try {
             minioClient.removeObject(RemoveObjectArgs.builder().bucket(bucketConfig.getName())
                 .object(objectName).build());
