@@ -1,5 +1,9 @@
 package cn.javaer.jany.storage.minio;
 
+import cn.javaer.jany.type.StorableObject;
+
+import java.io.InputStream;
+
 /**
  * The interface Minio service.
  *
@@ -40,5 +44,9 @@ public interface MinioService {
      *
      * @return the presigned object
      */
-    PresignedObject createPresignedObject(String objectName);
+    PresignedObject presignedObject(String objectName);
+
+    StorableObject upload(String objectName, InputStream in);
+
+    StorableObject uploadTmp(String filename, InputStream in);
 }

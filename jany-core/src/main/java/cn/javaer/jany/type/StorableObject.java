@@ -1,7 +1,9 @@
 package cn.javaer.jany.type;
 
+import cn.hutool.core.io.FileUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Value;
 import lombok.With;
 
@@ -13,31 +15,37 @@ import java.beans.ConstructorProperties;
  * @author cn-src
  */
 @Value
+@Builder
 @With
 public class StorableObject {
 
-    @Schema(description = "名称", required = true)
-    String name;
+    @Schema(description = "文件名称", required = true)
+    String filename;
 
-    @Schema(description = "url", required = true)
-    String url;
+    @Schema(description = "文件大小")
+    Integer fileSize;
 
-    @Schema(description = "类型", required = true)
+    @Schema(description = "文件访问 url")
+    String accessUrl;
+
+    @Schema(description = "文件类型")
     String type;
 
-    @Schema(description = "路径")
-    String path;
+    @Schema(description = "文件路径", required = true)
+    String fullPath;
 
     @Schema(description = "存储方式")
     String channel;
 
     @JsonCreator
-    @ConstructorProperties({"name", "url", "type", "path", "channel"})
-    public StorableObject(String name, String url, String type, String path, String channel) {
-        this.name = name;
-        this.url = url;
+    @ConstructorProperties({"filename", "fileSize", "accessUrl", "type", "fullPath", "channel"})
+    StorableObject(String filename, Integer fileSize, String accessUrl, String type,
+                   String fullPath, String channel) {
+        this.filename = filename == null ? FileUtil.getName(fullPath) : filename;
+        this.fileSize = fileSize;
+        this.accessUrl = accessUrl;
         this.type = type;
-        this.path = path;
+        this.fullPath = fullPath;
         this.channel = channel;
     }
 }
