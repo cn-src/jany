@@ -22,6 +22,8 @@ import java.util.UUID;
  */
 public class MinioServiceImpl implements MinioService {
 
+    public static final String CHANNEL = "minio";
+
     private final MinioClient minioClient;
 
     private final BucketConfig bucketConfig;
@@ -111,7 +113,7 @@ public class MinioServiceImpl implements MinioService {
             return StorableObject.builder()
                 .fullPath(objectName)
                 .fileSize(objectSize)
-                .channel("minio")
+                .channel(CHANNEL)
                 .build();
         }
         catch (Exception e) {
