@@ -3,6 +3,7 @@ package cn.javaer.jany.ebean.metadata;
 import lombok.Data;
 
 import java.sql.Connection;
+import java.sql.Driver;
 import java.util.List;
 import java.util.Map;
 
@@ -39,12 +40,13 @@ class DataSourceConfig {
     private String platform;
 
     private String ownerUsername;
+
     private String ownerPassword;
 
     /**
      * 数据源驱动
      */
-    private String driver;
+    private Class<? extends Driver> driver;
 
     private int minConnections = 2;
 
