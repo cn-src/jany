@@ -32,22 +32,22 @@ public class AbstractFileTypeValidator<A extends Annotation>
             if (str.length() == 0) {
                 return true;
             }
-            return isExcel(str.toString());
+            return isSuffix(str.toString());
         }
         if (value instanceof File) {
             File file = (File) value;
             if (file.isDirectory()) {
                 return false;
             }
-            return isExcel(file.getName());
+            return isSuffix(file.getName());
         }
         if (ClassLoaderUtil.isPresent(MULTIPART_FILE)) {
-            return isExcel((MultipartFile) value);
+            return isSuffix((MultipartFile) value);
         }
         return false;
     }
 
-    boolean isExcel(final String fileName) {
+    boolean isSuffix(final String fileName) {
         final String suffix = FileUtil.getSuffix(fileName);
         if (null == suffix) {
             return false;
@@ -55,10 +55,10 @@ public class AbstractFileTypeValidator<A extends Annotation>
         return suffixes.contains(suffix);
     }
 
-    boolean isExcel(final MultipartFile file) {
+    boolean isSuffix(final MultipartFile file) {
         if (file.isEmpty()) {
             return false;
         }
-        return isExcel(file.getOriginalFilename());
+        return isSuffix(file.getOriginalFilename());
     }
 }
