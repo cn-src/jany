@@ -29,7 +29,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author cn-src
  */
 @Documented
-@Constraint(validatedBy = {ExcelValidator.class})
+@Constraint(validatedBy = {FileTypeValidator.class})
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RUNTIME)
 @Repeatable(FileType.List.class)
