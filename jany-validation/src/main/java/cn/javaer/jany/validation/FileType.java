@@ -35,7 +35,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(FileType.List.class)
 public @interface FileType {
 
-    String message() default "{jany.validation.constraints.Excel.message}";
+    String message() default "{jany.validation.constraints.FileType.message}";
 
     Class<?>[] groups() default {};
 
