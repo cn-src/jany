@@ -22,6 +22,9 @@ import static java.lang.annotation.ElementType.TYPE_USE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
+ * 判断文件是否是 Excel 文件，以 xls、xlsx、xlsm 结尾的文件。
+ * 支持 String、File、MultipartFile 类型的字段。
+ *
  * @author cn-src
  */
 @Documented

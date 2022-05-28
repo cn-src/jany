@@ -22,6 +22,10 @@ import static java.lang.annotation.ElementType.TYPE_USE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
+ * 判断文件是否是指定类型的文件，以 suffixes 指定后缀结尾的文件。
+ *
+ * 支持 String、File、MultipartFile 类型的字段。
+ *
  * @author cn-src
  */
 @Documented
@@ -37,6 +41,9 @@ public @interface FileType {
 
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * 文件后缀，不含 .
+     */
     String[] suffixes();
 
     /**
