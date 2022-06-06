@@ -11,6 +11,7 @@ import org.springdoc.core.SpringDocConfigProperties;
 import org.springdoc.core.SpringDocConfiguration;
 import org.springdoc.core.SpringDocUtils;
 import org.springdoc.core.converters.PageableOpenAPIConverter;
+import org.springdoc.core.providers.ObjectMapperProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -58,14 +59,14 @@ public class SpringDocAutoConfiguration {
         @ConditionalOnProperty(name = SPRINGDOC_PAGEABLE_CONVERTER_ENABLED, matchIfMissing = true)
         @Lazy(false)
         @SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
-        PageableOpenAPIConverter pageableOpenAPIConverter() {
+        PageableOpenAPIConverter pageableOpenAPIConverter(ObjectMapperProvider objectMapperProvider) {
             SpringDocUtils.getConfig().replaceParameterObjectWithClass(
                 org.springframework.data.domain.Pageable.class, PageableDoc.class);
             SpringDocUtils.getConfig().replaceParameterObjectWithClass(
                 org.springframework.data.domain.PageRequest.class, PageableDoc.class);
             SpringDocUtils.getConfig().replaceWithClass(Page.class, PageDoc.class);
             SpringDocUtils.getConfig().addAnnotationsToIgnore(PrincipalId.class);
-            return new PageableOpenAPIConverter();
+            return new PageableOpenAPIConverter(objectMapperProvider);
         }
     }
 }
