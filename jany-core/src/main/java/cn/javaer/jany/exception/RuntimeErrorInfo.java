@@ -16,23 +16,23 @@ import java.time.LocalDateTime;
 @FieldNameConstants
 public class RuntimeErrorInfo {
     @NotNull
-    @Schema(description = "错误代码")
+    @Schema(description = "错误代码", required = true)
     private final String error;
 
-    @Schema(description = "状态码")
+    @Schema(description = "状态码", required = true)
     private int status;
+
+    @Schema(description = "请求路径", required = true)
+    private String path;
+
+    @Schema(description = "时间戳", required = true)
+    private LocalDateTime timestamp;
 
     @Schema(description = "提示消息")
     private String message;
 
-    @Schema(description = "请求路径")
-    private String path;
-
     @Schema(description = "请求 Id")
     private String requestId;
-
-    @Schema(description = "时间戳")
-    private LocalDateTime timestamp;
 
     @Schema(description = "调试模式下，异常类型")
     private String exception;
