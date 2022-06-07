@@ -48,6 +48,10 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
         return ACCESSOR.getMessage(error, args);
     }
 
+    public static String getMessage(int status, String defaultMessage) {
+        return ACCESSOR.getMessage(String.valueOf(status), defaultMessage);
+    }
+
     public static String getMessage(String error) {
         try {
             return ACCESSOR.getMessage(error);
