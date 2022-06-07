@@ -4,12 +4,12 @@ import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.exception.ErrorInfoExtractor;
 import cn.javaer.jany.spring.web.exception.ErrorMessageSource;
-import io.swagger.v3.core.util.AnnotationsUtils;
+import io.swagger.v3.core.converter.AnnotatedType;
+import io.swagger.v3.core.converter.ModelConverters;
+import io.swagger.v3.core.converter.ResolvedSchema;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.JsonSchema;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -78,23 +78,23 @@ class ExceptionResponseBuilder extends GenericResponseService {
                 errorInfos.put(errorInfo.getStatus(), new TreeSet<>(Arrays.asList(errorInfo)));
             }
         }
+        ResolvedSchema resolvedSchema = ModelConverters.getInstance()
+            .readAllAsResolvedSchema(new AnnotatedType().type(RuntimeErrorInfo.class));
         for (Map.Entry<Integer, Set<ErrorInfo>> entry : errorInfos.entrySet()) {
-            // final Schema schema = AnnotationsUtils
-            // .resolveSchemaFromType(RuntimeErrorInfo.class, components, null);
+
             final ApiResponse response = new ApiResponse();
             response.setDescription(ErrorMessageSource.getMessage(entry.getKey(), "Unknown"));
             ObjectSchema schema = new ObjectSchema();
             final List<Schema> errorSchemas = new ArrayList<>();
             for (ErrorInfo errorInfo : entry.getValue()) {
                 StringSchema ss = new StringSchema();
-//                ss._const(errorInfo.getError());
                 ss.description("常量值：" + errorInfo.getError() + "，" + errorInfo.getDoc());
                 errorSchemas.add(ss);
             }
-
+            schema.required(resolvedSchema.schema.getRequired());
+            schema.properties(new LinkedHashMap<>(resolvedSchema.schema.getProperties()));
             schema.addProperty(RuntimeErrorInfo.Fields.error,
                 new Schema().oneOf(errorSchemas));
-
             response.setContent(new Content().addMediaType("application/json",
                 new MediaType().schema(schema)));
             apiResponses.addApiResponse(String.valueOf(entry.getKey()), response);
