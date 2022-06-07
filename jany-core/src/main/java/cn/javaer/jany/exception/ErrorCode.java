@@ -17,6 +17,11 @@ public @interface ErrorCode {
 
     int status() default 500;
 
+    /**
+     * 用于 swagger/openapi 的文档描述信息。
+     */
+    String doc() default "Unknown";
+
     // ---- 40x
 
     String BAD_REQUEST = "BAD_REQUEST";

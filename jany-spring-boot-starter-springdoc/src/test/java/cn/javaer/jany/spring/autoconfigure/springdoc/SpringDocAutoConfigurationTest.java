@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.springdoc;
 
+import cn.javaer.jany.exception.ErrorCode;
 import cn.javaer.jany.spring.autoconfigure.web.exception.ExceptionAutoConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springdoc.core.Constants;
@@ -19,7 +20,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,8 +78,13 @@ class SpringDocAutoConfigurationTest {
     static class DemoController {
 
         @GetMapping("test")
-        public Page<String> get(final Pageable pageable) throws MissingServletRequestParameterException {
+        public Page<String> get(final Pageable pageable) throws DemoException {
             return new PageImpl<>(Collections.singletonList("page data"), pageable, 1);
         }
+    }
+
+    @ErrorCode(error = "DEMO_ERROR", status = 400, doc = "测试错误")
+    static class DemoException extends RuntimeException {
+
     }
 }

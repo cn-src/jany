@@ -1,6 +1,7 @@
 package cn.javaer.jany.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 import org.jetbrains.annotations.NotNull;
@@ -15,16 +16,32 @@ import java.time.LocalDateTime;
 @FieldNameConstants
 public class RuntimeErrorInfo {
     @NotNull
+    @Schema(description = "错误代码")
     private final String error;
+
+    @Schema(description = "状态码")
     private int status;
 
+    @Schema(description = "提示消息")
     private String message;
+
+    @Schema(description = "请求路径")
     private String path;
+
+    @Schema(description = "请求 Id")
     private String requestId;
-    private String exception;
-    private String trace;
-    private String traceMessage;
+
+    @Schema(description = "时间戳")
     private LocalDateTime timestamp;
+
+    @Schema(description = "调试模式下，异常类型")
+    private String exception;
+
+    @Schema(description = "调试模式下，错误堆栈")
+    private String trace;
+
+    @Schema(description = "调试模式下，堆栈消息")
+    private String traceMessage;
 
     public RuntimeErrorInfo(final ErrorInfo errorInfo) {
         this.error = errorInfo.getError();

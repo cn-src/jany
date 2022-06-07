@@ -1,11 +1,17 @@
 package cn.javaer.jany.spring.autoconfigure.springdoc;
 
 import cn.javaer.jany.exception.ErrorInfo;
+import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.exception.ErrorInfoExtractor;
+import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.GenericResponseService;
 import org.springdoc.core.MethodAttributes;
 import org.springdoc.core.OperationService;
@@ -20,6 +26,7 @@ import java.util.TreeSet;
 /**
  * @author cn-src
  */
+@Slf4j
 class ExceptionResponseBuilder extends GenericResponseService {
 
     private final ErrorInfoExtractor errorInfoExtractor;
@@ -58,7 +65,12 @@ class ExceptionResponseBuilder extends GenericResponseService {
         }
         for (final ErrorInfo errorInfo : errorInfos) {
             final ApiResponse response = new ApiResponse();
-            response.setDescription(errorInfo.getError());
+            final String doc = errorInfo.getDoc() + ", error: " + errorInfo.getError();
+            response.setDescription(doc);
+            final Schema schema = AnnotationsUtils
+                .resolveSchemaFromType(RuntimeErrorInfo.class, components, null);
+            response.setContent(new Content().addMediaType("application/json",
+                new MediaType().schema(schema)));
             apiResponses.addApiResponse(String.valueOf(errorInfo.getStatus()), response);
         }
         return apiResponses;

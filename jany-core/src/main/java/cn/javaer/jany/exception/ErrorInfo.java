@@ -12,16 +12,27 @@ import java.util.Objects;
 @Value
 public class ErrorInfo implements Comparable<ErrorInfo> {
     String error;
+
     int status;
+
+    String doc;
 
     ErrorInfo(final String error, final int status) {
         Objects.requireNonNull(error);
         this.error = error;
         this.status = status;
+        this.doc = "Unknown";
+    }
+
+    ErrorInfo(final String error, final int status, String doc) {
+        Objects.requireNonNull(error);
+        this.error = error;
+        this.status = status;
+        this.doc = doc;
     }
 
     public static ErrorInfo of(final ErrorCode errorCode) {
-        return new ErrorInfo(errorCode.error(), errorCode.status());
+        return new ErrorInfo(errorCode.error(), errorCode.status(), errorCode.doc());
     }
 
     public static ErrorInfo of(final String error, final int status) {
