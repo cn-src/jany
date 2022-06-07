@@ -42,7 +42,7 @@ public class AbstractFileTypeValidator<A extends Annotation>
             return isSuffix(file.getName());
         }
         if (ClassLoaderUtil.isPresent(MULTIPART_FILE)) {
-            return isSuffix((MultipartFile) value);
+            return isSuffix(value);
         }
         return false;
     }
@@ -55,10 +55,14 @@ public class AbstractFileTypeValidator<A extends Annotation>
         return suffixes.contains(suffix);
     }
 
-    boolean isSuffix(final MultipartFile file) {
-        if (file.isEmpty()) {
+    boolean isSuffix(final Object file) {
+        if (!(file instanceof MultipartFile)) {
             return false;
         }
-        return isSuffix(file.getOriginalFilename());
+        final MultipartFile multipartFile = (MultipartFile) file;
+        if (multipartFile.isEmpty()) {
+            return false;
+        }
+        return isSuffix(multipartFile.getOriginalFilename());
     }
 }
