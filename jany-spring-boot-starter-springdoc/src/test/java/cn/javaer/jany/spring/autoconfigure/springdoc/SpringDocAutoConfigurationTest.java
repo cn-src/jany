@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.MissingFormatArgumentException;
 
 import static org.hamcrest.Matchers.contains;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -56,6 +57,7 @@ class SpringDocAutoConfigurationTest {
                 DispatcherServletAutoConfiguration.class,
                 HttpMessageConvertersAutoConfiguration.class))
         .withPropertyValues("server.error.include-message=always");
+//            "springdoc.api-docs.version=openapi_3_1");
 
     @Test
     void generateDoc() {
@@ -78,13 +80,20 @@ class SpringDocAutoConfigurationTest {
     static class DemoController {
 
         @GetMapping("test")
-        public Page<String> get(final Pageable pageable) throws DemoException {
+        public Page<String> get(final Pageable pageable)
+            throws Demo1Exception, Demo2Exception, MissingFormatArgumentException {
+
             return new PageImpl<>(Collections.singletonList("page data"), pageable, 1);
         }
     }
 
-    @ErrorCode(error = "DEMO_ERROR", status = 400, doc = "测试错误")
-    static class DemoException extends RuntimeException {
+    @ErrorCode(error = "DEMO1_ERROR", status = 400, doc = "测试错误1")
+    static class Demo1Exception extends RuntimeException {
+
+    }
+
+    @ErrorCode(error = "DEMO2_ERROR", status = 400, doc = "测试错误2")
+    static class Demo2Exception extends RuntimeException {
 
     }
 }

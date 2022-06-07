@@ -3,12 +3,17 @@ package cn.javaer.jany.spring.autoconfigure.springdoc;
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.exception.ErrorInfoExtractor;
+import cn.javaer.jany.spring.web.exception.ErrorMessageSource;
 import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.JsonSchema;
 import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +25,12 @@ import org.springdoc.core.ReturnTypeParser;
 import org.springdoc.core.SpringDocConfigProperties;
 import org.springframework.web.method.HandlerMethod;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -56,22 +66,38 @@ class ExceptionResponseBuilder extends GenericResponseService {
         final ApiResponses apiResponses = super.build(components, handlerMethod, operation,
             methodAttributes);
         final Class<?>[] exceptionTypes = handlerMethod.getMethod().getExceptionTypes();
-        final TreeSet<ErrorInfo> errorInfos = new TreeSet<>();
+        final Map<Integer, Set<ErrorInfo>> errorInfos = new LinkedHashMap<>();
         for (final Class<?> exceptionType : exceptionTypes) {
             @SuppressWarnings("unchecked")
             final ErrorInfo errorInfo = this.errorInfoExtractor.getErrorInfo(
                 (Class<? extends Throwable>) exceptionType);
-            errorInfos.add(errorInfo);
+            if (errorInfos.containsKey(errorInfo.getStatus())) {
+                errorInfos.get(errorInfo.getStatus()).add(errorInfo);
+            }
+            else {
+                errorInfos.put(errorInfo.getStatus(), new TreeSet<>(Arrays.asList(errorInfo)));
+            }
         }
-        for (final ErrorInfo errorInfo : errorInfos) {
+        for (Map.Entry<Integer, Set<ErrorInfo>> entry : errorInfos.entrySet()) {
+            // final Schema schema = AnnotationsUtils
+            // .resolveSchemaFromType(RuntimeErrorInfo.class, components, null);
             final ApiResponse response = new ApiResponse();
-            final String doc = errorInfo.getDoc() + ", error: " + errorInfo.getError();
-            response.setDescription(doc);
-            final Schema schema = AnnotationsUtils
-                .resolveSchemaFromType(RuntimeErrorInfo.class, components, null);
+            response.setDescription(ErrorMessageSource.getMessage(entry.getKey(), "Unknown"));
+            ObjectSchema schema = new ObjectSchema();
+            final List<Schema> errorSchemas = new ArrayList<>();
+            for (ErrorInfo errorInfo : entry.getValue()) {
+                StringSchema ss = new StringSchema();
+//                ss._const(errorInfo.getError());
+                ss.description("常量值：" + errorInfo.getError() + "，" + errorInfo.getDoc());
+                errorSchemas.add(ss);
+            }
+
+            schema.addProperty(RuntimeErrorInfo.Fields.error,
+                new Schema().oneOf(errorSchemas));
+
             response.setContent(new Content().addMediaType("application/json",
                 new MediaType().schema(schema)));
-            apiResponses.addApiResponse(String.valueOf(errorInfo.getStatus()), response);
+            apiResponses.addApiResponse(String.valueOf(entry.getKey()), response);
         }
         return apiResponses;
     }
