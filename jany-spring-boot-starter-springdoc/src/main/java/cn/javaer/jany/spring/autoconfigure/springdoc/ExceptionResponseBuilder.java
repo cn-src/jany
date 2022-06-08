@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.springdoc;
 
+import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.exception.ErrorInfoExtractor;
@@ -88,7 +89,10 @@ class ExceptionResponseBuilder extends GenericResponseService {
             final List<Schema> errorSchemas = new ArrayList<>();
             for (ErrorInfo errorInfo : entry.getValue()) {
                 StringSchema ss = new StringSchema();
-                ss.description("常量值：" + errorInfo.getError() + "，" + errorInfo.getDoc());
+                String desc = StrUtil.firstNonEmpty(errorInfo.getDoc(),
+                    ErrorMessageSource.getMessage(errorInfo),
+                    "No description");
+                ss.description("常量值：" + errorInfo.getError() + "；" + desc);
                 errorSchemas.add(ss);
             }
             schema.required(resolvedSchema.schema.getRequired());

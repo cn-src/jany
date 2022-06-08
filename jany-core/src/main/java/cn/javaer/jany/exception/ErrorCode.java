@@ -29,7 +29,7 @@ public @interface ErrorCode {
     /**
      * 用于 swagger/openapi 的文档描述信息。
      */
-    String doc() default "No description";
+    String doc() default "";
 
     // ---- 40x
 
