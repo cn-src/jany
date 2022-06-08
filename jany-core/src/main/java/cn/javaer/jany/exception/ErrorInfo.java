@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.Objects;
 
 /**
+ * 错误信息。
+ *
  * @author cn-src
  */
 @Value

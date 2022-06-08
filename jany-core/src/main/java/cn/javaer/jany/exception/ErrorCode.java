@@ -7,6 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 错误码注解。
+ *
  * @author cn-src
  */
 @Documented

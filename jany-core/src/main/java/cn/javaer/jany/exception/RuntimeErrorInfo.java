@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import java.time.LocalDateTime;
 
 /**
+ * 运行时错误信息。
+ *
  * @author cn-src
  */
 @Data
