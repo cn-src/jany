@@ -15,14 +15,21 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 public @interface ErrorCode {
+
+    /**
+     * 错误码。
+     */
     String error();
 
+    /**
+     * 状态码。
+     */
     int status() default 500;
 
     /**
      * 用于 swagger/openapi 的文档描述信息。
      */
-    String doc() default "Unknown";
+    String doc() default "No description";
 
     // ---- 40x
 
