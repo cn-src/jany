@@ -74,6 +74,14 @@ public interface Dsl {
         return query;
     }
 
+    /**
+     * 对已有的查询 query，添加示例对象查询条件。
+     *
+     * @param query 待处理的查询对象
+     * @param example 要查询的对象。
+     *
+     * @return 查询对象
+     */
     static <T> Query<T> queryExample(Query<T> query, Object example) {
         final ExpressionFactory factory = query.getExpressionFactory();
         final ExpressionList<T> where = query.where();
