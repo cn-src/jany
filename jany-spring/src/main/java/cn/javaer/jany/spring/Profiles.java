@@ -26,4 +26,9 @@ public interface Profiles {
      * 生产环境。
      */
     String PROD = "prod";
+
+    /**
+     * Mock 环境。
+     */
+    String MOCK = "mock";
 }
