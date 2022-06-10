@@ -29,6 +29,13 @@ public interface ObjUtils {
         throw new IllegalArgumentException("Object must be String, but was " + obj.getClass());
     }
 
+    /**
+     * 如果对象是一个集合，则返回它，否则抛出异常。
+     *
+     * @param obj 要转换为集合的对象。
+     *
+     * @return 对象的集合。
+     */
     static Collection<?> toCollection(Object obj) {
         if (obj == null) {
             return null;
