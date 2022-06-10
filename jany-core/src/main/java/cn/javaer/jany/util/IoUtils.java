@@ -11,11 +11,11 @@ import java.util.Properties;
 public interface IoUtils {
 
     /**
-     * 读取 properties 文件，并关闭流.
+     * 从输入流中读取属性文件并返回属性对象。
      *
-     * @param input the input
+     * @param input 要从中读取属性的输入流。
      *
-     * @return the properties
+     * @return 一个属性对象
      */
     static Properties readProperties(final InputStream input) {
         final Properties props = new Properties();
