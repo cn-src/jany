@@ -18,6 +18,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import org.jetbrains.annotations.Nullable;
 import org.jooq.JSONB;
 import org.jooq.Record;
 
@@ -114,7 +115,19 @@ public class Json {
         this.objectMapper = objectMapper;
     }
 
+    /**
+     * 将对象序列化为 JSON 字符串。
+     * <p>
+     * 如果对象为 null，则返回 null。
+     *
+     * @param obj 要序列化的对象。
+     *
+     * @return 对象的 JSON 字符串。
+     */
     public String write(final Object obj) {
+        if (obj == null) {
+            return null;
+        }
         try {
             return this.objectMapper.writeValueAsString(obj);
         }
@@ -123,6 +136,17 @@ public class Json {
         }
     }
 
+    /**
+     * 将 JSON 字符串反序列化为对象。
+     * <p>
+     * 如果 JSON 字符串为空，则返回 null。
+     *
+     * @param json 要反序列化的 JSON 字符串。
+     * @param clazz 要反序列化的对象的类。
+     *
+     * @return T 类型的通用对象
+     */
+    @Nullable
     public <T> T read(final String json, final Class<T> clazz) {
         if (StrUtil.isEmpty(json)) {
             return null;
@@ -135,6 +159,16 @@ public class Json {
         }
     }
 
+    /**
+     * 将 JSON 字符串反序列化为对象。
+     * <p>
+     * 如果 JSON 字符串为空，则返回 null。
+     *
+     * @param json 要反序列化的 JSON 字符串。
+     * @param valueTypeRef 要反序列化的对象的类型。
+     *
+     * @return 泛型类型 T
+     */
     public <T> T read(final String json, final TypeReference<T> valueTypeRef) {
         if (StrUtil.isEmpty(json)) {
             return null;
@@ -147,6 +181,16 @@ public class Json {
         }
     }
 
+    /**
+     * 将 JSON 字符串反序列化为对象 List。
+     * <p>
+     * 如果 JSON 字符串为空，则返回 null。
+     *
+     * @param json 要反序列化的 JSON 字符串。
+     * @param clazz 要转换的对象的类。
+     *
+     * @return 类型 T 的对象列表。
+     */
     public <T> List<T> readList(final String json, final Class<T> clazz) {
         if (StrUtil.isEmpty(json)) {
             return Collections.emptyList();
@@ -161,6 +205,15 @@ public class Json {
         }
     }
 
+    /**
+     * 将 JSON 字符串解析为 JsonNode。
+     * <p>
+     * 如果 JSON 字符串为空，则返回 null。
+     *
+     * @param json 要解析的 JSON 字符串。
+     *
+     * @return 一个 JsonNode 对象
+     */
     public JsonNode read(final String json) {
         if (StrUtil.isEmpty(json)) {
             return null;
