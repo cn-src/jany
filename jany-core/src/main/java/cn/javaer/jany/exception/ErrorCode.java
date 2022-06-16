@@ -42,9 +42,23 @@ public @interface ErrorCode {
 
     String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
 
-    // ---- 登录
-
+    /**
+     * 登录错误。
+     */
     String LOGIN_ERROR = "LOGIN_ERROR";
+
+    /**
+     * 登录错误，用户名或密码错误。
+     */
     String LOGIN_ERROR_BAD_CREDENTIALS = "LOGIN_ERROR_BAD_CREDENTIALS";
+
+    /**
+     * 登录错误，账户被禁用。
+     */
     String LOGIN_ERROR_DISABLED = "LOGIN_ERROR_DISABLED";
+
+    /**
+     * 会话已过期。
+     */
+    String SESSION_EXPIRED = "LOGIN_ERROR_EXPIRED";
 }
