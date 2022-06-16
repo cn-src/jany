@@ -13,6 +13,7 @@ dependencies {
     optionalApi("org.springframework.boot:spring-boot-starter-jooq")
     optionalApi("org.springframework.boot:spring-boot-starter-security")
     optionalApi("org.springdoc:springdoc-openapi-webmvc-core")
+    optionalApi("cn.dev33:sa-token-core")
 
     optionalApi("org.postgresql:postgresql")
     testImplementation("com.h2database:h2")

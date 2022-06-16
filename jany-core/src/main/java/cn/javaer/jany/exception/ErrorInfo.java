@@ -41,6 +41,10 @@ public class ErrorInfo implements Comparable<ErrorInfo> {
         return new ErrorInfo(error, status);
     }
 
+    public static ErrorInfo of401(final String error, final int status) {
+        return new ErrorInfo(error, status);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -64,4 +68,38 @@ public class ErrorInfo implements Comparable<ErrorInfo> {
             .thenComparing(ErrorInfo::getError, String::compareTo)
             .compare(this, errorInfo);
     }
+
+    // ---- 40x
+
+    public static final String BAD_REQUEST = "BAD_REQUEST";
+
+    public static final String UNAUTHORIZED = "UNAUTHORIZED";
+
+    public static final String FORBIDDEN = "FORBIDDEN";
+
+    public static final String NOT_FOUND = "NOT_FOUND";
+
+    // ---- 50x
+
+    public static final String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
+
+    /**
+     * 登录错误。
+     */
+    public static final String LOGIN_ERROR = "LOGIN_ERROR";
+
+    /**
+     * 登录错误，用户名或密码错误。
+     */
+    public static final String LOGIN_ERROR_BAD_CREDENTIALS = "LOGIN_ERROR_BAD_CREDENTIALS";
+
+    /**
+     * 登录错误，账户被禁用。
+     */
+    public static final String LOGIN_ERROR_DISABLED = "LOGIN_ERROR_DISABLED";
+
+    /**
+     * 登录已过期。
+     */
+    public static final String TOKEN_EXPIRED = "LOGIN_ERROR_EXPIRED";
 }

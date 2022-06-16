@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.web.exception;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import cn.javaer.jany.exception.ErrorCode;
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.util.IoUtils;
@@ -29,6 +30,8 @@ import java.util.StringJoiner;
  */
 public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
 
+    private static final String SA_TOKEN_NOT_LOGIN = "cn.dev33.satoken.exception.NotLoginException";
+
     private final Map<String, ErrorInfo> internalErrorMapping = new HashMap<>();
 
     private final Map<String, ErrorInfo> configuredErrorMapping = new HashMap<>();
@@ -54,11 +57,24 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         if (errorInfoProvider.getErrorInfo(t) != null) {
             return errorInfoProvider.getErrorInfo(t);
         }
-        
+
         Class<? extends Throwable> clazz = t.getClass();
         if (t.getCause() instanceof InvalidFormatException) {
             clazz = InvalidFormatException.class;
         }
+        if (clazz.getName().equals(SA_TOKEN_NOT_LOGIN)) {
+            NotLoginException e = (NotLoginException) t;
+            if (NotLoginException.NOT_TOKEN.equals(e.getType())) {
+                return ErrorInfo.of(ErrorInfo.UNAUTHORIZED, 401);
+            }
+            if (NotLoginException.INVALID_TOKEN.equals(e.getType())) {
+                return ErrorInfo.of(ErrorInfo.LOGIN_ERROR_BAD_CREDENTIALS, 401);
+            }
+            if (NotLoginException.TOKEN_TIMEOUT.equals(e.getType())) {
+                return ErrorInfo.of(ErrorInfo.TOKEN_EXPIRED, 401);
+            }
+        }
+
         return this.getErrorInfo(clazz);
     }
 
