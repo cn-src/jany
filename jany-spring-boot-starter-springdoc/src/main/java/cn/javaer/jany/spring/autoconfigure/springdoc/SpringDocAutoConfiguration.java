@@ -2,6 +2,7 @@ package cn.javaer.jany.spring.autoconfigure.springdoc;
 
 import cn.javaer.jany.spring.autoconfigure.web.exception.ExceptionAutoConfiguration;
 import cn.javaer.jany.spring.security.PrincipalId;
+import cn.javaer.jany.spring.web.exception.ErrorInfoProcessor;
 import org.springdoc.core.GenericResponseService;
 import org.springdoc.core.OperationService;
 import org.springdoc.core.PropertyResolverUtils;
@@ -42,12 +43,12 @@ public class SpringDocAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     GenericResponseService responseBuilder(final OperationService operationBuilder,
-                                           final ErrorInfoExtractor errorInfoExtractor,
+                                           final ErrorInfoProcessor errorInfoProcessor,
                                            final List<ReturnTypeParser> returnTypeParsers,
                                            final SpringDocConfigProperties springDocConfigProperties,
                                            final PropertyResolverUtils propertyResolverUtils) {
         return new ExceptionResponseBuilder(operationBuilder, returnTypeParsers,
-            springDocConfigProperties, propertyResolverUtils, errorInfoExtractor);
+            springDocConfigProperties, propertyResolverUtils, errorInfoProcessor);
     }
 
     @ConditionalOnClass(Pageable.class)
