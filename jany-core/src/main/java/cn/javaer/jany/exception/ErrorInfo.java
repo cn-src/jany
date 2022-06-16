@@ -41,8 +41,20 @@ public class ErrorInfo implements Comparable<ErrorInfo> {
         return new ErrorInfo(error, status);
     }
 
-    public static ErrorInfo of401(final String error, final int status) {
-        return new ErrorInfo(error, status);
+    public static ErrorInfo of400(final String error) {
+        return new ErrorInfo(error, 400);
+    }
+
+    public static ErrorInfo of401(final String error) {
+        return new ErrorInfo(error, 401);
+    }
+
+    public static ErrorInfo of403(final String error) {
+        return new ErrorInfo(error, 403);
+    }
+
+    public static ErrorInfo of500(final String error) {
+        return new ErrorInfo(error, 500);
     }
 
     @Override
@@ -99,7 +111,22 @@ public class ErrorInfo implements Comparable<ErrorInfo> {
     public static final String LOGIN_ERROR_DISABLED = "LOGIN_ERROR_DISABLED";
 
     /**
-     * 登录已过期。
+     * Token 已过期。
      */
-    public static final String TOKEN_EXPIRED = "LOGIN_ERROR_EXPIRED";
+    public static final String TOKEN_EXPIRED = "TOKEN_EXPIRED";
+
+    /**
+     * Token 无效。
+     */
+    public static final String TOKEN_INVALID = "TOKEN_INVALID";
+
+    /**
+     * 被顶替下线。
+     */
+    public static final String SESSION_OUT_REPLACED = "SESSION_OUT_REPLACED";
+
+    /**
+     * 被强制下线。
+     */
+    public static final String SESSION_OUT_KICK = "SESSION_OUT_KICK";
 }

@@ -65,14 +65,21 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         if (clazz.getName().equals(SA_TOKEN_NOT_LOGIN)) {
             NotLoginException e = (NotLoginException) t;
             if (NotLoginException.NOT_TOKEN.equals(e.getType())) {
-                return ErrorInfo.of(ErrorInfo.UNAUTHORIZED, 401);
+                return ErrorInfo.of401(ErrorInfo.UNAUTHORIZED);
             }
             if (NotLoginException.INVALID_TOKEN.equals(e.getType())) {
-                return ErrorInfo.of(ErrorInfo.LOGIN_ERROR_BAD_CREDENTIALS, 401);
+                return ErrorInfo.of401(ErrorInfo.LOGIN_ERROR_BAD_CREDENTIALS);
             }
             if (NotLoginException.TOKEN_TIMEOUT.equals(e.getType())) {
-                return ErrorInfo.of(ErrorInfo.TOKEN_EXPIRED, 401);
+                return ErrorInfo.of401(ErrorInfo.TOKEN_EXPIRED);
             }
+            if (NotLoginException.BE_REPLACED.equals(e.getType())) {
+                return ErrorInfo.of401(ErrorInfo.TOKEN_EXPIRED);
+            }
+            if (NotLoginException.KICK_OUT.equals(e.getType())) {
+                return ErrorInfo.of401(ErrorInfo.TOKEN_EXPIRED);
+            }
+            return ErrorInfo.of401(ErrorInfo.UNAUTHORIZED);
         }
 
         return this.getErrorInfo(clazz);
