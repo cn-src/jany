@@ -58,7 +58,7 @@ public @interface ErrorCode {
     String LOGIN_ERROR_DISABLED = "LOGIN_ERROR_DISABLED";
 
     /**
-     * 会话已过期。
+     * 登录已过期。
      */
-    String SESSION_EXPIRED = "LOGIN_ERROR_EXPIRED";
+    String TOKEN_EXPIRED = "LOGIN_ERROR_EXPIRED";
 }
