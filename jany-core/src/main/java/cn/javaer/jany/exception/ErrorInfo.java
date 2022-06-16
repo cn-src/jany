@@ -128,5 +128,5 @@ public class ErrorInfo implements Comparable<ErrorInfo> {
     /**
      * 被强制下线。
      */
-    public static final String SESSION_OUT_KICK = "SESSION_OUT_KICK";
+    public static final String SESSION_OUT_KICKED = "SESSION_OUT_KICKED";
 }

@@ -74,10 +74,10 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
                 return ErrorInfo.of401(ErrorInfo.TOKEN_EXPIRED);
             }
             if (NotLoginException.BE_REPLACED.equals(e.getType())) {
-                return ErrorInfo.of401(ErrorInfo.TOKEN_EXPIRED);
+                return ErrorInfo.of401(ErrorInfo.SESSION_OUT_REPLACED);
             }
             if (NotLoginException.KICK_OUT.equals(e.getType())) {
-                return ErrorInfo.of401(ErrorInfo.TOKEN_EXPIRED);
+                return ErrorInfo.of401(ErrorInfo.SESSION_OUT_KICKED);
             }
             return ErrorInfo.of401(ErrorInfo.UNAUTHORIZED);
         }
