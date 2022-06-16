@@ -49,7 +49,7 @@ class ExceptionResponseBuilder extends GenericResponseService {
      * @param returnTypeParsers the return type parsers
      * @param springDocConfigProperties the spring doc config properties
      * @param propertyResolverUtils the property resolver utils
-     * @param errorInfoExtractor errorInfoExtractor
+     * @param errorInfoProcessor ErrorInfoProcessor
      */
     public ExceptionResponseBuilder(final OperationService operationBuilder,
                                     final List<ReturnTypeParser> returnTypeParsers,
