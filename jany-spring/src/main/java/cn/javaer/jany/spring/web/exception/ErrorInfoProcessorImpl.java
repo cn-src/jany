@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,10 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
 
     private final Map<String, ErrorInfo> configuredErrorMapping = new HashMap<>();
 
-    public ErrorInfoProcessorImpl(final Map<String, ErrorInfo> errorMapping) {
+    private final ErrorInfoProvider errorInfoProvider;
+
+    public ErrorInfoProcessorImpl(final Map<String, ErrorInfo> errorMapping,
+                                  ObjectProvider<ErrorInfoProvider> errorInfoProvider) {
 
         if (!CollectionUtils.isEmpty(errorMapping)) {
             this.configuredErrorMapping.putAll(errorMapping);
@@ -41,11 +45,16 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         if (!CollectionUtils.isEmpty(internal)) {
             this.internalErrorMapping.putAll(internal);
         }
+        this.errorInfoProvider = errorInfoProvider.getIfAvailable(() -> null);
     }
 
     @Override
     @NotNull
     public ErrorInfo getErrorInfo(@NotNull final Throwable t) {
+        if (errorInfoProvider.getErrorInfo(t) != null) {
+            return errorInfoProvider.getErrorInfo(t);
+        }
+        
         Class<? extends Throwable> clazz = t.getClass();
         if (t.getCause() instanceof InvalidFormatException) {
             clazz = InvalidFormatException.class;

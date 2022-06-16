@@ -1,6 +1,7 @@
 package cn.javaer.jany.spring.web.exception;
 
 import cn.javaer.jany.exception.ErrorInfo;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 自定义异常信息提供器。
@@ -16,5 +17,6 @@ public interface ErrorInfoProvider {
      *
      * @return ErrorInfo
      */
+    @Nullable
     ErrorInfo getErrorInfo(Throwable t);
 }

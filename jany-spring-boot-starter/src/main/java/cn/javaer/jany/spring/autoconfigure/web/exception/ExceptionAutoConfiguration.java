@@ -4,9 +4,11 @@ import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.spring.web.exception.ErrorInfoController;
 import cn.javaer.jany.spring.web.exception.ErrorInfoProcessor;
 import cn.javaer.jany.spring.web.exception.ErrorInfoProcessorImpl;
+import cn.javaer.jany.spring.web.exception.ErrorInfoProvider;
 import cn.javaer.jany.spring.web.exception.GlobalErrorAttributes;
 import cn.javaer.jany.spring.web.exception.GlobalExceptionAdvice;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -47,8 +49,8 @@ public class ExceptionAutoConfiguration implements InitializingBean {
     }
 
     @Bean
-    ErrorInfoProcessor errorInfoExtractor() {
-        return new ErrorInfoProcessorImpl(this.useMapping);
+    ErrorInfoProcessor errorInfoExtractor(ObjectProvider<ErrorInfoProvider> errorInfoProvider) {
+        return new ErrorInfoProcessorImpl(this.useMapping, errorInfoProvider);
     }
 
     @Bean
