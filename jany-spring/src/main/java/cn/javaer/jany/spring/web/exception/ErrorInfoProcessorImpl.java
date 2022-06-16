@@ -54,8 +54,9 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
     @Override
     @NotNull
     public ErrorInfo getErrorInfo(@NotNull final Throwable t) {
-        if (errorInfoProvider.getErrorInfo(t) != null) {
-            return errorInfoProvider.getErrorInfo(t);
+        final ErrorInfo providerErrorInfo = errorInfoProvider.getErrorInfo(t);
+        if (providerErrorInfo != null) {
+            return providerErrorInfo;
         }
 
         Class<? extends Throwable> clazz = t.getClass();
