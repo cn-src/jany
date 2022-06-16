@@ -2,7 +2,6 @@ package cn.javaer.jany.spring.autoconfigure.springdoc;
 
 import cn.javaer.jany.spring.autoconfigure.web.exception.ExceptionAutoConfiguration;
 import cn.javaer.jany.spring.security.PrincipalId;
-import cn.javaer.jany.spring.web.exception.ErrorInfoExtractor;
 import org.springdoc.core.GenericResponseService;
 import org.springdoc.core.OperationService;
 import org.springdoc.core.PropertyResolverUtils;

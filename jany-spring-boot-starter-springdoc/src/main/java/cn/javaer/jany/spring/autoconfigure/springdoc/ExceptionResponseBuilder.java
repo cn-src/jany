@@ -3,7 +3,6 @@ package cn.javaer.jany.spring.autoconfigure.springdoc;
 import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
-import cn.javaer.jany.spring.web.exception.ErrorInfoExtractor;
 import cn.javaer.jany.spring.web.exception.ErrorMessageSource;
 import io.swagger.v3.core.converter.AnnotatedType;
 import io.swagger.v3.core.converter.ModelConverters;

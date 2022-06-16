@@ -2,7 +2,7 @@ package cn.javaer.jany.spring.autoconfigure.web.exception;
 
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.spring.web.exception.ErrorInfoController;
-import cn.javaer.jany.spring.web.exception.ErrorInfoExtractor;
+import cn.javaer.jany.spring.web.exception.ErrorInfoProcessor;
 import cn.javaer.jany.spring.web.exception.GlobalErrorAttributes;
 import cn.javaer.jany.spring.web.exception.GlobalExceptionAdvice;
 import org.springframework.beans.factory.InitializingBean;
@@ -32,6 +32,7 @@ import java.util.Map;
     matchIfMissing = true)
 public class ExceptionAutoConfiguration implements InitializingBean {
     private final ExceptionMappingProperties exceptionMappingProperties;
+
     private Map<String, ErrorInfo> useMapping;
 
     public ExceptionAutoConfiguration(
@@ -45,20 +46,20 @@ public class ExceptionAutoConfiguration implements InitializingBean {
     }
 
     @Bean
-    ErrorInfoExtractor errorInfoExtractor() {
-        return new ErrorInfoExtractor(this.useMapping);
+    ErrorInfoProcessor errorInfoExtractor() {
+        return new ErrorInfoProcessor(this.useMapping);
     }
 
     @Bean
     GlobalExceptionAdvice globalExceptionAdvice(ServerProperties serverProperties,
-                                                final ErrorInfoExtractor errorInfoExtractor) {
-        return new GlobalExceptionAdvice(serverProperties.getError(), errorInfoExtractor);
+                                                final ErrorInfoProcessor errorInfoProcessor) {
+        return new GlobalExceptionAdvice(serverProperties.getError(), errorInfoProcessor);
     }
 
     @Bean
     @ConditionalOnMissingBean(value = ErrorAttributes.class, search = SearchStrategy.CURRENT)
-    GlobalErrorAttributes globalErrorAttributes(final ErrorInfoExtractor errorInfoExtractor) {
-        return new GlobalErrorAttributes(errorInfoExtractor);
+    GlobalErrorAttributes globalErrorAttributes(final ErrorInfoProcessor errorInfoProcessor) {
+        return new GlobalErrorAttributes(errorInfoProcessor);
     }
 
     @Bean(name = "error")
@@ -69,6 +70,6 @@ public class ExceptionAutoConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        this.useMapping = ErrorInfoExtractor.convert(exceptionMappingProperties.getMapping());
+        this.useMapping = ErrorInfoProcessor.convert(exceptionMappingProperties.getMapping());
     }
 }

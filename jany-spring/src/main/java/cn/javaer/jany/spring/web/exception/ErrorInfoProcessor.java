@@ -28,12 +28,13 @@ import java.util.StringJoiner;
 /**
  * @author cn-src
  */
-public class ErrorInfoExtractor {
+public class ErrorInfoProcessor {
 
     private final Map<String, ErrorInfo> internalErrorMapping = new HashMap<>();
+
     private final Map<String, ErrorInfo> configuredErrorMapping = new HashMap<>();
 
-    public ErrorInfoExtractor(final Map<String, ErrorInfo> errorMapping) {
+    public ErrorInfoProcessor(final Map<String, ErrorInfo> errorMapping) {
 
         if (!CollectionUtils.isEmpty(errorMapping)) {
             this.configuredErrorMapping.putAll(errorMapping);
@@ -133,7 +134,7 @@ public class ErrorInfoExtractor {
 
     private static Map<String, ErrorInfo> internalErrorMapping() {
         final Properties props = IoUtils.readProperties(
-            ErrorInfoExtractor.class.getResourceAsStream("/default-errors-mappings.properties"));
+            ErrorInfoProcessor.class.getResourceAsStream("/default-errors-mappings.properties"));
         Map<String, String> mapping = new HashMap<>(props.size());
         for (String propertyName : props.stringPropertyNames()) {
             mapping.put(propertyName, props.getProperty(propertyName));

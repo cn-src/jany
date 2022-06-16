@@ -26,22 +26,22 @@ public class GlobalExceptionAdvice {
 
     private final ErrorProperties errorProperties;
 
-    private final ErrorInfoExtractor errorInfoExtractor;
+    private final ErrorInfoProcessor errorInfoProcessor;
 
     public GlobalExceptionAdvice(final ErrorProperties errorProperties,
-                                 final ErrorInfoExtractor errorInfoExtractor) {
+                                 final ErrorInfoProcessor errorInfoProcessor) {
         this.errorProperties = errorProperties;
-        this.errorInfoExtractor = errorInfoExtractor;
+        this.errorInfoProcessor = errorInfoProcessor;
     }
 
     @ResponseBody
     @ExceptionHandler({Exception.class})
     public ResponseEntity<RuntimeErrorInfo> handleBadRequestException(
         final HttpServletRequest request, final Exception e) {
-        final ErrorInfo errorInfo = errorInfoExtractor.getErrorInfo(e);
+        final ErrorInfo errorInfo = errorInfoProcessor.getErrorInfo(e);
         final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
         runtimeErrorInfo.setMessage(ErrorMessageSource.getMessage(errorInfo));
-        runtimeErrorInfo.setTraceMessage(errorInfoExtractor.getRuntimeMessage(e));
+        runtimeErrorInfo.setTraceMessage(errorInfoProcessor.getRuntimeMessage(e));
         if (runtimeErrorInfo.getStatus() < 500) {
             this.logger.debug("Http status {}", runtimeErrorInfo.getStatus(), e);
         }

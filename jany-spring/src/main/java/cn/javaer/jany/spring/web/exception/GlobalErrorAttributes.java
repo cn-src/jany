@@ -18,9 +18,9 @@ import java.util.Map;
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalErrorAttributes extends DefaultErrorAttributes {
-    private final ErrorInfoExtractor extractor;
+    private final ErrorInfoProcessor extractor;
 
-    public GlobalErrorAttributes(ErrorInfoExtractor extractor) {
+    public GlobalErrorAttributes(ErrorInfoProcessor extractor) {
         this.extractor = extractor;
     }
 
