@@ -3,6 +3,7 @@ package cn.javaer.jany.spring.autoconfigure.springdoc;
 import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
+import cn.javaer.jany.spring.web.exception.ErrorInfoProcessor;
 import cn.javaer.jany.spring.web.exception.ErrorMessageSource;
 import io.swagger.v3.core.converter.AnnotatedType;
 import io.swagger.v3.core.converter.ModelConverters;
@@ -39,7 +40,7 @@ import java.util.TreeSet;
 @Slf4j
 class ExceptionResponseBuilder extends GenericResponseService {
 
-    private final ErrorInfoExtractor errorInfoExtractor;
+    private final ErrorInfoProcessor errorInfoProcessor;
 
     /**
      * Instantiates a new Generic response builder.
@@ -54,10 +55,10 @@ class ExceptionResponseBuilder extends GenericResponseService {
                                     final List<ReturnTypeParser> returnTypeParsers,
                                     final SpringDocConfigProperties springDocConfigProperties,
                                     final PropertyResolverUtils propertyResolverUtils,
-                                    final ErrorInfoExtractor errorInfoExtractor) {
+                                    final ErrorInfoProcessor errorInfoProcessor) {
         super(operationBuilder, returnTypeParsers, springDocConfigProperties,
             propertyResolverUtils);
-        this.errorInfoExtractor = errorInfoExtractor;
+        this.errorInfoProcessor = errorInfoProcessor;
     }
 
     @Override
@@ -69,7 +70,7 @@ class ExceptionResponseBuilder extends GenericResponseService {
         final Map<Integer, Set<ErrorInfo>> errorInfos = new LinkedHashMap<>();
         for (final Class<?> exceptionType : exceptionTypes) {
             @SuppressWarnings("unchecked")
-            final ErrorInfo errorInfo = this.errorInfoExtractor.getErrorInfo(
+            final ErrorInfo errorInfo = this.errorInfoProcessor.getErrorInfo(
                 (Class<? extends Throwable>) exceptionType);
             if (errorInfos.containsKey(errorInfo.getStatus())) {
                 errorInfos.get(errorInfo.getStatus()).add(errorInfo);
