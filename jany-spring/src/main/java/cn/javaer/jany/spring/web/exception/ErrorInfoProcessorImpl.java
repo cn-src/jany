@@ -48,7 +48,8 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         if (!CollectionUtils.isEmpty(internal)) {
             this.internalErrorMapping.putAll(internal);
         }
-        this.errorInfoProvider = errorInfoProvider.getIfAvailable(() -> null);
+        this.errorInfoProvider = errorInfoProvider.getIfAvailable() == null ?
+            (t) -> null : errorInfoProvider.getIfAvailable();
     }
 
     @Override
