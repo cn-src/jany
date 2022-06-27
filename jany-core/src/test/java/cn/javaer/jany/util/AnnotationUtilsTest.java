@@ -52,7 +52,7 @@ class AnnotationUtilsTest {
     @Test
     void testGetAnnotationValueMap() {
         // Setup
-        final Annotation annotation = Demo.class.getAnnotation(Ann1.class);
+        final Annotation annotation = Ann1.class.getAnnotation(MetaAnn.class);
 
         // Run the test
         final Map<String, Object> result = AnnotationUtils.getAnnotationValueMap(annotation);
