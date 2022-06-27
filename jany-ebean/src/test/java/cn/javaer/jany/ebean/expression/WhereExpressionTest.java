@@ -1,6 +1,6 @@
 package cn.javaer.jany.ebean.expression;
 
-import cn.javaer.jany.util.AnnUtils;
+import cn.javaer.jany.util.AnnotationUtils;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -14,7 +14,7 @@ class WhereExpressionTest {
     @Test
     void name() throws Exception {
         final Field name = Demo.class.getField("name");
-        final WhereExpression whereExpression = AnnUtils.findMergedAnnotation(name,
+        final WhereExpression whereExpression = AnnotationUtils.findMergedAnnotation(name,
             WhereExpression.class);
         assertThat(whereExpression.property()).isEqualTo("name");
     }

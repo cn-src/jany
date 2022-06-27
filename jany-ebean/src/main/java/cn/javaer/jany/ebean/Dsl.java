@@ -9,7 +9,7 @@ import cn.javaer.jany.ebean.expression.WhereExpression;
 import cn.javaer.jany.ebean.expression.WhereIgnore;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
-import cn.javaer.jany.util.AnnUtils;
+import cn.javaer.jany.util.AnnotationUtils;
 import cn.javaer.jany.util.ReflectUtils;
 import io.ebean.ExpressionFactory;
 import io.ebean.ExpressionList;
@@ -91,7 +91,7 @@ public interface Dsl {
             if (ObjectUtil.isNotEmpty(value) && !field.isAnnotationPresent(WhereIgnore.class)
                 && !fieldName.startsWith("$")) {
                 final WhereExpression whereExpression = Optional.ofNullable(
-                    AnnUtils.findMergedAnnotation(field, WhereExpression.class)).orElse(WhereExpression.DEFAULT);
+                    AnnotationUtils.findMergedAnnotation(field, WhereExpression.class)).orElse(WhereExpression.DEFAULT);
 
                 final Type type = whereExpression.type();
                 String property = ObjectUtil.defaultIfEmpty(whereExpression.property(), fieldName);

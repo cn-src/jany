@@ -1,5 +1,6 @@
 package cn.javaer.jany.util;
 
+import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
@@ -16,7 +17,7 @@ import java.util.Map;
 /**
  * @author cn-src
  */
-public interface AnnUtils {
+public class AnnotationUtils extends AnnotationUtil {
 
     /**
      * 查找合成的注解实例：
@@ -33,8 +34,8 @@ public interface AnnUtils {
      */
     @Nullable
     @SuppressWarnings({"unchecked"})
-    static <T extends Annotation> T findMergedAnnotation(final Class<T> clazz,
-                                                         final Annotation ann) {
+    public static <T extends Annotation> T findMergedAnnotation(final Class<T> clazz,
+                                                                final Annotation ann) {
         if (clazz.equals(ann.annotationType())) {
             return (T) ann;
         }
@@ -72,8 +73,8 @@ public interface AnnUtils {
      * @see #findMergedAnnotation(Class, Annotation)
      */
     @Nullable
-    static <T extends Annotation> T findMergedAnnotation(final Class<T> clazz,
-                                                         final Annotation... annotations) {
+    public static <T extends Annotation> T findMergedAnnotation(final Class<T> clazz,
+                                                                final Annotation... annotations) {
         if (ArrayUtil.isEmpty(annotations)) {
             return null;
         }
@@ -101,8 +102,8 @@ public interface AnnUtils {
      * @see #findMergedAnnotation(Class, Annotation)
      */
     @Nullable
-    static <T extends Annotation> T findMergedAnnotation(final AnnotatedElement element,
-                                                         final Class<T> clazz) {
+    public static <T extends Annotation> T findMergedAnnotation(final AnnotatedElement element,
+                                                                final Class<T> clazz) {
         final Annotation[] annotations = element.getAnnotations();
         for (final Annotation annotation : annotations) {
             final T ann = findMergedAnnotation(clazz, annotation);
@@ -113,7 +114,14 @@ public interface AnnUtils {
         return null;
     }
 
-    static Map<String, Object> getAnnotationValueMap(final Annotation annotation) {
+    /**
+     * 将注解转换成 Map 形式，key 为注解属性名，value 为注解属性值。
+     *
+     * @param annotation 要转换的注解对象
+     *
+     * @return 注释值的映射。
+     */
+    public static Map<String, Object> getAnnotationValueMap(final Annotation annotation) {
 
         final Method[] methods = ReflectUtil.getMethods(annotation.annotationType(), t -> {
             if (ArrayUtil.isEmpty(t.getParameterTypes())) {
