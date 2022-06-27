@@ -16,7 +16,7 @@ public class CollUtils extends CollUtil {
      *
      * @return 对象的集合。
      */
-    public static Collection<?> asCollection(Object obj) {
+    public static Collection<?> cast(Object obj) {
         if (obj == null) {
             return null;
         }

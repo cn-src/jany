@@ -14,7 +14,7 @@ public class StrUtils extends StrUtil {
      *
      * @return 一个字符串
      */
-    public static String asString(Object obj) {
+    public static String cast(Object obj) {
         if (null == obj) {
             return null;
         }
