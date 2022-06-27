@@ -38,6 +38,7 @@ dependencies {
     testCompileOnly("org.jetbrains:annotations")
     testAnnotationProcessor("org.projectlombok:lombok")
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.slf4j:slf4j-api")
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.skyscreamer:jsonassert")
 }
