@@ -8,6 +8,23 @@ import cn.hutool.core.util.StrUtil;
 public class StrUtils extends StrUtil {
 
     /**
+     * 如果对象是字符串，则返回它，否则抛出异常。
+     *
+     * @param obj 要转换为字符串的对象。
+     *
+     * @return 一个字符串
+     */
+    public static String asString(Object obj) {
+        if (null == obj) {
+            return null;
+        }
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        throw new IllegalArgumentException("Object must be String, but was " + obj.getClass());
+    }
+
+    /**
      * 将驼峰字符串转换成下划线大写格式.
      *
      * @param str String
