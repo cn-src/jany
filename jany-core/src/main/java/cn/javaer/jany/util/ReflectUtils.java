@@ -44,8 +44,8 @@ public interface ReflectUtils {
      */
     static String toGetterName(final Field field) {
         return boolean.class.equals(field.getType()) ?
-            "is" + StrUtils.toFirstCharUpper(field.getName()) :
-            "get" + StrUtils.toFirstCharUpper(field.getName());
+            "is" + StrUtils.upperFirst(field.getName()) :
+            "get" + StrUtils.upperFirst(field.getName());
     }
 
     /**
@@ -59,8 +59,8 @@ public interface ReflectUtils {
     static String toGetterName(final String fieldName,
                                final String fieldType) {
         return boolean.class.getName().equals(fieldType) ?
-            "is" + StrUtils.toFirstCharUpper(fieldName) :
-            "get" + StrUtils.toFirstCharUpper(fieldName);
+            "is" + StrUtils.upperFirst(fieldName) :
+            "get" + StrUtils.upperFirst(fieldName);
     }
 
     /**

@@ -1,25 +1,11 @@
 package cn.javaer.jany.util;
 
+import cn.hutool.core.util.StrUtil;
+
 /**
  * @author cn-src
  */
-public interface StrUtils {
-
-    /**
-     * 将第一个字符大写.
-     *
-     * @param str String
-     *
-     * @return String
-     */
-    static String toFirstCharUpper(final String str) {
-        if (null == str || str.isEmpty()) {
-            return str;
-        }
-        final char[] chars = str.toCharArray();
-        chars[0] = Character.toUpperCase(chars[0]);
-        return String.valueOf(chars);
-    }
+public class StrUtils extends StrUtil {
 
     /**
      * 将驼峰字符串转换成下划线大写格式.
@@ -28,7 +14,7 @@ public interface StrUtils {
      *
      * @return String
      */
-    static String toSnakeUpper(final String str) {
+    public static String toSnakeUpper(final String str) {
         if (null == str || str.isEmpty()) {
             return str;
         }
@@ -59,7 +45,7 @@ public interface StrUtils {
      *
      * @return String
      */
-    static String toSnakeLower(final String str) {
+    public static String toSnakeLower(final String str) {
         if (null == str || str.isEmpty()) {
             return str;
         }
@@ -81,17 +67,5 @@ public interface StrUtils {
             sb.append(Character.toLowerCase(chars[i]));
         }
         return sb.toString();
-    }
-
-    /**
-     * 如果字符串为空，则使用默认值.
-     *
-     * @param value String
-     * @param defaultValue String
-     *
-     * @return String
-     */
-    static String defaultIfEmpty(final String value, final String defaultValue) {
-        return value == null || value.isEmpty() ? defaultValue : value;
     }
 }
