@@ -2,13 +2,14 @@ package cn.javaer.jany.util;
 
 import cn.hutool.core.collection.IterUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ObjectUtil;
 
 import java.util.Collection;
 
 /**
  * @author cn-src
  */
-public interface ObjUtils {
+public class ObjUtils extends ObjectUtil {
 
     /**
      * 强转 String 类型。
@@ -19,7 +20,7 @@ public interface ObjUtils {
      *
      * @throws IllegalArgumentException 如果对象不是 String 类型
      */
-    static String castString(Object obj) {
+    public static String castString(Object obj) {
         if (null == obj) {
             return null;
         }
@@ -36,7 +37,7 @@ public interface ObjUtils {
      *
      * @return 对象的集合。
      */
-    static Collection<?> toCollection(Object obj) {
+    public static Collection<?> toCollection(Object obj) {
         if (obj == null) {
             return null;
         }
@@ -54,7 +55,7 @@ public interface ObjUtils {
      * @return 对象数组。
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
-    static Object[] toObjectArray(Object obj) {
+    public static Object[] toObjectArray(Object obj) {
         if (obj == null) {
             return null;
         }
