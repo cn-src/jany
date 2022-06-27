@@ -18,7 +18,7 @@ import java.util.Optional;
  *
  * @author cn-src
  */
-public interface ReflectUtils {
+public class ReflectUtils extends ReflectUtil {
 
     /**
      * 获取指定 class 中标注了指定注解的字段的名称。
@@ -28,8 +28,8 @@ public interface ReflectUtils {
      *
      * @return 字段名称
      */
-    static Optional<String> fieldNameByAnnotation(Class<?> clazz,
-                                                  Class<? extends Annotation> annClazz) {
+    public static Optional<String> fieldNameByAnnotation(Class<?> clazz,
+                                                         Class<? extends Annotation> annClazz) {
         return Arrays.stream(ReflectUtil.getFields(clazz))
             .filter(it -> it.isAnnotationPresent(annClazz))
             .findFirst().map(Field::getName);
@@ -42,7 +42,7 @@ public interface ReflectUtils {
      *
      * @return string
      */
-    static String toGetterName(final Field field) {
+    public static String toGetterName(final Field field) {
         return boolean.class.equals(field.getType()) ?
             "is" + StrUtils.upperFirst(field.getName()) :
             "get" + StrUtils.upperFirst(field.getName());
@@ -56,8 +56,8 @@ public interface ReflectUtils {
      *
      * @return string
      */
-    static String toGetterName(final String fieldName,
-                               final String fieldType) {
+    public static String toGetterName(final String fieldName,
+                                      final String fieldType) {
         return boolean.class.getName().equals(fieldType) ?
             "is" + StrUtils.upperFirst(fieldName) :
             "get" + StrUtils.upperFirst(fieldName);
@@ -71,7 +71,8 @@ public interface ReflectUtils {
      *
      * @return the method handle
      */
-    static Optional<MethodHandle> findGetterByField(final Class<?> clazz, final Field field) {
+    public static Optional<MethodHandle> findGetterByField(final Class<?> clazz,
+                                                           final Field field) {
 
         try {
             return Optional.of(MethodHandles.lookup()
@@ -92,7 +93,7 @@ public interface ReflectUtils {
      *
      * @return the class
      */
-    static Optional<Class<?>> getClass(final String className) {
+    public static Optional<Class<?>> getClass(final String className) {
         Assert.notEmpty(className);
         try {
             return Optional.of(ClassLoaderUtil.loadClass(className));
