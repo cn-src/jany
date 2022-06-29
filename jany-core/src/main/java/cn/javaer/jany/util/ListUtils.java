@@ -26,13 +26,13 @@ public class ListUtils extends ListUtil {
             return null;
         }
         if (obj instanceof Collection) {
-            return toList((Collection) obj);
+            return ListUtil.toList((Collection) obj);
         }
         if (obj.getClass().isArray()) {
-            return toList((T[]) ArrayUtil.wrap(obj));
+            return ListUtil.toList((T[]) ArrayUtil.wrap(obj));
         }
         if (obj instanceof Iterable) {
-            return toList((Iterable) obj);
+            return ListUtil.toList((Iterable) obj);
         }
         return ListUtil.toList((T) obj);
     }
