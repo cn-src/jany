@@ -33,6 +33,6 @@ public class ListUtils extends ListUtil {
         if (obj instanceof Iterable) {
             return toList((Iterable) obj);
         }
-        return toList((T) obj);
+        return ListUtil.toList((T) obj);
     }
 }
