@@ -20,6 +20,12 @@ class ListUtilsTest {
         obj = CollUtils.toCollection(ListUtil.of("demo"));
         Assertions.assertThat(ListUtils.toList(obj)).hasSize(1);
 
+        obj = new String[]{"demo"};
+        Assertions.assertThat(ListUtils.toList(obj)).hasSize(1);
+
+        obj = new int[]{1};
+        Assertions.assertThat(ListUtils.toList(obj)).hasSize(1);
+
         obj = "";
         Assertions.assertThat(ListUtils.toList(obj)).hasSize(1);
     }

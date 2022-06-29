@@ -1,6 +1,7 @@
 package cn.javaer.jany.util;
 
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.ArrayUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -28,7 +29,7 @@ public class ListUtils extends ListUtil {
             return toList((Collection) obj);
         }
         if (obj.getClass().isArray()) {
-            return toList((T[]) obj);
+            return toList((T[]) ArrayUtil.wrap(obj));
         }
         if (obj instanceof Iterable) {
             return toList((Iterable) obj);
