@@ -42,13 +42,13 @@ public class GlobalExceptionAdvice {
         final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
         runtimeErrorInfo.setMessage(ErrorMessageSource.getMessage(errorInfo));
         runtimeErrorInfo.setTraceMessage(errorInfoProcessor.getRuntimeMessage(e));
+        this.fillInfo(runtimeErrorInfo, request, e);
         if (runtimeErrorInfo.getStatus() < 500) {
             this.logger.debug("Http status {}", runtimeErrorInfo.getStatus(), e);
         }
         else {
             this.logger.error("Http status {}", runtimeErrorInfo.getStatus(), e);
         }
-        this.fillInfo(runtimeErrorInfo, request, e);
         return ResponseEntity.status(runtimeErrorInfo.getStatus()).body(runtimeErrorInfo);
     }
 
