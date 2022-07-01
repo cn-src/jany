@@ -253,7 +253,7 @@ dependencies {
         api("io.zonky.test.postgres:embedded-postgres-binaries-linux-i386:${p["zonkyPostgresVersion"]}")
         api("io.zonky.test.postgres:embedded-postgres-binaries-linux-i386-alpine:${p["zonkyPostgresVersion"]}")
         api("io.zonky.test.postgres:embedded-postgres-binaries-linux-i386-alpine-lite:${p["zonkyPostgresVersion"]}")
-        api("io.zonky.test.postgres:embedded-postgres-binaries-linux-arm32v6:${p["zonkyPostgresVersion"]}")
+        api("io.zonky.test.postgres:embedded-postgres-binaries-darwin-arm64v8:${p["zonkyPostgresVersion"]}")
         api("io.zonky.test.postgres:embedded-postgres-binaries-linux-arm32v6-alpine:${p["zonkyPostgresVersion"]}")
         api("io.zonky.test.postgres:embedded-postgres-binaries-linux-arm32v6-alpine-lite:${p["zonkyPostgresVersion"]}")
         api("io.zonky.test.postgres:embedded-postgres-binaries-linux-arm32v7:${p["zonkyPostgresVersion"]}")
