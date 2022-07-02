@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
@@ -122,23 +121,17 @@ public class AnnotationUtils extends AnnotationUtil {
      * @return 注释值的映射。
      */
     public static Map<String, Object> getAnnotationValueMap(final Annotation annotation) {
-
-        final Method[] methods = ReflectUtil.getMethods(annotation.annotationType(), t -> {
-            if (ArrayUtil.isEmpty(t.getParameterTypes())) {
-                // 只读取无参方法
-                final String name = t.getName();
-                // 跳过自有的几个方法
-                return (!"hashCode".equals(name)) //
-                    && (!"toString".equals(name)) //
-                    && (!"annotationType".equals(name));
+        final HashMap<String, Object> result = new HashMap<>();
+        ReflectUtil.getMethods(annotation.annotationType(), t -> {
+            if (ObjectUtils.anyEquals(t.getName(), "hashCode", "toString", "annotationType")) {
+                return false;
             }
-            return false;
+            if (ArrayUtil.isNotEmpty(t.getParameterTypes())) {
+                return false;
+            }
+            result.put(t.getName(), ReflectUtil.invoke(annotation, t));
+            return true;
         });
-
-        final HashMap<String, Object> result = new HashMap<>(methods.length, 1);
-        for (Method method : methods) {
-            result.put(method.getName(), ReflectUtil.invoke(annotation, method));
-        }
         return result;
     }
 }
