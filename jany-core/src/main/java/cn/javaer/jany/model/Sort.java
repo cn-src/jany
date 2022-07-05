@@ -125,11 +125,7 @@ public class Sort implements Serializable {
         Assert.notNull(sort, "Sort must not be null!");
 
         ArrayList<Order> these = ListUtil.toList(orders);
-
-        for (Order order : sort.orders) {
-            these.add(order);
-        }
-
+        these.addAll(sort.orders);
         return Sort.by(these);
     }
 
