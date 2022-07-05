@@ -30,7 +30,7 @@ public interface PageUtils {
                 orders.add(new cn.javaer.jany.model.Sort.Order(direction, order.getProperty()));
             }
 
-            return new PageParam(pageable.getPageNumber() + 1, pageable.getPageSize(),
+            return PageParam.of(pageable.getPageNumber() + 1, pageable.getPageSize(),
                 cn.javaer.jany.model.Sort.by(new ArrayList<>(orders)));
         }
         return PageParam.of(pageable.getPageNumber() + 1, pageable.getPageSize());
