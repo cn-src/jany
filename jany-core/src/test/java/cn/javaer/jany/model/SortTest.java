@@ -11,7 +11,7 @@ class SortTest {
 
     @Test
     void parse() {
-        final Sort sort = Sort.parse("id,desc");
+        final Sort sort = Sort.by(Sort.Direction.DESC, "id");
         assertEquals(1, sort.getOrders().size());
         assertEquals(Sort.Direction.DESC, sort.getOrders().get(0).getDirection());
     }

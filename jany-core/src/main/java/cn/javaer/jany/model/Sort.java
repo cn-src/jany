@@ -16,6 +16,9 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @author cn-src
+ */
 public class Sort implements Serializable {
 
     private static final long serialVersionUID = -7725678213239466317L;
@@ -107,6 +110,14 @@ public class Sort implements Serializable {
 
     public boolean isUnsorted() {
         return !isSorted();
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public boolean isByAudit() {
+        return byAudit;
     }
 
     public Sort and(Sort sort) {
