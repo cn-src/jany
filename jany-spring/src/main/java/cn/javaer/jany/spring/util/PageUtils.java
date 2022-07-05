@@ -27,10 +27,11 @@ public interface PageUtils {
             for (Sort.Order order : sort) {
                 final cn.javaer.jany.model.Sort.Direction direction =
                     cn.javaer.jany.model.Sort.Direction.valueOf(order.getDirection().name());
-                orders.add(new cn.javaer.jany.model.Sort.Order(order.getProperty(), direction));
+                orders.add(new cn.javaer.jany.model.Sort.Order(direction, order.getProperty()));
             }
+
             return new PageParam(pageable.getPageNumber() + 1, pageable.getPageSize(),
-                new cn.javaer.jany.model.Sort(true, new ArrayList<>(orders)));
+                cn.javaer.jany.model.Sort.by(new ArrayList<>(orders)));
         }
         return PageParam.of(pageable.getPageNumber() + 1, pageable.getPageSize());
     }
