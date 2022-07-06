@@ -43,6 +43,6 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
     }
 
     public void setSortResolver(SortArgumentResolver sortResolver) {
-        this.sortResolver = sortResolver == null ? DEFAULT_SORT_RESOLVER : sortResolver;
+        this.sortResolver = sortResolver == null ? SortArgumentResolver.INSTANCE : sortResolver;
     }
 }
