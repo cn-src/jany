@@ -39,9 +39,9 @@ public class ExecutorsAutoConfiguration implements ApplicationContextAware {
                 .getAutowireCapableBeanFactory();
 
         if (!CollectionUtils.isEmpty(properties.getExecutors())) {
-            for (final Map.Entry<String, ExecutorsProperties.TaskProperties> entry :
+            for (final Map.Entry<String, ExecutionProperties> entry :
                 properties.getExecutors().entrySet()) {
-                final ExecutorsProperties.TaskProperties taskProp =
+                final ExecutionProperties taskProp =
                     entry.getValue();
                 final TaskExecutionProperties.Pool pool = taskProp.getPool();
                 TaskExecutorBuilder builder = new TaskExecutorBuilder();

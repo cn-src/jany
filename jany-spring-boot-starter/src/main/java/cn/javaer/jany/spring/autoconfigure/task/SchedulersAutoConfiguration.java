@@ -37,9 +37,9 @@ public class SchedulersAutoConfiguration implements ApplicationContextAware {
             (DefaultListableBeanFactory) applicationContext
                 .getAutowireCapableBeanFactory();
         if (!CollectionUtils.isEmpty(schedulersProperties.getSchedulers())) {
-            for (final Map.Entry<String, SchedulersProperties.TaskProperties> entry :
+            for (final Map.Entry<String, SchedulingProperties> entry :
                 schedulersProperties.getSchedulers().entrySet()) {
-                final SchedulersProperties.TaskProperties properties = entry.getValue();
+                final SchedulingProperties properties = entry.getValue();
 
                 TaskSchedulerBuilder builder = new TaskSchedulerBuilder();
                 builder = builder.poolSize(properties.getPool().getSize());
