@@ -1,6 +1,7 @@
 package cn.javaer.jany.spring.autoconfigure.springdoc;
 
 import cn.javaer.jany.exception.ErrorCode;
+import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.spring.autoconfigure.web.exception.ExceptionAutoConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springdoc.core.Constants;
@@ -84,6 +85,11 @@ class SpringDocAutoConfigurationTest {
             throws Demo1Exception, Demo2Exception, MissingFormatArgumentException {
 
             return new PageImpl<>(Collections.singletonList("page data"), pageable, 1);
+        }
+
+        @GetMapping("test2")
+        public cn.javaer.jany.model.Page<String> get(final PageParam pageParam) {
+            return null;
         }
     }
 

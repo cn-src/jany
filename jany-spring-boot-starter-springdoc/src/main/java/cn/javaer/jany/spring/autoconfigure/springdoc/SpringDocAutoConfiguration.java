@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.springdoc;
 
+import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.spring.autoconfigure.web.exception.ExceptionAutoConfiguration;
 import cn.javaer.jany.spring.security.PrincipalId;
 import cn.javaer.jany.spring.web.exception.ErrorInfoProcessor;
@@ -12,6 +13,7 @@ import org.springdoc.core.SpringDocConfiguration;
 import org.springdoc.core.SpringDocUtils;
 import org.springdoc.core.converters.PageableOpenAPIConverter;
 import org.springdoc.core.providers.ObjectMapperProvider;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -38,7 +40,7 @@ import static org.springdoc.core.Constants.SPRINGDOC_PAGEABLE_CONVERTER_ENABLED;
 @AutoConfigureBefore({SpringDocConfiguration.class, SpringDocConfigProperties.class})
 @ConditionalOnProperty(prefix = "jany.springdoc", name = "enabled", havingValue = "true",
     matchIfMissing = true)
-public class SpringDocAutoConfiguration {
+public class SpringDocAutoConfiguration implements InitializingBean {
 
     @Bean
     @ConditionalOnMissingBean
@@ -49,6 +51,12 @@ public class SpringDocAutoConfiguration {
                                            final PropertyResolverUtils propertyResolverUtils) {
         return new ExceptionResponseBuilder(operationBuilder, returnTypeParsers,
             springDocConfigProperties, propertyResolverUtils, errorInfoProcessor);
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        SpringDocUtils.getConfig().replaceParameterObjectWithClass(
+            PageParam.class, PageableDoc.class);
     }
 
     @ConditionalOnClass(Pageable.class)
