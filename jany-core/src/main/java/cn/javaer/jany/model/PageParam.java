@@ -3,6 +3,7 @@ package cn.javaer.jany.model;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Value;
+import lombok.With;
 import lombok.experimental.FieldNameConstants;
 import org.springdoc.api.annotations.ParameterObject;
 
@@ -37,6 +38,7 @@ public class PageParam {
     @Schema(name = "sort",
         description = "分页-排序, 指定字段降序: 'sort=field1,field2,desc&sort=field1,field2',排序方式默认为升序(asc)"
     )
+    @With
     Sort sort;
 
     public static PageParam of(final int page, final int size) {
