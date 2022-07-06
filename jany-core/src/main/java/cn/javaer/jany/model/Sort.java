@@ -2,6 +2,8 @@ package cn.javaer.jany.model;
 
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.util.StrUtils;
 import lombok.Value;
 import org.jetbrains.annotations.Nullable;
@@ -11,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -61,6 +65,32 @@ public class Sort implements Serializable {
             .map(it -> new Order(direction, it))
             .collect(Collectors.toList());
         this.byAudit = false;
+    }
+
+    public static Sort parse(String... directions) {
+        if (ArrayUtil.isEmpty(directions)) {
+            return Sort.DEFAULT;
+        }
+        Set<Order> orders = new LinkedHashSet<>();
+        for (String str : directions) {
+            if (StrUtil.isEmpty(str)) {
+                continue;
+            }
+            final String[] props = str.split(",");
+            final Optional<Direction> opt = props.length > 1 ?
+                Direction.fromOptionalString(props[props.length - 1]) : Optional.empty();
+            if (opt.isPresent()) {
+                for (int i = 0, le = props.length - 1; i < le; i++) {
+                    orders.add(new Order(opt.get(), props[i]));
+                }
+            }
+            else {
+                for (String prop : props) {
+                    orders.add(Order.by(prop));
+                }
+            }
+        }
+        return Sort.by(new ArrayList<>(orders));
     }
 
     public static Sort by(String... properties) {
