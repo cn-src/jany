@@ -17,9 +17,7 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 
     public static final PageParamArgumentResolver INSTANCE = new PageParamArgumentResolver();
 
-    public static final SortArgumentResolver DEFAULT_SORT_RESOLVER = SortArgumentResolver.INSTANCE;
-
-    private SortArgumentResolver sortResolver = DEFAULT_SORT_RESOLVER;
+    private SortArgumentResolver sortResolver = SortArgumentResolver.INSTANCE;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
