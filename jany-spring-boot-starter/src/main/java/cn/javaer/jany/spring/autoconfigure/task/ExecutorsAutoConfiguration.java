@@ -5,7 +5,6 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.task.TaskExecutorBuilder;
 import org.springframework.boot.task.TaskExecutorCustomizer;
@@ -43,7 +42,7 @@ public class ExecutorsAutoConfiguration implements ApplicationContextAware {
                 properties.getExecutors().entrySet()) {
                 final ExecutionProperties taskProp =
                     entry.getValue();
-                final TaskExecutionProperties.Pool pool = taskProp.getPool();
+                final ExecutionProperties.Pool pool = taskProp.getPool();
                 TaskExecutorBuilder builder = new TaskExecutorBuilder();
                 builder = builder.queueCapacity(pool.getQueueCapacity());
                 builder = builder.corePoolSize(pool.getCoreSize());
@@ -51,7 +50,7 @@ public class ExecutorsAutoConfiguration implements ApplicationContextAware {
                 builder = builder.allowCoreThreadTimeOut(pool.isAllowCoreThreadTimeout());
                 builder = builder.keepAlive(pool.getKeepAlive());
 
-                final TaskExecutionProperties.Shutdown shutdown = taskProp.getShutdown();
+                final ExecutionProperties.Shutdown shutdown = taskProp.getShutdown();
                 builder = builder.awaitTermination(shutdown.isAwaitTermination());
                 builder = builder.awaitTerminationPeriod(shutdown.getAwaitTerminationPeriod());
                 builder = builder.threadNamePrefix(taskProp.getThreadNamePrefix());

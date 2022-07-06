@@ -5,7 +5,6 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.task.TaskSchedulingProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.task.TaskSchedulerBuilder;
 import org.springframework.boot.task.TaskSchedulerCustomizer;
@@ -16,6 +15,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.util.CollectionUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 /**
@@ -43,7 +43,7 @@ public class SchedulersAutoConfiguration implements ApplicationContextAware {
 
                 TaskSchedulerBuilder builder = new TaskSchedulerBuilder();
                 builder = builder.poolSize(properties.getPool().getSize());
-                final TaskSchedulingProperties.Shutdown shutdown = properties.getShutdown();
+                final SchedulingProperties.Shutdown shutdown = properties.getShutdown();
                 builder = builder.awaitTermination(shutdown.isAwaitTermination());
                 builder = builder.awaitTerminationPeriod(shutdown.getAwaitTerminationPeriod());
                 builder = builder.threadNamePrefix(properties.getThreadNamePrefix());
@@ -57,9 +57,10 @@ public class SchedulersAutoConfiguration implements ApplicationContextAware {
                     final ThreadPoolTaskScheduler scheduler = fb.build();
                     if (properties.getRejectedExecutionHandler() != null) {
                         try {
-                            scheduler.setRejectedExecutionHandler(properties.getRejectedExecutionHandler().newInstance());
+                            scheduler.setRejectedExecutionHandler(properties.getRejectedExecutionHandler().getDeclaredConstructor().newInstance());
                         }
-                        catch (final InstantiationException | IllegalAccessException e) {
+                        catch (final InstantiationException | IllegalAccessException |
+                                     NoSuchMethodException | InvocationTargetException e) {
                             throw new IllegalStateException(e);
                         }
                     }
