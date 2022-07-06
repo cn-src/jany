@@ -27,7 +27,7 @@ public class PageableDoc {
     Integer size;
 
     @Schema(name = "sort",
-        description = "分页-排序, 指定字段降序: 'sort=field1,desc',排序方式默认为升序(asc)"
+        description = "分页-排序, 指定字段降序: 'sort=field1,field2,desc&sort=field1,field2',排序方式默认为升序(asc)"
     )
     List<String> sort;
 }
