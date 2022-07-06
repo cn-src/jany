@@ -34,6 +34,9 @@ public class PageParam {
     @Schema(type = "integer", minimum = "1", defaultValue = "20"))
     int size;
 
+    @Schema(name = "sort",
+        description = "分页-排序, 指定字段降序: 'sort=field1,field2,desc&sort=field1,field2',排序方式默认为升序(asc)"
+    )
     Sort sort;
 
     public static PageParam of(final int page, final int size) {
