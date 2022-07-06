@@ -20,7 +20,7 @@ public class SchedulersProperties {
 
     @Getter
     @Setter
-    static class TaskProperties extends TaskSchedulingProperties {
+    public static class TaskProperties extends TaskSchedulingProperties {
         private Class<? extends RejectedExecutionHandler> rejectedExecutionHandler;
     }
 }
