@@ -2,9 +2,9 @@ package cn.javaer.jany.spring.web;
 
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
+import cn.javaer.jany.util.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -33,19 +33,9 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
                                   WebDataBinderFactory binderFactory) {
         String pageStr = webRequest.getParameter("page");
         String sizeStr = webRequest.getParameter("size");
-        int page = PageParam.DEFAULT_PAGE;
-        int size = PageParam.DEFAULT_SIZE;
-        try {
-            if (StringUtils.hasText(pageStr)) {
-                page = Integer.parseInt(pageStr);
-            }
-            if (StringUtils.hasText(sizeStr)) {
-                size = Integer.parseInt(sizeStr);
-            }
-        }
-        catch (NumberFormatException ignore) {
+        int page = NumberUtils.parseInt(pageStr, PageParam.DEFAULT_PAGE);
+        int size = NumberUtils.parseInt(sizeStr, PageParam.DEFAULT_SIZE);
 
-        }
         Sort sort = sortResolver.resolveArgument
             (methodParameter, mavContainer, webRequest, binderFactory);
         if (sort != null && sort.isSorted()) {
