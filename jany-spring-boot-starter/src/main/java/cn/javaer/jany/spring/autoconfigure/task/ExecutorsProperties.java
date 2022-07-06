@@ -12,7 +12,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "jany.execution")
+@ConfigurationProperties(prefix = "jany.task")
 public class ExecutorsProperties {
 
     private Map<String, ExecutionProperties> executors = new LinkedHashMap<>();
