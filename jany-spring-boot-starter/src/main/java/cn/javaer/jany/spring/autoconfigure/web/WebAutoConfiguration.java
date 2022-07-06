@@ -2,6 +2,7 @@ package cn.javaer.jany.spring.autoconfigure.web;
 
 import cn.javaer.jany.spring.format.DateTimeFormatter;
 import cn.javaer.jany.spring.web.PageParamArgumentResolver;
+import cn.javaer.jany.spring.web.SortArgumentResolver;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -34,6 +35,7 @@ public class WebAutoConfiguration {
         @Override
         public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
             resolvers.add(PageParamArgumentResolver.INSTANCE);
+            resolvers.add(SortArgumentResolver.INSTANCE);
         }
     }
 }

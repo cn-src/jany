@@ -13,6 +13,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * @author cn-src
  */
 public class SortArgumentResolver implements HandlerMethodArgumentResolver {
+    
+    public static final SortArgumentResolver INSTANCE = new SortArgumentResolver();
 
     private static final String DEFAULT_PARAMETER = "sort";
 
