@@ -22,8 +22,10 @@ import java.util.Collections;
 /**
  * @author cn-src
  */
+@SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 public class PGDSL extends PostgresDSL {
     public static final String JSONB_SQL_TYPE = "jsonb";
+
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static DataType<Geometry> GEOMETRY_TYPE =
         SQLDataType.OTHER.asConvertedDataType((Converter) PostGISGeometryConverter.INSTANCE);
