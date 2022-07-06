@@ -2,6 +2,7 @@ package cn.javaer.jany.spring.autoconfigure.task;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.time.Duration;
 
@@ -11,9 +12,11 @@ import java.time.Duration;
 public class ExecutionProperties {
 
     @Getter
+    @NestedConfigurationProperty
     private final Pool pool = new Pool();
 
     @Getter
+    @NestedConfigurationProperty
     private final Shutdown shutdown = new Shutdown();
 
     /**
