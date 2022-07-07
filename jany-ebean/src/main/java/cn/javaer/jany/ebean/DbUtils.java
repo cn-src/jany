@@ -67,7 +67,7 @@ public class DbUtils {
         }
 
         StringBuilder sb = new StringBuilder("INSERT INTO ");
-        sb = sb.append(PersistUtils.tableName(entityClass))
+        sb.append(PersistUtils.tableName(entityClass))
             .append(' ').append(columns)
             .append(" VALUES ").append(values)
             .append("ON CONFLICT (").append(upsertColumnName);
