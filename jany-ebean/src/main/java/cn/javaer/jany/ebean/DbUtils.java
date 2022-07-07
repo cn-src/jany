@@ -6,8 +6,7 @@ import io.ebean.DB;
 import io.ebean.SqlUpdate;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.StringJoiner;
 
 /**
@@ -15,29 +14,31 @@ import java.util.StringJoiner;
  */
 public class DbUtils {
 
-    public static int upsert(Object bean, UpsertMode mode) {
+    public static <E> int[] upsert(List<E> beans, UpsertMode mode) {
+        Assert.notEmpty(beans);
+        Assert.notNull(mode);
 
-        final Field[] persistFields = PersistUtils.getPersistFields(bean.getClass());
+        Class<?> entityClass = beans.get(0).getClass();
+        final Field[] persistFields = PersistUtils.getPersistFields(entityClass);
         Assert.notEmpty(persistFields);
 
         final StringJoiner columns = new StringJoiner(",", "(", ")");
         final StringJoiner values = new StringJoiner(",", "(", ")");
         final StringJoiner sets = new StringJoiner(",");
-        final Map<String, Object> fieldValues = new HashMap<>(persistFields.length);
+//        final List<Map<String, Object>> fieldValues = List(persistFields.length);
         String upsertColumnName = "";
         for (Field field : persistFields) {
             final String columnName = PersistUtils.columnName(field);
             columns.add(columnName);
             values.add(":").add(columnName);
             sets.add(columnName).add("= :").add(columnName);
-            fieldValues.put(columnName, ReflectUtil.getFieldValue(bean, field));
             if (field.isAnnotationPresent(UpsertKey.class)) {
                 upsertColumnName = columnName;
             }
         }
 
         StringBuilder sb = new StringBuilder("INSERT INTO ");
-        sb = sb.append(PersistUtils.tableName(bean.getClass()))
+        sb = sb.append(PersistUtils.tableName(entityClass))
             .append(' ').append(columns)
             .append(" VALUES ").append(values)
             .append("ON CONFLICT (").append(upsertColumnName);
@@ -54,9 +55,13 @@ public class DbUtils {
         }
 
         final SqlUpdate sqlUpdate = DB.sqlUpdate(sb.toString());
-        for (Map.Entry<String, Object> entry : fieldValues.entrySet()) {
-            sqlUpdate.setParameter(entry.getKey(), entry.getValue());
+        for (E bean : beans) {
+            for (Field field : persistFields) {
+                final String columnName = PersistUtils.columnName(field);
+                sqlUpdate.setParameter(columnName, ReflectUtil.getFieldValue(bean, field));
+            }
+            sqlUpdate.addBatch();
         }
-        return sqlUpdate.execute();
+        return sqlUpdate.executeBatch();
     }
 }
