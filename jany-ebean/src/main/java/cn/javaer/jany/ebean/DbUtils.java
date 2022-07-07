@@ -1,9 +1,13 @@
 package cn.javaer.jany.ebean;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ReflectUtil;
 import io.ebean.DB;
+import io.ebean.SqlUpdate;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringJoiner;
 
 /**
@@ -19,12 +23,14 @@ public class DbUtils {
         final StringJoiner columns = new StringJoiner(",", "(", ")");
         final StringJoiner values = new StringJoiner(",", "(", ")");
         final StringJoiner sets = new StringJoiner(",");
+        final Map<String, Object> fieldValues = new HashMap<>(persistFields.length);
         String upsertColumnName = "";
         for (Field field : persistFields) {
             final String columnName = PersistUtils.columnName(field);
             columns.add(columnName);
             values.add(":").add(columnName);
             sets.add(columnName).add("= :").add(columnName);
+            fieldValues.put(columnName, ReflectUtil.getFieldValue(bean, field));
             if (field.isAnnotationPresent(UpsertKey.class)) {
                 upsertColumnName = columnName;
             }
@@ -47,6 +53,10 @@ public class DbUtils {
                 throw new IllegalArgumentException("UpsertMode error");
         }
 
-        return DB.sqlUpdate(sb.toString()).execute();
+        final SqlUpdate sqlUpdate = DB.sqlUpdate(sb.toString());
+        for (Map.Entry<String, Object> entry : fieldValues.entrySet()) {
+            sqlUpdate.setParameter(entry.getKey(), entry.getValue());
+        }
+        return sqlUpdate.execute();
     }
 }
