@@ -16,8 +16,8 @@ import java.lang.reflect.Field;
  * @author cn-src
  */
 public class PersistUtils {
-    private static final WeakConcurrentMap<Class<?>, Field[]> FIELDS_CACHE =
-        new WeakConcurrentMap<>();
+    private static final
+    WeakConcurrentMap<Class<?>, Field[]> FIELDS_CACHE = new WeakConcurrentMap<>();
 
     public static Field[] getPersistFields(Class<?> entityClass) {
         Assert.notNull(entityClass);
