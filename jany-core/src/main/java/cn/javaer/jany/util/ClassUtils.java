@@ -14,4 +14,9 @@ public class ClassUtils extends ClassUtil {
         Assert.notNull(field, "Field to provided is null.");
         return !Modifier.isStatic(field.getModifiers());
     }
+
+    public static boolean isNotTransient(Field field) {
+        Assert.notNull(field, "Field to provided is null.");
+        return !Modifier.isTransient(field.getModifiers());
+    }
 }
