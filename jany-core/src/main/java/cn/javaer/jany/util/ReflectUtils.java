@@ -21,6 +21,22 @@ import java.util.Optional;
 public class ReflectUtils extends ReflectUtil {
 
     /**
+     * 获取所有持久化字段。非静态、非瞬态和未使用给定注解的字段。
+     *
+     * @param beanClass 要处理的bean的类
+     * @param transientClass 将字段标记为瞬态的注释类
+     *
+     * @return 持久化字段。
+     */
+    public static Field[] getPersistFields(Class<?> beanClass,
+                                           Class<? extends Annotation> transientClass) throws SecurityException {
+        return ReflectUtil.getFields(beanClass,
+            field -> ClassUtils.isNotStatic(field)
+                && ClassUtils.isNotTransient(field)
+                && !field.isAnnotationPresent(transientClass));
+    }
+
+    /**
      * 获取指定 class 中标注了指定注解的字段的名称。
      *
      * @param clazz class
