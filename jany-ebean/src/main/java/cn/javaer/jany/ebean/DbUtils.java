@@ -3,10 +3,12 @@ package cn.javaer.jany.ebean;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 import io.ebean.DB;
+import io.ebean.Database;
 import io.ebean.SqlUpdate;
 import io.ebean.Transaction;
 
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -14,6 +16,20 @@ import java.util.StringJoiner;
  * @author cn-src
  */
 public class DbUtils {
+
+    public static <E> int upsert(E bean, UpsertMode mode) {
+        Assert.notNull(bean);
+        return upsert(Collections.singletonList(bean), mode)[0];
+    }
+
+    public static <E> int upsert(Database db, E bean, UpsertMode mode) {
+        Assert.notNull(bean);
+        return upsert(db, Collections.singletonList(bean), mode)[0];
+    }
+
+    public static <E> int[] upsert(List<E> beans, UpsertMode mode) {
+        return upsert(DB.getDefault(), beans, mode);
+    }
 
     /**
      * 注意：此方法没有 Ebean 原生支持的一些特性。
@@ -24,7 +40,7 @@ public class DbUtils {
      *
      * @return int
      */
-    public static <E> int[] upsert(List<E> beans, UpsertMode mode) {
+    public static <E> int[] upsert(Database db, List<E> beans, UpsertMode mode) {
         Assert.notEmpty(beans);
         Assert.notNull(mode);
 
@@ -67,8 +83,8 @@ public class DbUtils {
                 throw new IllegalArgumentException("UpsertMode error");
         }
 
-        final SqlUpdate sqlUpdate = DB.sqlUpdate(sb.toString());
-        try (Transaction txn = DB.beginTransaction()) {
+        final SqlUpdate sqlUpdate = db.sqlUpdate(sb.toString());
+        try (Transaction txn = db.beginTransaction()) {
             for (E bean : beans) {
                 for (Field field : persistFields) {
                     final String columnName = PersistUtils.columnName(field);
