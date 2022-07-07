@@ -1,7 +1,8 @@
 package cn.javaer.jany.ebean;
 
 import cn.hutool.core.lang.Opt;
-import cn.javaer.jany.util.ReflectUtils;
+import cn.hutool.core.util.ReflectUtil;
+import cn.javaer.jany.util.ClassUtils;
 import cn.javaer.jany.util.StrUtils;
 
 import javax.persistence.Column;
@@ -15,14 +16,18 @@ import java.lang.reflect.Field;
 public class PersistUtils {
 
     public static Field[] getPersistFields(Class<?> entityClass) {
-        return ReflectUtils.getPersistFields(entityClass, Transient.class);
+        return ReflectUtil.getFields(entityClass,
+            field -> !field.getName().startsWith("_ebean")
+                && ClassUtils.isNotStatic(field)
+                && ClassUtils.isNotTransient(field)
+                && !field.isAnnotationPresent(Transient.class));
     }
 
     public static String tableName(Class<?> entityClass) {
         return Opt.ofNullable(entityClass.getAnnotation(Table.class))
             .map(Table::name)
             .filter(StrUtils::isNotEmpty)
-            .orElse(StrUtils.toSnakeLower(entityClass.getName()));
+            .orElse(StrUtils.toSnakeLower(entityClass.getSimpleName()));
     }
 
     public static String columnName(Field field) {

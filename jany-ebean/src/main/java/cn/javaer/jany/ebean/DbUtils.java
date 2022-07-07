@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 import io.ebean.DB;
 import io.ebean.SqlUpdate;
+import io.ebean.Transaction;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -14,6 +15,15 @@ import java.util.StringJoiner;
  */
 public class DbUtils {
 
+    /**
+     * 注意：此方法没有 Ebean 原生支持的一些特性。
+     *
+     * @param beans beans
+     * @param mode mode
+     * @param <E> e
+     *
+     * @return int
+     */
     public static <E> int[] upsert(List<E> beans, UpsertMode mode) {
         Assert.notEmpty(beans);
         Assert.notNull(mode);
@@ -25,13 +35,16 @@ public class DbUtils {
         final StringJoiner columns = new StringJoiner(",", "(", ")");
         final StringJoiner values = new StringJoiner(",", "(", ")");
         final StringJoiner sets = new StringJoiner(",");
-//        final List<Map<String, Object>> fieldValues = List(persistFields.length);
         String upsertColumnName = "";
         for (Field field : persistFields) {
             final String columnName = PersistUtils.columnName(field);
-            columns.add(columnName);
-            values.add(":").add(columnName);
-            sets.add(columnName).add("= :").add(columnName);
+            if (!field.isAnnotationPresent(UpsertInsertTransient.class)) {
+                columns.add(columnName);
+                values.add(":" + columnName);
+            }
+            if (!field.isAnnotationPresent(UpsertUpdateTransient.class)) {
+                sets.add(columnName + "= :" + columnName);
+            }
             if (field.isAnnotationPresent(UpsertKey.class)) {
                 upsertColumnName = columnName;
             }
@@ -55,13 +68,17 @@ public class DbUtils {
         }
 
         final SqlUpdate sqlUpdate = DB.sqlUpdate(sb.toString());
-        for (E bean : beans) {
-            for (Field field : persistFields) {
-                final String columnName = PersistUtils.columnName(field);
-                sqlUpdate.setParameter(columnName, ReflectUtil.getFieldValue(bean, field));
+        try (Transaction txn = DB.beginTransaction()) {
+            for (E bean : beans) {
+                for (Field field : persistFields) {
+                    final String columnName = PersistUtils.columnName(field);
+                    sqlUpdate.setParameter(columnName, ReflectUtil.getFieldValue(bean, field));
+                }
+                sqlUpdate.addBatch();
             }
-            sqlUpdate.addBatch();
+            int[] rows = sqlUpdate.executeBatch();
+            txn.commit();
+            return rows;
         }
-        return sqlUpdate.executeBatch();
     }
 }
