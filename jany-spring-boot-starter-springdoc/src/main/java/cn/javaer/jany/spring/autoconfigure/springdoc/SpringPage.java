@@ -6,7 +6,9 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 命名成 SpringPage，避免默认情况下的命名冲突。类上不能使用 @Schema 注解的 name 属性，否则范型失效。
+ * 命名成 SpringPage，避免默认情况下与 jany Page 对象的命名冲突（默认情况下 Swagger 只取 Class 的短称）。
+ * <p>
+ * 类上不能使用 @Schema 注解的 name 属性，否则范型失效。
  *
  * @author cn-src
  */
