@@ -15,6 +15,7 @@ class SchedulersAutoConfigurationTest {
         .withConfiguration(AutoConfigurations.of(
             SchedulersAutoConfiguration.class))
         .withPropertyValues(
+            "jany.scheduling.enabled=true",
             "jany.scheduling.schedulers.demoScheduler1.threadNamePrefix=demo1-",
             "jany.scheduling.schedulers.demoScheduler2.threadNamePrefix=demo2-"
         );
