@@ -11,6 +11,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "jany.jackson")
 public class JacksonPlusProperties {
 
+    private boolean enabled = true;
+
     private Format format = new Format();
 
     @Data
