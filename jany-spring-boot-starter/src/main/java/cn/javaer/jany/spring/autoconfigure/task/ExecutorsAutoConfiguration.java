@@ -2,6 +2,8 @@ package cn.javaer.jany.spring.autoconfigure.task;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -9,8 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.task.TaskExecutorBuilder;
 import org.springframework.boot.task.TaskExecutorCustomizer;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskDecorator;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -25,19 +25,16 @@ import java.util.Map;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ExecutorsProperties.class)
 @ConditionalOnProperty(prefix = "jany.task", name = "enabled", havingValue = "true")
-public class ExecutorsAutoConfiguration implements ApplicationContextAware {
+public class ExecutorsAutoConfiguration implements BeanFactoryPostProcessor {
 
     @Override
-    public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         final ExecutorsProperties properties =
-            applicationContext.getBean(ExecutorsProperties.class);
+            beanFactory.getBean(ExecutorsProperties.class);
         final ObjectProvider<TaskExecutorCustomizer> customizers =
-            applicationContext.getBeanProvider(TaskExecutorCustomizer.class);
+            beanFactory.getBeanProvider(TaskExecutorCustomizer.class);
         final ObjectProvider<TaskDecorator> decorators =
-            applicationContext.getBeanProvider(TaskDecorator.class);
-        final DefaultListableBeanFactory beanFactory =
-            (DefaultListableBeanFactory) applicationContext
-                .getAutowireCapableBeanFactory();
+            beanFactory.getBeanProvider(TaskDecorator.class);
 
         if (!CollectionUtils.isEmpty(properties.getExecutors())) {
             for (final Map.Entry<String, ExecutionProperties> entry :
@@ -64,7 +61,8 @@ public class ExecutorsAutoConfiguration implements ApplicationContextAware {
                 beanDefinition.setLazyInit(true);
                 final TaskExecutorBuilder fb = builder;
                 beanDefinition.setInstanceSupplier(fb::build);
-                beanFactory.registerBeanDefinition(entry.getKey(), beanDefinition);
+                ((DefaultListableBeanFactory) beanFactory)
+                    .registerBeanDefinition(entry.getKey(), beanDefinition);
             }
         }
     }

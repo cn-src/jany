@@ -2,6 +2,8 @@ package cn.javaer.jany.spring.autoconfigure.task;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -9,8 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.task.TaskSchedulerBuilder;
 import org.springframework.boot.task.TaskSchedulerCustomizer;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -26,18 +26,15 @@ import java.util.Map;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(SchedulersProperties.class)
 @ConditionalOnProperty(prefix = "jany.scheduling", name = "enabled", havingValue = "true")
-public class SchedulersAutoConfiguration implements ApplicationContextAware {
+public class SchedulersAutoConfiguration implements BeanFactoryPostProcessor {
 
     @Override
-    public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         final SchedulersProperties schedulersProperties =
-            applicationContext.getBean(SchedulersProperties.class);
+            beanFactory.getBean(SchedulersProperties.class);
         final ObjectProvider<TaskSchedulerCustomizer> taskSchedulerCustomizers =
-            applicationContext.getBeanProvider(TaskSchedulerCustomizer.class);
+            beanFactory.getBeanProvider(TaskSchedulerCustomizer.class);
 
-        final DefaultListableBeanFactory beanFactory =
-            (DefaultListableBeanFactory) applicationContext
-                .getAutowireCapableBeanFactory();
         if (!CollectionUtils.isEmpty(schedulersProperties.getSchedulers())) {
             for (final Map.Entry<String, SchedulingProperties> entry :
                 schedulersProperties.getSchedulers().entrySet()) {
@@ -68,7 +65,8 @@ public class SchedulersAutoConfiguration implements ApplicationContextAware {
                     }
                     return scheduler;
                 });
-                beanFactory.registerBeanDefinition(entry.getKey(), beanDefinition);
+                ((DefaultListableBeanFactory) beanFactory)
+                    .registerBeanDefinition(entry.getKey(), beanDefinition);
             }
         }
     }
