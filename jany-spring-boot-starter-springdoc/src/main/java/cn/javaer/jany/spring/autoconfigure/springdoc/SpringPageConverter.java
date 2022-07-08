@@ -11,7 +11,7 @@ import org.springframework.core.ResolvableType;
 import java.util.Iterator;
 
 /**
- * Page 对象的重写，如果使用 SpringDocUtils.getConfig().replaceWithClass() 是无法处理范型的。
+ * Page 对象文档生成的重写，如果使用 SpringDocUtils.getConfig().replaceWithClass() 是无法处理范型的。
  *
  * @author cn-src
  */
