@@ -4,7 +4,7 @@ import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.spring.autoconfigure.web.exception.ExceptionAutoConfiguration;
 import cn.javaer.jany.spring.security.PrincipalId;
 import cn.javaer.jany.spring.web.exception.ErrorInfoProcessor;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.core.util.PrimitiveType;
 import org.springdoc.core.GenericResponseService;
 import org.springdoc.core.OperationService;
 import org.springdoc.core.PropertyResolverUtils;
@@ -26,7 +26,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalTime;
 import java.util.List;
 
 import static org.springdoc.core.Constants.SPRINGDOC_PAGEABLE_CONVERTER_ENABLED;
@@ -60,8 +59,7 @@ public class SpringdocAutoConfiguration implements InitializingBean {
     public void afterPropertiesSet() {
         SpringDocUtils.getConfig().replaceParameterObjectWithClass(
             PageParam.class, PageableDoc.class);
-        SpringDocUtils.getConfig().replaceWithSchema(LocalTime.class,
-            new StringSchema().format("time"));
+        PrimitiveType.customClasses().put("java.time.LocalTime", PrimitiveType.PARTIAL_TIME);
     }
 
     @ConditionalOnClass(Pageable.class)

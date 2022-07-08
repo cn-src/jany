@@ -3,6 +3,7 @@ package cn.javaer.jany.spring.autoconfigure.springdoc;
 import cn.javaer.jany.exception.ErrorCode;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.spring.autoconfigure.web.exception.ExceptionAutoConfiguration;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.springdoc.core.Constants;
@@ -97,6 +98,7 @@ class SpringdocAutoConfigurationTest {
 
     @Data
     static class Demo {
+        @Schema(description = "a time")
         LocalTime localTime;
     }
 
