@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.task;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -50,7 +51,7 @@ public class TaskExecutorFactory implements BeanFactoryAware {
     }
 
     @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+    public void setBeanFactory(@NotNull BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
     }
 }
