@@ -32,6 +32,7 @@ public class SpringPageConverter implements ModelConverter {
         if (javaType != null) {
             Class<?> cls = javaType.getRawClass();
             if (SPRING_PAGE.equals(cls.getCanonicalName())) {
+                // 通过重新创建 AnnotatedType 的方式达到改写目的，替换 Spring Page 对象，同时保留其范型。
                 final Class<?> generic = javaType.getBindings().getBoundType(0).getRawClass();
                 final ResolvableType resolvableType =
                     ResolvableType.forClassWithGenerics(SpringPage.class, generic);
