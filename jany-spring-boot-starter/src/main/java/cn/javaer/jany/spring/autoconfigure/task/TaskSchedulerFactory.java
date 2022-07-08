@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.task;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -15,21 +16,21 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * @author cn-src
  */
-public class SchedulerPool implements BeanFactoryAware {
+public class TaskSchedulerFactory implements BeanFactoryAware {
     private BeanFactory beanFactory;
 
     private final SchedulersProperties schedulersProperties;
 
-    public SchedulerPool(SchedulersProperties schedulersProperties) {
+    public TaskSchedulerFactory(SchedulersProperties schedulersProperties) {
         this.schedulersProperties = schedulersProperties;
     }
 
-    public ThreadPoolTaskScheduler createByName(String name) {
+    public ThreadPoolTaskScheduler create(String name) {
         final SchedulerConf properties = schedulersProperties.getSchedulers().get(name);
         return createBuilder(properties).build();
     }
 
-    public TaskSchedulerBuilder createBuilder(SchedulerConf properties) {
+    private TaskSchedulerBuilder createBuilder(SchedulerConf properties) {
         final ObjectProvider<TaskSchedulerCustomizer> taskSchedulerCustomizers =
             beanFactory.getBeanProvider(TaskSchedulerCustomizer.class);
         TaskSchedulerBuilder builder = new TaskSchedulerBuilder();
@@ -61,7 +62,7 @@ public class SchedulerPool implements BeanFactoryAware {
     }
 
     @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+    public void setBeanFactory(@NotNull BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
     }
 }

@@ -12,21 +12,21 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 /**
  * @author cn-src
  */
-public class TaskExecutorPool implements BeanFactoryAware {
+public class TaskExecutorFactory implements BeanFactoryAware {
     private BeanFactory beanFactory;
 
     private final ExecutorsProperties executorsProperties;
 
-    public TaskExecutorPool(ExecutorsProperties executorsProperties) {
+    public TaskExecutorFactory(ExecutorsProperties executorsProperties) {
         this.executorsProperties = executorsProperties;
     }
 
-    public ThreadPoolTaskExecutor createByName(String name) {
+    public ThreadPoolTaskExecutor create(String name) {
         final ExecutorConf properties = executorsProperties.getExecutors().get(name);
         return createBuilder(properties).build();
     }
 
-    public TaskExecutorBuilder createBuilder(ExecutorConf taskProp) {
+    private TaskExecutorBuilder createBuilder(ExecutorConf taskProp) {
         final ObjectProvider<TaskExecutorCustomizer> customizers =
             beanFactory.getBeanProvider(TaskExecutorCustomizer.class);
         final ObjectProvider<TaskDecorator> decorators =

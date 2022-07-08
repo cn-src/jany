@@ -16,7 +16,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 @ConditionalOnProperty(prefix = "jany.scheduling", name = "enabled", havingValue = "true")
 public class SchedulersAutoConfiguration {
     @Bean
-    public SchedulerPool taskExecutorPool(SchedulersProperties properties) {
-        return new SchedulerPool(properties);
+    public TaskSchedulerFactory taskExecutorPool(SchedulersProperties properties) {
+        return new TaskSchedulerFactory(properties);
     }
 }

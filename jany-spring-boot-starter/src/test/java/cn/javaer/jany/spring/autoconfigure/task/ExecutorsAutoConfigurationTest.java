@@ -42,13 +42,13 @@ class ExecutorsAutoConfigurationTest {
     @Configuration
     static class Conf {
         @Bean
-        public ThreadPoolTaskExecutor demoExecutor1(TaskExecutorPool pool) {
-            return pool.createByName("demoExecutor1");
+        public ThreadPoolTaskExecutor demoExecutor1(TaskExecutorFactory pool) {
+            return pool.create("demoExecutor1");
         }
 
         @Bean
-        public ThreadPoolTaskExecutor demoExecutor2(TaskExecutorPool pool) {
-            return pool.createByName("demoExecutor2");
+        public ThreadPoolTaskExecutor demoExecutor2(TaskExecutorFactory pool) {
+            return pool.create("demoExecutor2");
         }
     }
 }

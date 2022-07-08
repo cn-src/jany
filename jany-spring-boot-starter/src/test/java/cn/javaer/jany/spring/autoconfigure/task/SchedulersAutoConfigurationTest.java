@@ -42,13 +42,13 @@ class SchedulersAutoConfigurationTest {
     @Configuration
     static class Conf {
         @Bean
-        public ThreadPoolTaskScheduler demoScheduler1(SchedulerPool pool) {
-            return pool.createByName("demoScheduler1");
+        public ThreadPoolTaskScheduler demoScheduler1(TaskSchedulerFactory pool) {
+            return pool.create("demoScheduler1");
         }
 
         @Bean
-        public ThreadPoolTaskScheduler demoScheduler2(SchedulerPool pool) {
-            return pool.createByName("demoScheduler2");
+        public ThreadPoolTaskScheduler demoScheduler2(TaskSchedulerFactory pool) {
+            return pool.create("demoScheduler2");
         }
     }
 }
