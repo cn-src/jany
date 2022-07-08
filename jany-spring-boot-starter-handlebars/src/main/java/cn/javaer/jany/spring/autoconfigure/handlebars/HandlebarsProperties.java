@@ -13,6 +13,8 @@ import java.nio.charset.StandardCharsets;
 @ConfigurationProperties(prefix = "jany.handlebars")
 public class HandlebarsProperties {
 
+    private boolean enabled = true;
+
     public static final String DEFAULT_PREFIX = "file:"
         + System.getProperty("user.dir") + "/conf/templates/";
 

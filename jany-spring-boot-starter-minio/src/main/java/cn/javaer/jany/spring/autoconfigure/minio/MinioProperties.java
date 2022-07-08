@@ -13,6 +13,8 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "jany.minio")
 public class MinioProperties {
 
+    private boolean enabled = true;
+    
     private String endpoint;
 
     private String accessKey;

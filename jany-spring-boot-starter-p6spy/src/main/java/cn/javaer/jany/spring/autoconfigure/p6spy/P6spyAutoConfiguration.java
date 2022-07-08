@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,6 +33,7 @@ import java.util.stream.Stream;
 @AutoConfigureBefore({DataSourceDecoratorAutoConfiguration.class})
 @ConditionalOnProperty(prefix = "jany.p6spy", name = "enabled", havingValue = "true",
     matchIfMissing = true)
+@EnableConfigurationProperties(P6spyProperties.class)
 public class P6spyAutoConfiguration implements InitializingBean {
 
     @Bean
@@ -49,7 +51,7 @@ public class P6spyAutoConfiguration implements InitializingBean {
         catch (final IOException ignored) {
         }
         final Map<String, String> props = Stream.of(spyDotProperties,
-            new EnvironmentVariables(), new SystemProperties())
+                new EnvironmentVariables(), new SystemProperties())
             .filter(Objects::nonNull)
             .map(P6OptionsSource::getOptions)
             .filter(Objects::nonNull)

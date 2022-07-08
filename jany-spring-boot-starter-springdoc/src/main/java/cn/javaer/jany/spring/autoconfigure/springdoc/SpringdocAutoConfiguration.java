@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -40,7 +41,8 @@ import static org.springdoc.core.Constants.SPRINGDOC_PAGEABLE_CONVERTER_ENABLED;
 @AutoConfigureBefore({SpringDocConfiguration.class, SpringDocConfigProperties.class})
 @ConditionalOnProperty(prefix = "jany.springdoc", name = "enabled", havingValue = "true",
     matchIfMissing = true)
-public class SpringDocAutoConfiguration implements InitializingBean {
+@EnableConfigurationProperties(SpringdocProperties.class)
+public class SpringdocAutoConfiguration implements InitializingBean {
 
     @Bean
     @ConditionalOnMissingBean

@@ -37,12 +37,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author cn-src
  */
-class SpringDocAutoConfigurationTest {
+class SpringdocAutoConfigurationTest {
 
     private final WebApplicationContextRunner contextRunner = new WebApplicationContextRunner()
         .withConfiguration(
             AutoConfigurations.of(
-                SpringDocAutoConfiguration.class,
+                SpringdocAutoConfiguration.class,
                 ExceptionAutoConfiguration.class,
 
                 SpringDocConfiguration.class,
