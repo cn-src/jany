@@ -67,6 +67,12 @@ public class SpringdocAutoConfiguration implements InitializingBean {
 
         @Bean
         @ConditionalOnMissingBean
+        public SpringPageConverter springPageConverter(ObjectMapperProvider springDocObjectMapper) {
+            return new SpringPageConverter(springDocObjectMapper);
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
         @ConditionalOnProperty(name = SPRINGDOC_PAGEABLE_CONVERTER_ENABLED, matchIfMissing = true)
         @Lazy(false)
         @SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")

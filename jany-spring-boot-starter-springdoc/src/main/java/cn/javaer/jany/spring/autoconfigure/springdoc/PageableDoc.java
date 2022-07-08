@@ -10,8 +10,8 @@ import java.util.List;
  * @author cn-src
  */
 @Data
-@Schema(name = "Pageable")
 @ParameterObject
+@Schema(name = "Pageable")
 public class PageableDoc {
 
     @Schema(name = "page",
