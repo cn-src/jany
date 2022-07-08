@@ -5,6 +5,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.task.TaskExecutorBuilder;
 import org.springframework.boot.task.TaskExecutorCustomizer;
@@ -23,6 +24,7 @@ import java.util.Map;
 @ConditionalOnClass(ThreadPoolTaskExecutor.class)
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ExecutorsProperties.class)
+@ConditionalOnProperty(prefix = "jany.task", name = "enabled", havingValue = "true")
 public class ExecutorsAutoConfiguration implements ApplicationContextAware {
 
     @Override
