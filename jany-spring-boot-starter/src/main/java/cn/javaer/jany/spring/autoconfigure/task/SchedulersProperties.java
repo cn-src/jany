@@ -18,5 +18,5 @@ public class SchedulersProperties {
     private boolean enabled = false;
 
     @Getter
-    private final Map<String, SchedulingProperties> schedulers = new LinkedHashMap<>();
+    private final Map<String, SchedulerConf> schedulers = new LinkedHashMap<>();
 }

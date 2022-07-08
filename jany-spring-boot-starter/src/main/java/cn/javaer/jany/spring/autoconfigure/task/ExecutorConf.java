@@ -5,16 +5,11 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.time.Duration;
-import java.util.concurrent.RejectedExecutionHandler;
 
 /**
  * @author cn-src
  */
-public class SchedulingProperties {
-
-    @Getter
-    @Setter
-    private Class<? extends RejectedExecutionHandler> rejectedExecutionHandler;
+public class ExecutorConf {
 
     @Getter
     @NestedConfigurationProperty
@@ -27,22 +22,43 @@ public class SchedulingProperties {
     /**
      * Prefix to use for the names of newly created threads.
      */
-    @Getter
     @Setter
-    private String threadNamePrefix = "scheduling-";
+    @Getter
+    private String threadNamePrefix = "task-";
 
-    @Getter
     @Setter
+    @Getter
     public static class Pool {
 
         /**
-         * Maximum allowed number of threads.
+         * 队列容量。无限容量不会增加池，因此会忽略 "max-size" 属性。
          */
-        private int size = 1;
+        private int queueCapacity = Integer.MAX_VALUE;
+
+        /**
+         * 核心线程数。
+         */
+        private int coreSize = 8;
+
+        /**
+         * 允许的最大线程数。如果任务正在填满队列，则池可以扩展到该大小以适应负载。如果队列无界则忽略。
+         */
+        private int maxSize = Integer.MAX_VALUE;
+
+        /**
+         * Whether core threads are allowed to time out. This enables dynamic growing and
+         * shrinking of the pool.
+         */
+        private boolean allowCoreThreadTimeout = true;
+
+        /**
+         * Time limit for which threads may remain idle before being terminated.
+         */
+        private Duration keepAlive = Duration.ofSeconds(60);
     }
 
-    @Getter
     @Setter
+    @Getter
     public static class Shutdown {
 
         /**

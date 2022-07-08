@@ -18,5 +18,5 @@ public class ExecutorsProperties {
     private boolean enabled = false;
 
     @Getter
-    private final Map<String, ExecutionProperties> executors = new LinkedHashMap<>();
+    private final Map<String, ExecutorConf> executors = new LinkedHashMap<>();
 }
