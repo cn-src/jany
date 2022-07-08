@@ -3,6 +3,8 @@ package cn.javaer.jany.spring.autoconfigure.task;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +25,7 @@ class SchedulersAutoConfigurationTest {
     @Test
     void postProcessBeanFactory() {
 
-        this.contextRunner.run(context -> {
+        this.contextRunner.withUserConfiguration(Conf.class).run(context -> {
             assertThat(context).hasBean("demoScheduler1");
             assertThat(context).hasBean("demoScheduler2");
 
@@ -35,5 +37,18 @@ class SchedulersAutoConfigurationTest {
                 ThreadPoolTaskScheduler.class);
             assertThat(demoScheduler2.getThreadNamePrefix()).isEqualTo("demo2-");
         });
+    }
+
+    @Configuration
+    static class Conf {
+        @Bean
+        public ThreadPoolTaskScheduler demoScheduler1(SchedulerPool pool) {
+            return pool.createByName("demoScheduler1");
+        }
+
+        @Bean
+        public ThreadPoolTaskScheduler demoScheduler2(SchedulerPool pool) {
+            return pool.createByName("demoScheduler2");
+        }
     }
 }
