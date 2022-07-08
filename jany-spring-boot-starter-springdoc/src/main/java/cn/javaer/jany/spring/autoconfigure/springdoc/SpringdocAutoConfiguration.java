@@ -24,7 +24,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalTime;
@@ -78,7 +77,6 @@ public class SpringdocAutoConfiguration implements InitializingBean {
                 org.springframework.data.domain.Pageable.class, PageableDoc.class);
             SpringDocUtils.getConfig().replaceParameterObjectWithClass(
                 org.springframework.data.domain.PageRequest.class, PageableDoc.class);
-            SpringDocUtils.getConfig().replaceWithClass(Page.class, PageDoc.class);
             SpringDocUtils.getConfig().addAnnotationsToIgnore(PrincipalId.class);
             return new PageableOpenAPIConverter(objectMapperProvider);
         }
