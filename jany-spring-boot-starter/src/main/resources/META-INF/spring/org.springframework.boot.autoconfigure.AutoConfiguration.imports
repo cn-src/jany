@@ -1,0 +1,5 @@
+cn.javaer.jany.spring.autoconfigure.jackson.JacksonPlusAutoConfiguration
+cn.javaer.jany.spring.autoconfigure.web.exception.ExceptionAutoConfiguration
+cn.javaer.jany.spring.autoconfigure.web.WebAutoConfiguration
+cn.javaer.jany.spring.autoconfigure.task.SchedulersAutoConfiguration
+cn.javaer.jany.spring.autoconfigure.task.ExecutorsAutoConfiguration
