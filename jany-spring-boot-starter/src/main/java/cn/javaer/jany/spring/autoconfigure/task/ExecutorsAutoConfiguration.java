@@ -2,8 +2,6 @@ package cn.javaer.jany.spring.autoconfigure.task;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -11,11 +9,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.task.TaskExecutorBuilder;
 import org.springframework.boot.task.TaskExecutorCustomizer;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskDecorator;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 
 /**
@@ -25,10 +26,11 @@ import java.util.Map;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ExecutorsProperties.class)
 @ConditionalOnProperty(prefix = "jany.task", name = "enabled", havingValue = "true")
-public class ExecutorsAutoConfiguration implements BeanFactoryPostProcessor {
+public class ExecutorsAutoConfiguration implements ApplicationContextAware {
+    private DefaultListableBeanFactory beanFactory;
 
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    @PostConstruct
+    public void init() {
         final ExecutorsProperties properties =
             beanFactory.getBean(ExecutorsProperties.class);
         final ObjectProvider<TaskExecutorCustomizer> customizers =
@@ -61,9 +63,14 @@ public class ExecutorsAutoConfiguration implements BeanFactoryPostProcessor {
                 beanDefinition.setLazyInit(true);
                 final TaskExecutorBuilder fb = builder;
                 beanDefinition.setInstanceSupplier(fb::build);
-                ((DefaultListableBeanFactory) beanFactory)
-                    .registerBeanDefinition(entry.getKey(), beanDefinition);
+                beanFactory.registerBeanDefinition(entry.getKey(), beanDefinition);
             }
         }
+    }
+
+    @Override
+    public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+        beanFactory = (DefaultListableBeanFactory)
+            applicationContext.getAutowireCapableBeanFactory();
     }
 }

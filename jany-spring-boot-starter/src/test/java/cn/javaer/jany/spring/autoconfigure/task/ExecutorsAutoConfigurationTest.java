@@ -15,8 +15,9 @@ class ExecutorsAutoConfigurationTest {
         .withConfiguration(AutoConfigurations.of(
             ExecutorsAutoConfiguration.class))
         .withPropertyValues(
-            "jany.execution.executors.demoExecutor1.threadNamePrefix=demo1-",
-            "jany.execution.executors.demoExecutor2.threadNamePrefix=demo2-"
+            "jany.task.enabled=true",
+            "jany.task.executors.demoExecutor1.threadNamePrefix=demo1-",
+            "jany.task.executors.demoExecutor2.threadNamePrefix=demo2-"
         );
 
     @Test
