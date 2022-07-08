@@ -3,6 +3,7 @@ package cn.javaer.jany.spring.autoconfigure.springdoc;
 import cn.javaer.jany.exception.ErrorCode;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.spring.autoconfigure.web.exception.ExceptionAutoConfiguration;
+import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.springdoc.core.Constants;
 import org.springdoc.core.SpringDocConfigProperties;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.MissingFormatArgumentException;
 
@@ -81,16 +83,21 @@ class SpringdocAutoConfigurationTest {
     static class DemoController {
 
         @GetMapping("test")
-        public Page<String> get(final Pageable pageable)
+        public Page<Demo> get(final Pageable pageable)
             throws Demo1Exception, Demo2Exception, MissingFormatArgumentException {
 
-            return new PageImpl<>(Collections.singletonList("page data"), pageable, 1);
+            return new PageImpl<>(Collections.singletonList(new Demo()), pageable, 1);
         }
 
         @GetMapping("test2")
-        public cn.javaer.jany.model.Page<String> get(final PageParam pageParam) {
+        public cn.javaer.jany.model.Page<Demo> get(final PageParam pageParam) {
             return null;
         }
+    }
+
+    @Data
+    static class Demo {
+        LocalTime localTime;
     }
 
     @ErrorCode(error = "DEMO1_ERROR", status = 400, doc = "测试错误1")
