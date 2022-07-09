@@ -45,6 +45,11 @@ public class P6spyHelper {
             System.setProperty("p6spy.config.customLogMessageFormat",
                 "time %(executionTime) ms | url %(url)\n%(sql)");
         }
+        //noinspection AlibabaUndefineMagicConstant
+        if (!props.containsKey("appender")) {
+            System.setProperty("p6spy.config.appender",
+                "com.p6spy.engine.spy.appender.Slf4JLogger");
+        }
         initialized = true;
     }
 
