@@ -11,10 +11,8 @@ import com.p6spy.engine.spy.option.SystemProperties;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
@@ -35,12 +33,6 @@ import java.util.stream.Stream;
     matchIfMissing = true)
 @EnableConfigurationProperties(P6spyProperties.class)
 public class P6spyAutoConfiguration implements InitializingBean {
-
-    @Bean
-    @ConditionalOnMissingBean(TimestampJdbcEventListener.class)
-    public TimestampJdbcEventListener timestampJdbcEventListener() {
-        return new TimestampJdbcEventListener();
-    }
 
     @Override
     public void afterPropertiesSet() {
