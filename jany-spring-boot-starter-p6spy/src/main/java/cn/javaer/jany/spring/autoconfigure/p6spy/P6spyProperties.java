@@ -10,5 +10,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "jany.p6spy")
 public class P6spyProperties {
 
-    private boolean enabled = true;
+    private boolean enabled = false;
 }

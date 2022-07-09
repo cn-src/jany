@@ -20,8 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass({Loggable.class, BeautifulFormat.class, TimestampJdbcEventListener.class})
 @AutoConfigureBefore({DataSourceDecoratorAutoConfiguration.class})
-@ConditionalOnProperty(prefix = "jany.p6spy", name = "enabled", havingValue = "true",
-    matchIfMissing = true)
+@ConditionalOnProperty(prefix = "jany.p6spy", name = "enabled", havingValue = "true")
 @EnableConfigurationProperties(P6spyProperties.class)
 public class P6spyAutoConfiguration implements InitializingBean {
 
