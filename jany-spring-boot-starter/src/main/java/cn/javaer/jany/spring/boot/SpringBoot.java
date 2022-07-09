@@ -30,7 +30,7 @@ public class SpringBoot {
         ReflectUtils.getClass("com.yomahub.tlog.core.enhance.logback.AspectLogbackEncoder")
             .ifPresent(aClass -> {
                 props.put("logging.config",
-                    "classpath:cn/javaer/jany/spring/boot/logging/logback/tlog-base.xml");
+                    "classpath:cn/javaer/jany/spring/boot/logging/logback/tlog-logback.xml");
             });
         app.setDefaultProperties(props);
         return app.run(args);
