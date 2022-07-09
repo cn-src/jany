@@ -14,8 +14,15 @@ import java.util.stream.Stream;
 /**
  * @author cn-src
  */
-public class P6spyUtils {
+public class P6spyHelper {
+    private static boolean initialized = false;
+
+    private static boolean enabled = false;
+
     public static void initConfig() {
+        if (!enabled || initialized) {
+            return;
+        }
         SpyDotProperties spyDotProperties = null;
         try {
             spyDotProperties = new SpyDotProperties();
@@ -38,5 +45,14 @@ public class P6spyUtils {
             System.setProperty("p6spy.config.customLogMessageFormat",
                 "time %(executionTime) ms | url %(url)\n%(sql)");
         }
+        initialized = true;
+    }
+
+    public static void enable() {
+        enabled = true;
+    }
+
+    public static boolean isEnabled() {
+        return enabled;
     }
 }
