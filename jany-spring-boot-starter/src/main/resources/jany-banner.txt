@@ -1,0 +1,8 @@
+${AnsiColor.MAGENTA}    _
+   (_)   __ _   _ __    _   _
+   | |  / _` | | '_ \  | | | |
+   | | | (_| | | | | | | |_| |
+  _/ |  \__,_| |_| |_|  \__, |
+ |__/  ===============  |___/
+${AnsiColor.GREEN} :: Jany        :: ${AnsiColor.DEFAULT}${jany.version}
+${AnsiColor.GREEN} :: Spring Boot :: ${AnsiColor.DEFAULT}${spring-boot.version}

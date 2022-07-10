@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.boot;
 
+import cn.javaer.jany.JanyVersion;
 import cn.javaer.jany.util.IoUtils;
 import cn.javaer.jany.util.ReflectUtils;
 import org.springframework.boot.SpringApplication;
@@ -32,6 +33,8 @@ public class SpringBoot {
                 props.put("logging.config",
                     "classpath:cn/javaer/jany/spring/boot/logging/logback/tlog-logback.xml");
             });
+        props.put("jany.version", JanyVersion.getVersion());
+        props.put("spring.banner.location", "classpath:jany-banner.txt");
         app.setDefaultProperties(props);
         return app.run(args);
     }
