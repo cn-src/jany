@@ -13,9 +13,9 @@ public class EbeanOptChainTest {
         OptChain.of(new QDemo())
             .opt(q -> q.id::eq, 1)
             .opt(q -> q.id::between, 1, 4)
-            .call(QDemo::or)
+            .fn(QDemo::or)
             .opt(q -> q.name::eq, "name")
-            .call(QDemo::endOr)
+            .fn(QDemo::endOr)
             .root().findList();
     }
 }

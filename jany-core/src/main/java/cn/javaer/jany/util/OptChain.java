@@ -36,7 +36,7 @@ public class OptChain<T> {
         return this;
     }
 
-    public OptChain<T> call(Consumer<T> fun) {
+    public OptChain<T> fn(Consumer<T> fun) {
         fun.accept(root);
         return this;
     }
