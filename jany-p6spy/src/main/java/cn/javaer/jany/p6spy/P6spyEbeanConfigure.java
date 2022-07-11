@@ -15,6 +15,7 @@ public class P6spyEbeanConfigure implements AutoConfigure {
 
     @Override
     public void postConfigure(DatabaseConfig config) {
+
         final boolean ebeanEnabled = "true".equalsIgnoreCase(
             config.getProperties().getProperty("ebean.p6spy.enabled"));
         final boolean janyOnlyEnabled =
@@ -23,14 +24,18 @@ public class P6spyEbeanConfigure implements AutoConfigure {
 
         if (ebeanEnabled || janyOnlyEnabled) {
             P6spyHelper.initConfig();
-            final DataSourceConfig ds = config.getDataSourceConfig();
-            if (ds != null && ds.getDriver() != null && !ds.getDriver().contains(":p6spy:")) {
-                ds.setDriver(ds.getDriver().replaceFirst("jdbc:", "jdbc:p6spy:"));
-            }
-            final DataSourceConfig rds = config.getReadOnlyDataSourceConfig();
-            if (rds != null && rds.getDriver() != null && !rds.getDriver().contains(":p6spy:")) {
-                rds.setDriver(rds.getDriver().replaceFirst("jdbc:", "jdbc:p6spy:"));
-            }
+            replaceUrl(config.getDataSourceConfig());
+            replaceUrl(config.getReadOnlyDataSourceConfig());
+        }
+    }
+
+    public void replaceUrl(DataSourceConfig ds) {
+        if (ds != null && ds.getUrl() != null && !ds.getUrl().contains(":p6spy:")) {
+            ds.setUrl(ds.getUrl().replaceFirst("jdbc:", "jdbc:p6spy:"));
+        }
+        if (ds != null && ds.getReadOnlyUrl() != null
+            && !ds.getReadOnlyUrl().contains(":p6spy:")) {
+            ds.setReadOnlyUrl(ds.getReadOnlyUrl().replaceFirst("jdbc:", "jdbc:p6spy:"));
         }
     }
 }
