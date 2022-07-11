@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /**
  * 构建动态查询条件的 Builder 模式类。
@@ -44,8 +43,8 @@ public class Qry<T> {
         return this;
     }
 
-    public Qry<T> fn(@NotNull Supplier<?> fun) {
-        fun.get();
+    public Qry<T> fn(@NotNull Runnable fun) {
+        fun.run();
         return this;
     }
 
