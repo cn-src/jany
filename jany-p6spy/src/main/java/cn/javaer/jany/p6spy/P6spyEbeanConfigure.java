@@ -15,15 +15,20 @@ public class P6spyEbeanConfigure implements AutoConfigure {
 
     @Override
     public void postConfigure(DatabaseConfig config) {
-        if (!P6spyHelper.isEnabled()) {
-            return;
-        }
-        P6spyHelper.initConfig();
-        if (config.getDataSource() != null) {
-            config.setDataSource(new P6DataSource(config.getDataSource()));
-        }
-        if (config.getReadOnlyDataSource() != null) {
-            config.setReadOnlyDataSource(new P6DataSource(config.getReadOnlyDataSource()));
+        final boolean ebeanEnabled = "true".equalsIgnoreCase(
+            config.getProperties().getProperty("ebean.p6spy.enabled"));
+        final boolean janyOnlyEnabled =
+            !config.getProperties().containsKey("ebean.p6spy.enabled") &&
+                "true".equalsIgnoreCase(config.getProperties().getProperty("jany.p6spy.enabled"));
+        
+        if (ebeanEnabled || janyOnlyEnabled) {
+            P6spyHelper.initConfig();
+            if (config.getDataSource() != null) {
+                config.setDataSource(new P6DataSource(config.getDataSource()));
+            }
+            if (config.getReadOnlyDataSource() != null) {
+                config.setReadOnlyDataSource(new P6DataSource(config.getReadOnlyDataSource()));
+            }
         }
     }
 }

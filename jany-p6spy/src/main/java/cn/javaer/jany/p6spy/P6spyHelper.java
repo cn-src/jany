@@ -22,10 +22,8 @@ import java.util.stream.Stream;
 public class P6spyHelper {
     private static boolean initialized = false;
 
-    private static boolean enabled = false;
-
     public static void initConfig() {
-        if (!enabled || initialized) {
+        if (initialized) {
             return;
         }
         SpyDotProperties spyDotProperties = null;
@@ -64,13 +62,5 @@ public class P6spyHelper {
         }
         P6ModuleManager.getInstance().reload();
         initialized = true;
-    }
-
-    public static void enable() {
-        enabled = true;
-    }
-
-    public static boolean isEnabled() {
-        return enabled;
     }
 }

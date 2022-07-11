@@ -70,6 +70,10 @@
     {
       "name": "ebean.ddl.header",
       "type": "java.lang.String"
+    },
+    {
+      "name": "ebean.p6spy.enabled",
+      "type": "java.lang.Boolean"
     }
   ],
   "hints": [
