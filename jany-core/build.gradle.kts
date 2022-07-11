@@ -6,6 +6,7 @@ val springdocVersion: String by project
 dependencies {
     api("cn.hutool:hutool-core:$hutoolVersion")
 
+    optionalApi("cn.hutool:hutool-crypto:$hutoolVersion")
     optionalApi("org.springdoc:springdoc-openapi-webmvc-core:$springdocVersion")
     compileOnly("com.fasterxml.jackson.core:jackson-annotations")
 
