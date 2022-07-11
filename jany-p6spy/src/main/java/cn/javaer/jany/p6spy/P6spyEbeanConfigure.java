@@ -1,8 +1,8 @@
 package cn.javaer.jany.p6spy;
 
-import com.p6spy.engine.spy.P6DataSource;
 import io.ebean.config.AutoConfigure;
 import io.ebean.config.DatabaseConfig;
+import io.ebean.datasource.DataSourceConfig;
 
 /**
  * @author cn-src
@@ -20,14 +20,16 @@ public class P6spyEbeanConfigure implements AutoConfigure {
         final boolean janyOnlyEnabled =
             !config.getProperties().containsKey("ebean.p6spy.enabled") &&
                 "true".equalsIgnoreCase(config.getProperties().getProperty("jany.p6spy.enabled"));
-        
+
         if (ebeanEnabled || janyOnlyEnabled) {
             P6spyHelper.initConfig();
-            if (config.getDataSource() != null) {
-                config.setDataSource(new P6DataSource(config.getDataSource()));
+            final DataSourceConfig ds = config.getDataSourceConfig();
+            if (ds != null && ds.getDriver() != null && !ds.getDriver().contains(":p6spy:")) {
+                ds.setDriver(ds.getDriver().replaceFirst("jdbc:", "jdbc:p6spy:"));
             }
-            if (config.getReadOnlyDataSource() != null) {
-                config.setReadOnlyDataSource(new P6DataSource(config.getReadOnlyDataSource()));
+            final DataSourceConfig rds = config.getReadOnlyDataSourceConfig();
+            if (rds != null && rds.getDriver() != null && !rds.getDriver().contains(":p6spy:")) {
+                rds.setDriver(rds.getDriver().replaceFirst("jdbc:", "jdbc:p6spy:"));
             }
         }
     }
