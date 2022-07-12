@@ -10,7 +10,6 @@ import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
@@ -19,66 +18,22 @@ import java.util.stream.Collectors;
  */
 public class DbUtils {
 
-    public static int insert(Map<String, Object> row, String tableName) {
-        Assert.notNull(row);
-        return insert(DB.getDefault(), Collections.singletonList(row), tableName, row.keySet())[0];
-    }
+    public static int[] insert(InsertArgs insertArgs) {
+        Assert.notNull(insertArgs.db());
+        Assert.notEmpty(insertArgs.rowList());
+        Assert.notEmpty(insertArgs.columns());
+        Assert.notEmpty(insertArgs.tableName());
 
-    public static int insert(Map<String, Object> row, String tableName, Set<String> columns) {
-        return insert(DB.getDefault(), Collections.singletonList(row), tableName, columns)[0];
-    }
-
-    public static int
-    insert(Database db, Map<String, Object> row, String tableName) {
-        Assert.notNull(row);
-        return insert(db, Collections.singletonList(row), tableName, row.keySet())[0];
-    }
-
-    public static int
-    insert(Database db, Map<String, Object> row, String tableName, Set<String> columns) {
-        return insert(db, Collections.singletonList(row), tableName, columns)[0];
-    }
-
-    public static int[] insert(List<Map<String, Object>> rowList, String tableName) {
-        Assert.notEmpty(rowList);
-
-        return insert(DB.getDefault(), rowList, tableName, rowList.get(0).keySet());
-    }
-
-    public static int[] insert(Database db, List<Map<String, Object>> rowList, String tableName) {
-        Assert.notEmpty(rowList);
-        return insert(db, rowList, tableName, rowList.get(0).keySet());
-    }
-
-    public static int[]
-    insert(List<Map<String, Object>> rowList, String tableName, Set<String> columns) {
-        return insert(DB.getDefault(), rowList, tableName, columns);
-    }
-
-    public static int[]
-    insert(Database db, List<Map<String, Object>> rowList, String tableName, Set<String> columns) {
-        Assert.notNull(db);
-        Assert.notEmpty(rowList);
-        Assert.notEmpty(columns);
-        Assert.notEmpty(tableName);
-
-        final SqlUpdate sql = db.sqlUpdate(new StringBuilder()
+        final SqlUpdate sql = insertArgs.db().sqlUpdate(new StringBuilder()
             .append("INSERT INTO ")
-            .append(tableName)
+            .append(insertArgs.tableName())
             .append(" (")
-            .append(String.join(",", columns))
+            .append(String.join(",", insertArgs.columns()))
             .append(") VALUES (")
-            .append(columns.stream().map(col -> ":" + col).collect(Collectors.joining(",")))
+            .append(insertArgs.columns().stream().map(col -> ":" + col).collect(Collectors.joining(",")))
             .append(")")
             .toString());
-        for (Map<String, Object> row : rowList) {
-            for (Map.Entry<String, Object> entry : row.entrySet()) {
-                sql.setParameter(entry.getKey(), entry.getValue());
-            }
-            sql.addBatch();
-        }
-
-        return sql.executeBatch();
+        return setParameters(sql, insertArgs.rowList());
     }
 
     public static <E> int upsert(E bean, UpsertMode mode) {
@@ -156,5 +111,47 @@ public class DbUtils {
             sqlUpdate.addBatch();
         }
         return sqlUpdate.executeBatch();
+    }
+
+    public static int[] upsert(UpsertArgs upsertArgs) {
+        Assert.notNull(upsertArgs.db());
+        Assert.notEmpty(upsertArgs.rowList());
+        Assert.notEmpty(upsertArgs.tableName());
+        Assert.notEmpty(upsertArgs.insertColumns());
+        Assert.notEmpty(upsertArgs.updateColumns());
+        Assert.notNull(upsertArgs.mode());
+
+        final StringBuilder sqlBuilder = new StringBuilder()
+            .append("INSERT INTO ")
+            .append(upsertArgs.tableName())
+            .append(" (")
+            .append(String.join(",", upsertArgs.insertColumns()))
+            .append(") VALUES (")
+            .append(upsertArgs.insertColumns().stream().map(col -> ":" + col).collect(Collectors.joining(",")))
+            .append(") ON CONFLICT (").append(upsertArgs.upsertKey());
+        switch (upsertArgs.mode()) {
+            case UPDATE:
+                sqlBuilder.append(") DO UPDATE SET ").
+                    append(upsertArgs.updateColumns().stream().map(col -> col + "= :" + col).collect(Collectors.joining(",")));
+                break;
+            case NOTHING:
+                sqlBuilder.append(") DO NOTHING");
+                break;
+            default:
+                throw new IllegalArgumentException("UpsertMode error");
+        }
+        final SqlUpdate sql = upsertArgs.db().sqlUpdate(sqlBuilder.toString());
+
+        return setParameters(sql, upsertArgs.rowList());
+    }
+
+    private static int[] setParameters(SqlUpdate sql, List<Map<String, Object>> rowList) {
+        for (Map<String, Object> row : rowList) {
+            for (Map.Entry<String, Object> entry : row.entrySet()) {
+                sql.setParameter(entry.getKey(), entry.getValue());
+            }
+            sql.addBatch();
+        }
+        return sql.executeBatch();
     }
 }
