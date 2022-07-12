@@ -5,17 +5,59 @@ import cn.hutool.core.util.ReflectUtil;
 import io.ebean.DB;
 import io.ebean.Database;
 import io.ebean.SqlUpdate;
-import io.ebean.Transaction;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 /**
  * @author cn-src
  */
 public class DbUtils {
+
+    public static int insert(Map<String, Object> row, String tableName) {
+        Assert.notNull(row);
+        return insert(Collections.singletonList(row), tableName, row.keySet())[0];
+    }
+
+    public static int insert(Map<String, Object> row, String tableName, Set<String> columns) {
+        return insert(Collections.singletonList(row), tableName, columns)[0];
+    }
+
+    public static int[] insert(List<Map<String, Object>> rowList, String tableName) {
+        Assert.notEmpty(rowList);
+
+        return insert(rowList, tableName, rowList.get(0).keySet());
+    }
+
+    public static int[]
+    insert(List<Map<String, Object>> rowList, String tableName, Set<String> columns) {
+        Assert.notEmpty(rowList);
+        Assert.notEmpty(columns);
+        Assert.notEmpty(tableName);
+
+        final SqlUpdate sql = DB.sqlUpdate(new StringBuilder()
+            .append("INSERT INTO ")
+            .append(tableName)
+            .append(" (")
+            .append(String.join(",", columns))
+            .append(") VALUES (")
+            .append(columns.stream().map(col -> ":" + col).collect(Collectors.joining(",")))
+            .append(")")
+            .toString());
+        for (Map<String, Object> row : rowList) {
+            for (Map.Entry<String, Object> entry : row.entrySet()) {
+                sql.setParameter(entry.getKey(), entry.getValue());
+            }
+            sql.addBatch();
+        }
+
+        return sql.executeBatch();
+    }
 
     public static <E> int upsert(E bean, UpsertMode mode) {
         Assert.notNull(bean);
@@ -84,17 +126,13 @@ public class DbUtils {
         }
 
         final SqlUpdate sqlUpdate = db.sqlUpdate(sb.toString());
-        try (Transaction txn = db.beginTransaction()) {
-            for (E bean : beans) {
-                for (Field field : persistFields) {
-                    final String columnName = PersistUtils.columnName(field);
-                    sqlUpdate.setParameter(columnName, ReflectUtil.getFieldValue(bean, field));
-                }
-                sqlUpdate.addBatch();
+        for (E bean : beans) {
+            for (Field field : persistFields) {
+                final String columnName = PersistUtils.columnName(field);
+                sqlUpdate.setParameter(columnName, ReflectUtil.getFieldValue(bean, field));
             }
-            int[] rows = sqlUpdate.executeBatch();
-            txn.commit();
-            return rows;
+            sqlUpdate.addBatch();
         }
+        return sqlUpdate.executeBatch();
     }
 }
