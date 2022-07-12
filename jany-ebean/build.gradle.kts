@@ -12,4 +12,5 @@ dependencies {
     testImplementation("com.h2database:h2")
     testImplementation(project(":jany-test"))
     testAnnotationProcessor("io.ebean:querybean-generator")
+    testImplementation("io.zonky.test:embedded-postgres")
 }
