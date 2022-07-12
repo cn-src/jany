@@ -14,7 +14,8 @@ public class EbeanOptChainTest {
             .opt(q -> q.id::eq, 1)
             .opt(q -> q.id::between, 1, 4)
             .fn(QDemo::or)
-            .opt(q -> q.name::eq, "name")
+            .opt(q -> q.name::eq, "name1")
+            .opt(q -> q.name::eq, "name2")
             .fn(QDemo::endOr)
             .root().findList();
     }
