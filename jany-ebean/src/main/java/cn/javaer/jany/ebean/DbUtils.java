@@ -14,6 +14,8 @@ import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 /**
+ * 注意：此类中的方法没有 Ebean 原生支持的一些特性。
+ *
  * @author cn-src
  */
 public class DbUtils {
@@ -36,6 +38,21 @@ public class DbUtils {
         return setParameters(sql, insertArgs.rowList());
     }
 
+    public static int[] update(UpdateArgs updateArgs) {
+        Assert.notNull(updateArgs.db());
+        Assert.notEmpty(updateArgs.rowList());
+        Assert.notEmpty(updateArgs.columns());
+        Assert.notEmpty(updateArgs.tableName());
+
+        final SqlUpdate sql = updateArgs.db().sqlUpdate(new StringBuilder()
+            .append("UPDATE ")
+            .append(updateArgs.tableName())
+            .append(" SET ")
+            .append(updateArgs.columns().stream().map(col -> col + "=:" + col).collect(Collectors.joining(",")))
+            .toString());
+        return setParameters(sql, updateArgs.rowList());
+    }
+
     public static <E> int upsert(E bean, UpsertMode mode) {
         Assert.notNull(bean);
         return upsert(Collections.singletonList(bean), mode)[0];
@@ -50,15 +67,6 @@ public class DbUtils {
         return upsert(DB.getDefault(), beans, mode);
     }
 
-    /**
-     * 注意：此方法没有 Ebean 原生支持的一些特性。
-     *
-     * @param beans beans
-     * @param mode mode
-     * @param <E> e
-     *
-     * @return int
-     */
     public static <E> int[] upsert(Database db, List<E> beans, UpsertMode mode) {
         Assert.notEmpty(beans);
         Assert.notNull(mode);

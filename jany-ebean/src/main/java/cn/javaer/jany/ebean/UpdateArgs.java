@@ -15,7 +15,7 @@ import java.util.Set;
  */
 @Data
 @Accessors(fluent = true)
-public class InsertArgs {
+public class UpdateArgs {
     private Database db;
 
     private List<Map<String, Object>> rowList;
@@ -28,7 +28,7 @@ public class InsertArgs {
         return db == null ? DB.getDefault() : db;
     }
 
-    public InsertArgs rowList(List<Map<String, Object>> rowList) {
+    public UpdateArgs rowList(List<Map<String, Object>> rowList) {
         Assert.notEmpty(rowList);
         this.rowList = rowList;
         this.columns = rowList.get(0).keySet();
