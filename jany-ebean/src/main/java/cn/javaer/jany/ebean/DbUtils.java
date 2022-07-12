@@ -21,26 +21,48 @@ public class DbUtils {
 
     public static int insert(Map<String, Object> row, String tableName) {
         Assert.notNull(row);
-        return insert(Collections.singletonList(row), tableName, row.keySet())[0];
+        return insert(DB.getDefault(), Collections.singletonList(row), tableName, row.keySet())[0];
     }
 
     public static int insert(Map<String, Object> row, String tableName, Set<String> columns) {
-        return insert(Collections.singletonList(row), tableName, columns)[0];
+        return insert(DB.getDefault(), Collections.singletonList(row), tableName, columns)[0];
+    }
+
+    public static int
+    insert(Database db, Map<String, Object> row, String tableName) {
+        Assert.notNull(row);
+        return insert(db, Collections.singletonList(row), tableName, row.keySet())[0];
+    }
+
+    public static int
+    insert(Database db, Map<String, Object> row, String tableName, Set<String> columns) {
+        return insert(db, Collections.singletonList(row), tableName, columns)[0];
     }
 
     public static int[] insert(List<Map<String, Object>> rowList, String tableName) {
         Assert.notEmpty(rowList);
 
-        return insert(rowList, tableName, rowList.get(0).keySet());
+        return insert(DB.getDefault(), rowList, tableName, rowList.get(0).keySet());
+    }
+
+    public static int[] insert(Database db, List<Map<String, Object>> rowList, String tableName) {
+        Assert.notEmpty(rowList);
+        return insert(db, rowList, tableName, rowList.get(0).keySet());
     }
 
     public static int[]
     insert(List<Map<String, Object>> rowList, String tableName, Set<String> columns) {
+        return insert(DB.getDefault(), rowList, tableName, columns);
+    }
+
+    public static int[]
+    insert(Database db, List<Map<String, Object>> rowList, String tableName, Set<String> columns) {
+        Assert.notNull(db);
         Assert.notEmpty(rowList);
         Assert.notEmpty(columns);
         Assert.notEmpty(tableName);
 
-        final SqlUpdate sql = DB.sqlUpdate(new StringBuilder()
+        final SqlUpdate sql = db.sqlUpdate(new StringBuilder()
             .append("INSERT INTO ")
             .append(tableName)
             .append(" (")
