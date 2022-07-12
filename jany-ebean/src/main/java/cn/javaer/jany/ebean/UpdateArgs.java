@@ -24,6 +24,8 @@ public class UpdateArgs {
 
     private Set<String> columns;
 
+    private String updateKey;
+
     public Database db() {
         return db == null ? DB.getDefault() : db;
     }

@@ -43,12 +43,14 @@ public class DbUtils {
         Assert.notEmpty(updateArgs.rowList());
         Assert.notEmpty(updateArgs.columns());
         Assert.notEmpty(updateArgs.tableName());
+        Assert.notEmpty(updateArgs.updateKey());
 
         final SqlUpdate sql = updateArgs.db().sqlUpdate(new StringBuilder()
             .append("UPDATE ")
             .append(updateArgs.tableName())
             .append(" SET ")
             .append(updateArgs.columns().stream().map(col -> col + "=:" + col).collect(Collectors.joining(",")))
+            .append(" WHERE ").append(updateArgs.updateKey()).append(" = :").append(updateArgs.updateKey())
             .toString());
         return setParameters(sql, updateArgs.rowList());
     }
