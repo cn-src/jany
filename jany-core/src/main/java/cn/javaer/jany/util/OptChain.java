@@ -46,7 +46,7 @@ public class OptChain<T> {
      * 可选执行函数。如果 value1 和 value2 只都不为空，则执行 fun 返回的消费者函数。
      * <p>
      * <pre>
-     *  样例：xxx.opt(q -> q.name::eq, "name1", "name1")
+     *  样例：xxx.opt(q -> q.id::between, 1, 5)
      *  </pre>
      *
      * @param fun 一个函数，它接受根对象并返回一个接受该值的消费者。
@@ -82,7 +82,29 @@ public class OptChain<T> {
      * 可选执行函数。如果 condition 为 true，则执行 fun 消费者函数。
      * <p>
      * <pre>
-     *  样例：xxx.opt(q -> q.name::eq, "name1", "name1")
+     *  样例：xxx.opt(q -> q.name::eq, true)
+     *  </pre>
+     *
+     * @param fun 消费者函数，它接受根对象并执行。
+     * @param condition 是否要执行消费者函数的条件。
+     *
+     * @return this
+     */
+    public OptChain<T> opt(@NotNull Consumer<T> fun, final boolean condition) {
+        Assert.notNull(fun, "fun must not be null");
+
+        if (!condition) {
+            return this;
+        }
+        fun.accept(root);
+        return this;
+    }
+
+    /**
+     * 可选执行函数。如果 condition 为 true，则执行 fun 消费者函数。
+     * <p>
+     * <pre>
+     *  样例：xxx.opt(q -> q.name::eq, ()-> true)
      *  </pre>
      *
      * @param fun 消费者函数，它接受根对象并执行。
