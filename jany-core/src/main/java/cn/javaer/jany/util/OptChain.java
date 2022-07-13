@@ -1,9 +1,11 @@
 package cn.javaer.jany.util;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -20,6 +22,7 @@ public class OptChain<T> {
     }
 
     public <V> OptChain<T> opt(@NotNull final Function<T, Consumer<V>> fun, final V value) {
+        Assert.notNull(fun, "fun must not be null");
         if (ObjectUtil.isEmpty(value)) {
             return this;
         }
@@ -29,6 +32,7 @@ public class OptChain<T> {
 
     public <V1, V2> OptChain<T>
     opt(@NotNull final Function<T, BiConsumer<V1, V2>> fun, final V1 value1, V2 value2) {
+        Assert.notNull(fun, "fun must not be null");
         if (ObjectUtil.isEmpty(value1) || ObjectUtil.isEmpty(value2)) {
             return this;
         }
@@ -36,7 +40,18 @@ public class OptChain<T> {
         return this;
     }
 
-    public OptChain<T> fn(Consumer<T> fun) {
+    public OptChain<T> fn(@NotNull Consumer<T> fun) {
+        Assert.notNull(fun, "fun must not be null");
+        fun.accept(root);
+        return this;
+    }
+
+    public OptChain<T> opt(@NotNull Consumer<T> fun, final BooleanSupplier condition) {
+        Assert.notNull(fun, "fun must not be null");
+
+        if (!condition.getAsBoolean()) {
+            return this;
+        }
         fun.accept(root);
         return this;
     }
@@ -45,7 +60,8 @@ public class OptChain<T> {
         return root;
     }
 
-    public static <T> OptChain<T> of(T root) {
+    public static <T> OptChain<T> of(@NotNull T root) {
+        Assert.notNull(root, "root object must not be null");
         return new OptChain<>(root);
     }
 }
