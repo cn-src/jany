@@ -23,7 +23,7 @@ import java.util.function.Supplier;
  */
 public class Qry<T> {
 
-    private final Query<T> query;
+    private Query<T> query;
 
     private Qry(Query<T> query) {
         this.query = query;
@@ -51,9 +51,10 @@ public class Qry<T> {
         return this;
     }
 
-    public Qry<T> fn(@NotNull Supplier<Qry<T>> fun) {
+    public Qry<T> fn(@NotNull Supplier<Query<T>> fun) {
         Assert.notNull(fun);
-        return fun.get();
+        query = fun.get();
+        return this;
     }
 
     public Page<T> page(PageParam pageParam) {

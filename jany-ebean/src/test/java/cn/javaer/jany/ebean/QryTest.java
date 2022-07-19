@@ -49,4 +49,16 @@ class QryTest {
             .list();
         assertThat(list).hasSize(1);
     }
+
+    @Test
+    void orTest2() {
+        db.script().run("/BaseFinderTest.allSort.in.sql");
+        final QDemo q = new QDemo();
+        final List<Demo> list = Qry.of(q)
+            .fn(() -> q.where().or().query())
+            .opt(q.id::eq, 1L)
+            .opt(q.id::eq, (Long) null)
+            .list();
+        assertThat(list).hasSize(1);
+    }
 }
