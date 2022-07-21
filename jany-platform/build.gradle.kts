@@ -86,24 +86,22 @@ dependencies {
         // 模板引擎
         api("com.github.jknack:handlebars:${p["handlebarsVersion"]}")
         api("com.deepoove:poi-tl:${p["poiTlVersion"]}")
+        api("com.alibaba:easyexcel:${p["easyexcelVersion"]}")
 
         // 类信息扫描工具
         api("io.github.classgraph:classgraph:${p["classgraphVersion"]}")
-
-        api("com.alibaba:easyexcel:${p["easyexcelVersion"]}")
-
         // SQL 日志统一输出工具
         api("p6spy:p6spy:${p["p6spyVersion"]}")
-
         // 集合查询引擎
         api("com.googlecode.cqengine:cqengine:${p["cqengineVersion"]}")
-
         // 对象存储服务-客户端
         api("io.minio:minio:${p["minioVersion"]}")
-
         // Java 架构检测框架
         api("com.tngtech.archunit:archunit-junit5:${p["archunitVersion"]}")
-
+        // web 反向代理
+        api("com.github.mkopylec:charon-spring-webmvc:${p["charonVersion"]}")
+        api("com.github.mkopylec:charon-spring-webflux:${p["charonVersion"]}")
+        // 日志追踪
         api("com.yomahub:tlog-common:${p["tlogVersion"]}")
         api("com.yomahub:tlog-web-spring-boot-starter:${p["tlogVersion"]}")
 
@@ -114,9 +112,7 @@ dependencies {
         api("org.mybatis.spring.boot:mybatis-spring-boot-starter:${p["mybatisSpringBootVersion"]}")
         api("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:${p["mybatisSpringBootVersion"]}")
 
-        // web 反向代理
-        api("com.github.mkopylec:charon-spring-webmvc:${p["charonVersion"]}")
-        api("com.github.mkopylec:charon-spring-webflux:${p["charonVersion"]}")
+
 
         runtime("com.taobao.arthas:arthas-spring-boot-starter:${p["arthasSpringBootVersion"]}")
         api("com.baomidou:dynamic-datasource-spring-boot-starter:${p["dynamicDatasourceVersion"]}")
