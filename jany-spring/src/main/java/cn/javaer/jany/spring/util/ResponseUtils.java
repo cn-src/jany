@@ -2,6 +2,7 @@ package cn.javaer.jany.spring.util;
 
 import cn.hutool.core.util.ZipUtil;
 import cn.hutool.poi.excel.ExcelWriter;
+import com.deepoove.poi.XWPFTemplate;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -12,7 +13,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -93,9 +96,31 @@ public interface ResponseUtils {
      */
     static ResponseEntity<Resource> resource(@NonNull final ExcelWriter excelWriter,
                                              @NonNull final String filename) {
+        Assert.notNull(excelWriter, () -> "ExcelWriter must be not null");
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         excelWriter.flush(out);
         excelWriter.close();
+        return resource(new ByteArrayResource(out.toByteArray()), filename);
+    }
+
+    /**
+     * 资源响应，文件下载，基于 poi-tl XWPFTemplate，会关闭 ExcelWriter 流.
+     *
+     * @param template poi-tl XWPFTemplate
+     * @param filename 文件名
+     *
+     * @return 资源
+     */
+    static ResponseEntity<Resource> resource(@NonNull final XWPFTemplate template,
+                                             @NonNull final String filename) {
+        Assert.notNull(template, () -> "XWPFTemplate must be not null");
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try (template) {
+            template.write(out);
+        }
+        catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
         return resource(new ByteArrayResource(out.toByteArray()), filename);
     }
 
@@ -109,6 +134,7 @@ public interface ResponseUtils {
      */
     static ResponseEntity<Resource> resource(@NonNull final InputStream in,
                                              @NonNull final String filename) {
+        Assert.notNull(in, () -> "InputStream must be not null");
         return resource(new InputStreamResource(in), filename);
     }
 }

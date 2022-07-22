@@ -9,6 +9,7 @@ dependencies {
     optionalApi("com.yomahub:tlog-common")
     optionalApi("cn.hutool:hutool-extra")
     optionalApi("cn.hutool:hutool-poi")
+    optionalApi("com.deepoove:poi-tl")
     optionalApi("org.springframework.boot:spring-boot-starter-web")
     optionalApi("org.springframework.boot:spring-boot-starter-data-jdbc")
     optionalApi("org.springframework.boot:spring-boot-starter-jooq")
