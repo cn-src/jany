@@ -1,5 +1,7 @@
 package cn.javaer.jany.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -7,8 +9,10 @@ import java.util.function.Supplier;
  * @author cn-src
  */
 public interface Empty {
-    @SuppressWarnings("rawtypes") Function FUNCTION = o -> null;
-    @SuppressWarnings("rawtypes") Supplier SUPPLIER = () -> null;
+    @SuppressWarnings("rawtypes")
+    Function FUNCTION = o -> null;
+    @SuppressWarnings("rawtypes")
+    Supplier SUPPLIER = () -> null;
 
     /**
      * empty Function.
@@ -19,7 +23,7 @@ public interface Empty {
      * @return the function
      */
     @SuppressWarnings("unchecked")
-    static <T, R> Function<T, R> function() {
+    static <T, R> Function<T, @Nullable R> function() {
         return FUNCTION;
     }
 
@@ -31,7 +35,7 @@ public interface Empty {
      * @return the supplier
      */
     @SuppressWarnings("unchecked")
-    static <T> Supplier<T> supplier() {
+    static <T> Supplier<@Nullable T> supplier() {
         return SUPPLIER;
     }
 }
