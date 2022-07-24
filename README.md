@@ -10,7 +10,27 @@
 
 Java 常用代码
 
-文档地址：[https://docs.javaer.cn/jany.html](https://docs.javaer.cn/jany.html)
+## 模块
+
+| 模块                                  | 描述                     |
+|-------------------------------------|------------------------|
+| jany-archunit                       | ArchUnit 架构检测框架扩展      |
+| jany-core                           | 工具类、通用模型               |
+| jany-ebean                          | Ebean 扩展               |
+| jany-jackson                        | Jackson 扩展             |
+| jany-jooq                           | jOOQ 扩展                |
+| jany-jooq-codegen                   | jOOQ 代码生成器扩展           |
+| jany-p6spy                          | p6spy 扩展               |
+| jany-platform                       | pom 版本管理               |
+| jany-spring                         | Spring 工具、扩展、全局异常处理    |
+| jany-spring-boot-starter            | Spring Boot 扩展         |
+| jany-spring-boot-starter-handlebars | Handlebars 集成          |
+| jany-spring-boot-starter-p6spy      | P6spy 集成               |
+| jany-spring-boot-starter-minio      | Minio 集成               |
+| jany-spring-boot-starter-springdoc  | SpringDoc 集成           |
+| jany-storage                        | 文件存储                   |
+| jany-test                           | 测试工具                   |
+| jany-validation                     | Hibernate Validator 扩展 |
 
 ## 使用
 
