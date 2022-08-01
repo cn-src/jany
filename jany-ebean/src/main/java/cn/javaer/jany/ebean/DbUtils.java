@@ -61,13 +61,49 @@ public class DbUtils {
         return upsert(Collections.singletonList(bean), mode);
     }
 
+    public static <E> int upsertDoUpdate(E bean) {
+        Assert.notNull(bean);
+        return upsert(Collections.singletonList(bean), UpsertMode.UPDATE);
+    }
+
+    public static <E> int upsertDoNothing(E bean) {
+        Assert.notNull(bean);
+        return upsert(Collections.singletonList(bean), UpsertMode.NOTHING);
+    }
+
     public static <E> int upsert(Database db, E bean, UpsertMode mode) {
         Assert.notNull(bean);
         return upsert(db, Collections.singletonList(bean), mode);
     }
 
+    public static <E> int upsertDoUpdate(Database db, E bean) {
+        Assert.notNull(bean);
+        return upsert(db, Collections.singletonList(bean), UpsertMode.UPDATE);
+    }
+
+    public static <E> int upsertDoNothing(Database db, E bean) {
+        Assert.notNull(bean);
+        return upsert(db, Collections.singletonList(bean), UpsertMode.NOTHING);
+    }
+
     public static <E> int upsert(List<E> beans, UpsertMode mode) {
         return upsert(DB.getDefault(), beans, mode);
+    }
+
+    public static <E> int upsertDoUpdate(List<E> beans, UpsertMode mode) {
+        return upsert(DB.getDefault(), beans, UpsertMode.UPDATE);
+    }
+
+    public static <E> int upsertDoNothing(List<E> beans, UpsertMode mode) {
+        return upsert(DB.getDefault(), beans, UpsertMode.NOTHING);
+    }
+
+    public static <E> int upsertDoUpdate(Database db, List<E> beans) {
+        return upsert(db, beans, UpsertMode.UPDATE);
+    }
+
+    public static <E> int upsertDoNothing(Database db, List<E> beans) {
+        return upsert(db, beans, UpsertMode.NOTHING);
     }
 
     public static <E> int upsert(Database db, List<E> beans, UpsertMode mode) {
