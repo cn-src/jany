@@ -1,12 +1,12 @@
 package cn.javaer.jany.model;
 
+import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.ToIntFunction;
 
@@ -42,7 +42,7 @@ public class BatchConsumer<T> implements Consumer<T>, Runnable {
     private int totalPages;
 
     public BatchConsumer(@NotNull final ToIntFunction<List<T>> fn) {
-        this(UUID.randomUUID().toString(), fn, 100);
+        this(IdUtil.simpleUUID(), fn, 100);
     }
 
     public BatchConsumer(@NotNull String batchId, @NotNull final ToIntFunction<List<T>> fn) {
