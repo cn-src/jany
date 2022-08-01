@@ -8,5 +8,11 @@ import cn.hutool.core.math.MathUtil;
  * @author cn-src
  */
 public class MathUtils extends MathUtil {
-
+    public static int sum(int[] arr) {
+        int sum = 0;
+        for (int j : arr) {
+            sum += j;
+        }
+        return sum;
+    }
 }

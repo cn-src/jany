@@ -2,6 +2,7 @@ package cn.javaer.jany.ebean;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
+import cn.javaer.jany.util.MathUtils;
 import io.ebean.DB;
 import io.ebean.Database;
 import io.ebean.SqlUpdate;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class DbUtils {
 
-    public static int[] insert(InsertArgs insertArgs) {
+    public static int insert(InsertArgs insertArgs) {
         Assert.notNull(insertArgs.db());
         Assert.notEmpty(insertArgs.rowList());
         Assert.notEmpty(insertArgs.columns());
@@ -38,7 +39,7 @@ public class DbUtils {
         return setParameters(sql, insertArgs.rowList());
     }
 
-    public static int[] update(UpdateArgs updateArgs) {
+    public static int update(UpdateArgs updateArgs) {
         Assert.notNull(updateArgs.db());
         Assert.notEmpty(updateArgs.rowList());
         Assert.notEmpty(updateArgs.columns());
@@ -57,19 +58,19 @@ public class DbUtils {
 
     public static <E> int upsert(E bean, UpsertMode mode) {
         Assert.notNull(bean);
-        return upsert(Collections.singletonList(bean), mode)[0];
+        return upsert(Collections.singletonList(bean), mode);
     }
 
     public static <E> int upsert(Database db, E bean, UpsertMode mode) {
         Assert.notNull(bean);
-        return upsert(db, Collections.singletonList(bean), mode)[0];
+        return upsert(db, Collections.singletonList(bean), mode);
     }
 
-    public static <E> int[] upsert(List<E> beans, UpsertMode mode) {
+    public static <E> int upsert(List<E> beans, UpsertMode mode) {
         return upsert(DB.getDefault(), beans, mode);
     }
 
-    public static <E> int[] upsert(Database db, List<E> beans, UpsertMode mode) {
+    public static <E> int upsert(Database db, List<E> beans, UpsertMode mode) {
         Assert.notEmpty(beans);
         Assert.notNull(mode);
 
@@ -120,10 +121,10 @@ public class DbUtils {
             }
             sqlUpdate.addBatch();
         }
-        return sqlUpdate.executeBatch();
+        return MathUtils.sum(sqlUpdate.executeBatch());
     }
 
-    public static int[] upsert(UpsertArgs upsertArgs) {
+    public static int upsert(UpsertArgs upsertArgs) {
         Assert.notNull(upsertArgs.db());
         Assert.notEmpty(upsertArgs.rowList());
         Assert.notEmpty(upsertArgs.tableName());
@@ -155,13 +156,13 @@ public class DbUtils {
         return setParameters(sql, upsertArgs.rowList());
     }
 
-    private static int[] setParameters(SqlUpdate sql, List<Map<String, Object>> rowList) {
+    private static int setParameters(SqlUpdate sql, List<Map<String, Object>> rowList) {
         for (Map<String, Object> row : rowList) {
             for (Map.Entry<String, Object> entry : row.entrySet()) {
                 sql.setParameter(entry.getKey(), entry.getValue());
             }
             sql.addBatch();
         }
-        return sql.executeBatch();
+        return MathUtils.sum(sql.executeBatch());
     }
 }
