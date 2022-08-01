@@ -1,6 +1,7 @@
 package cn.javaer.jany.model;
 
 import cn.hutool.core.util.IdUtil;
+import cn.javaer.jany.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
@@ -74,9 +75,9 @@ public class BatchConsumer<T> implements Consumer<T>, Runnable {
         if (this.data.size() > 0) {
             process();
         }
-        long totalTimeNanos = System.nanoTime() - this.startTimeNanos;
+        String time = DateUtils.humanReadable(System.nanoTime() - this.startTimeNanos);
         log.info("Batch: '{}', batchSize: {}, totalPages: {}, totalRows: {}, totalTime: {}, end.",
-            this.batchId, batchSize, totalPages, totalRows, totalTimeNanos);
+            this.batchId, batchSize, totalPages, totalRows, time);
     }
 
     private void process() {
@@ -86,9 +87,9 @@ public class BatchConsumer<T> implements Consumer<T>, Runnable {
         totalPages++;
         totalRows += size;
         // logging
-        long totalTimeNanos = System.nanoTime() - this.lastTimeNanos;
+        String time = DateUtils.humanReadable(System.nanoTime() - this.lastTimeNanos);
         this.lastTimeNanos = System.nanoTime();
         log.info("Batch: '{}', size: {}, time: {}, processing.",
-            this.batchId, size, totalTimeNanos);
+            this.batchId, size, time);
     }
 }
