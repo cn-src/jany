@@ -108,6 +108,9 @@ dependencies {
     api("org.mybatis.spring.boot:mybatis-spring-boot-starter:${p["mybatisSpringBootVersion"]}")
     api("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:${p["mybatisSpringBootVersion"]}")
 
+    api("com.github.kagkarlsson:db-scheduler:${p["dbSchedulerVersion"]}")
+    api("com.github.kagkarlsson:db-scheduler-spring-boot-starter:${p["dbSchedulerVersion"]}")
+
     // web 反向代理
     api("com.github.mkopylec:charon-spring-webmvc:${p["charonVersion"]}")
     api("com.github.mkopylec:charon-spring-webflux:${p["charonVersion"]}")
