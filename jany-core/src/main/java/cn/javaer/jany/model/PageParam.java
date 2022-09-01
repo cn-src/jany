@@ -23,7 +23,7 @@ public class PageParam {
 
     private PageParam(final int page, final int size, Sort sort) {
         this.page = Math.max(page, 1);
-        this.size = Math.max(size, 1);
+        this.size = Math.min(maxSize, Math.max(size, 1));
         this.sort = sort;
     }
 
@@ -41,6 +41,8 @@ public class PageParam {
     @With
     Sort sort;
 
+    private static int maxSize = 2000;
+
     public static PageParam of(final int page, final int size) {
         return new PageParam(page, size, Sort.DEFAULT);
     }
@@ -51,5 +53,9 @@ public class PageParam {
 
     public int getOffset() {
         return Math.max((page - 1) * size, 0);
+    }
+
+    public static void setMaxSize(int maxSize) {
+        PageParam.maxSize = maxSize;
     }
 }
