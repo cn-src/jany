@@ -4,7 +4,7 @@ import java.util.Properties
 plugins {
     id("java-library")
     id("com.github.ben-manes.versions") version "0.42.0"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("io.spring.dependency-management") version "1.0.13.RELEASE"
 }
 
 group = "cn.javaer.jany"
