@@ -18,6 +18,17 @@ public interface TimeUtils {
     DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN);
 
     /**
+     * 它接受一个字符串并返回一个 LocalDateTime 对象
+     *
+     * @param str 要解析的字符串。
+     *
+     * @return 一个 LocalDateTime 对象
+     */
+    static LocalDateTime parseDateTime(String str) {
+        return LocalDateTime.parse(str, TimeUtils.DATE_TIME_FORMATTER);
+    }
+
+    /**
      * 当月的开始时间，例如：2020-06-01 00:00:00.
      *
      * @return LocalDateTime
