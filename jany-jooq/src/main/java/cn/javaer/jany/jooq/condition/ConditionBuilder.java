@@ -26,22 +26,22 @@ public class ConditionBuilder {
 
     private Condition defaultCondition;
 
-    public ConditionBuilder optional(final Condition condition) {
+    public ConditionBuilder opt(final Condition condition) {
         if (null != condition) {
             this.conditions.add(condition);
         }
         return this;
     }
 
-    public ConditionBuilder optional(final boolean isAppend,
-                                     @NotNull final Supplier<@NotNull Condition> supplier) {
+    public ConditionBuilder opt(final boolean isAppend,
+                                @NotNull final Supplier<@NotNull Condition> supplier) {
         if (isAppend) {
             return this.required(supplier);
         }
         return this;
     }
 
-    public ConditionBuilder optionalNotNull(final Field<?>... fields) {
+    public ConditionBuilder optNotNull(final Field<?>... fields) {
         if (null != fields && fields.length > 0) {
             if (fields.length == 1) {
                 this.conditions.add(fields[0].isNotNull());
@@ -53,8 +53,8 @@ public class ConditionBuilder {
         return this;
     }
 
-    public ConditionBuilder optional(@NotNull final Supplier<@Nullable Condition> supplier) {
-        this.optional(supplier.get());
+    public ConditionBuilder opt(@NotNull final Supplier<@Nullable Condition> supplier) {
+        this.opt(supplier.get());
         return this;
     }
 
@@ -105,7 +105,7 @@ public class ConditionBuilder {
 //        return this.optional(ConditionCreator.create(treeNodes, fields));
 //    }
 
-    public <T> ConditionBuilder optional(@NotNull final Function<T, Condition> fun, final T
+    public <T> ConditionBuilder opt(@NotNull final Function<T, Condition> fun, final T
         value) {
         if (ObjectUtil.isEmpty(value)) {
             return this;
@@ -115,8 +115,8 @@ public class ConditionBuilder {
         return this;
     }
 
-    public <T1, T2> ConditionBuilder optional(@NotNull final BiFunction<T1, T2, Condition> fun,
-                                              final T1 t1, final T2 t2) {
+    public <T1, T2> ConditionBuilder opt(@NotNull final BiFunction<T1, T2, Condition> fun,
+                                         final T1 t1, final T2 t2) {
         if (ObjectUtil.isEmpty(t1) || ObjectUtil.isEmpty(t2)) {
             return this;
         }
@@ -124,8 +124,8 @@ public class ConditionBuilder {
         return this;
     }
 
-    public <T1, T2, T3> ConditionBuilder optional(@NotNull final Function3<T1, T2, T3> fun,
-                                                  final T1 t1, final T2 t2, final T3 t3) {
+    public <T1, T2, T3> ConditionBuilder opt(@NotNull final Function3<T1, T2, T3> fun,
+                                             final T1 t1, final T2 t2, final T3 t3) {
         if (ObjectUtil.isEmpty(t1) || ObjectUtil.isEmpty(t2) || ObjectUtil.isEmpty(t3)) {
             return this;
         }

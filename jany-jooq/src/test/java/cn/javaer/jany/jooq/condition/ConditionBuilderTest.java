@@ -24,12 +24,12 @@ class ConditionBuilderTest {
         final Field<LocalDateTime> dateTimeField = DSL.field("dateTime", LocalDateTime.class);
 
         final Condition condition = new ConditionBuilder()
-            .optional(objectField::contains, "object")
-            .optional(arrayField::contains, new String[]{"str1", "str2"})
-            .optional(dateTimeField::betweenSymmetric, LocalDateTime.now(), LocalDateTime.now())
-            .optional(PGDSL::containedIn, arrayField, new String[]{"value"})
-            .optional(PGDSL::jsonbContains, jsonbField, "key", "value")
-            .optional(Field::eq, nullField, "")
+            .opt(objectField::contains, "object")
+            .opt(arrayField::contains, new String[]{"str1", "str2"})
+            .opt(dateTimeField::betweenSymmetric, LocalDateTime.now(), LocalDateTime.now())
+            .opt(PGDSL::containedIn, arrayField, new String[]{"value"})
+            .opt(PGDSL::jsonbContains, jsonbField, "key", "value")
+            .opt(Field::eq, nullField, "")
             .build();
 
         final String sql = DSL.using(SQLDialect.POSTGRES)
