@@ -109,6 +109,8 @@ dependencies {
         api("com.yomahub:tlog-common:${p["tlogVersion"]}")
         api("com.yomahub:tlog-web-spring-boot-starter:${p["tlogVersion"]}")
 
+        api("org.redisson:redisson-spring-boot-starter:${p["redissonVersion"]}")
+
         api("org.mybatis:mybatis:${p["mybatisVersion"]}")
         api("org.mybatis:mybatis-spring:${p["mybatisSpringVersion"]}")
         api("org.mybatis.dynamic-sql:mybatis-dynamic-sql:${p["mybatisDynamicSqlVersion"]}")
