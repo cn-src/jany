@@ -33,15 +33,14 @@ public class Sort implements Serializable {
 
     public static final Direction DEFAULT_DIRECTION = Direction.ASC;
 
+    private final List<Order> orders;
+
     /**
      * 是否启用通过审计字段（更新时间和创建时间字段）排序，注解了 io.ebean.annotation.WhenCreated 或
      * io.ebean.annotation.WhenModified 的字段。
      * <P/>
      * 最近更新的数据排在前面，其次最近创建的排在前面。
      */
-
-    private final List<Order> orders;
-
     private final boolean byAudit;
 
     protected Sort(List<Order> orders) {

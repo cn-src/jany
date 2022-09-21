@@ -63,14 +63,18 @@ public interface Dsl {
                     query.orderBy().desc(order.getProperty());
                 }
             }
+            return query;
         }
+        final Class<T> beanType = query.getBeanType();
         if (sort.isByAudit()) {
-            final Class<T> beanType = query.getBeanType();
             ReflectUtils.fieldNameByAnnotation(beanType, WhenModified.class)
                 .ifPresent(fieldName -> query.orderBy().desc(fieldName));
             ReflectUtils.fieldNameByAnnotation(beanType, WhenCreated.class)
                 .ifPresent(fieldName -> query.orderBy().desc(fieldName));
+            return query;
         }
+        ReflectUtils.fieldNameByAnnotation(beanType, SortBy.class)
+            .ifPresent(fieldName -> query.orderBy().asc(fieldName));
         return query;
     }
 
