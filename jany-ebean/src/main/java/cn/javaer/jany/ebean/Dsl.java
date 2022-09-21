@@ -46,6 +46,11 @@ public interface Dsl {
 
     /**
      * 对已有的查询 query 添加排序条件部分。
+     * <p>
+     * 排序规则优先级（只使用其中一种规则）：
+     * <p>1. 按显示指定的属性排序；
+     * <p>2. 按 @SortBy 注解的属性排序；
+     * <p>3. 按审计字段排序。
      *
      * @param <T> 实体类型
      * @param query 查询
@@ -65,7 +70,14 @@ public interface Dsl {
             }
             return query;
         }
+
         final Class<T> beanType = query.getBeanType();
+        final Optional<String> sortOpt = ReflectUtils.fieldNameByAnnotation(beanType, SortBy.class);
+        if (sortOpt.isPresent()) {
+            sortOpt.ifPresent(fieldName -> query.orderBy().asc(fieldName));
+            return query;
+        }
+
         if (sort.isByAudit()) {
             ReflectUtils.fieldNameByAnnotation(beanType, WhenModified.class)
                 .ifPresent(fieldName -> query.orderBy().desc(fieldName));
@@ -73,8 +85,6 @@ public interface Dsl {
                 .ifPresent(fieldName -> query.orderBy().desc(fieldName));
             return query;
         }
-        ReflectUtils.fieldNameByAnnotation(beanType, SortBy.class)
-            .ifPresent(fieldName -> query.orderBy().asc(fieldName));
         return query;
     }
 

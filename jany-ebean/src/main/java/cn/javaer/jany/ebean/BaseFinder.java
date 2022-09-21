@@ -9,6 +9,7 @@ import io.ebean.Finder;
 import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.UpdateQuery;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -26,6 +27,11 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         super(null, databaseName);
         final Class<?> clazz = ClassUtil.getTypeArgument(this.getClass(), 1);
         ReflectUtil.setFieldValue(this, "type", clazz);
+    }
+
+    @Override
+    public @NotNull List<T> all() {
+        return list(Sort.DEFAULT);
     }
 
     public Query<T> query(PageParam pageParam) {
@@ -63,7 +69,7 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         db().save(bean);
         return bean;
     }
-    
+
     public T insert(T bean) {
         db().insert(bean);
         return bean;
