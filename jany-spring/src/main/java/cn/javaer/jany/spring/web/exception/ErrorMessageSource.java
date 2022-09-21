@@ -4,6 +4,10 @@ import cn.javaer.jany.exception.ErrorInfo;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 
@@ -15,6 +19,9 @@ import java.util.ResourceBundle;
  * @author cn-src
  */
 public class ErrorMessageSource extends ResourceBundleMessageSource {
+
+    @SuppressWarnings("AlibabaConstantFieldShouldBeUpperCase")
+    private static final ExpressionParser elParser = new SpelExpressionParser();
 
     private static final MessageSourceAccessor ACCESSOR =
         new MessageSourceAccessor(new ErrorMessageSource(), Locale.CHINESE);
@@ -46,6 +53,13 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
 
     public static String getMessage(final String error, final Object[] args) {
         return ACCESSOR.getMessage(error, args);
+    }
+
+    public static String getMessage(final String error, final Throwable t) {
+        final String messageExpression = ACCESSOR.getMessage(error);
+        final EvaluationContext context = new StandardEvaluationContext();
+        context.setVariable("e", t);
+        return elParser.parseExpression(messageExpression).getValue(context, String.class);
     }
 
     public static String getMessage(int status, String defaultMessage) {
