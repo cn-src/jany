@@ -1,6 +1,5 @@
 package cn.javaer.jany.spring.web.exception;
 
-import cn.dev33.satoken.exception.NotLoginException;
 import cn.javaer.jany.exception.ErrorCode;
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.util.IoUtils;
@@ -64,26 +63,6 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         if (t.getCause() instanceof InvalidFormatException) {
             clazz = InvalidFormatException.class;
         }
-        if (clazz.getName().equals(SA_TOKEN_NOT_LOGIN)) {
-            NotLoginException e = (NotLoginException) t;
-            if (NotLoginException.NOT_TOKEN.equals(e.getType())) {
-                return ErrorInfo.of401(ErrorInfo.UNAUTHORIZED);
-            }
-            if (NotLoginException.INVALID_TOKEN.equals(e.getType())) {
-                return ErrorInfo.of401(ErrorInfo.LOGIN_ERROR_BAD_CREDENTIALS);
-            }
-            if (NotLoginException.TOKEN_TIMEOUT.equals(e.getType())) {
-                return ErrorInfo.of401(ErrorInfo.TOKEN_EXPIRED);
-            }
-            if (NotLoginException.BE_REPLACED.equals(e.getType())) {
-                return ErrorInfo.of401(ErrorInfo.SESSION_OUT_REPLACED);
-            }
-            if (NotLoginException.KICK_OUT.equals(e.getType())) {
-                return ErrorInfo.of401(ErrorInfo.SESSION_OUT_KICKED);
-            }
-            return ErrorInfo.of401(ErrorInfo.UNAUTHORIZED);
-        }
-
         return this.getErrorInfo(clazz);
     }
 
