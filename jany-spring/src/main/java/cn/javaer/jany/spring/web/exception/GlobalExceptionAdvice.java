@@ -40,7 +40,7 @@ public class GlobalExceptionAdvice {
         final HttpServletRequest request, final Exception e) {
         final ErrorInfo errorInfo = errorInfoProcessor.getErrorInfo(e);
         final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
-        runtimeErrorInfo.setMessage(ErrorMessageSource.getMessage(errorInfo));
+        runtimeErrorInfo.setMessage(ErrorMessageSource.getMessage(errorInfo, e));
         this.fillInfo(runtimeErrorInfo, request, e);
         if (runtimeErrorInfo.getStatus() < 500) {
             this.logger.debug("Http status {}", runtimeErrorInfo.getStatus(), e);
@@ -64,9 +64,9 @@ public class GlobalExceptionAdvice {
         }
 
         if (ErrorProperties.IncludeAttribute.ALWAYS.equals(this.errorProperties.getIncludeStacktrace())) {
-            final String runtimeMessage = errorInfoProcessor.getRuntimeMessage(e);
-            if (runtimeMessage != null) {
-                runtimeErrorInfo.setTraceMessage(runtimeMessage);
+            final String traceMessage = errorInfoProcessor.getTraceMessage(e);
+            if (traceMessage != null) {
+                runtimeErrorInfo.setTraceMessage(traceMessage);
             }
             else {
                 runtimeErrorInfo.setTraceMessage(e.getMessage());

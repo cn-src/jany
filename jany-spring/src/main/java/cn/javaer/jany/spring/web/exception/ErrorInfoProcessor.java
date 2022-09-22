@@ -41,7 +41,7 @@ public interface ErrorInfoProcessor {
      *
      * @return 错误信息
      */
-    @Nullable String getRuntimeMessage(Throwable e);
+    @Nullable String getTraceMessage(Throwable e);
 
     /**
      * 根据配置转换成 ErrorInfo

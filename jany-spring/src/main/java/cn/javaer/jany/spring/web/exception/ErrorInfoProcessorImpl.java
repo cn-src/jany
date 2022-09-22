@@ -113,7 +113,7 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
 
     @Override
     @Nullable
-    public String getRuntimeMessage(final Throwable e) {
+    public String getTraceMessage(final Throwable e) {
         if (e.getCause() instanceof InvalidFormatException) {
             final InvalidFormatException cause = (InvalidFormatException) e.getCause();
             return ErrorMessageSource.getMessage(
