@@ -32,11 +32,11 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
         attributes.put(RuntimeErrorInfo.Fields.timestamp, LocalDateTime.now());
         attributes.put(RuntimeErrorInfo.Fields.requestId, WebContext.requestId());
 
-        final Throwable throwable = super.getError(webRequest);
-        if (throwable != null) {
-            final ErrorInfo errorInfo = extractor.getErrorInfo(throwable);
-            attributes.put(RuntimeErrorInfo.Fields.message,
-                ErrorMessageSource.getMessage(errorInfo));
+        final Throwable t = super.getError(webRequest);
+        if (t != null) {
+            final ErrorInfo errorInfo = extractor.getErrorInfo(t);
+            final String message = ErrorMessageSource.getMessage(errorInfo, t);
+            attributes.put(RuntimeErrorInfo.Fields.message, message);
             attributes.put(RuntimeErrorInfo.Fields.error, errorInfo.getError());
             attributes.put(RuntimeErrorInfo.Fields.status, errorInfo.getStatus());
         }

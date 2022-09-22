@@ -55,8 +55,8 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
         return ACCESSOR.getMessage(error, args);
     }
 
-    public static String getMessage(final String error, final Throwable t) {
-        final String messageExpression = ACCESSOR.getMessage(error);
+    public static String getMessage(final ErrorInfo errorInfo, final Throwable t) {
+        final String messageExpression = ACCESSOR.getMessage(errorInfo.getError());
         final EvaluationContext context = new StandardEvaluationContext();
         context.setVariable("e", t);
         return elParser.parseExpression(messageExpression).getValue(context, String.class);
