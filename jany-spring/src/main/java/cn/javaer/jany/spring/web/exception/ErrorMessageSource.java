@@ -59,7 +59,7 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
     }
 
     public static String getMessage(final ErrorInfo errorInfo, final Throwable t) {
-        if (EL_KEY_START == errorInfo.getError().charAt(0)) {
+        if (EL_KEY_START != errorInfo.getError().charAt(0)) {
             return getMessage(errorInfo);
         }
         final String messageEl = ACCESSOR.getMessage(errorInfo.getError());
