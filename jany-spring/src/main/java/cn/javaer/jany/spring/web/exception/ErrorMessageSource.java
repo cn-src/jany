@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.web.exception;
 
+import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.exception.ErrorInfo;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -25,6 +26,8 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
 
     private static final MessageSourceAccessor ACCESSOR =
         new MessageSourceAccessor(new ErrorMessageSource(), Locale.CHINESE);
+
+    private static final char EL_KEY_START = '$';
 
     public ErrorMessageSource() {
         this.setDefaultEncoding("UTF-8");
@@ -56,10 +59,17 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
     }
 
     public static String getMessage(final ErrorInfo errorInfo, final Throwable t) {
-        final String messageExpression = ACCESSOR.getMessage(errorInfo.getError());
+        if (EL_KEY_START == errorInfo.getError().charAt(0)) {
+            return getMessage(errorInfo);
+        }
+        final String messageEl = ACCESSOR.getMessage(errorInfo.getError());
         final EvaluationContext context = new StandardEvaluationContext();
         context.setVariable("e", t);
-        return elParser.parseExpression(messageExpression).getValue(context, String.class);
+        final String value = elParser.parseExpression(messageEl).getValue(context, String.class);
+        if (StrUtil.isBlank(value)) {
+            return "No message";
+        }
+        return value;
     }
 
     public static String getMessage(int status, String defaultMessage) {
