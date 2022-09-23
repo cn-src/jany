@@ -30,4 +30,14 @@ class ErrorMessageSourceTest {
             NotLoginException.newInstance("loginType", NotLoginException.BE_REPLACED, "token"));
         assertThat(message).isEqualTo("您已在别处登录");
     }
+
+    @Test
+    void getMessage_SpEL2() {
+
+        final String message = ErrorMessageSource.getMessage(ErrorInfo.of401(
+            "$LOGIN_ERROR_BAD_CREDENTIALS"),
+            new BadCredentialsException(3));
+        System.out.println(message);
+//        assertThat(message).isEqualTo("您已在别处登录");
+    }
 }
