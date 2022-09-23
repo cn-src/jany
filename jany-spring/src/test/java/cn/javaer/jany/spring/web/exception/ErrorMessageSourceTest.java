@@ -1,5 +1,7 @@
 package cn.javaer.jany.spring.web.exception;
 
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.javaer.jany.exception.ErrorInfo;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ErrorMessageSourceTest {
 
     @Test
-    void emptyMessage() {
+    void getMessage_empty() {
         final String message = ErrorMessageSource.getMessage("non_key");
         assertThat(message).isEmpty();
     }
@@ -22,10 +24,10 @@ class ErrorMessageSourceTest {
     }
 
     @Test
-    void getMessage2() {
+    void getMessage_SpEL() {
 
-//        final String message = ErrorMessageSource.getMessage("LOGIN_ERROR",
-//            NotLoginException.newInstance("loginType", NotLoginException.NOT_TOKEN, "token"));
-//        System.out.println(message);
+        final String message = ErrorMessageSource.getMessage(ErrorInfo.of401("$SA_TOKEN_NOT_LOGIN"),
+            NotLoginException.newInstance("loginType", NotLoginException.BE_REPLACED, "token"));
+        assertThat(message).isEqualTo("您已在别处登录");
     }
 }
