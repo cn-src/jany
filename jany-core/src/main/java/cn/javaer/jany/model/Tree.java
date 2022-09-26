@@ -14,6 +14,12 @@ import java.util.function.Function;
  * @author cn-src
  */
 public class Tree {
+    public static <E> List<TreeNode> of(final List<E> models,
+                                        Function<E, String> nameFun,
+                                        Function<E, String>... namesFun) {
+        return of(models, TreeConf.of(nameFun, namesFun));
+    }
+
     public static <E> List<TreeNode> of(final List<E> models, TreeConf<E> treeConf) {
 
         if (CollUtil.isEmpty(models)) {
@@ -22,8 +28,8 @@ public class Tree {
 
         List<E> es = new ArrayList<>(models);
         es.sort((o1, o2) -> {
-            final Long t1 = treeConf.getSortFun().apply(o1);
-            final Long t2 = treeConf.getSortFun().apply(o2);
+            final Long t1 = treeConf.getSortFn().apply(o1);
+            final Long t2 = treeConf.getSortFn().apply(o2);
             return CompareUtil.compare(t1, t2, true);
         });
 
@@ -32,12 +38,12 @@ public class Tree {
         List<TreeNode> call = new ArrayList<>(50);
         for (final E row : es) {
             int depth = 1;
-            final List<String> names = treeConf.getNamesFun().apply(row);
+            final List<String> names = treeConf.getNamesFn().apply(row);
             int li = names.size() - 1;
-            if (TreeConf.EmptyMode.NAMED_LEAF.equals(treeConf.getEmptyMode())) {
+            if (TreeConf.EmptyMode.ignore_leaf.equals(treeConf.getEmptyMode())) {
                 li = CollUtil.lastIndexOf(names, StrUtil::isNotEmpty);
             }
-            else if (TreeConf.EmptyMode.BREAK_EMPTY.equals(treeConf.getEmptyMode())) {
+            else if (TreeConf.EmptyMode.ignore_children.equals(treeConf.getEmptyMode())) {
                 li = CollUtil.indexOf(names, StrUtil::isEmpty) - 1;
             }
             int i = -1;

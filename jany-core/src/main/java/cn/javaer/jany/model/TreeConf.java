@@ -25,63 +25,72 @@ public class TreeConf<E> {
     public enum EmptyMode {
 
         /**
-         * 断开空节点，如果当前 name 为空，则忽略当前节点以及其子节点。
+         * 如果当前节点 name 为空，则忽略当前节点以及其子节点。
          */
-        BREAK_EMPTY,
+        ignore_children,
 
         /**
-         * 叶子节点 name 不为空，即：忽略所有为空的叶子节点。
+         * 忽略所有为空的叶子节点（即：所有末级节点为非空）。
          */
-        NAMED_LEAF
+        ignore_leaf
     }
 
-    private TreeConf(Function<E, List<String>> namesFun, Function<E, Long> sortFun,
-                     TreeHandler<E> handler, boolean showNonLeafSort, EmptyMode emptyMode) {
-        this.namesFun = ObjectUtil.defaultIfNull(namesFun, Empty.function());
-        this.sortFun = ObjectUtil.defaultIfNull(sortFun, Empty.function());
+    private TreeConf(Function<E, List<String>> namesFn, Function<E, Long> sortFn,
+                     TreeHandler<E> handler, EmptyMode emptyMode) {
+        this.namesFn = ObjectUtil.defaultIfNull(namesFn, Empty.function());
+        this.sortFn = ObjectUtil.defaultIfNull(sortFn, Empty.function());
         this.handler = ObjectUtil.defaultIfNull(handler, TreeHandler.empty());
-        this.showNonLeafSort = showNonLeafSort;
         this.emptyMode = emptyMode;
     }
 
-    Function<E, @UnmodifiableView List<@Nullable String>> namesFun;
+    /**
+     * 节点名称获取函数。
+     */
+    Function<E, @UnmodifiableView List<@Nullable String>> namesFn;
 
-    Function<E, Long> sortFun;
+    /**
+     * 节点排序函数。
+     */
+    Function<E, Long> sortFn;
 
+    /**
+     * 节点额外处理函数。
+     */
     TreeHandler<E> handler;
 
-    boolean showNonLeafSort;
-
+    /**
+     * 空节点处理模式。
+     */
     EmptyMode emptyMode;
 
     public static <E> TreeConf<E> of(Function<E, String[]> namesFun) {
         return new TreeConf<>(e -> Arrays.asList(namesFun.apply(e)), Empty.function(),
-            TreeHandler.empty(), false, null);
+            TreeHandler.empty(), null);
     }
 
     @SafeVarargs
     public static <E> TreeConf<E> of(Function<E, String> nameFun, Function<E, String>... namesFun) {
-        return new TreeConf<>(toNamesFun(nameFun, namesFun),
-            Empty.function(), TreeHandler.empty(), false, null);
+        return new TreeConf<>(toNamesFn(nameFun, namesFun),
+            Empty.function(), TreeHandler.empty(), null);
     }
 
     @SafeVarargs
-    public static <E> TreeConf<E> ofBreakEmpty(Function<E, String> nameFun,
-                                               Function<E, String>... namesFun) {
-        return new TreeConf<>(toNamesFun(nameFun, namesFun),
-            Empty.function(), TreeHandler.empty(), false, EmptyMode.BREAK_EMPTY);
+    public static <E> TreeConf<E> ofIgnoreChildrenIfEmpty(Function<E, String> nameFun,
+                                                          Function<E, String>... namesFun) {
+        return new TreeConf<>(toNamesFn(nameFun, namesFun),
+            Empty.function(), TreeHandler.empty(), EmptyMode.ignore_children);
     }
 
     @SafeVarargs
-    public static <E> TreeConf<E> ofNamedLeaf(Function<E, String> nameFun,
-                                              Function<E, String>... namesFun) {
-        return new TreeConf<>(toNamesFun(nameFun, namesFun),
-            Empty.function(), TreeHandler.empty(), false, EmptyMode.NAMED_LEAF);
+    public static <E> TreeConf<E> ofIgnoreLeafIfEmpty(Function<E, String> nameFun,
+                                                      Function<E, String>... namesFun) {
+        return new TreeConf<>(toNamesFn(nameFun, namesFun),
+            Empty.function(), TreeHandler.empty(), EmptyMode.ignore_leaf);
     }
 
     @SafeVarargs
-    private static <E> Function<E, List<String>> toNamesFun(Function<E, String> nameFun,
-                                                            Function<E, String>... namesFun) {
+    private static <E> Function<E, List<String>> toNamesFn(Function<E, String> nameFun,
+                                                           Function<E, String>... namesFun) {
         Objects.requireNonNull(nameFun);
         Function<E, List<String>> rsNamesFun;
         if (ArrayUtil.isEmpty(namesFun)) {
@@ -103,9 +112,9 @@ public class TreeConf<E> {
     public static class TreeConfBuilder<E> {
 
         @SafeVarargs
-        public final TreeConfBuilder<E> namesFun(Function<E, String> nameFun,
-                                                 Function<E, String>... namesFun) {
-            this.namesFun = toNamesFun(nameFun, namesFun);
+        public final TreeConfBuilder<E> namesFn(Function<E, String> nameFun,
+                                                Function<E, String>... namesFun) {
+            this.namesFn = toNamesFn(nameFun, namesFun);
             return this;
         }
     }
