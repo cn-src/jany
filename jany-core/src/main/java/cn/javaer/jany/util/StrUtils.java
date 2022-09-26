@@ -45,6 +45,27 @@ public class StrUtils extends StrUtil {
     }
 
     /**
+     * 如果字符串为空，则返回 false。否则，遍历字符串中的每个字符，如果字符是字母则返回 true 。
+     *
+     * @param str 要检查的字符串。
+     *
+     * @return 一个布尔值。
+     */
+    public static boolean containsLetter(String str) {
+        if (isEmpty(str)) {
+            return false;
+        }
+        final char[] chars = str.toCharArray();
+        for (char ch : chars) {
+            // noinspection AlibabaAvoidComplexCondition
+            if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 如果字符串为空，则返回 false。否则，遍历字符串中的字符，如果其中任何一个是小写的，则返回 true 。
      *
      * @param str 要检查的字符串。

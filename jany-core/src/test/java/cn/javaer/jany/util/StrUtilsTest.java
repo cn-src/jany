@@ -51,24 +51,38 @@ class StrUtilsTest {
     }
 
     @Test
-    void containsLowerChar() {
+    void containsLower() {
         assertThat(StrUtils.containsLower(null)).isFalse();
         assertThat(StrUtils.containsLower("67abcABC68")).isTrue();
         assertThat(StrUtils.containsLower("6768ABC")).isFalse();
     }
 
     @Test
-    void containsUpperChar() {
+    void containsUpper() {
         assertThat(StrUtils.containsUpper(null)).isFalse();
         assertThat(StrUtils.containsUpper("6768ABC")).isTrue();
         assertThat(StrUtils.containsUpper("67abc68")).isFalse();
     }
 
     @Test
-    void containsCaseChar() {
+    void containsBothCase() {
         assertThat(StrUtils.containsBothCase(null)).isFalse();
         assertThat(StrUtils.containsBothCase("6768ABC")).isFalse();
         assertThat(StrUtils.containsBothCase("67abc68")).isFalse();
         assertThat(StrUtils.containsBothCase("67abcABC68")).isTrue();
+    }
+
+    @Test
+    void containsNumber() {
+        assertThat(StrUtils.containsUpper(null)).isFalse();
+        assertThat(StrUtils.containsUpper("6768ABC")).isTrue();
+        assertThat(StrUtils.containsUpper("adaxzxc")).isFalse();
+    }
+
+    @Test
+    void containsLetter() {
+        assertThat(StrUtils.containsUpper(null)).isFalse();
+        assertThat(StrUtils.containsUpper("6768ABC")).isTrue();
+        assertThat(StrUtils.containsUpper("21414")).isFalse();
     }
 }
