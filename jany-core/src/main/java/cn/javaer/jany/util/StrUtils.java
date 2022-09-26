@@ -25,19 +25,39 @@ public class StrUtils extends StrUtil {
     }
 
     /**
+     * 如果字符串为空，则返回 false。否则，遍历字符串中的每个字符，如果字符是数字则返回 true 。
+     *
+     * @param str 要检查的字符串。
+     *
+     * @return 一个布尔值。
+     */
+    public static boolean containsNumber(String str) {
+        if (isEmpty(str)) {
+            return false;
+        }
+        final char[] chars = str.toCharArray();
+        for (char ch : chars) {
+            if (ch >= '0' && ch <= '9') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 如果字符串为空，则返回 false。否则，遍历字符串中的字符，如果其中任何一个是小写的，则返回 true 。
      *
      * @param str 要检查的字符串。
      *
      * @return 一个布尔值。
      */
-    public static boolean containsLowerChar(String str) {
+    public static boolean containsLower(String str) {
         if (isEmpty(str)) {
             return false;
         }
         final char[] chars = str.toCharArray();
-        for (char c : chars) {
-            if (Character.isLowerCase(c)) {
+        for (char ch : chars) {
+            if (ch >= 'a' && ch <= 'z') {
                 return true;
             }
         }
@@ -51,13 +71,13 @@ public class StrUtils extends StrUtil {
      *
      * @return 一个布尔值。
      */
-    public static boolean containsUpperChar(String str) {
+    public static boolean containsUpper(String str) {
         if (isEmpty(str)) {
             return false;
         }
         final char[] chars = str.toCharArray();
-        for (char c : chars) {
-            if (Character.isUpperCase(c)) {
+        for (char ch : chars) {
+            if (ch >= 'A' && ch <= 'Z') {
                 return true;
             }
         }
@@ -71,22 +91,22 @@ public class StrUtils extends StrUtil {
      *
      * @return 如果字符串同时包含大写和小写字符，则为 true 。
      */
-    public static boolean containsCaseChar(String str) {
+    public static boolean containsBothCase(String str) {
         if (isEmpty(str)) {
             return false;
         }
         boolean hasLower = false;
         boolean hasUpper = false;
         final char[] chars = str.toCharArray();
-        for (char c : chars) {
+        for (char ch : chars) {
             if (hasLower && hasUpper) {
                 return true;
             }
-            if (Character.isLowerCase(c)) {
+            if (ch >= 'a' && ch <= 'z') {
                 hasLower = true;
                 continue;
             }
-            if (Character.isUpperCase(c)) {
+            if (ch >= 'A' && ch <= 'Z') {
                 hasUpper = true;
                 // continue;
             }
