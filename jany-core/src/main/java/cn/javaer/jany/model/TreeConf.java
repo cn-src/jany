@@ -1,7 +1,6 @@
 package cn.javaer.jany.model;
 
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.javaer.jany.util.Empty;
 import lombok.Builder;
 import lombok.Value;
@@ -37,9 +36,9 @@ public class TreeConf<E> {
 
     private TreeConf(Function<E, List<String>> namesFn, Function<E, Long> sortFn,
                      TreeHandler<E> handler, EmptyMode emptyMode) {
-        this.namesFn = ObjectUtil.defaultIfNull(namesFn, Empty.function());
-        this.sortFn = ObjectUtil.defaultIfNull(sortFn, Empty.function());
-        this.handler = ObjectUtil.defaultIfNull(handler, TreeHandler.empty());
+        this.namesFn = namesFn == null ? Empty.function() : namesFn;
+        this.sortFn = sortFn == null ? Empty.function() : sortFn;
+        this.handler = handler == null ? TreeHandler.empty() : handler;
         this.emptyMode = emptyMode;
     }
 
