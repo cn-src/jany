@@ -7,6 +7,10 @@ import cn.hutool.core.util.StrUtil;
  */
 public class StrUtils extends StrUtil {
 
+    private static final char[] lowerChars = "abcdefghijklmnopqretuvwxyz".toCharArray();
+
+    private static final char[] upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+
     /**
      * 如果对象是字符串，则返回它，否则抛出异常。
      *
@@ -22,6 +26,14 @@ public class StrUtils extends StrUtil {
             return (String) obj;
         }
         throw new IllegalArgumentException("Object must be String, but was " + obj.getClass());
+    }
+
+    public static boolean containsLowerChar(CharSequence str) {
+        return StrUtil.containsAny(str, lowerChars);
+    }
+
+    public static boolean containsUpperChar(CharSequence str) {
+        return StrUtil.containsAny(str, upperChars);
     }
 
     /**
