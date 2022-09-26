@@ -7,10 +7,6 @@ import cn.hutool.core.util.StrUtil;
  */
 public class StrUtils extends StrUtil {
 
-    private static final char[] lowerChars = "abcdefghijklmnopqretuvwxyz".toCharArray();
-
-    private static final char[] upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-
     /**
      * 如果对象是字符串，则返回它，否则抛出异常。
      *
@@ -28,12 +24,74 @@ public class StrUtils extends StrUtil {
         throw new IllegalArgumentException("Object must be String, but was " + obj.getClass());
     }
 
-    public static boolean containsLowerChar(CharSequence str) {
-        return StrUtil.containsAny(str, lowerChars);
+    /**
+     * 如果字符串为空，则返回 false。否则，遍历字符串中的字符，如果其中任何一个是小写的，则返回 true 。
+     *
+     * @param str 要检查的字符串。
+     *
+     * @return 一个布尔值。
+     */
+    public static boolean containsLowerChar(String str) {
+        if (isEmpty(str)) {
+            return false;
+        }
+        final char[] chars = str.toCharArray();
+        for (char c : chars) {
+            if (Character.isLowerCase(c)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public static boolean containsUpperChar(CharSequence str) {
-        return StrUtil.containsAny(str, upperChars);
+    /**
+     * 如果字符串为空，则返回 false。否则，遍历字符串中的字符，如果其中任何一个是大写的，则返回 true 。
+     *
+     * @param str 要检查的字符串。
+     *
+     * @return 一个布尔值。
+     */
+    public static boolean containsUpperChar(String str) {
+        if (isEmpty(str)) {
+            return false;
+        }
+        final char[] chars = str.toCharArray();
+        for (char c : chars) {
+            if (Character.isUpperCase(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 检查一个字符串是否同时包含大写和小写字符。
+     *
+     * @param str 要检查的字符串。
+     *
+     * @return 如果字符串同时包含大写和小写字符，则为 true 。
+     */
+    public static boolean containsCaseChar(String str) {
+        if (isEmpty(str)) {
+            return false;
+        }
+        boolean hasLower = false;
+        boolean hasUpper = false;
+        final char[] chars = str.toCharArray();
+        for (char c : chars) {
+            if (hasLower && hasUpper) {
+                return true;
+            }
+            if (Character.isLowerCase(c)) {
+                hasLower = true;
+                continue;
+            }
+            if (Character.isUpperCase(c)) {
+                hasUpper = true;
+                // continue;
+            }
+        }
+        return false;
     }
 
     /**

@@ -1,14 +1,20 @@
 package cn.javaer.jany.util;
 
-import cn.javaer.jany.util.StrUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * @author cn-src
  */
 class StrUtilsTest {
+    @Test
+    void cast() {
+        assertThat(StrUtils.cast(null)).isNull();
+        assertThat(StrUtils.cast("aa")).isEqualTo("aa");
+        assertThatThrownBy(() -> StrUtils.cast(new Object())).isInstanceOf(IllegalArgumentException.class);
+    }
 
     @Test
     void toSnakeUpper() {
@@ -42,5 +48,27 @@ class StrUtilsTest {
         assertThat(StrUtils.toSnakeLower("Snake123SNAKE")).isEqualTo("snake123_snake");
         assertThat(StrUtils.toSnakeLower("SNAKE_CASE")).isEqualTo("snake_case");
         assertThat(StrUtils.toSnakeLower("snake_case")).isEqualTo("snake_case");
+    }
+
+    @Test
+    void containsLowerChar() {
+        assertThat(StrUtils.containsLowerChar(null)).isFalse();
+        assertThat(StrUtils.containsLowerChar("67abcABC68")).isTrue();
+        assertThat(StrUtils.containsLowerChar("6768ABC")).isFalse();
+    }
+
+    @Test
+    void containsUpperChar() {
+        assertThat(StrUtils.containsUpperChar(null)).isFalse();
+        assertThat(StrUtils.containsUpperChar("6768ABC")).isTrue();
+        assertThat(StrUtils.containsUpperChar("67abc68")).isFalse();
+    }
+
+    @Test
+    void containsCaseChar() {
+        assertThat(StrUtils.containsCaseChar(null)).isFalse();
+        assertThat(StrUtils.containsCaseChar("6768ABC")).isFalse();
+        assertThat(StrUtils.containsCaseChar("67abc68")).isFalse();
+        assertThat(StrUtils.containsCaseChar("67abcABC68")).isTrue();
     }
 }
