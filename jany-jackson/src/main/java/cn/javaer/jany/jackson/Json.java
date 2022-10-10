@@ -1,9 +1,6 @@
 package cn.javaer.jany.jackson;
 
 import cn.hutool.core.util.StrUtil;
-import cn.javaer.jany.model.KeyValue;
-import cn.javaer.jany.util.ReflectUtils;
-import cn.javaer.jany.util.TimeUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -11,21 +8,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.jetbrains.annotations.Nullable;
-import org.jooq.JSONB;
-import org.jooq.Record;
 
 import java.io.UncheckedIOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -57,48 +42,18 @@ public class Json {
      */
     public static final Json NON_EMPTY;
 
-    public static final SimpleModule MODULE = new SimpleModule();
-
     static {
-        // @formatter:off
-        MODULE.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(TimeUtils.DATE_TIME_FORMATTER));
-        MODULE.addSerializer(LocalDate.class, new LocalDateSerializer(TimeUtils.DATE_FORMATTER));
-        MODULE.addSerializer(LocalTime.class, new LocalTimeSerializer(TimeUtils.TIME_FORMATTER));
-        MODULE.addSerializer(KeyValue.class, KeyValueSerializer.INSTANCE);
-
-        MODULE.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(TimeUtils.DATE_TIME_FORMATTER));
-        MODULE.addDeserializer(LocalDate.class, new LocalDateDeserializer(TimeUtils.DATE_FORMATTER));
-        MODULE.addDeserializer(LocalTime.class, new LocalTimeDeserializer(TimeUtils.TIME_FORMATTER));
-        MODULE.addDeserializer(KeyValue.class, KeyValueDeserializer.INSTANCE);
-
-        // @formatter:on
-
-        ReflectUtils.getClass("org.jooq.JSONB").ifPresent(it -> {
-            @SuppressWarnings({"unchecked"})
-            final Class<JSONB> clazz = (Class<JSONB>) it;
-            MODULE.addSerializer(clazz, JooqJsonbSerializer.INSTANCE);
-            MODULE.addDeserializer(clazz, JooqJsonbDeserializer.INSTANCE);
-        });
-        ReflectUtils.getClass("org.jooq.Record").ifPresent(it -> {
-            @SuppressWarnings({"unchecked"})
-            final Class<Record> clazz = (Class<Record>) it;
-            MODULE.addSerializer(clazz, JooqRecordSerializer.INSTANCE);
-        });
-
         final ObjectMapper aDefault = new ObjectMapper();
-        aDefault.setAnnotationIntrospector(JanyJacksonAnnotationIntrospector.INSTANCE);
-        aDefault.registerModule(MODULE);
+        aDefault.findAndRegisterModules();
         DEFAULT = new Json(aDefault);
 
         final ObjectMapper lenient = new ObjectMapper();
-        lenient.setAnnotationIntrospector(JanyJacksonAnnotationIntrospector.INSTANCE);
-        lenient.registerModule(MODULE);
+        lenient.findAndRegisterModules();
         lenient.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         LENIENT = new Json(aDefault);
 
         final ObjectMapper nonEmpty = new ObjectMapper();
-        nonEmpty.setAnnotationIntrospector(JanyJacksonAnnotationIntrospector.INSTANCE);
-        nonEmpty.registerModule(MODULE);
+        nonEmpty.findAndRegisterModules();
         nonEmpty.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         NON_EMPTY = new Json(nonEmpty);
     }
