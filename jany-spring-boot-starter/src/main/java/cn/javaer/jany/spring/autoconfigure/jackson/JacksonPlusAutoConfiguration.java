@@ -1,6 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.jackson;
 
-import cn.javaer.jany.jackson.DateTimeFormatIntrospector;
+import cn.javaer.jany.jackson.JanyJacksonAnnotationIntrospector;
 import cn.javaer.jany.jackson.JooqJsonbDeserializer;
 import cn.javaer.jany.jackson.JooqJsonbSerializer;
 import cn.javaer.jany.jackson.JooqRecordSerializer;
@@ -48,7 +48,7 @@ public class JacksonPlusAutoConfiguration {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer janyJacksonCustomizer(final JacksonPlusProperties jacksonPlusProperties) {
         return it -> {
-            it.annotationIntrospector(DateTimeFormatIntrospector.INSTANCE);
+            it.annotationIntrospector(JanyJacksonAnnotationIntrospector.INSTANCE);
 
             final DateTimeFormatter dateTimeFormatter =
                 DateTimeFormatter.ofPattern(jacksonPlusProperties.getFormat().getDateTime());

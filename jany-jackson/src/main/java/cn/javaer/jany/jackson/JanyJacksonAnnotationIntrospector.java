@@ -12,10 +12,10 @@ import java.util.Optional;
 /**
  * @author cn-src
  */
-public class DateTimeFormatIntrospector extends JacksonAnnotationIntrospector {
+public class JanyJacksonAnnotationIntrospector extends JacksonAnnotationIntrospector {
     private static final long serialVersionUID = -6156647757687961666L;
 
-    public static final DateTimeFormatIntrospector INSTANCE = new DateTimeFormatIntrospector();
+    public static final JanyJacksonAnnotationIntrospector INSTANCE = new JanyJacksonAnnotationIntrospector();
 
     @Override
     public Object findDeserializer(final Annotated a) {

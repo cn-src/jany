@@ -86,18 +86,18 @@ public class Json {
         });
 
         final ObjectMapper aDefault = new ObjectMapper();
-        aDefault.setAnnotationIntrospector(DateTimeFormatIntrospector.INSTANCE);
+        aDefault.setAnnotationIntrospector(JanyJacksonAnnotationIntrospector.INSTANCE);
         aDefault.registerModule(MODULE);
         DEFAULT = new Json(aDefault);
 
         final ObjectMapper lenient = new ObjectMapper();
-        lenient.setAnnotationIntrospector(DateTimeFormatIntrospector.INSTANCE);
+        lenient.setAnnotationIntrospector(JanyJacksonAnnotationIntrospector.INSTANCE);
         lenient.registerModule(MODULE);
         lenient.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         LENIENT = new Json(aDefault);
 
         final ObjectMapper nonEmpty = new ObjectMapper();
-        nonEmpty.setAnnotationIntrospector(DateTimeFormatIntrospector.INSTANCE);
+        nonEmpty.setAnnotationIntrospector(JanyJacksonAnnotationIntrospector.INSTANCE);
         nonEmpty.registerModule(MODULE);
         nonEmpty.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         NON_EMPTY = new Json(nonEmpty);
