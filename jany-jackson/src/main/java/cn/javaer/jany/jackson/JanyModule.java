@@ -31,6 +31,7 @@ public final class JanyModule extends SimpleModule {
 
     @Override
     public void setupModule(SetupContext context) {
+        super.setupModule(context);
         context.appendAnnotationIntrospector(JanyJacksonAnnotationIntrospector.INSTANCE);
     }
 
