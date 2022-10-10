@@ -22,6 +22,8 @@ import java.util.Optional;
  */
 public class DateTimeFormatDeserializer extends JsonDeserializer<LocalDateTime> implements ContextualDeserializer {
 
+    public static final DateTimeFormatDeserializer INSTANCE = new DateTimeFormatDeserializer();
+
     private final DateTimeFormat dateTimeFormat;
 
     @SuppressWarnings("unused")

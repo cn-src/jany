@@ -12,7 +12,7 @@ class StringHandlerSerializerTest {
 
     @BeforeAll
     static void beforeAll() {
-        objectMapper.registerModule(new JanyModule());
+        objectMapper.findAndRegisterModules();
     }
 
     @Test
