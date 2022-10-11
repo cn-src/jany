@@ -39,8 +39,7 @@ class JanyJacksonAnnotationIntrospectorTest {
     @Test
     void jacksonIntrospectorValue() throws Exception {
         final ObjectMapper objectMapper = new ObjectMapper();
-        final JanyJacksonAnnotationIntrospector jacksonIntrospector = new JanyJacksonAnnotationIntrospector();
-        objectMapper.setAnnotationIntrospector(jacksonIntrospector);
+        objectMapper.setAnnotationIntrospector(JanyJacksonAnnotationIntrospector.INSTANCE);
         // language=JSON
         final Demo1 demo = objectMapper.readValue("{\"dateTime\": \"2020-05-05\"}", Demo1.class);
         assertThat(demo.dateTime).isEqualTo(LocalDate.parse("2020-05-05").atTime(LocalTime.MIN));

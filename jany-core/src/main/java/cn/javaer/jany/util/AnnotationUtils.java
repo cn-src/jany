@@ -22,6 +22,32 @@ import java.util.stream.StreamSupport;
  */
 public class AnnotationUtils extends AnnotationUtil {
 
+    public static boolean hasMergedAnnotation(final Class<? extends Annotation> clazz,
+                                              final Annotation ann) {
+        if (clazz.equals(ann.annotationType())) {
+            return true;
+        }
+        return ann.annotationType().isAnnotationPresent(clazz);
+    }
+
+    public static boolean hasMergedAnnotation(
+        final Class<? extends Annotation> clazz, final Annotation... annotations) {
+        if (ArrayUtil.isEmpty(annotations)) {
+            return false;
+        }
+        for (Annotation annotation : annotations) {
+            if (hasMergedAnnotation(clazz, annotation)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean hasMergedAnnotation(
+        final Class<? extends Annotation> clazz, final AnnotatedElement element) {
+        return hasMergedAnnotation(clazz, element.getAnnotations());
+    }
+
     /**
      * 查找合成的注解实例：
      * 1. 如果当前注解实例就是要获取的类型，就返回当前注解实例；

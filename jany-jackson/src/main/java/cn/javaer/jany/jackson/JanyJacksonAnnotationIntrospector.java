@@ -1,9 +1,8 @@
 package cn.javaer.jany.jackson;
 
-import cn.javaer.jany.format.DateMaxTime;
-import cn.javaer.jany.format.DateMinTime;
 import cn.javaer.jany.format.DateTimeFormat;
 import cn.javaer.jany.format.Desensitized;
+import cn.javaer.jany.util.AnnotationUtils;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.introspect.Annotated;
@@ -23,9 +22,7 @@ public class JanyJacksonAnnotationIntrospector extends AnnotationIntrospector {
 
     @Override
     public Object findDeserializer(final Annotated ann) {
-        if (ann.getAnnotation(DateTimeFormat.class) != null
-            || ann.getAnnotation(DateMinTime.class) != null
-            || ann.getAnnotation(DateMaxTime.class) != null) {
+        if (AnnotationUtils.hasMergedAnnotation(DateTimeFormat.class, ann.getAnnotated())) {
             return DateTimeFormatDeserializer.INSTANCE;
         }
         return null;
