@@ -2,9 +2,11 @@ package cn.javaer.jany.jackson;
 
 import cn.javaer.jany.format.DateTimeFormat;
 import cn.javaer.jany.format.Desensitized;
+import cn.javaer.jany.format.StringFormat;
 import cn.javaer.jany.util.AnnotationUtils;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.introspect.Annotated;
+import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
 import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 
@@ -26,7 +28,6 @@ public class JanyJacksonAnnotationIntrospector extends JacksonAnnotationIntrospe
 
     @Override
     public Object findDeserializer(final Annotated ann) {
-
         if (AnnotationUtils.hasMergedAnnotation(DateTimeFormat.class, annotations(ann))) {
             return DateTimeFormatDeserializer.INSTANCE;
         }
@@ -35,7 +36,12 @@ public class JanyJacksonAnnotationIntrospector extends JacksonAnnotationIntrospe
 
     @Override
     public Object findSerializer(Annotated ann) {
-        if (AnnotationUtils.hasMergedAnnotation(Desensitized.class, annotations(ann))) {
+        if (ann instanceof AnnotatedClass) {
+            return super.findSerializer(ann);
+        }
+        Iterable<Annotation> annotations = annotations(ann);
+        if (AnnotationUtils.hasMergedAnnotation(Desensitized.class, annotations) ||
+            AnnotationUtils.hasMergedAnnotation(StringFormat.class, annotations)) {
             return StringFormatSerializer.INSTANCE;
         }
         return super.findSerializer(ann);

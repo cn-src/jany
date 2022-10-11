@@ -52,6 +52,7 @@ public class StringFormatSerializer extends StdSerializer<String> implements Con
         Iterable<Annotation> annotations = property.getMember().getAllAnnotations().annotations();
         Opt<Desensitized> deOpt = AnnotationUtils.findMergedAnnotation(Desensitized.class, annotations);
         Opt<StringFormat> sfOpt = AnnotationUtils.findMergedAnnotation(StringFormat.class, annotations);
-        return new StringFormatSerializer(deOpt.orElse(null), sfOpt.orElse(null));
+        Opt<StringFormat> sfClazzOpt = AnnotationUtils.findMergedAnnotation(StringFormat.class, property.getMember().getDeclaringClass());
+        return new StringFormatSerializer(deOpt.orElse(null), sfOpt.orElse(sfClazzOpt.orElse(null)));
     }
 }
