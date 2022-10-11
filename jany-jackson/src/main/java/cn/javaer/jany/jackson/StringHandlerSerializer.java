@@ -36,15 +36,10 @@ public class StringHandlerSerializer extends StdSerializer<String> implements Co
     @Override
     public void serialize(final String str, final JsonGenerator jsonGenerator,
                           final SerializerProvider serializerProvider) throws IOException {
-        String value = str;
-        if (null != stringFormat && stringFormat.apply()) {
-            if (stringFormat.trim()) {
-                value = value.trim();
-            }
-            if (stringFormat.emptyToNull() && value.isEmpty()) {
-                jsonGenerator.writeNull();
-                return;
-            }
+        String value = StringFormat.Formatter.format(str, stringFormat);
+        if (null == value) {
+            jsonGenerator.writeNull();
+            return;
         }
         if (null != desensitized) {
             value = desensitized.type().fn().apply(value);

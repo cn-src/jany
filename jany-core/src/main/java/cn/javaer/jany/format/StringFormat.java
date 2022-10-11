@@ -19,4 +19,19 @@ public @interface StringFormat {
     boolean trim() default true;
 
     boolean emptyToNull() default true;
+
+    interface Formatter {
+        static String format(final String str, final StringFormat format) {
+            String value = str;
+            if (null != format && format.apply()) {
+                if (format.trim()) {
+                    value = value.trim();
+                }
+                if (format.emptyToNull() && value.isEmpty()) {
+                    return null;
+                }
+            }
+            return value;
+        }
+    }
 }
