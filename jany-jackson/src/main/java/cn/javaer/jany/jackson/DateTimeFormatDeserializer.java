@@ -41,7 +41,7 @@ public class DateTimeFormatDeserializer extends JsonDeserializer<LocalDateTime> 
         if (this.dateTimeFormat.datePattern().length() == parser.getText().length()) {
             final LocalDate date = LocalDate.parse(parser.getText(),
                 DateTimeFormatter.ofPattern(this.dateTimeFormat.datePattern()));
-            return DateTimeFormat.Conversion.conversion(date, this.dateTimeFormat);
+            return DateTimeFormat.Formatter.format(date, this.dateTimeFormat);
         }
         return LocalDateTime.parse(parser.getText(),
             DateTimeFormatter.ofPattern(this.dateTimeFormat.dateTimePattern()));

@@ -53,7 +53,7 @@ public @interface DateTimeFormat {
         MAX
     }
 
-    interface Conversion {
+    interface Formatter {
 
         /**
          * 日期转换日期时间
@@ -63,8 +63,8 @@ public @interface DateTimeFormat {
          *
          * @return LocalDateTime
          */
-        static LocalDateTime conversion(final LocalDate localDate,
-                                        final DateTimeFormat format) {
+        static LocalDateTime format(final LocalDate localDate,
+                                    final DateTimeFormat format) {
 
             switch (format.time()) {
                 case MIN:
