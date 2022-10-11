@@ -104,8 +104,8 @@ public interface Dsl {
             final Object value = ReflectUtil.getFieldValue(example, fieldName);
             if (ObjectUtil.isNotEmpty(value) && !field.isAnnotationPresent(WhereIgnore.class)
                 && !fieldName.startsWith("$")) {
-                final WhereExpression whereExpression = Optional.ofNullable(
-                    AnnotationUtils.findMergedAnnotation(field, WhereExpression.class)).orElse(WhereExpression.DEFAULT);
+                final WhereExpression whereExpression = AnnotationUtils.findMergedAnnotation(WhereExpression.class, field)
+                    .orElse(WhereExpression.DEFAULT);
 
                 final Type type = whereExpression.type();
                 String property = ObjectUtil.defaultIfEmpty(whereExpression.property(), fieldName);

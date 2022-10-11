@@ -19,7 +19,7 @@ class AnnotationUtilsTest {
         final Annotation ann = Demo.class.getAnnotation(Ann1.class);
 
         // Run the test
-        final MetaAnn result = AnnotationUtils.findMergedAnnotation(MetaAnn.class, ann);
+        final MetaAnn result = AnnotationUtils.findMergedAnnotation(MetaAnn.class, ann).get();
 
         // Verify the results
         Assertions.assertThat(result.name()).isEqualTo("name1");
@@ -31,7 +31,7 @@ class AnnotationUtilsTest {
         final Annotation annotations = Demo.class.getAnnotation(Ann1.class);
 
         // Run the test
-        final MetaAnn result = AnnotationUtils.findMergedAnnotation(MetaAnn.class, annotations);
+        final MetaAnn result = AnnotationUtils.findMergedAnnotation(MetaAnn.class, annotations).get();
 
         // Verify the results
         Assertions.assertThat(result.name()).isEqualTo("name1");
@@ -43,7 +43,7 @@ class AnnotationUtilsTest {
         final AnnotatedElement element = Demo.class;
 
         // Run the test
-        final MetaAnn result = AnnotationUtils.findMergedAnnotation(element, MetaAnn.class);
+        final MetaAnn result = AnnotationUtils.findMergedAnnotation(MetaAnn.class, element).get();
 
         // Verify the results
         Assertions.assertThat(result.name()).isEqualTo("name1");

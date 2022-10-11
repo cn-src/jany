@@ -1,7 +1,5 @@
 package cn.javaer.jany.jackson;
 
-import cn.javaer.jany.format.DateMaxTime;
-import cn.javaer.jany.format.DateMinTime;
 import cn.javaer.jany.format.DateTimeFormat;
 import cn.javaer.jany.util.AnnotationUtils;
 import com.fasterxml.jackson.core.JsonParser;
@@ -11,11 +9,11 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author cn-src
@@ -52,11 +50,9 @@ public class DateTimeFormatDeserializer extends JsonDeserializer<LocalDateTime> 
     @Override
     public JsonDeserializer<?> createContextual(final DeserializationContext context,
                                                 final BeanProperty property) {
-        final DateTimeFormat format = AnnotationUtils.findMergedAnnotation(DateTimeFormat.class,
-            property.getAnnotation(DateTimeFormat.class),
-            property.getAnnotation(DateMinTime.class),
-            property.getAnnotation(DateMaxTime.class)
-        );
-        return Optional.ofNullable(format).map(DateTimeFormatDeserializer::new).orElse(null);
+        Iterable<Annotation> annotations = property.getMember().getAllAnnotations().annotations();
+        return AnnotationUtils.findMergedAnnotation(DateTimeFormat.class, annotations)
+            .map(DateTimeFormatDeserializer::new)
+            .orElse(null);
     }
 }

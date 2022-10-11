@@ -1,16 +1,18 @@
 package cn.javaer.jany.jackson;
 
+import cn.javaer.jany.exception.MissingAnnotationException;
 import cn.javaer.jany.format.Desensitized;
 import cn.javaer.jany.format.StringFormat;
+import cn.javaer.jany.util.AnnotationUtils;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanProperty;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 
 /**
  * @author cn-src
@@ -51,11 +53,10 @@ public class StringHandlerSerializer extends StdSerializer<String> implements Co
     }
 
     @Override
-    public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property) throws JsonMappingException {
-        Desensitized de = property.getAnnotation(Desensitized.class);
-        if (null == de) {
-            return INSTANCE;
-        }
-        return new StringHandlerSerializer(de, stringFormat);
+    public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property) {
+        Iterable<Annotation> annotations = property.getMember().getAllAnnotations().annotations();
+        return AnnotationUtils.findMergedAnnotation(Desensitized.class, annotations)
+            .map(it -> new StringHandlerSerializer(it, stringFormat))
+            .orElseThrow(() -> new MissingAnnotationException(Desensitized.class));
     }
 }

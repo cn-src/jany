@@ -1,17 +1,21 @@
 package cn.javaer.jany.util;
 
 import cn.hutool.core.annotation.AnnotationUtil;
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * @author cn-src
@@ -22,7 +26,7 @@ public class AnnotationUtils extends AnnotationUtil {
      * 查找合成的注解实例：
      * 1. 如果当前注解实例就是要获取的类型，就返回当前注解实例；
      * 2. 否则从其元注解上查找获取，然后以当前注解同名的非空属性值优先合成新的注解实例。
-     *
+     * <p>
      * 注意：仅支持一层元注解，不递归查找。
      *
      * @param clazz 要获取的注解类型
@@ -31,20 +35,19 @@ public class AnnotationUtils extends AnnotationUtil {
      *
      * @return 返回注解实例
      */
-    @Nullable
     @SuppressWarnings({"unchecked"})
-    public static <T extends Annotation> T findMergedAnnotation(final Class<T> clazz,
-                                                                final Annotation ann) {
+    public static <T extends Annotation> Opt<T> findMergedAnnotation(final Class<T> clazz,
+                                                                     final Annotation ann) {
         if (clazz.equals(ann.annotationType())) {
-            return (T) ann;
+            return Opt.of((T) ann);
         }
         final T meta = ann.annotationType().getAnnotation(clazz);
         if (null == meta) {
-            return null;
+            return Opt.empty();
         }
         final Map<String, Object> annValues = getAnnotationValueMap(ann);
         if (annValues.values().stream().allMatch(ObjectUtil::isEmpty)) {
-            return meta;
+            return Opt.of(meta);
         }
         final Map<String, Object> metaValues = getAnnotationValueMap(meta);
 
@@ -56,8 +59,17 @@ public class AnnotationUtils extends AnnotationUtil {
 
         InvocationHandler handler = new SynthesizedAnnotationInvocationHandler(meta, metaValues);
         Class<?>[] exposedInterfaces = new Class<?>[]{meta.annotationType()};
-        return (T) Proxy.newProxyInstance(meta.getClass().getClassLoader(),
-            exposedInterfaces, handler);
+        return Opt.of((T) Proxy.newProxyInstance(meta.getClass().getClassLoader(),
+            exposedInterfaces, handler));
+    }
+
+    public static <T extends Annotation> Opt<T> findMergedAnnotation(
+        final Class<T> clazz, final Stream<Annotation> annotations) {
+
+        return annotations
+            .filter(Objects::nonNull)
+            .map(ann -> findMergedAnnotation(clazz, ann))
+            .findFirst().orElse(Opt.empty());
     }
 
     /**
@@ -71,22 +83,17 @@ public class AnnotationUtils extends AnnotationUtil {
      *
      * @see #findMergedAnnotation(Class, Annotation)
      */
-    @Nullable
-    public static <T extends Annotation> T findMergedAnnotation(final Class<T> clazz,
-                                                                final Annotation... annotations) {
+    public static <T extends Annotation> Opt<T> findMergedAnnotation(final Class<T> clazz,
+                                                                     final Annotation... annotations) {
         if (ArrayUtil.isEmpty(annotations)) {
-            return null;
+            return Opt.empty();
         }
-        for (final Annotation annotation : annotations) {
-            if (annotation == null) {
-                continue;
-            }
-            final T ann = findMergedAnnotation(clazz, annotation);
-            if (null != ann) {
-                return ann;
-            }
-        }
-        return null;
+        return findMergedAnnotation(clazz, Arrays.stream(annotations));
+    }
+
+    public static <T extends Annotation> Opt<T> findMergedAnnotation(
+        final Class<T> clazz, Iterable<Annotation> annotations) {
+        return findMergedAnnotation(clazz, StreamSupport.stream(annotations.spliterator(), false));
     }
 
     /**
@@ -100,17 +107,9 @@ public class AnnotationUtils extends AnnotationUtil {
      *
      * @see #findMergedAnnotation(Class, Annotation)
      */
-    @Nullable
-    public static <T extends Annotation> T findMergedAnnotation(final AnnotatedElement element,
-                                                                final Class<T> clazz) {
-        final Annotation[] annotations = element.getAnnotations();
-        for (final Annotation annotation : annotations) {
-            final T ann = findMergedAnnotation(clazz, annotation);
-            if (null != ann) {
-                return ann;
-            }
-        }
-        return null;
+    public static <T extends Annotation> Opt<T> findMergedAnnotation(
+        final Class<T> clazz, final AnnotatedElement element) {
+        return findMergedAnnotation(clazz, element.getAnnotations());
     }
 
     /**
