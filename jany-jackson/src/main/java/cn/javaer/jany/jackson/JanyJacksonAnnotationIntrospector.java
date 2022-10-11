@@ -6,12 +6,10 @@ import cn.javaer.jany.format.StringFormat;
 import cn.javaer.jany.util.AnnotationUtils;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.introspect.Annotated;
-import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
 import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
 
 /**
  * @author cn-src
@@ -28,29 +26,34 @@ public class JanyJacksonAnnotationIntrospector extends JacksonAnnotationIntrospe
 
     @Override
     public Object findDeserializer(final Annotated ann) {
-        if (AnnotationUtils.hasMergedAnnotation(DateTimeFormat.class, annotations(ann))) {
-            return DateTimeFormatDeserializer.INSTANCE;
+        if (ann instanceof AnnotatedMember) {
+            AnnotatedMember annM = (AnnotatedMember) ann;
+            Iterable<Annotation> annotations = annM.getAllAnnotations().annotations();
+
+            if (AnnotationUtils.hasMergedAnnotation(DateTimeFormat.class, annotations)) {
+                return DateTimeFormatDeserializer.INSTANCE;
+            }
         }
+
         return super.findDeserializer(ann);
     }
 
     @Override
     public Object findSerializer(Annotated ann) {
-        if (ann instanceof AnnotatedClass) {
-            return super.findSerializer(ann);
-        }
-        Iterable<Annotation> annotations = annotations(ann);
-        if (AnnotationUtils.hasMergedAnnotation(Desensitized.class, annotations) ||
-            AnnotationUtils.hasMergedAnnotation(StringFormat.class, annotations)) {
-            return StringFormatSerializer.INSTANCE;
+        if (ann instanceof AnnotatedMember) {
+            AnnotatedMember annM = (AnnotatedMember) ann;
+            Iterable<Annotation> annotations = annM.getAllAnnotations().annotations();
+
+            if (String.class.equals(annM.getRawType())) {
+                if (AnnotationUtils.hasMergedAnnotation(Desensitized.class, annotations)) {
+                    return StringFormatSerializer.INSTANCE;
+                }
+                if (AnnotationUtils.hasMergedAnnotation(StringFormat.class, annotations) ||
+                    AnnotationUtils.hasMergedAnnotation(StringFormat.class, annM.getDeclaringClass())) {
+                    return StringFormatSerializer.INSTANCE;
+                }
+            }
         }
         return super.findSerializer(ann);
-    }
-
-    private Iterable<Annotation> annotations(Annotated ann) {
-        if (ann instanceof AnnotatedMember) {
-            return ((AnnotatedMember) ann).getAllAnnotations().annotations();
-        }
-        return Arrays.asList(ann.getAnnotated().getAnnotations());
     }
 }
