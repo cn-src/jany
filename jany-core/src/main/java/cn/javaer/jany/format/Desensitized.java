@@ -20,7 +20,13 @@ public @interface Desensitized {
     Type type();
 
     enum Type {
-        ID_CARD(str -> DesensitizedUtil.idCardNum(str, 4, 4)),
+        chineseName(DesensitizedUtil::chineseName),
+        idCard(str -> DesensitizedUtil.idCardNum(str, 4, 4)),
+        fixedPhone(DesensitizedUtil::fixedPhone),
+        mobilePhone(DesensitizedUtil::mobilePhone),
+        email(DesensitizedUtil::email),
+        carLicense(DesensitizedUtil::carLicense),
+        bankCard(DesensitizedUtil::bankCard),
         ;
 
         private final Function<String, String> fn;
