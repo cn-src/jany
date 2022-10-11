@@ -1,6 +1,7 @@
 package cn.javaer.jany.jackson;
 
 import cn.javaer.jany.format.Desensitized;
+import cn.javaer.jany.format.StringFormat;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -18,23 +19,35 @@ public class StringHandlerSerializer extends StdSerializer<String> implements Co
 
     private static final long serialVersionUID = 4104322372036119909L;
 
-    public static final StringHandlerSerializer INSTANCE = new StringHandlerSerializer(null);
+    public static final StringHandlerSerializer INSTANCE = new StringHandlerSerializer(null, null);
 
     private final Desensitized desensitized;
 
-    public StringHandlerSerializer(Desensitized desensitized) {
+    private final StringFormat stringFormat;
+
+    public StringHandlerSerializer(Desensitized desensitized, StringFormat stringFormat) {
         super(String.class);
         this.desensitized = desensitized;
+        this.stringFormat = stringFormat;
     }
 
     @Override
     public void serialize(final String str, final JsonGenerator jsonGenerator,
                           final SerializerProvider serializerProvider) throws IOException {
-        if (null != desensitized) {
-            jsonGenerator.writeString(desensitized.type().fn().apply(str));
-            return;
+        String value = str;
+        if (null != stringFormat && stringFormat.apply()) {
+            if (stringFormat.trim()) {
+                value = value.trim();
+            }
+            if (stringFormat.emptyToNull() && value.isEmpty()) {
+                jsonGenerator.writeNull();
+                return;
+            }
         }
-        jsonGenerator.writeString(str);
+        if (null != desensitized) {
+            value = desensitized.type().fn().apply(value);
+        }
+        jsonGenerator.writeString(value);
     }
 
     @Override
@@ -43,6 +56,6 @@ public class StringHandlerSerializer extends StdSerializer<String> implements Co
         if (null == de) {
             return INSTANCE;
         }
-        return new StringHandlerSerializer(de);
+        return new StringHandlerSerializer(de, stringFormat);
     }
 }
