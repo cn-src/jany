@@ -24,7 +24,7 @@ class StringHandlerSerializerTest {
     @Data
     @AllArgsConstructor
     static class Demo {
-        @Desensitized(type = Desensitized.Type.idCard)
+        @Desensitized(type = Desensitized.Type.ID_CARD)
         String desensitized;
 
         String name;
