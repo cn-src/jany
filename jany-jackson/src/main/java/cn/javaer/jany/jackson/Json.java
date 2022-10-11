@@ -7,7 +7,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.UncheckedIOException;
@@ -43,17 +46,18 @@ public class Json {
     public static final Json NON_EMPTY;
 
     static {
+        Module[] modules = {new JavaTimeModule(), new Jdk8Module(), new JanyModule()};
         final ObjectMapper aDefault = new ObjectMapper();
-        aDefault.findAndRegisterModules();
+        aDefault.registerModules(modules);
         DEFAULT = new Json(aDefault);
 
         final ObjectMapper lenient = new ObjectMapper();
-        lenient.findAndRegisterModules();
+        lenient.registerModules(modules);
         lenient.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         LENIENT = new Json(aDefault);
 
         final ObjectMapper nonEmpty = new ObjectMapper();
-        nonEmpty.findAndRegisterModules();
+        nonEmpty.registerModules(modules);
         nonEmpty.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         NON_EMPTY = new Json(nonEmpty);
     }
@@ -68,6 +72,10 @@ public class Json {
     public Json(final ObjectMapper objectMapper) {
         Objects.requireNonNull(objectMapper);
         this.objectMapper = objectMapper;
+    }
+
+    public ObjectMapper objectMapper() {
+        return objectMapper;
     }
 
     /**
