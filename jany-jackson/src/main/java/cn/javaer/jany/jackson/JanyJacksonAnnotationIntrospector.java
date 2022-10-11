@@ -22,7 +22,8 @@ public class JanyJacksonAnnotationIntrospector extends AnnotationIntrospector {
 
     @Override
     public Object findDeserializer(final Annotated ann) {
-        if (AnnotationUtils.hasMergedAnnotation(DateTimeFormat.class, ann.getAnnotated())) {
+
+        if (AnnotationUtils.hasMergedAnnotation(DateTimeFormat.class, ann.annotations())) {
             return DateTimeFormatDeserializer.INSTANCE;
         }
         return null;
@@ -30,8 +31,7 @@ public class JanyJacksonAnnotationIntrospector extends AnnotationIntrospector {
 
     @Override
     public Object findSerializer(Annotated ann) {
-        final var de = _findAnnotation(ann, Desensitized.class);
-        if (de != null) {
+        if (AnnotationUtils.hasMergedAnnotation(Desensitized.class, ann.annotations())) {
             return StringHandlerSerializer.INSTANCE;
         }
         return null;

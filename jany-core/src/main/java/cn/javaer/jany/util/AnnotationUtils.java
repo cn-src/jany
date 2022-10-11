@@ -32,7 +32,17 @@ public class AnnotationUtils extends AnnotationUtil {
 
     public static boolean hasMergedAnnotation(
         final Class<? extends Annotation> clazz, final Annotation... annotations) {
-        if (ArrayUtil.isEmpty(annotations)) {
+        return hasMergedAnnotation(clazz, Arrays.asList(annotations));
+    }
+
+    public static boolean hasMergedAnnotation(
+        final Class<? extends Annotation> clazz, final AnnotatedElement element) {
+        return hasMergedAnnotation(clazz, element.getAnnotations());
+    }
+
+    public static boolean hasMergedAnnotation(
+        final Class<? extends Annotation> clazz, Iterable<Annotation> annotations) {
+        if (!annotations.iterator().hasNext()) {
             return false;
         }
         for (Annotation annotation : annotations) {
@@ -41,11 +51,6 @@ public class AnnotationUtils extends AnnotationUtil {
             }
         }
         return false;
-    }
-
-    public static boolean hasMergedAnnotation(
-        final Class<? extends Annotation> clazz, final AnnotatedElement element) {
-        return hasMergedAnnotation(clazz, element.getAnnotations());
     }
 
     /**
