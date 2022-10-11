@@ -1,6 +1,6 @@
 package cn.javaer.jany.jackson;
 
-import cn.javaer.jany.exception.MissingAnnotationException;
+import cn.hutool.core.lang.Opt;
 import cn.javaer.jany.format.Desensitized;
 import cn.javaer.jany.format.StringFormat;
 import cn.javaer.jany.util.AnnotationUtils;
@@ -17,17 +17,17 @@ import java.lang.annotation.Annotation;
 /**
  * @author cn-src
  */
-public class StringHandlerSerializer extends StdSerializer<String> implements ContextualSerializer {
+public class StringFormatSerializer extends StdSerializer<String> implements ContextualSerializer {
 
     private static final long serialVersionUID = 4104322372036119909L;
 
-    public static final StringHandlerSerializer INSTANCE = new StringHandlerSerializer(null, null);
+    public static final StringFormatSerializer INSTANCE = new StringFormatSerializer(null, null);
 
     private final Desensitized desensitized;
 
     private final StringFormat stringFormat;
 
-    public StringHandlerSerializer(Desensitized desensitized, StringFormat stringFormat) {
+    public StringFormatSerializer(Desensitized desensitized, StringFormat stringFormat) {
         super(String.class);
         this.desensitized = desensitized;
         this.stringFormat = stringFormat;
@@ -50,8 +50,8 @@ public class StringHandlerSerializer extends StdSerializer<String> implements Co
     @Override
     public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property) {
         Iterable<Annotation> annotations = property.getMember().getAllAnnotations().annotations();
-        return AnnotationUtils.findMergedAnnotation(Desensitized.class, annotations)
-            .map(it -> new StringHandlerSerializer(it, stringFormat))
-            .orElseThrow(() -> new MissingAnnotationException(Desensitized.class));
+        Opt<Desensitized> deOpt = AnnotationUtils.findMergedAnnotation(Desensitized.class, annotations);
+        Opt<StringFormat> sfOpt = AnnotationUtils.findMergedAnnotation(StringFormat.class, annotations);
+        return new StringFormatSerializer(deOpt.orElse(null), sfOpt.orElse(null));
     }
 }

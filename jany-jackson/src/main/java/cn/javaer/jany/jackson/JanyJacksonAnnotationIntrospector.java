@@ -36,7 +36,7 @@ public class JanyJacksonAnnotationIntrospector extends JacksonAnnotationIntrospe
     @Override
     public Object findSerializer(Annotated ann) {
         if (AnnotationUtils.hasMergedAnnotation(Desensitized.class, annotations(ann))) {
-            return StringHandlerSerializer.INSTANCE;
+            return StringFormatSerializer.INSTANCE;
         }
         return super.findSerializer(ann);
     }
