@@ -40,14 +40,14 @@ public @interface DateTimeFormat {
 
         /**
          * 填充当天最小时间
-         *
+         * <p>
          * {@link LocalTime#MIN}
          */
         MIN,
 
         /**
          * 填充当天最大时间
-         *
+         * <p>
          * {@link LocalTime#MAX}
          */
         MAX
