@@ -40,10 +40,10 @@ public class Tree {
             int depth = 1;
             final List<String> names = treeConf.getNamesFn().apply(row);
             int li = names.size() - 1;
-            if (TreeConf.EmptyMode.ignore_leaf.equals(treeConf.getEmptyMode())) {
+            if (TreeConf.EmptyMode.IGNORE_LEAF.equals(treeConf.getEmptyMode())) {
                 li = CollUtil.lastIndexOf(names, StrUtil::isNotEmpty);
             }
-            else if (TreeConf.EmptyMode.ignore_children.equals(treeConf.getEmptyMode())) {
+            else if (TreeConf.EmptyMode.IGNORE_CHILDREN.equals(treeConf.getEmptyMode())) {
                 li = CollUtil.indexOf(names, StrUtil::isEmpty) - 1;
             }
             int i = -1;
@@ -69,7 +69,7 @@ public class Tree {
         }
         for (TreeNode n : call) {
             n.moveToChildren();
-            //noinspection unchecked
+            // noinspection unchecked
             treeConf.getHandler().apply(n.treeInfo);
         }
         root.moveToChildren();

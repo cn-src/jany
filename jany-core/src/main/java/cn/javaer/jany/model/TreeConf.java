@@ -26,12 +26,12 @@ public class TreeConf<E> {
         /**
          * 如果当前节点 name 为空，则忽略当前节点以及其子节点。
          */
-        ignore_children,
+        IGNORE_CHILDREN,
 
         /**
          * 忽略所有为空的叶子节点（即：所有末级节点为非空）。
          */
-        ignore_leaf
+        IGNORE_LEAF
     }
 
     private TreeConf(Function<E, List<String>> namesFn, Function<E, Long> sortFn,
@@ -77,14 +77,14 @@ public class TreeConf<E> {
     public static <E> TreeConf<E> ofIgnoreChildrenIfEmpty(Function<E, String> nameFun,
                                                           Function<E, String>... namesFun) {
         return new TreeConf<>(toNamesFn(nameFun, namesFun),
-            Empty.function(), TreeHandler.empty(), EmptyMode.ignore_children);
+            Empty.function(), TreeHandler.empty(), EmptyMode.IGNORE_CHILDREN);
     }
 
     @SafeVarargs
     public static <E> TreeConf<E> ofIgnoreLeafIfEmpty(Function<E, String> nameFun,
                                                       Function<E, String>... namesFun) {
         return new TreeConf<>(toNamesFn(nameFun, namesFun),
-            Empty.function(), TreeHandler.empty(), EmptyMode.ignore_leaf);
+            Empty.function(), TreeHandler.empty(), EmptyMode.IGNORE_LEAF);
     }
 
     @SafeVarargs

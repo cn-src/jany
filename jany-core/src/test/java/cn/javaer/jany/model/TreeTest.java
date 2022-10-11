@@ -100,7 +100,7 @@ class TreeTest {
                 info.put("index", info.getIndex());
                 info.put("leaf", info.isLeaf());
             })
-            .emptyMode(TreeConf.EmptyMode.ignore_leaf)
+            .emptyMode(TreeConf.EmptyMode.IGNORE_LEAF)
             .build();
         final List<TreeNode> treeNodes = Tree.of(TEST_HAS_EMPTY_DATA, conf);
         JsonAssert.assertEqualsAndOrder("model/TreeTest.ofWithDynamic_NAMED_LEAF.json",
@@ -116,7 +116,7 @@ class TreeTest {
                 info.put("index", info.getIndex());
                 info.put("leaf", info.isLeaf());
             })
-            .emptyMode(TreeConf.EmptyMode.ignore_children)
+            .emptyMode(TreeConf.EmptyMode.IGNORE_CHILDREN)
             .build();
         final List<TreeNode> treeNodes = Tree.of(TEST_HAS_EMPTY_DATA, conf);
         JsonAssert.assertEqualsAndOrder("model/TreeTest.ofWithDynamic_BREAK_EMPTY.json",
