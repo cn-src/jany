@@ -10,6 +10,7 @@ import cn.javaer.jany.ebean.expression.WhereIgnore;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
 import cn.javaer.jany.util.AnnotationUtils;
+import cn.javaer.jany.util.MapMatcher;
 import cn.javaer.jany.util.ReflectUtils;
 import io.ebean.ExpressionFactory;
 import io.ebean.ExpressionList;
@@ -77,8 +78,10 @@ public interface Dsl {
         if (sortOpt.isPresent()) {
             Field field = sortOpt.get();
             Sort.Direction direction = field.getAnnotation(SortBy.class).direction();
-            return direction.equals(Sort.Direction.DESC) ? query.orderBy().desc(field.getName())
-                : query.orderBy().asc(field.getName());
+            return MapMatcher.of(
+                    Sort.Direction.ASC, (it) -> query.orderBy().asc(field.getName()),
+                    Sort.Direction.DESC, (it) -> query.orderBy().desc(field.getName()))
+                .applyOrThrowBy(direction);
         }
 
         if (sort.isByAudit()) {
