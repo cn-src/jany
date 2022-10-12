@@ -51,6 +51,13 @@ public class ReflectUtils extends ReflectUtil {
             .findFirst().map(Field::getName);
     }
 
+    public static Optional<Field> fieldByAnnotation(Class<?> clazz,
+                                                    Class<? extends Annotation> annClazz) {
+        return Arrays.stream(ReflectUtil.getFields(clazz))
+            .filter(it -> it.isAnnotationPresent(annClazz))
+            .findFirst();
+    }
+
     /**
      * 获取字段对应的 Getter 方法名称.
      *

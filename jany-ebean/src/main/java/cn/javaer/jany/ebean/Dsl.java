@@ -20,6 +20,7 @@ import io.ebean.annotation.WhenModified;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -72,10 +73,12 @@ public interface Dsl {
         }
 
         final Class<T> beanType = query.getBeanType();
-        final Optional<String> sortOpt = ReflectUtils.fieldNameByAnnotation(beanType, SortBy.class);
+        final Optional<Field> sortOpt = ReflectUtils.fieldByAnnotation(beanType, SortBy.class);
         if (sortOpt.isPresent()) {
-            sortOpt.ifPresent(fieldName -> query.orderBy().asc(fieldName));
-            return query;
+            Field field = sortOpt.get();
+            Sort.Direction direction = field.getAnnotation(SortBy.class).direction();
+            return direction.equals(Sort.Direction.DESC) ? query.orderBy().desc(field.getName())
+                : query.orderBy().asc(field.getName());
         }
 
         if (sort.isByAudit()) {
