@@ -1,6 +1,8 @@
 package cn.javaer.jany.spring.web;
 
 import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import cn.javaer.jany.util.Empty;
 import cn.javaer.jany.util.ReflectUtils;
 import com.yomahub.tlog.context.TLogContext;
@@ -56,5 +58,21 @@ public class WebContext {
      */
     public static String clientIp(String... otherHeaderNames) {
         return ServletUtil.getClientIP(httpServletRequest(), otherHeaderNames);
+    }
+
+    public ClientInfo clientInfo() {
+        ClientInfo clientInfo = new ClientInfo();
+        HttpServletRequest request = httpServletRequest();
+
+        String ip = ServletUtil.getClientIP(httpServletRequest());
+        clientInfo.setIp(ip);
+
+        String userAgentStr = request.getHeader("User-Agent");
+        UserAgent userAgent = UserAgentUtil.parse(userAgentStr);
+        if (null != userAgentStr) {
+            clientInfo.setBrowser(userAgent.getBrowser().getName());
+            clientInfo.setOs(userAgent.getOs().getName());
+        }
+        return clientInfo;
     }
 }
