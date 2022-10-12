@@ -60,7 +60,7 @@ public class WebContext {
         return ServletUtil.getClientIP(httpServletRequest(), otherHeaderNames);
     }
 
-    public ClientInfo clientInfo() {
+    public static ClientInfo clientInfo() {
         ClientInfo clientInfo = new ClientInfo();
         HttpServletRequest request = httpServletRequest();
 
