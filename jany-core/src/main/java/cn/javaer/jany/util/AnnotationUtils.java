@@ -100,6 +100,7 @@ public class AnnotationUtils extends AnnotationUtil {
         return annotations
             .filter(Objects::nonNull)
             .map(ann -> findMergedAnnotation(clazz, ann))
+            .filter(Opt::isPresent)
             .findFirst().orElse(Opt.empty());
     }
 
