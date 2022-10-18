@@ -7,6 +7,7 @@ import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.SimpleConditionEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,14 +19,15 @@ import java.util.stream.Collectors;
 public class SubFieldsCondition extends ArchCondition<JavaClass> {
 
     public static final String TRANSIENT = "org.springframework.data.annotation.Transient";
-    private Iterable<JavaClass> allObjectsToTest;
+
+    private Collection<JavaClass> allObjectsToTest;
 
     public SubFieldsCondition(final String description, final Object... args) {
         super(description, args);
     }
 
     @Override
-    public void init(final Iterable<JavaClass> allObjectsToTest) {
+    public void init(final Collection<JavaClass> allObjectsToTest) {
         this.allObjectsToTest = allObjectsToTest;
     }
 
