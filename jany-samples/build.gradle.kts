@@ -3,7 +3,7 @@ import java.util.Properties
 
 plugins {
     id("java-library")
-    id("com.github.ben-manes.versions") version "0.42.0"
+    id("com.github.ben-manes.versions") version "0.43.0"
     id("io.spring.dependency-management") version "1.0.13.RELEASE"
 }
 
@@ -106,7 +106,7 @@ dependencies {
     api("com.yomahub:tlog-web-spring-boot-starter:${p["tlogVersion"]}")
 
     api("org.redisson:redisson-spring-boot-starter:${p["redissonVersion"]}")
-    
+
     api("org.mybatis:mybatis:${p["mybatisVersion"]}")
     api("org.mybatis:mybatis-spring:${p["mybatisSpringVersion"]}")
     api("org.mybatis.dynamic-sql:mybatis-dynamic-sql:${p["mybatisDynamicSqlVersion"]}")
