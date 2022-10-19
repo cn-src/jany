@@ -12,6 +12,8 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 反射相关的工具类.
@@ -44,11 +46,26 @@ public class ReflectUtils extends ReflectUtil {
      *
      * @return 字段名称
      */
-    public static Optional<String> fieldNameByAnnotation(Class<?> clazz,
-                                                         Class<? extends Annotation> annClazz) {
+    public static Optional<String> fieldName(Class<?> clazz,
+                                             Class<? extends Annotation> annClazz) {
         return Arrays.stream(ReflectUtil.getFields(clazz))
             .filter(it -> it.isAnnotationPresent(annClazz))
             .findFirst().map(Field::getName);
+    }
+
+    /**
+     * 获取指定 class 中标注了指定注解的字段的名称。
+     *
+     * @param clazz class
+     * @param annClazz 注解
+     *
+     * @return 字段名称
+     */
+    public static Set<String> fieldNames(Class<?> clazz, Class<? extends Annotation> annClazz) {
+        return Arrays.stream(ReflectUtil.getFields(clazz))
+            .filter(it -> it.isAnnotationPresent(annClazz))
+            .map(Field::getName)
+            .collect(Collectors.toSet());
     }
 
     public static Optional<Field> fieldByAnnotation(Class<?> clazz,

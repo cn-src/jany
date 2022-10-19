@@ -88,9 +88,9 @@ public interface Dsl {
         }
 
         if (sort.isByAudit()) {
-            ReflectUtils.fieldNameByAnnotation(beanType, WhenModified.class)
+            ReflectUtils.fieldName(beanType, WhenModified.class)
                 .ifPresent(fieldName -> query.orderBy().desc(fieldName));
-            ReflectUtils.fieldNameByAnnotation(beanType, WhenCreated.class)
+            ReflectUtils.fieldName(beanType, WhenCreated.class)
                 .ifPresent(fieldName -> query.orderBy().desc(fieldName));
             return query;
         }
