@@ -29,31 +29,42 @@ public class Qry<T> {
         this.query = query;
     }
 
-    public <V> Qry<T> opt(@NotNull final Consumer<V> fun, final V value) {
+    public <V> Qry<T> opt(@NotNull final Consumer<V> fn, final V value) {
         if (ObjectUtil.isEmpty(value)) {
             return this;
         }
-        fun.accept(value);
+        fn.accept(value);
         return this;
     }
 
-    public <V> Qry<T> opt(@NotNull final BiConsumer<V, V> fun, final V value1, final V value2) {
+    @SafeVarargs
+    public final <V> Qry<T> optOr(final V value, @NotNull final Consumer<V>... fns) {
+        if (ObjectUtil.isEmpty(value)) {
+            return this;
+        }
+        for (Consumer<V> fn : fns) {
+            fn.accept(value);
+        }
+        return this;
+    }
+
+    public <V> Qry<T> opt(@NotNull final BiConsumer<V, V> fn, final V value1, final V value2) {
         if (ObjectUtil.isEmpty(value1) || ObjectUtil.isEmpty(value2)) {
             return this;
         }
-        fun.accept(value1, value2);
+        fn.accept(value1, value2);
         return this;
     }
 
-    public Qry<T> fn(@NotNull Runnable fun) {
-        Assert.notNull(fun);
-        fun.run();
+    public Qry<T> fn(@NotNull Runnable fn) {
+        Assert.notNull(fn);
+        fn.run();
         return this;
     }
 
-    public Qry<T> fn(@NotNull Supplier<Query<T>> fun) {
-        Assert.notNull(fun);
-        query = fun.get();
+    public Qry<T> fn(@NotNull Supplier<Query<T>> fn) {
+        Assert.notNull(fn);
+        query = fn.get();
         return this;
     }
 
