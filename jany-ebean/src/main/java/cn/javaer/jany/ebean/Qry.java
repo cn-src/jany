@@ -108,11 +108,11 @@ public class Qry<T> {
             this.qry = qry;
         }
 
-        public Step<T, V> opt(@NotNull final Consumer<V> fn, final V value) {
+        public Step<T, V> opt(@NotNull final Consumer<V> fn) {
             if (ignore) {
                 return this;
             }
-            fn.accept(value);
+            fn.accept(this.value);
             return this;
         }
 
