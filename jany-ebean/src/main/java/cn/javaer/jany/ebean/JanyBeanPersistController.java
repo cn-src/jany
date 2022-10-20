@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * @author cn-src
  */
-class JanyBeanPersistController extends BeanPersistAdapter {
+public class JanyBeanPersistController extends BeanPersistAdapter {
     public static final JanyBeanPersistController INSTANCE = new JanyBeanPersistController();
 
     private static final WeakConcurrentMap<Class<?>, Set<String>> unsetProps = new WeakConcurrentMap<>();
