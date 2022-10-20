@@ -116,6 +116,15 @@ public class Qry<T> {
             return this;
         }
 
+        public Step<T, V> opt(@NotNull Runnable fn) {
+            if (ignore) {
+                return this;
+            }
+            Assert.notNull(fn);
+            fn.run();
+            return this;
+        }
+
         public Qry<T> optEnd() {
             return qry;
         }
