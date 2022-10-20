@@ -5,6 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
+import io.ebean.ExpressionList;
 import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.typequery.TQRootBean;
@@ -42,9 +43,12 @@ public class Qry<T> {
         if (ObjectUtil.isEmpty(value)) {
             return this;
         }
+        ExpressionList<T> where = query.where();
+        where.or();
         for (Consumer<V> fn : fns) {
             fn.accept(value);
         }
+        where.endOr();
         return this;
     }
 
