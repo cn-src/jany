@@ -5,7 +5,6 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
-import io.ebean.ExpressionList;
 import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.typequery.TQRootBean;
@@ -38,18 +37,8 @@ public class Qry<T> {
         return this;
     }
 
-    @SafeVarargs
-    public final <V> Qry<T> optOr(final V value, @NotNull final Consumer<V>... fns) {
-        if (ObjectUtil.isEmpty(value)) {
-            return this;
-        }
-        ExpressionList<T> where = query.where();
-        where.or();
-        for (Consumer<V> fn : fns) {
-            fn.accept(value);
-        }
-        where.endOr();
-        return this;
+    public <V> Step<T, V> optBegin(final V value) {
+        return new Step<>(this, value);
     }
 
     public <V> Qry<T> opt(@NotNull final BiConsumer<V, V> fn, final V value1, final V value2) {
@@ -104,5 +93,31 @@ public class Qry<T> {
 
     public static <R, T, QR extends TQRootBean<T, R>> Qry<T> of(QR rootBean) {
         return new Qry<>(rootBean.query());
+    }
+
+    public static class Step<T, V> {
+        private final boolean ignore;
+
+        private final V value;
+
+        private final Qry<T> qry;
+
+        public Step(Qry<T> qry, V value) {
+            this.ignore = ObjectUtil.isEmpty(value);
+            this.value = value;
+            this.qry = qry;
+        }
+
+        public Step<T, V> opt(@NotNull final Consumer<V> fn, final V value) {
+            if (ignore) {
+                return this;
+            }
+            fn.accept(value);
+            return this;
+        }
+
+        public Qry<T> optEnd() {
+            return qry;
+        }
     }
 }
