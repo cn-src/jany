@@ -18,7 +18,45 @@ val input = FileInputStream(file("../gradle.properties"))
 p.load(input)
 input.close()
 dependencies {
-// 工具库
+    // 注解库
+    api("com.google.code.findbugs:jsr305:${p["jsr305Version"]}")
+    api("org.jetbrains:annotations:${p["jetbrainsAnnotationsVersion"]}")
+
+    // 序列化
+    api("com.fasterxml.jackson.datatype:jackson-datatype-eclipse-collections:${p["jacksonDatatypesCollectionsVersion"]}")
+
+    // 模板引擎
+    api("com.github.jknack:handlebars:${p["handlebarsVersion"]}")
+    api("com.deepoove:poi-tl:${p["poiTlVersion"]}")
+    api("com.alibaba:easyexcel:${p["easyexcelVersion"]}")
+
+    // 类信息扫描工具
+    api("io.github.classgraph:classgraph:${p["classgraphVersion"]}")
+    // SQL 日志统一输出工具
+    api("p6spy:p6spy:${p["p6spyVersion"]}")
+    // 集合查询引擎
+    api("com.googlecode.cqengine:cqengine:${p["cqengineVersion"]}")
+    // 对象存储服务-客户端
+    api("io.minio:minio:${p["minioVersion"]}")
+    // Java 架构检测框架
+    api("com.tngtech.archunit:archunit-junit5:${p["archunitVersion"]}")
+    // web 反向代理
+    api("com.github.mkopylec:charon-spring-webmvc:${p["charonVersion"]}")
+    api("com.github.mkopylec:charon-spring-webflux:${p["charonVersion"]}")
+    // 日志追踪
+    api("com.yomahub:tlog-common:${p["tlogVersion"]}")
+    api("com.yomahub:tlog-web-spring-boot-starter:${p["tlogVersion"]}")
+
+    api("org.redisson:redisson-spring-boot-starter:${p["redissonVersion"]}")
+    api("com.taobao.arthas:arthas-spring-boot-starter:${p["arthasSpringBootVersion"]}")
+    api("com.baomidou:dynamic-datasource-spring-boot-starter:${p["dynamicDatasourceVersion"]}")
+    api("com.github.lianjiatech:retrofit-spring-boot-starter:${p["retrofitSpringBootVersion"]}")
+    api("org.ssssssss:magic-api-spring-boot-starter:${p["magicApiVersion"]}")
+    api("cloud.tianai.captcha:tianai-captcha-springboot-starter:${p["tianaiCaptchaVersion"]}")
+    api("cn.xuyanwu:spring-file-storage:${p["springFileStorageVersion"]}")
+    api("org.lionsoul:ip2region:${p["ip2regionVersion"]}")
+
+    // 工具库
     api("com.google.guava:guava:${p["guavaVersion"]}")
     api("org.eclipse.collections:eclipse-collections:${p["eclipseCollectionsVersion"]}")
     api("org.apache.commons:commons-collections4:${p["commonsCollections4Version"]}")
@@ -74,38 +112,8 @@ dependencies {
     api("io.ebean:ebean-postgis:${p["ebeanVersion"]}")
     api("io.ebean:ebean-redis:${p["ebeanVersion"]}")
 
-    // 注解库
-    api("com.google.code.findbugs:jsr305:${p["jsr305Version"]}")
-    api("org.jetbrains:annotations:${p["jetbrainsAnnotationsVersion"]}")
-
-    // 序列化
-    api("com.fasterxml.jackson.datatype:jackson-datatype-eclipse-collections:${p["jacksonDatatypesCollectionsVersion"]}")
-
-    // 模板引擎
-    api("com.github.jknack:handlebars:${p["handlebarsVersion"]}")
-    api("com.deepoove:poi-tl:${p["poiTlVersion"]}")
-
-    // 类信息扫描工具
-    api("io.github.classgraph:classgraph:${p["classgraphVersion"]}")
-
-    api("com.alibaba:easyexcel:${p["easyexcelVersion"]}")
-
-    // SQL 日志统一输出工具
-    api("p6spy:p6spy:${p["p6spyVersion"]}")
-
-    // 集合查询引擎
-    api("com.googlecode.cqengine:cqengine:${p["cqengineVersion"]}")
-
-    // 对象存储服务-客户端
-    api("io.minio:minio:${p["minioVersion"]}")
-
-    // Java 架构检测框架
-    api("com.tngtech.archunit:archunit-junit5:${p["archunitVersion"]}")
-
-    api("com.yomahub:tlog-common:${p["tlogVersion"]}")
-    api("com.yomahub:tlog-web-spring-boot-starter:${p["tlogVersion"]}")
-
-    api("org.redisson:redisson-spring-boot-starter:${p["redissonVersion"]}")
+    api("com.github.kagkarlsson:db-scheduler:${p["dbSchedulerVersion"]}")
+    api("com.github.kagkarlsson:db-scheduler-spring-boot-starter:${p["dbSchedulerVersion"]}")
 
     api("org.mybatis:mybatis:${p["mybatisVersion"]}")
     api("org.mybatis:mybatis-spring:${p["mybatisSpringVersion"]}")
@@ -113,18 +121,6 @@ dependencies {
     api("org.mybatis.caches:mybatis-ehcache:${p["mybatisEhcacheVersion"]}")
     api("org.mybatis.spring.boot:mybatis-spring-boot-starter:${p["mybatisSpringBootVersion"]}")
     api("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:${p["mybatisSpringBootVersion"]}")
-
-    api("com.github.kagkarlsson:db-scheduler:${p["dbSchedulerVersion"]}")
-    api("com.github.kagkarlsson:db-scheduler-spring-boot-starter:${p["dbSchedulerVersion"]}")
-
-    // web 反向代理
-    api("com.github.mkopylec:charon-spring-webmvc:${p["charonVersion"]}")
-    api("com.github.mkopylec:charon-spring-webflux:${p["charonVersion"]}")
-
-    api("com.taobao.arthas:arthas-spring-boot-starter:${p["arthasSpringBootVersion"]}")
-    api("com.baomidou:dynamic-datasource-spring-boot-starter:${p["dynamicDatasourceVersion"]}")
-    api("com.github.lianjiatech:retrofit-spring-boot-starter:${p["retrofitSpringBootVersion"]}")
-    api("org.ssssssss:magic-api-spring-boot-starter:${p["magicApiVersion"]}")
 
     api("com.squareup.okhttp3:mockwebserver:${p["okhttp3Version"]}")
     api("com.squareup.okhttp3:okcurl:${p["okhttp3Version"]}")
@@ -247,6 +243,7 @@ dependencies {
     api("io.zonky.test:embedded-database-spring-test-autoconfigure:${p["zonkySpringVersion"]}")
     api("io.zonky.test:embedded-database-spring-test:${p["zonkySpringVersion"]}")
     api("io.zonky.test:embedded-postgres:${p["zonkyVersion"]}")
+    api("io.zonky.test.postgres:embedded-postgres-binaries-bom:${p["zonkyPostgresVersion"]}")
 }
 dependencyManagement {
     imports {
