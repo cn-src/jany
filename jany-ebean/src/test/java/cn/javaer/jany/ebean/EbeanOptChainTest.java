@@ -2,6 +2,7 @@ package cn.javaer.jany.ebean;
 
 import cn.javaer.jany.ebean.query.QDemo;
 import cn.javaer.jany.util.OptChain;
+import io.ebean.DB;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class EbeanOptChainTest {
     @Test
     void testQBean() {
-        OptChain.of(new QDemo())
+        OptChain.of(new QDemo(DB.getDefault()))
             .opt(q -> q.id::eq, 1)
             .opt(q -> q.id::between, 1, 4)
             .fn(QDemo::or)
