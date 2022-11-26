@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class EbeanOptChainTest {
     @Test
     void testQBean() {
-        OptChain.of(new QDemo(DB.getDefault()))
+        OptChain.of(new QDemo(DB.byName("db")))
             .opt(q -> q.id::eq, 1)
             .opt(q -> q.id::between, 1, 4)
             .fn(QDemo::or)
