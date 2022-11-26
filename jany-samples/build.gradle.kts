@@ -3,8 +3,8 @@ import java.util.Properties
 
 plugins {
     id("java-library")
-    id("com.github.ben-manes.versions") version "0.43.0"
-    id("io.spring.dependency-management") version "1.0.13.RELEASE"
+    id("com.github.ben-manes.versions") version "0.44.0"
+    id("io.spring.dependency-management") version "1.1.0"
 }
 
 group = "cn.javaer.jany"
