@@ -12,6 +12,7 @@ import java.io.IOException;
 /**
  * @author cn-src
  */
+@Deprecated
 public class JooqRecordSerializer extends StdSerializer<Record> {
 
     private static final long serialVersionUID = 2404332678897321768L;
