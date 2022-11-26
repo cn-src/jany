@@ -26,7 +26,7 @@ class QryTest {
     @Test
     void build() {
         db.script().run("/BaseFinderTest.allSort.in.sql");
-        final QDemo qDemo = new QDemo();
+        final QDemo qDemo = new QDemo(DB.getDefault());
         final List<Demo> list = Qry.of(qDemo).opt(qDemo.id::eq, 1L).list();
         assertThat(list).hasSize(1);
 
@@ -40,7 +40,7 @@ class QryTest {
     @Test
     void orTest() {
         db.script().run("/BaseFinderTest.allSort.in.sql");
-        final QDemo q = new QDemo();
+        final QDemo q = new QDemo(DB.getDefault());
         final List<Demo> list = Qry.of(q)
             .fn(q::or)
             .opt(q.id::eq, 1L)
@@ -53,7 +53,7 @@ class QryTest {
     @Test
     void orTest2() {
         db.script().run("/BaseFinderTest.allSort.in.sql");
-        final QDemo q = new QDemo();
+        final QDemo q = new QDemo(DB.getDefault());
         final List<Demo> list = Qry.of(q)
             .fn(() -> q.where().or().query())
             .opt(q.id::eq, 1L)
