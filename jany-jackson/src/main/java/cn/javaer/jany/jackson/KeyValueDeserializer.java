@@ -17,6 +17,7 @@ import static com.fasterxml.jackson.core.JsonToken.VALUE_NULL;
 /**
  * @author cn-src
  */
+@Deprecated
 public class KeyValueDeserializer extends StdDeserializer<KeyValue<?>> implements ContextualDeserializer {
 
     public static final KeyValueDeserializer INSTANCE = new KeyValueDeserializer();

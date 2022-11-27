@@ -5,6 +5,7 @@ import lombok.Value;
 /**
  * @author cn-src
  */
+@Deprecated
 @Value(staticConstructor = "of")
 public class KeyValue<V> {
     String key;

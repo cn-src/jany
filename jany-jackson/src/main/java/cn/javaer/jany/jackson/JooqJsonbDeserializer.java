@@ -11,6 +11,7 @@ import java.io.IOException;
 /**
  * @author cn-src
  */
+@Deprecated
 public class JooqJsonbDeserializer extends StdDeserializer<JSONB> {
 
     public static final JooqJsonbDeserializer INSTANCE = new JooqJsonbDeserializer();

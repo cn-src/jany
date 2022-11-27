@@ -10,6 +10,7 @@ import java.io.IOException;
 /**
  * @author cn-src
  */
+@Deprecated
 @SuppressWarnings("rawtypes")
 public class KeyValueSerializer extends StdSerializer<KeyValue> {
 

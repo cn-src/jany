@@ -10,6 +10,7 @@ import java.io.IOException;
 /**
  * @author cn-src
  */
+@Deprecated
 public class JooqJsonbSerializer extends StdSerializer<JSONB> {
 
     public static final JooqJsonbSerializer INSTANCE = new JooqJsonbSerializer();
