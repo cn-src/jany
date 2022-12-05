@@ -27,6 +27,11 @@ public @interface ErrorCode {
     int status() default 500;
 
     /**
+     * 错误消息。
+     */
+    String message() default "";
+
+    /**
      * 用于 swagger/openapi 的文档描述信息。
      */
     String doc() default "";

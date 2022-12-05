@@ -1,5 +1,6 @@
 package cn.javaer.jany.spring.web.exception;
 
+import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.WebContext;
@@ -40,7 +41,11 @@ public class GlobalExceptionAdvice {
         final HttpServletRequest request, final Exception e) {
         final ErrorInfo errorInfo = errorInfoProcessor.getErrorInfo(e);
         final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
-        runtimeErrorInfo.setMessage(ErrorMessageSource.getMessage(errorInfo, e));
+        String message = ErrorMessageSource.getMessage(errorInfo, e);
+        if (StrUtil.isEmpty(message) && StrUtil.isNotEmpty(errorInfo.getMessage())) {
+            message = errorInfo.getMessage();
+        }
+        runtimeErrorInfo.setMessage(message);
         this.fillInfo(runtimeErrorInfo, request, e);
         if (runtimeErrorInfo.getStatus() < 500) {
             this.logger.debug("Http status {}", runtimeErrorInfo.getStatus(), e);

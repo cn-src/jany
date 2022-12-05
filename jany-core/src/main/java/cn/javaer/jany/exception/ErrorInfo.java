@@ -17,24 +17,28 @@ public class ErrorInfo implements Comparable<ErrorInfo> {
 
     int status;
 
+    String message;
+
     String doc;
 
     ErrorInfo(final String error, final int status) {
         Objects.requireNonNull(error);
         this.error = error;
         this.status = status;
-        this.doc = "Unknown";
+        this.doc = "";
+        this.message = "";
     }
 
-    ErrorInfo(final String error, final int status, String doc) {
+    ErrorInfo(final String error, final int status, final String message, final String doc) {
         Objects.requireNonNull(error);
         this.error = error;
         this.status = status;
+        this.message = message;
         this.doc = doc;
     }
 
     public static ErrorInfo of(final ErrorCode errorCode) {
-        return new ErrorInfo(errorCode.error(), errorCode.status(), errorCode.doc());
+        return new ErrorInfo(errorCode.error(), errorCode.status(), errorCode.message(), errorCode.doc());
     }
 
     public static ErrorInfo of(final String error, final int status) {
