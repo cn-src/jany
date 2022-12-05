@@ -29,8 +29,6 @@ import java.util.StringJoiner;
  */
 public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
 
-    private static final String SA_TOKEN_NOT_LOGIN = "cn.dev33.satoken.exception.NotLoginException";
-
     private final Map<String, ErrorInfo> internalErrorMapping = new HashMap<>();
 
     private final Map<String, ErrorInfo> configuredErrorMapping = new HashMap<>();
