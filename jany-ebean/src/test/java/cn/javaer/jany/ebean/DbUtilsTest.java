@@ -7,6 +7,7 @@ import io.zonky.test.db.postgres.embedded.EmbeddedPostgres;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.util.Map;
 class DbUtilsTest {
 
     private static EmbeddedPostgres pg;
+
     private static Database db;
 
     @BeforeAll
@@ -34,6 +36,11 @@ class DbUtilsTest {
     static void afterAll() throws IOException {
         db.shutdown();
         pg.close();
+    }
+
+    @BeforeEach
+    void setUp() {
+        db.truncate("demo");
     }
 
     @Test
@@ -77,10 +84,6 @@ class DbUtilsTest {
 
     @Test
     void upsert() {
-        db = EmbeddedPostgresUtils.create(pg);
-        db.script().run("/DbUtilsTest.ddl");
-        db.truncate("demo");
-
         try (final Transaction tran = db.beginTransaction()) {
             DbUtils.insert(new InsertArgs().tableName("demo").rowList(Arrays.asList(
                 Map.of("id", 1, "name", "name1", "created_date", LocalDateTime.now()),
