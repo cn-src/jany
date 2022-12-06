@@ -91,6 +91,7 @@ class ExceptionResponseBuilder extends GenericResponseService {
                 StringSchema ss = new StringSchema();
                 String desc = StrUtil.firstNonEmpty(errorInfo.getDoc(),
                     ErrorMessageSource.getMessage(errorInfo),
+                    errorInfo.getMessage(),
                     "No description");
                 ss.description("常量值：" + errorInfo.getError() + "；" + desc);
                 errorSchemas.add(ss);
