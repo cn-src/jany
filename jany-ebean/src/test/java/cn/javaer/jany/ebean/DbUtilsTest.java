@@ -27,7 +27,7 @@ class DbUtilsTest {
 
     @BeforeAll
     static void beforeAll() throws IOException {
-        EmbeddedPostgres pg = EmbeddedPostgres.start();
+        pg = EmbeddedPostgres.start();
         db = EmbeddedPostgresUtils.create(pg);
         db.script().run("/DbUtilsTest.ddl");
     }
