@@ -8,6 +8,9 @@ dependencies {
     api(project(":jany-core"))
     api("io.ebean:ebean:$ebeanVersion")
 
+    optionalApi("cn.hutool:hutool-extra")
+    optionalApi("org.springframework:spring-context")
+
     testImplementation("io.ebean:ebean-test")
     testImplementation("com.h2database:h2")
     testImplementation(project(":jany-test"))
