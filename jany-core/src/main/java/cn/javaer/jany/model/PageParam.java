@@ -26,11 +26,9 @@ public class PageParam {
 
     public static final int DEFAULT_SIZE = 20;
 
-    public static final int DEFAULT_MAX_SIZE = 2000;
-
-    private PageParam(final int page, final int size, final int maxSize, Sort sort) {
+    private PageParam(final int page, final int size, Sort sort) {
         this.page = Math.max(page, 1);
-        this.size = Math.min(maxSize, Math.max(size, 1));
+        this.size = Math.max(size, 1);
         this.sort = sort;
     }
 
@@ -48,14 +46,12 @@ public class PageParam {
     @With
     Sort sort;
 
-    private static int defaultMaxSize = DEFAULT_MAX_SIZE;
-
     public static PageParam of(final int page, final int size) {
-        return new PageParam(page, size, defaultMaxSize, Sort.DEFAULT);
+        return new PageParam(page, size, Sort.DEFAULT);
     }
 
     public static PageParam of(final int page, final int size, Sort sort) {
-        return new PageParam(page, size, defaultMaxSize, sort);
+        return new PageParam(page, size, sort);
     }
 
     /**
@@ -83,9 +79,5 @@ public class PageParam {
 
     public int getOffset() {
         return Math.max((page - 1) * size, 0);
-    }
-
-    public static void setDefaultMaxSize(int defaultMaxSize) {
-        PageParam.defaultMaxSize = defaultMaxSize;
     }
 }

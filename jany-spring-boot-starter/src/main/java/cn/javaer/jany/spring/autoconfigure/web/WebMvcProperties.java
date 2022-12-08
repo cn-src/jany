@@ -1,5 +1,7 @@
 package cn.javaer.jany.spring.autoconfigure.web;
 
+import cn.javaer.jany.model.PageParam;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -12,4 +14,12 @@ public class WebMvcProperties {
     @Getter
     @Setter
     private boolean enabled = true;
+
+    @Getter
+    private final PageParam pageParam = new PageParam();
+
+    @Data
+    public static class PageParam {
+        private int defaultMaxSize = 2000;
+    }
 }

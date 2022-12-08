@@ -29,6 +29,12 @@ public class WebAutoConfiguration {
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
     public static class JanyWebMvcConfigurer implements WebMvcConfigurer {
+        private final WebMvcProperties webMvcProperties;
+
+        public JanyWebMvcConfigurer(WebMvcProperties webMvcProperties) {
+            this.webMvcProperties = webMvcProperties;
+        }
+
         @Override
         public void addFormatters(final FormatterRegistry registry) {
             registry.addFormatterForFieldAnnotation(new DateTimeFormatter());
@@ -36,7 +42,7 @@ public class WebAutoConfiguration {
 
         @Override
         public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-            resolvers.add(PageParamArgumentResolver.INSTANCE);
+            resolvers.add(new PageParamArgumentResolver(webMvcProperties.getPageParam().getDefaultMaxSize()));
             resolvers.add(SortArgumentResolver.INSTANCE);
         }
     }

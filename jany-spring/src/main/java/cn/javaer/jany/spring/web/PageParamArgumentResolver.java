@@ -15,9 +15,13 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 public class PageParamArgumentResolver implements HandlerMethodArgumentResolver {
 
-    public static final PageParamArgumentResolver INSTANCE = new PageParamArgumentResolver();
-
     private SortArgumentResolver sortResolver = SortArgumentResolver.INSTANCE;
+
+    private final int defaultMaxSize;
+
+    public PageParamArgumentResolver(int defaultMaxSize) {
+        this.defaultMaxSize = defaultMaxSize;
+    }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -32,7 +36,7 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
         String pageStr = webRequest.getParameter("page");
         String sizeStr = webRequest.getParameter("size");
         int page = NumberUtils.parseInt(pageStr, PageParam.DEFAULT_PAGE);
-        int size = NumberUtils.parseInt(sizeStr, PageParam.DEFAULT_SIZE);
+        int size = Math.min(defaultMaxSize, NumberUtils.parseInt(sizeStr, PageParam.DEFAULT_SIZE));
 
         Sort sort = sortResolver.resolveArgument
             (methodParameter, mavContainer, webRequest, binderFactory);
