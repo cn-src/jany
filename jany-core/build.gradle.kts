@@ -8,6 +8,7 @@ dependencies {
 
     optionalApi("cn.hutool:hutool-crypto:$hutoolVersion")
     optionalApi("org.springdoc:springdoc-openapi-webmvc-core:$springdocVersion")
+    optionalApi("org.springframework.data:spring-data-commons")
     compileOnly("com.fasterxml.jackson.core:jackson-annotations")
 
     testImplementation(project(":jany-test"))

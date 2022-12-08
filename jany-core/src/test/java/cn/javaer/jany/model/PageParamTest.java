@@ -3,8 +3,11 @@ package cn.javaer.jany.model;
 import cn.javaer.jany.model.PageParam;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * @author cn-src
@@ -37,5 +40,19 @@ class PageParamTest {
     void name2() {
         final PageParam pageParam = PageParam.of(-1, 20);
         assertThat(pageParam.getOffset()).isEqualTo(0L);
+    }
+
+    @Test
+    void ofPageable() {
+        // Pageable 页码从 0 开始。
+        final Pageable pageRequest = PageRequest.of(2, 5, org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "prop1"));
+        final PageParam pageParam = PageParam.of(pageRequest);
+        assertThat(pageParam)
+            .extracting(PageParam::getPage, PageParam::getSize)
+            .contains(3, 5);
+        assertThat(pageParam.getSort().isSorted()).isTrue();
+        assertThat(pageParam.getSort().getOrders().size()).isEqualTo(1);
+        assertThat(pageParam.getSort().getOrders().get(0).getProperty()).isEqualTo("prop1");
+        assertThat(pageParam.getSort().getOrders().get(0).getDirection()).isEqualTo(Sort.Direction.DESC);
     }
 }

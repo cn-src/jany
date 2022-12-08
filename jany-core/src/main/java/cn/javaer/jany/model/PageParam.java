@@ -6,6 +6,11 @@ import lombok.Value;
 import lombok.With;
 import lombok.experimental.FieldNameConstants;
 import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Pageable;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * 分页参数.
@@ -49,6 +54,29 @@ public class PageParam {
 
     public static PageParam of(final int page, final int size, Sort sort) {
         return new PageParam(page, size, sort);
+    }
+
+    /**
+     * spring data Pageable 转 jany PageParam。
+     *
+     * @param pageable Pageable
+     *
+     * @return PageParam
+     */
+    public static PageParam of(final Pageable pageable) {
+        final org.springframework.data.domain.Sort sort = pageable.getSort();
+        if (sort.isSorted()) {
+            Set<Sort.Order> orders = new LinkedHashSet<>();
+            for (org.springframework.data.domain.Sort.Order order : sort) {
+                final cn.javaer.jany.model.Sort.Direction direction =
+                    cn.javaer.jany.model.Sort.Direction.valueOf(order.getDirection().name());
+                orders.add(new cn.javaer.jany.model.Sort.Order(direction, order.getProperty()));
+            }
+
+            return PageParam.of(pageable.getPageNumber() + 1, pageable.getPageSize(),
+                cn.javaer.jany.model.Sort.by(new ArrayList<>(orders)));
+        }
+        return PageParam.of(pageable.getPageNumber() + 1, pageable.getPageSize());
     }
 
     public int getOffset() {
