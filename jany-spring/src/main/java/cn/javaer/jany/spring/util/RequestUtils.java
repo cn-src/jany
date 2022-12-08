@@ -23,8 +23,8 @@ public interface RequestUtils {
         if (null == suffix) {
             return false;
         }
-        return suffix.equalsIgnoreCase("xls") ||
-            suffix.equalsIgnoreCase("xlsx") ||
-            suffix.equalsIgnoreCase("xlsm");
+        return "xls".equalsIgnoreCase(suffix) ||
+            "xlsx".equalsIgnoreCase(suffix) ||
+            "xlsm".equalsIgnoreCase(suffix);
     }
 }
