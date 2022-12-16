@@ -36,7 +36,7 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         super(null, databaseName);
         final Class<?> clazz = ClassUtil.getTypeArgument(this.getClass(), 1);
         // 必须实现继承才能反射范型
-        Assert.isTrue(Object.class.equals(clazz), "Type argument must be not Object");
+        Assert.isFalse(Object.class.equals(clazz), "Type argument must be not Object");
         ReflectUtil.setFieldValue(this, "type", clazz);
     }
 
