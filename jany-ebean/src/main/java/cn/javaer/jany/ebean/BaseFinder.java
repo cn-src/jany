@@ -1,5 +1,6 @@
 package cn.javaer.jany.ebean;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.javaer.jany.model.Page;
@@ -18,14 +19,24 @@ import java.util.List;
  */
 public class BaseFinder<I, T> extends Finder<I, T> {
 
-    public BaseFinder() {
-        this(null);
+    public BaseFinder(Class<T> type) {
+        super(type);
+    }
+
+    public BaseFinder(Class<T> type, String databaseName) {
+        super(type, databaseName);
+    }
+
+    private BaseFinder() {
+        this((Class<T>) null);
     }
 
     public BaseFinder(String databaseName) {
-        //noinspection ConstantConditions
+        // noinspection ConstantConditions
         super(null, databaseName);
         final Class<?> clazz = ClassUtil.getTypeArgument(this.getClass(), 1);
+        // 必须实现继承才能反射范型
+        Assert.isTrue(Object.class.equals(clazz), "Type argument must be not Object");
         ReflectUtil.setFieldValue(this, "type", clazz);
     }
 
