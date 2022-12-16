@@ -27,8 +27,8 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         super(type, databaseName);
     }
 
-    private BaseFinder() {
-        this((Class<T>) null);
+    public BaseFinder() {
+        this((String) null);
     }
 
     public BaseFinder(String databaseName) {
