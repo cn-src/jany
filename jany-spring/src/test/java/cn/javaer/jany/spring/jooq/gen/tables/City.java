@@ -3,8 +3,8 @@
  */
 package cn.javaer.jany.spring.jooq.gen.tables;
 
-import cn.javaer.jany.spring.jooq.gen.Keys;
 import cn.javaer.jany.spring.jooq.gen.Indexes;
+import cn.javaer.jany.spring.jooq.gen.Keys;
 import cn.javaer.jany.spring.jooq.gen.Public;
 import cn.javaer.jany.spring.jooq.gen.tables.records.CityRecord;
 import org.jooq.Field;

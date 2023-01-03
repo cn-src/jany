@@ -1,6 +1,5 @@
 package cn.javaer.jany.model;
 
-import cn.javaer.jany.model.TreeNode;
 import cn.javaer.jany.jackson.Json;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

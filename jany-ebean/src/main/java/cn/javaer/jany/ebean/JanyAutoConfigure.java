@@ -1,10 +1,7 @@
 package cn.javaer.jany.ebean;
 
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.javaer.jany.util.ReflectUtils;
-import cn.javaer.jany.util.StrUtils;
 import io.ebean.config.AutoConfigure;
 import io.ebean.config.DatabaseConfig;
 import org.slf4j.Logger;
@@ -14,8 +11,6 @@ import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.MutablePropertySources;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.stream.StreamSupport;

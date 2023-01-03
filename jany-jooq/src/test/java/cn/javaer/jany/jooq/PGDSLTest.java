@@ -1,10 +1,7 @@
 package cn.javaer.jany.jooq;
 
-import cn.javaer.jany.jooq.field.JsonbField;
 import org.jooq.DSLContext;
 import org.jooq.Field;
-import org.jooq.JSONB;
-import org.jooq.Record;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.junit.jupiter.api.Test;

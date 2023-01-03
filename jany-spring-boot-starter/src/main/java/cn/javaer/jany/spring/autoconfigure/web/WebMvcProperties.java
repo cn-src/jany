@@ -1,6 +1,5 @@
 package cn.javaer.jany.spring.autoconfigure.web;
 
-import cn.javaer.jany.model.PageParam;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

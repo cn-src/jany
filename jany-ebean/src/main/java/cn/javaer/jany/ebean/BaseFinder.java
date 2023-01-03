@@ -9,7 +9,6 @@ import cn.javaer.jany.model.Sort;
 import io.ebean.Finder;
 import io.ebean.PagedList;
 import io.ebean.Query;
-import io.ebean.UpdateQuery;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

@@ -2,21 +2,17 @@ package cn.javaer.jany.jooq;
 
 import cn.javaer.jany.jackson.Json;
 import cn.javaer.jany.jooq.condition.ContainedInCondition;
-import cn.javaer.jany.jooq.field.JsonbField;
 import cn.javaer.jany.type.Geometry;
 import org.jooq.Condition;
 import org.jooq.Converter;
 import org.jooq.DataType;
 import org.jooq.Field;
-import org.jooq.JSONB;
-import org.jooq.Record;
 import org.jooq.SQLDialect;
 import org.jooq.Support;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.util.postgres.PostgresDSL;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
