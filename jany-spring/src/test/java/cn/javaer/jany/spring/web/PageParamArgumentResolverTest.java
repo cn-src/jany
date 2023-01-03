@@ -58,7 +58,7 @@ class PageParamArgumentResolverTest {
 
         @Override
         public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-            resolvers.add(PageParamArgumentResolver.INSTANCE);
+            resolvers.add(new PageParamArgumentResolver(2000));
         }
     }
 
