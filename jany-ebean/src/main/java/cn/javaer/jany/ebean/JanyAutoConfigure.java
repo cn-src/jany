@@ -7,6 +7,8 @@ import cn.javaer.jany.util.ReflectUtils;
 import cn.javaer.jany.util.StrUtils;
 import io.ebean.config.AutoConfigure;
 import io.ebean.config.DatabaseConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
@@ -22,6 +24,8 @@ import java.util.stream.StreamSupport;
  * @author cn-src
  */
 public class JanyAutoConfigure implements AutoConfigure {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
     public void preConfigure(DatabaseConfig config) {
@@ -39,7 +43,14 @@ public class JanyAutoConfigure implements AutoConfigure {
     @SuppressWarnings("rawtypes")
     private void supportSpring(DatabaseConfig config) {
         Properties properties = config.getProperties();
-        final Environment env = SpringUtil.getBean(Environment.class);
+        final Environment env;
+        try {
+            env = SpringUtil.getBean(Environment.class);
+        }
+        catch (NullPointerException e) {
+            log.warn("Can not get spring bean Environment", e);
+            return;
+        }
         final MutablePropertySources sources = ((AbstractEnvironment) env).getPropertySources();
         StreamSupport.stream(sources.spliterator(), false)
             .filter(ps -> ps instanceof EnumerablePropertySource)
