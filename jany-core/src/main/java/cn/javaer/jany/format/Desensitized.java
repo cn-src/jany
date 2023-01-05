@@ -8,6 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 /**
  * @author cn-src
@@ -29,9 +30,9 @@ public @interface Desensitized {
         BANK_CARD(DesensitizedUtil::bankCard),
         ;
 
-        private final Function<String, String> fn;
+        private final UnaryOperator<String> fn;
 
-        Type(Function<String, String> fn) {
+        Type(UnaryOperator<String> fn) {
             this.fn = fn;
         }
 

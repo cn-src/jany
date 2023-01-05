@@ -72,7 +72,7 @@ public class BatchConsumer<T> implements Consumer<T>, Runnable {
 
     @Override
     public void run() {
-        if (this.data.size() > 0) {
+        if (!this.data.isEmpty()) {
             process();
         }
         String time = DateUtils.humanReadable(System.nanoTime() - this.startTimeNanos);

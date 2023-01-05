@@ -60,8 +60,6 @@ class DataSourceConfig {
 
     private String heartbeatSql;
 
-//    private int heartbeatFreqSecs = 30;
-
     private int heartbeatTimeoutSeconds = 3;
 
     private boolean captureStackTrace;

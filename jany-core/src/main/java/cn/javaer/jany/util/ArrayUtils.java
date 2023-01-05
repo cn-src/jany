@@ -20,7 +20,7 @@ public class ArrayUtils extends ArrayUtil {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static Object[] toObjectArray(Object obj) {
         if (obj == null) {
-            return null;
+            return new Object[0];
         }
         if (obj.getClass().isArray()) {
             return (Object[]) obj;

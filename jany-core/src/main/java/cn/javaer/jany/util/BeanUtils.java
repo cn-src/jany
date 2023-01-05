@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -11,7 +12,7 @@ import java.util.TreeMap;
  */
 public class BeanUtils extends BeanUtil {
 
-    public static TreeMap<String, Object> beanToTreeMap(Object bean, boolean ignoreEmptyValue) {
+    public static SortedMap<String, Object> beanToTreeMap(Object bean, boolean ignoreEmptyValue) {
         if (null == bean) {
             return null;
         }

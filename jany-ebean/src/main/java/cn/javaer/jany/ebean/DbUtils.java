@@ -90,11 +90,11 @@ public class DbUtils {
         return upsert(DB.getDefault(), beans, mode);
     }
 
-    public static <E> int upsertDoUpdate(List<E> beans, UpsertMode mode) {
+    public static <E> int upsertDoUpdate(List<E> beans) {
         return upsert(DB.getDefault(), beans, UpsertMode.UPDATE);
     }
 
-    public static <E> int upsertDoNothing(List<E> beans, UpsertMode mode) {
+    public static <E> int upsertDoNothing(List<E> beans) {
         return upsert(DB.getDefault(), beans, UpsertMode.NOTHING);
     }
 
