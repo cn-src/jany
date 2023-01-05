@@ -29,10 +29,9 @@ public class SpringBoot {
                 props.putAll(adminProps);
             });
         ReflectUtils.getClass("com.yomahub.tlog.core.enhance.logback.AspectLogbackEncoder")
-            .ifPresent(aClass -> {
-                props.put("logging.config",
-                    "classpath:cn/javaer/jany/spring/boot/logging/logback/tlog-logback.xml");
-            });
+            .ifPresent(aClass ->
+                props.put("logging.config", "classpath:cn/javaer/jany/spring/boot/logging/logback/tlog-logback.xml")
+            );
         props.put("jany.version", JanyVersion.getVersion());
         props.put("spring.banner.location", "classpath:jany-banner.txt");
         app.setDefaultProperties(props);
