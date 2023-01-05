@@ -17,6 +17,7 @@ public class Tree {
     private Tree() {
     }
 
+    @SafeVarargs
     public static <E> List<TreeNode> of(final List<E> models,
                                         Function<E, String> nameFun,
                                         Function<E, String>... namesFun) {
