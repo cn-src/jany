@@ -14,6 +14,9 @@ import java.util.function.Function;
  * @author cn-src
  */
 public class Tree {
+    private Tree() {
+    }
+
     public static <E> List<TreeNode> of(final List<E> models,
                                         Function<E, String> nameFun,
                                         Function<E, String>... namesFun) {
