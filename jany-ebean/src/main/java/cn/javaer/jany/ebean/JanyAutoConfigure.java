@@ -25,9 +25,8 @@ public class JanyAutoConfigure implements AutoConfigure {
     @Override
     public void preConfigure(DatabaseConfig config) {
         config.add(JanyBeanPersistController.INSTANCE);
-        ReflectUtils.getClass("org.springframework.core.env.Environment").ifPresent(clazz -> {
-            supportSpring(config);
-        });
+        ReflectUtils.getClass("org.springframework.core.env.Environment")
+            .ifPresent(clazz -> supportSpring(config));
     }
 
     @Override
