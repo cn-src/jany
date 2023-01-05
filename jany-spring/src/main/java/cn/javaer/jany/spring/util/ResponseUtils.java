@@ -77,7 +77,7 @@ public interface ResponseUtils {
         Assert.notNull(filename, () -> "Filename must be not null");
 
         final String file;
-        file = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+        file = URLEncoder.encode(filename, StandardCharsets.UTF_8).replace("\\+", "%20");
 
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
