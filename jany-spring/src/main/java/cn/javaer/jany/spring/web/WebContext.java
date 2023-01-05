@@ -21,9 +21,8 @@ public class WebContext {
     private static Supplier<String> requestIdFun = Empty.supplier();
 
     static {
-        ReflectUtils.getClass("com.yomahub.tlog.context.TLogContext").ifPresent(aClass -> {
-            requestIdFun = TLogContext::getTraceId;
-        });
+        ReflectUtils.getClass("com.yomahub.tlog.context.TLogContext")
+            .ifPresent(aClass -> requestIdFun = TLogContext::getTraceId);
     }
 
     /**
