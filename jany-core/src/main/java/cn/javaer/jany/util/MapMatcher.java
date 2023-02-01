@@ -1,6 +1,9 @@
 package cn.javaer.jany.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 public class MapMatcher<K, R> {
@@ -10,6 +13,7 @@ public class MapMatcher<K, R> {
         this.mapping = mapping;
     }
 
+    @Nullable
     public R applyBy(K key) {
         Function<K, R> fn = mapping.get(key);
         if (fn != null) {
@@ -24,7 +28,7 @@ public class MapMatcher<K, R> {
             fn.apply(key);
         }
         else {
-            throw new IllegalStateException("Not match, key: " + key);
+            throw new NoSuchElementException("Not match, key: " + key);
         }
         return null;
     }
