@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 
+/**
+ * @author cn-src
+ */
 public class MapMatcher<K, R> {
     private final Map<K, Function<K, R>> mapping;
 
