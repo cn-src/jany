@@ -22,7 +22,7 @@ public class SignUtils {
         Assert.notNull(bean, "bean must not be null");
         Assert.notEmpty(key, "key must not be empty");
 
-        final Map<String, Object> params = BeanUtils.beanToTreeMap(bean, true);
+        final Map<String, Object> params = BeanUtils.beanToSortedMap(bean, true);
         StringBuilder sb = new StringBuilder();
         params.forEach((k, v) -> sb.append(k).append("=").append(v).append("&"));
         sb.append("key=").append(key);

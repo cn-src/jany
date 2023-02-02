@@ -12,7 +12,7 @@ import java.util.TreeMap;
  */
 public class BeanUtils extends BeanUtil {
 
-    public static SortedMap<String, Object> beanToTreeMap(Object bean, boolean ignoreEmptyValue) {
+    public static SortedMap<String, Object> beanToSortedMap(Object bean, boolean ignoreEmptyValue) {
         if (null == bean) {
             return null;
         }
