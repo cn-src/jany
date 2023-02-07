@@ -20,7 +20,7 @@ class MapMatcherTest {
 
     @Test
     void applyOrThrowBy() {
-        assertThatThrownBy(() -> matcher.applyBy("not fount"))
+        assertThatThrownBy(() -> matcher.applyOrThrowBy("not fount"))
             .isInstanceOf(NoSuchElementException.class);
     }
 }
