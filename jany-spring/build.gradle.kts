@@ -16,7 +16,7 @@ dependencies {
     optionalApi("org.springframework.boot:spring-boot-starter-data-jdbc")
     optionalApi("org.springframework.boot:spring-boot-starter-jooq")
     optionalApi("org.springframework.boot:spring-boot-starter-security")
-    optionalApi("org.springdoc:springdoc-openapi-starter-webmvc-api")
+    optionalApi("org.springdoc:springdoc-openapi-webmvc-core")
     optionalApi("cn.dev33:sa-token-core")
 
     optionalApi("org.postgresql:postgresql")

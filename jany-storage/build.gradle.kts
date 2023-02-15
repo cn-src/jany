@@ -9,5 +9,5 @@ dependencies {
     api(project(":jany-core"))
     api("io.minio:minio:$minioVersion")
 
-    optionalApi("org.springdoc:springdoc-openapi-starter-webmvc-api:$springdocVersion")
+    optionalApi("org.springdoc:springdoc-openapi-webmvc-core:$springdocVersion")
 }
