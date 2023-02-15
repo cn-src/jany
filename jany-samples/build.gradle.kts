@@ -157,10 +157,10 @@ dependencies {
     api("com.github.gavlyukovskiy:p6spy-spring-boot-starter:${p["datasourceDecoratorVersion"]}")
     api("com.github.gavlyukovskiy:flexy-pool-spring-boot-starter:${p["datasourceDecoratorVersion"]}")
 
-    api("org.springdoc:springdoc-openapi-starter-webmvc-ui:${p["springdocVersion"]}")
-    api("org.springdoc:springdoc-openapi-starter-webmvc-api:${p["springdocVersion"]}")
-    api("org.springdoc:springdoc-openapi-starter-webflux-ui:${p["springdocVersion"]}")
-    api("org.springdoc:springdoc-openapi-starter-webflux-api:${p["springdocVersion"]}")
+    api("org.springdoc:springdoc-openapi-ui:${p["springdocVersion"]}")
+    api("org.springdoc:springdoc-openapi-webmvc-core:${p["springdocVersion"]}")
+    api("org.springdoc:springdoc-openapi-security:${p["springdocVersion"]}")
+    api("org.springdoc:springdoc-openapi-data-rest:${p["springdocVersion"]}")
 
     api("io.vavr:vavr:${p["vavrVersion"]}")
     api("io.vavr:vavr-jackson:${p["vavrJacksonVersion"]}")
