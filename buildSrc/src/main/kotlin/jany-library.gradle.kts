@@ -54,6 +54,9 @@ dependencyManagement {
         enabled(false)
     }
 }
+tasks.javadoc {
+    isFailOnError = false
+}
 tasks.test {
     useJUnitPlatform()
     failFast = false
