@@ -68,6 +68,9 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
             return getMessage(errorInfo);
         }
         final String messageEl = getMessage(errorInfo.getError());
+        if (StrUtil.isEmpty(messageEl)) {
+            return "";
+        }
         final EvaluationContext context = new StandardEvaluationContext();
         context.setVariable("e", t);
         final String value = elParser.parseExpression(messageEl).getValue(context, String.class);
