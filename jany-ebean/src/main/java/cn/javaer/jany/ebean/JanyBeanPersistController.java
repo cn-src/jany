@@ -42,7 +42,7 @@ public class JanyBeanPersistController extends BeanPersistAdapter {
         for (UnsetInfo info : unsets) {
             final Object newValue = requestBean.updatedValues().get(info.getFieldName()).getNewValue();
             requestBean.intercept().setPropertyLoaded(info.getFieldName(),
-                ObjectUtil.isEmpty(newValue) && info.isOnlyEmpty());
+                !(ObjectUtil.isEmpty(newValue) && info.isOnlyEmpty()));
         }
         return true;
     }
