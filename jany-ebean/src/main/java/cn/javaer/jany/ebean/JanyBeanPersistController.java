@@ -28,7 +28,7 @@ public class JanyBeanPersistController extends BeanPersistAdapter {
     public boolean preUpdate(BeanPersistRequest<?> request) {
         PersistRequestBean<?> requestBean = (PersistRequestBean<?>) request;
         Set<String> unsets = unsetProps.computeIfAbsent(request.bean().getClass(), () ->
-            ReflectUtils.fieldNames(request.bean().getClass(), EmptyToUnset.class));
+            ReflectUtils.fieldNames(request.bean().getClass(), UnsetIfEmpty.class));
         for (Map.Entry<String, ValuePair> entry : requestBean.updatedValues().entrySet()) {
             if (ObjectUtil.isEmpty(entry.getValue().getNewValue()) && unsets.contains(entry.getKey())) {
                 requestBean.intercept().setPropertyLoaded(entry.getKey(), false);
