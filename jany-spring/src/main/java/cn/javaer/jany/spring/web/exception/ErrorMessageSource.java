@@ -55,14 +55,22 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
     }
 
     public static String getMessage(final String error, final Object[] args) {
-        return ACCESSOR.getMessage(error, args);
+        try {
+            return ACCESSOR.getMessage(error, args);
+        }
+        catch (NoSuchMessageException e) {
+            return "";
+        }
     }
 
     public static String getMessage(final ErrorInfo errorInfo, final Throwable t) {
         if (EL_KEY_START != errorInfo.getError().charAt(0)) {
             return getMessage(errorInfo);
         }
-        final String messageEl = ACCESSOR.getMessage(errorInfo.getError());
+        final String messageEl = getMessage(errorInfo.getError());
+        if (StrUtil.isEmpty(messageEl)) {
+            return "";
+        }
         final EvaluationContext context = new StandardEvaluationContext();
         context.setVariable("e", t);
         final String value = elParser.parseExpression(messageEl).getValue(context, String.class);
