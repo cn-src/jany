@@ -158,7 +158,7 @@ dependencies {
     api("com.github.gavlyukovskiy:p6spy-spring-boot-starter:${p["datasourceDecoratorVersion"]}")
     api("com.github.gavlyukovskiy:flexy-pool-spring-boot-starter:${p["datasourceDecoratorVersion"]}")
 
-    api("io.swagger.core.v3:swagger-annotations${p["swaggerVersion"]}")
+    api("io.swagger.core.v3:swagger-annotations:${p["swaggerVersion"]}")
     api("org.springdoc:springdoc-openapi-ui:${p["springdocVersion"]}")
     api("org.springdoc:springdoc-openapi-webmvc-core:${p["springdocVersion"]}")
     api("org.springdoc:springdoc-openapi-security:${p["springdocVersion"]}")
