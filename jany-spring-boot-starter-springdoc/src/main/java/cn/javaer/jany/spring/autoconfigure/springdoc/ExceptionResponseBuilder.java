@@ -27,7 +27,6 @@ import org.springdoc.core.SpringDocConfigProperties;
 import org.springframework.web.method.HandlerMethod;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +60,7 @@ class ExceptionResponseBuilder extends GenericResponseService {
         this.errorInfoProcessor = errorInfoProcessor;
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public ApiResponses build(final Components components, final HandlerMethod handlerMethod,
                               final Operation operation, final MethodAttributes methodAttributes) {
@@ -76,7 +76,7 @@ class ExceptionResponseBuilder extends GenericResponseService {
                 errorInfos.get(errorInfo.getStatus()).add(errorInfo);
             }
             else {
-                errorInfos.put(errorInfo.getStatus(), new TreeSet<>(Arrays.asList(errorInfo)));
+                errorInfos.put(errorInfo.getStatus(), new TreeSet<>(List.of(errorInfo)));
             }
         }
         ResolvedSchema resolvedSchema = ModelConverters.getInstance()
@@ -86,7 +86,7 @@ class ExceptionResponseBuilder extends GenericResponseService {
             final ApiResponse response = new ApiResponse();
             response.setDescription(ErrorMessageSource.getMessage(entry.getKey(), "Unknown"));
             ObjectSchema schema = new ObjectSchema();
-            final List<Schema> errorSchemas = new ArrayList<>();
+            final List<Schema<?>> errorSchemas = new ArrayList<>();
             for (ErrorInfo errorInfo : entry.getValue()) {
                 StringSchema ss = new StringSchema();
                 String desc = StrUtil.firstNonEmpty(errorInfo.getDoc(),
