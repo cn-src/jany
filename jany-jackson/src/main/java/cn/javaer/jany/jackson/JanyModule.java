@@ -1,6 +1,5 @@
 package cn.javaer.jany.jackson;
 
-import cn.javaer.jany.model.KeyValue;
 import cn.javaer.jany.util.TimeUtils;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -20,12 +19,10 @@ public final class JanyModule extends SimpleModule {
         addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(TimeUtils.DATE_TIME_FORMATTER));
         addSerializer(LocalDate.class, new LocalDateSerializer(TimeUtils.DATE_FORMATTER));
         addSerializer(LocalTime.class, new LocalTimeSerializer(TimeUtils.TIME_FORMATTER));
-        addSerializer(KeyValue.class, KeyValueSerializer.INSTANCE);
 
         addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(TimeUtils.DATE_TIME_FORMATTER));
         addDeserializer(LocalDate.class, new LocalDateDeserializer(TimeUtils.DATE_FORMATTER));
         addDeserializer(LocalTime.class, new LocalTimeDeserializer(TimeUtils.TIME_FORMATTER));
-        addDeserializer(KeyValue.class, KeyValueDeserializer.INSTANCE);
         // @formatter:on
     }
 
