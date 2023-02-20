@@ -24,9 +24,9 @@ public class OptChain<T> {
     /**
      * 可选执行函数。如果 value 值不为空，则执行 fun 返回的消费者函数。
      * <p>
-     * <pre>
+     * <pre>{@code
      *  样例：xxx.opt(q -> q.name::eq, "name1")
-     *  </pre>
+     *  }</pre>
      *
      * @param fun 一个函数，它接受根对象并返回一个接受该值的消费者。
      * @param value 要传递给消费者的值。
@@ -45,9 +45,9 @@ public class OptChain<T> {
     /**
      * 可选执行函数。如果 value1 和 value2 只都不为空，则执行 fun 返回的消费者函数。
      * <p>
-     * <pre>
+     * <pre>{@code
      *  样例：xxx.opt(q -> q.id::between, 1, 5)
-     *  </pre>
+     *  }</pre>
      *
      * @param fun 一个函数，它接受根对象并返回一个接受该值的消费者。
      * @param value1 要传递给消费者的值。
@@ -81,9 +81,9 @@ public class OptChain<T> {
     /**
      * 可选执行函数。如果 condition 为 true，则执行 fun 消费者函数。
      * <p>
-     * <pre>
+     * <pre>{@code
      *  样例：xxx.opt(q -> q.name::eq, true)
-     *  </pre>
+     *  }</pre>
      *
      * @param fun 消费者函数，它接受根对象并执行。
      * @param condition 是否要执行消费者函数的条件。
@@ -103,9 +103,9 @@ public class OptChain<T> {
     /**
      * 可选执行函数。如果 condition 为 true，则执行 fun 消费者函数。
      * <p>
-     * <pre>
+     * <pre>{@code
      *  样例：xxx.opt(q -> q.name::eq, ()-> true)
-     *  </pre>
+     *  }</pre>
      *
      * @param fun 消费者函数，它接受根对象并执行。
      * @param condition 是否要执行消费者函数的条件函数。

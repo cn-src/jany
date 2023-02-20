@@ -39,7 +39,7 @@ public class PGDSL extends PostgresDSL {
     }
 
     /**
-     * 被包含，操作符: <@
+     * 被包含，操作符: {@literal <@ }
      */
     @Support(SQLDialect.POSTGRES)
     public static <T> Condition containedIn(final Field<T> field, final T value) {

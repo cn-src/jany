@@ -13,13 +13,13 @@ import java.util.function.ToIntFunction;
 
 /**
  * 批处理消费者函数，适用于简单的批处理场景.
- * <pre>
+ * <p><pre>{@code
  * BatchConsumer<String> batchConsumer = new BatchConsumer<>(value -> 0);
  * final List<String> demo = new ArrayList<>();
  * demo.stream()
  *     .onClose(batchConsumer)
  *     .forEach(batchConsumer);
- * </pre>
+ * }</pre>
  *
  * @author cn-src
  */

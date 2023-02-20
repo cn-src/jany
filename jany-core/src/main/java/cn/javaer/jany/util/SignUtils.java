@@ -11,7 +11,7 @@ import java.util.Map;
 public class SignUtils {
 
     /**
-     * 为 bean 生成签名，按属性的自然顺序排序，以 key=value 和 & 连接，最后加上 key=keyValue，进行 md5 签名。
+     * 为 bean 生成签名，按属性的自然顺序排序，以 {@literal key=value 和 & } 连接，最后加上 key=keyValue，进行 md5 签名。
      *
      * @param bean 签署的对象
      * @param key 用于签署请求的密钥。
