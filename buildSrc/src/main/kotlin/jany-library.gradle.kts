@@ -55,7 +55,7 @@ dependencyManagement {
     }
 }
 tasks.javadoc {
-    isFailOnError = false
+    (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
 }
 tasks.test {
     useJUnitPlatform()
