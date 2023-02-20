@@ -1,9 +1,6 @@
 package cn.javaer.jany.spring.autoconfigure.jackson;
 
 import cn.javaer.jany.jackson.JanyJacksonAnnotationIntrospector;
-import cn.javaer.jany.jackson.JooqJsonbDeserializer;
-import cn.javaer.jany.jackson.JooqJsonbSerializer;
-import cn.javaer.jany.jackson.JooqRecordSerializer;
 import cn.javaer.jany.jackson.Json;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -12,8 +9,6 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import org.jooq.JSONB;
-import org.jooq.Record;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -76,18 +71,5 @@ public class JacksonPlusAutoConfiguration {
     @ConditionalOnMissingBean(Json.class)
     public Json json(final ObjectMapper objectMapper) {
         return new Json(objectMapper);
-    }
-
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnClass({JSONB.class, Json.class})
-    public static class JooqJacksonConfiguration {
-        @Bean
-        public Jackson2ObjectMapperBuilderCustomizer janyJooqJacksonCustomizer() {
-            return it -> {
-                it.serializerByType(JSONB.class, JooqJsonbSerializer.INSTANCE);
-                it.serializerByType(Record.class, JooqRecordSerializer.INSTANCE);
-                it.deserializerByType(JSONB.class, JooqJsonbDeserializer.INSTANCE);
-            };
-        }
     }
 }
