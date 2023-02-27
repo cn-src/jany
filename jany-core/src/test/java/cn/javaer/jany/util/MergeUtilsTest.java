@@ -1,3 +1,20 @@
+/*
+ * Copyright 2020-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package cn.javaer.jany.util;
 
 import cn.javaer.jany.jackson.Json;
@@ -70,7 +87,7 @@ class MergeUtilsTest {
             p -> new Product2(p.id, p.name)
         );
         System.out.println(Json.DEFAULT.write(results));
-        //language=JSON
+        // language=JSON
         JSONAssert.assertEquals("[\n" +
             "  {\n" +
             "    \"id\": 1,\n" +
@@ -115,7 +132,7 @@ class MergeUtilsTest {
                     p1.getCategory2());
                 p2.getDynamicData().merge(key, p1.count, Long::sum);
             });
-        //language=JSON
+        // language=JSON
         JSONAssert.assertEquals("[\n" +
             "  {\n" +
             "    \"id\": 1,\n" +
@@ -153,7 +170,9 @@ class MergeUtilsTest {
     @AllArgsConstructor
     static class Demo {
         String prop1;
+
         Long demoPropId;
+
         Prop demoProp;
     }
 
@@ -161,6 +180,7 @@ class MergeUtilsTest {
     @AllArgsConstructor
     static class Prop {
         Long id;
+
         String name;
     }
 
@@ -168,10 +188,15 @@ class MergeUtilsTest {
     @FieldNameConstants
     static class Product {
         final Long id;
+
         final String name;
+
         final String category1;
+
         final String category2;
+
         final Long count;
+
         Map<String, Long> dynamicData;
     }
 
@@ -179,7 +204,9 @@ class MergeUtilsTest {
     @FieldNameConstants
     static class Product2 {
         final Long id;
+
         final String name;
+
         Map<String, Long> dynamicData;
     }
 }

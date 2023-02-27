@@ -1,3 +1,19 @@
+/*
+ * Copyright 2020-2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package cn.javaer.jany.p6spy;
 
 import java.util.HashSet;
@@ -8,16 +24,21 @@ import java.util.StringTokenizer;
 
 /**
  * Performs formatting of basic SQL statements (DML + query).
- *
  */
 @SuppressWarnings("ALL")
 public class BasicFormatter {
     private static final String WHITESPACE = " \n\r\f\t";
+
     private static final Set<String> BEGIN_CLAUSES = new HashSet<>();
+
     private static final Set<String> END_CLAUSES = new HashSet<>();
+
     private static final Set<String> LOGICAL = new HashSet<>();
+
     private static final Set<String> QUANTIFIERS = new HashSet<>();
+
     private static final Set<String> DML = new HashSet<>();
+
     private static final Set<String> MISC = new HashSet<>();
 
     static {
@@ -58,6 +79,7 @@ public class BasicFormatter {
     }
 
     private static final String INDENT_STRING = "    ";
+
     private static final String INITIAL = System.lineSeparator() + INDENT_STRING;
 
     public String format(final String source) {
@@ -66,22 +88,35 @@ public class BasicFormatter {
 
     private static class FormatProcess {
         boolean beginLine = true;
+
         boolean afterBeginBeforeEnd;
+
         boolean afterByOrSetOrFromOrSelect;
+
         boolean afterOn;
+
         boolean afterBetween;
+
         boolean afterInsert;
+
         int inFunction;
+
         int parensSinceSelect;
+
         private final LinkedList<Integer> parenCounts = new LinkedList<>();
+
         private final LinkedList<Boolean> afterByOrFromOrSelects = new LinkedList<>();
 
         int indent = 1;
 
         StringBuilder result = new StringBuilder();
+
         StringTokenizer tokens;
+
         String lastToken;
+
         String token;
+
         String lcToken;
 
         public FormatProcess(final String sql) {
