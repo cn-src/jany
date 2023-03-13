@@ -18,8 +18,8 @@ subprojects {
                 if (version.toString().endsWith("SNAPSHOT")) {
                     url = snapshotsRepoUrl
                     credentials {
-                        username = providers.gradleProperty("aliyunRepoUsername").getOrElse("")
-                        password = providers.gradleProperty("aliyunRepoPassword").getOrElse("")
+                        username = System.getenv("aliyunRepoUsername")
+                        password = System.getenv("aliyunRepoPassword")
                     }
                 } else {
                     url = releasesRepoUrl
