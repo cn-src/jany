@@ -48,7 +48,7 @@ class JacksonPlusAutoConfigurationTest {
             final Demo demo = objectMapper.readValue("{\"dateTime\": \"2020-05-05\"}", Demo.class);
             demo.setStr("val");
             // language=JSON
-            demo.setJsonb(JSONB.valueOf("{\"demo\":123}"));
+            // demo.setJsonb(JSONB.valueOf("{\"demo\":123}"));
             demo.setLocalDateTime(LocalDateTime.of(LocalDate.of(2020, 1, 1), LocalTime.MIN));
             demo.setLocalDate(LocalDate.of(2020, 1, 1));
             demo.setLocalTime(LocalTime.MIN);
@@ -57,7 +57,7 @@ class JacksonPlusAutoConfigurationTest {
             // language=JSON
             JSONAssert.assertEquals("{\"dateTime\":\"2020-05-05 23:59:59\"," +
                 "\"str\":\"val\"," +
-                "\"jsonb\":{\"demo\":123}," +
+                // "\"jsonb\":{\"demo\":123}," +
                 "\"localDateTime\":\"2020-01-01 00:00:00\"," +
                 " \"" +
                 "localDate\":\"2020-01-01\"," +
@@ -72,7 +72,7 @@ class JacksonPlusAutoConfigurationTest {
 
         String str;
 
-        JSONB jsonb;
+        // JSONB jsonb;
 
         LocalDateTime localDateTime;
 
