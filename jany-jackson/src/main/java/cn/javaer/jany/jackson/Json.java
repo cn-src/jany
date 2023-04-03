@@ -70,7 +70,7 @@ public class Json {
         final ObjectMapper lenient = new ObjectMapper();
         lenient.registerModules(modules);
         lenient.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        LENIENT = new Json(aDefault);
+        LENIENT = new Json(lenient);
 
         final ObjectMapper nonEmpty = new ObjectMapper();
         nonEmpty.registerModules(modules);
