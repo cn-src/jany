@@ -16,6 +16,7 @@
 
 package cn.javaer.jany.ebean;
 
+import cn.hutool.core.exceptions.UtilException;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.javaer.jany.util.ReflectUtils;
 import io.ebean.config.AutoConfigure;
@@ -57,7 +58,7 @@ public class JanyAutoConfigure implements AutoConfigure {
         try {
             env = SpringUtil.getBean(Environment.class);
         }
-        catch (NullPointerException e) {
+        catch (UtilException e) {
             log.warn("Can not get spring bean Environment", e);
             return;
         }
