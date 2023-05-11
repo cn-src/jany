@@ -60,7 +60,8 @@ tasks.javadoc {
 tasks.test {
     useJUnitPlatform()
     failFast = false
-    jvmArgs = jvmArgs.apply { add("-Dorg.jooq.no-logo=true") }
+    systemProperties["org.jooq.no-logo"] = true
+//    jvmArgs = jvmArgs.apply { add("-Dorg.jooq.no-logo=true") }
     finalizedBy(tasks.jacocoTestReport)
 }
 tasks.jacocoTestReport {
