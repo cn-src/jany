@@ -18,14 +18,7 @@ package cn.javaer.jany.storage.minio;
 
 import cn.hutool.core.lang.Assert;
 import cn.javaer.jany.type.StorableObject;
-import io.minio.CopyObjectArgs;
-import io.minio.CopySource;
-import io.minio.GetObjectArgs;
-import io.minio.GetObjectResponse;
-import io.minio.GetPresignedObjectUrlArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.RemoveObjectArgs;
+import io.minio.*;
 import io.minio.http.Method;
 
 import java.io.InputStream;

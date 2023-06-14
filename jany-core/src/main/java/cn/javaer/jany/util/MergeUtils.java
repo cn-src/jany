@@ -19,11 +19,7 @@ package cn.javaer.jany.util;
 import cn.javaer.jany.util.function.Consumer3;
 import cn.javaer.jany.util.function.Function3;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;

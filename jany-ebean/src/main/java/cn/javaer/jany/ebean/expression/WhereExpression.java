@@ -3,11 +3,7 @@ package cn.javaer.jany.ebean.expression;
 import io.ebean.Expression;
 import io.ebean.ExpressionFactory;
 
-import java.lang.annotation.Annotation;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 import static cn.javaer.jany.ebean.expression.Operator.auto;
 

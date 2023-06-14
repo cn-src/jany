@@ -19,7 +19,6 @@ package cn.javaer.jany.spring.autoconfigure.jackson;
 import cn.javaer.jany.format.DateTimeFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
-import org.jooq.JSONB;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.boot.autoconfigure.AutoConfigurations;

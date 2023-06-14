@@ -26,28 +26,14 @@ import io.swagger.v3.core.converter.ModelConverters;
 import io.swagger.v3.core.converter.ResolvedSchema;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.core.GenericResponseService;
-import org.springdoc.core.MethodAttributes;
-import org.springdoc.core.OperationService;
-import org.springdoc.core.PropertyResolverUtils;
-import org.springdoc.core.ReturnTypeParser;
-import org.springdoc.core.SpringDocConfigProperties;
+import org.springdoc.core.*;
 import org.springframework.web.method.HandlerMethod;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author cn-src

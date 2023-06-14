@@ -16,11 +16,7 @@
 
 package cn.javaer.jany.archunit;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 检测被注解 {@link SubFields} 的类的字段是否是 {@link SubFields#value()} 声明的类的字段的子集.

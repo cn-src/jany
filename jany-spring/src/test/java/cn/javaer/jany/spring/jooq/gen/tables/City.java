@@ -23,17 +23,8 @@ import cn.javaer.jany.spring.jooq.gen.Indexes;
 import cn.javaer.jany.spring.jooq.gen.Keys;
 import cn.javaer.jany.spring.jooq.gen.Public;
 import cn.javaer.jany.spring.jooq.gen.tables.records.CityRecord;
-import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.Identity;
-import org.jooq.Index;
-import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row2;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
 

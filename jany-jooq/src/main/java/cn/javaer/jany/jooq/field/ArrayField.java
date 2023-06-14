@@ -17,15 +17,8 @@
 package cn.javaer.jany.jooq.field;
 
 import cn.javaer.jany.jooq.condition.ContainedInCondition;
-import org.jooq.Condition;
-import org.jooq.Context;
-import org.jooq.DataType;
-import org.jooq.Field;
 import org.jooq.Record;
-import org.jooq.SQLDialect;
-import org.jooq.Support;
-import org.jooq.Table;
-import org.jooq.TableField;
+import org.jooq.*;
 import org.jooq.impl.CustomField;
 
 /**

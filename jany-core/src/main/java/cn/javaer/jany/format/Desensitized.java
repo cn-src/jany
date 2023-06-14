@@ -18,11 +18,7 @@ package cn.javaer.jany.format;
 
 import cn.hutool.core.util.DesensitizedUtil;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 

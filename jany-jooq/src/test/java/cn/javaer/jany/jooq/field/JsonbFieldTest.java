@@ -16,12 +16,8 @@
 
 package cn.javaer.jany.jooq.field;
 
-import org.jooq.Condition;
-import org.jooq.DSLContext;
-import org.jooq.JSONB;
 import org.jooq.Record;
-import org.jooq.SQLDialect;
-import org.jooq.SelectConditionStep;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.junit.jupiter.api.Test;
