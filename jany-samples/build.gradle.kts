@@ -67,7 +67,7 @@ dependencies {
 
     api("io.github.sevdokimov.logviewer:log-viewer-spring-boot:${p["logviewerVersion"]}")
     api("org.redisson:redisson-spring-boot-starter:${p["redissonVersion"]}")
-    runtime("com.taobao.arthas:arthas-spring-boot-starter:${p["arthasSpringBootVersion"]}")
+    api("com.taobao.arthas:arthas-spring-boot-starter:${p["arthasSpringBootVersion"]}")
     api("com.baomidou:dynamic-datasource-spring-boot-starter:${p["dynamicDatasourceVersion"]}")
     api("com.github.lianjiatech:retrofit-spring-boot-starter:${p["retrofitSpringBootVersion"]}")
     api("org.ssssssss:magic-api-spring-boot-starter:${p["magicApiVersion"]}")
