@@ -20,9 +20,9 @@ import io.ebean.DB;
 import io.ebean.Database;
 import io.ebean.Transaction;
 import io.ebean.bean.EntityBean;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 
 /**
  * 相对于官方的 Model 类部分方法改成了链式调用。

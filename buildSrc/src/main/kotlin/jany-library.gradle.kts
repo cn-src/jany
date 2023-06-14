@@ -23,6 +23,8 @@ tasks.withType(Javadoc::class.java) {
 }
 val springBootVersion: String by project
 val jooqVersion: String by project
+val ebeanVersion: String by project
+val hutoolVersion: String by project
 dependencies {
     api(platform(project(":jany-platform")))
     annotationProcessor(platform(project(":jany-platform")))
@@ -47,6 +49,8 @@ dependencyManagement {
         mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion") {
             bomProperty("jooq.version", "$jooqVersion")
         }
+        mavenBom("io.ebean:ebean-bom:$ebeanVersion")
+        mavenBom("cn.hutool:hutool-bom:$hutoolVersion")
     }
     generatedPomCustomization {
         enabled(false)

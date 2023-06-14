@@ -22,10 +22,10 @@ import cn.hutool.http.useragent.UserAgentUtil;
 import cn.javaer.jany.util.Empty;
 import cn.javaer.jany.util.ReflectUtils;
 import com.yomahub.tlog.context.TLogContext;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.function.Supplier;
 

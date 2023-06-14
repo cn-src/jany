@@ -1,7 +1,7 @@
 subprojects {
     apply(plugin = "maven-publish")
     group = "cn.javaer.jany"
-    version = "latest-SNAPSHOT"
+    version = "next-SNAPSHOT"
 
     repositories {
         mavenCentral()

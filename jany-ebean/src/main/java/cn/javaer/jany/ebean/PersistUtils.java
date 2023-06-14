@@ -22,10 +22,10 @@ import cn.hutool.core.map.WeakConcurrentMap;
 import cn.hutool.core.util.ReflectUtil;
 import cn.javaer.jany.util.ClassUtils;
 import cn.javaer.jany.util.StrUtils;
+import jakarta.persistence.Column;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.lang.reflect.Field;
 
 /**
