@@ -23,12 +23,12 @@ import cn.javaer.jany.spring.jooq.gen.Indexes;
 import cn.javaer.jany.spring.jooq.gen.Keys;
 import cn.javaer.jany.spring.jooq.gen.Public;
 import cn.javaer.jany.spring.jooq.gen.tables.records.CityRecord;
+import jakarta.annotation.Generated;
 import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
 
-import javax.annotation.Generated;
 import java.util.Arrays;
 import java.util.List;
 

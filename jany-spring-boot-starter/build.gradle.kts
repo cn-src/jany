@@ -1,13 +1,12 @@
 plugins {
     id("jany-library")
 }
-val jooqVersion: String by project
 dependencies {
     api(project(":jany-core"))
     api(project(":jany-spring"))
     api(project(":jany-jackson"))
 
-    optionalApi("org.jooq:jooq:$jooqVersion")
+    optionalApi("org.jooq:jooq")
     optionalApi("org.springframework.boot:spring-boot-starter-web")
 
     testImplementation("com.h2database:h2")

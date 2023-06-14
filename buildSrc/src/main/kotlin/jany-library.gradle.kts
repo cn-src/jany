@@ -46,9 +46,7 @@ dependencies {
 }
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion") {
-            bomProperty("jooq.version", "$jooqVersion")
-        }
+        mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
         mavenBom("io.ebean:ebean-bom:$ebeanVersion")
         mavenBom("cn.hutool:hutool-bom:$hutoolVersion")
     }

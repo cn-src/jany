@@ -20,11 +20,11 @@
 package cn.javaer.jany.spring.jooq.gen;
 
 import cn.javaer.jany.spring.jooq.gen.tables.City;
+import jakarta.annotation.Generated;
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.Internal;
 
-import javax.annotation.Generated;
 
 /**
  * A class modelling indexes of tables of the <code>PUBLIC</code> schema.
