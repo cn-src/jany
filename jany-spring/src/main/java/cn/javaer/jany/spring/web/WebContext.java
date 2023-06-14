@@ -16,7 +16,7 @@
 
 package cn.javaer.jany.spring.web;
 
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import cn.javaer.jany.util.Empty;
@@ -38,7 +38,7 @@ public class WebContext {
 
     static {
         ReflectUtils.getClass("com.yomahub.tlog.context.TLogContext")
-            .ifPresent(aClass -> requestIdFun = TLogContext::getTraceId);
+                .ifPresent(aClass -> requestIdFun = TLogContext::getTraceId);
     }
 
     /**
@@ -57,29 +57,27 @@ public class WebContext {
      */
     public static HttpServletRequest httpServletRequest() {
         return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
-            .map(ServletRequestAttributes.class::cast)
-            .map(ServletRequestAttributes::getRequest)
-            .orElseThrow(IllegalStateException::new);
+                .map(ServletRequestAttributes.class::cast)
+                .map(ServletRequestAttributes::getRequest)
+                .orElseThrow(IllegalStateException::new);
     }
 
     /**
      * 获取客户端 ip.
      *
      * @param otherHeaderNames 用于获取 IP 的其他 http header
-     *
      * @return the ip
-     *
-     * @see ServletUtil#getClientIP(javax.servlet.http.HttpServletRequest, java.lang.String...)
+     * @see JakartaServletUtil#getClientIP(HttpServletRequest, java.lang.String...)
      */
     public static String clientIp(String... otherHeaderNames) {
-        return ServletUtil.getClientIP(httpServletRequest(), otherHeaderNames);
+        return JakartaServletUtil.getClientIP(httpServletRequest(), otherHeaderNames);
     }
 
     public static ClientInfo clientInfo() {
         ClientInfo clientInfo = new ClientInfo();
         HttpServletRequest request = httpServletRequest();
 
-        String ip = ServletUtil.getClientIP(httpServletRequest());
+        String ip = JakartaServletUtil.getClientIP(httpServletRequest());
         clientInfo.setIp(ip);
 
         String userAgentStr = request.getHeader("User-Agent");
