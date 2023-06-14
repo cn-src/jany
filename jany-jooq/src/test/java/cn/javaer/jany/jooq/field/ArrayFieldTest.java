@@ -39,7 +39,7 @@ class ArrayFieldTest {
             this.dsl.selectFrom(demo).where(arr1.containedIn(new String[]{"str1"}));
 
         assertThat(step.getSQL())
-            .isEqualTo("select * from demo where demo.\"arr1\" <@ ?::varchar[]");
+            .isEqualTo("select * from demo where demo.\"arr1\" <@ cast(? as varchar[])");
 
         assertThat(this.dsl.renderInlined(step))
             .isEqualTo("select * from demo where demo.\"arr1\" <@ cast('{\"str1\"}' as varchar[])");
