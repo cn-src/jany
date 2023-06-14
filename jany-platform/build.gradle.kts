@@ -74,8 +74,8 @@ dependencies {
         // bom
         api("cn.hutool:hutool-bom:${p["hutoolVersion"]}")
         api("io.ebean:ebean-bom:${p["ebeanVersion"]}")
-        api("org.testcontainers:testcontainers-bom:${p["playtikaVersion"]}")
-        api("com.playtika.testcontainers:testcontainers-spring-boot-bom:${p["testcontainersVersion"]}")
+        api("org.testcontainers:testcontainers-bom:${p["testcontainersVersion"]}")
+        api("com.playtika.testcontainers:testcontainers-spring-boot-bom:${p["playtikaVersion"]}")
 
 
         api("com.github.kagkarlsson:db-scheduler:${p["dbSchedulerVersion"]}")
