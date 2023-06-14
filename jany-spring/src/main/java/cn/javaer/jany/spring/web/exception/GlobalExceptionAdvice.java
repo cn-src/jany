@@ -20,6 +20,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.WebContext;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
@@ -28,7 +29,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
@@ -45,7 +45,8 @@ public class GlobalExceptionAdvice {
 
     private final ErrorInfoProcessor errorInfoProcessor;
 
-    public GlobalExceptionAdvice(final ErrorProperties errorProperties,
+    public GlobalExceptionAdvice(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+                                 final ErrorProperties errorProperties,
                                  final ErrorInfoProcessor errorInfoProcessor) {
         this.errorProperties = errorProperties;
         this.errorInfoProcessor = errorInfoProcessor;
@@ -54,7 +55,7 @@ public class GlobalExceptionAdvice {
     @ResponseBody
     @ExceptionHandler({Exception.class})
     public ResponseEntity<RuntimeErrorInfo> handleBadRequestException(
-        final HttpServletRequest request, final Exception e) {
+            final HttpServletRequest request, final Exception e) {
         final ErrorInfo errorInfo = errorInfoProcessor.getErrorInfo(e);
         final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
         String message = ErrorMessageSource.getMessage(errorInfo, e);
