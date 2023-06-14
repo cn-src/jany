@@ -10,7 +10,7 @@ plugins {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
     registerFeature("optional") {
         usingSourceSet(sourceSets["main"])
@@ -103,14 +103,14 @@ publishing {
             pom.withXml {
                 fun Node.first(key: String): Node? = (this.get(key) as List<Node>?)?.firstOrNull()
                 fun Node.select(predicate: (Node) -> Boolean): List<Node>? =
-                    (this.children() as List<Node>?)?.filter(predicate)
+                        (this.children() as List<Node>?)?.filter(predicate)
 
                 asNode().first("dependencyManagement")?.let {
                     asNode().remove(it)
                 }
                 val dependencies = asNode().first("dependencies")
                 dependencies?.select { "true" == it.first("optional")?.text() }
-                    ?.forEach { dependencies.remove(it) }
+                        ?.forEach { dependencies.remove(it) }
             }
         }
     }
