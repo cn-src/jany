@@ -16,7 +16,8 @@
 
 package cn.javaer.jany.validation;
 
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidatorContext;
+
 import java.util.Set;
 
 /**
