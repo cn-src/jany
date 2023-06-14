@@ -17,6 +17,8 @@
 package cn.javaer.jany.spring.autoconfigure.web.exception;
 
 import cn.javaer.jany.exception.RuntimeErrorInfo;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jetbrains.annotations.NotNull;
@@ -24,8 +26,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.servlet.View;
 import org.springframework.web.util.HtmlUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
