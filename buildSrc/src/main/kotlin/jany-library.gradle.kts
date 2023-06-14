@@ -22,7 +22,6 @@ tasks.withType(Javadoc::class.java) {
     isFailOnError = false
 }
 val springBootVersion: String by project
-val okhttp3Version: String by project
 val jooqVersion: String by project
 dependencies {
     api(platform(project(":jany-platform")))
@@ -46,7 +45,6 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion") {
-            bomProperty("okhttp3.version", "$okhttp3Version")
             bomProperty("jooq.version", "$jooqVersion")
         }
     }
