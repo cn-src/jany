@@ -5,6 +5,6 @@ val hutoolVersion: String by project
 dependencies {
     api(project(":jany-core"))
 
-    optionalApi("org.hibernate.validator:hibernate-validator")
-    optionalApi("org.springframework:spring-webmvc")
+    optionalApi("org.springframework.boot:spring-boot-starter-web")
+    optionalApi("org.springframework.boot:spring-boot-starter-validation")
 }
