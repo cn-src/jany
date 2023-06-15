@@ -21,7 +21,6 @@ import cn.javaer.jany.spring.autoconfigure.web.exception.ExceptionAutoConfigurat
 import cn.javaer.jany.spring.security.PrincipalId;
 import cn.javaer.jany.spring.web.exception.ErrorInfoProcessor;
 import io.swagger.v3.core.util.PrimitiveType;
-import org.springdoc.core.*;
 import org.springdoc.core.configuration.SpringDocConfiguration;
 import org.springdoc.core.converters.PageableOpenAPIConverter;
 import org.springdoc.core.parsers.ReturnTypeParser;
