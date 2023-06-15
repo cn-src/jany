@@ -113,6 +113,7 @@ dependencies {
         api("com.github.gavlyukovskiy:p6spy-spring-boot-starter:${p["datasourceDecoratorVersion"]}")
         api("com.github.gavlyukovskiy:flexy-pool-spring-boot-starter:${p["datasourceDecoratorVersion"]}")
 
+        api("org.springdoc:springdoc-openapi-starter-common:${p["springdocVersion"]}")
         api("org.springdoc:springdoc-openapi-starter-webmvc-ui:${p["springdocVersion"]}")
         api("org.springdoc:springdoc-openapi-starter-webmvc-api:${p["springdocVersion"]}")
         api("org.springdoc:springdoc-openapi-starter-webflux-ui:${p["springdocVersion"]}")

@@ -18,7 +18,7 @@ package cn.javaer.jany.spring.autoconfigure.springdoc;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.springdoc.api.annotations.ParameterObject;
+import org.springdoc.core.annotations.ParameterObject;
 
 import java.util.List;
 

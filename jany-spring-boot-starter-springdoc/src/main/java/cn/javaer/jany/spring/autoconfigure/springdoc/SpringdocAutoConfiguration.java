@@ -22,8 +22,15 @@ import cn.javaer.jany.spring.security.PrincipalId;
 import cn.javaer.jany.spring.web.exception.ErrorInfoProcessor;
 import io.swagger.v3.core.util.PrimitiveType;
 import org.springdoc.core.*;
+import org.springdoc.core.configuration.SpringDocConfiguration;
 import org.springdoc.core.converters.PageableOpenAPIConverter;
+import org.springdoc.core.parsers.ReturnTypeParser;
+import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springdoc.core.providers.ObjectMapperProvider;
+import org.springdoc.core.service.GenericResponseService;
+import org.springdoc.core.service.OperationService;
+import org.springdoc.core.utils.PropertyResolverUtils;
+import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -38,7 +45,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-import static org.springdoc.core.Constants.SPRINGDOC_PAGEABLE_CONVERTER_ENABLED;
+import static org.springdoc.core.utils.Constants.SPRINGDOC_PAGEABLE_CONVERTER_ENABLED;
 
 /**
  * SpringDoc 支持.
@@ -50,25 +57,25 @@ import static org.springdoc.core.Constants.SPRINGDOC_PAGEABLE_CONVERTER_ENABLED;
 @AutoConfigureAfter(value = {ExceptionAutoConfiguration.class})
 @AutoConfigureBefore({SpringDocConfiguration.class, SpringDocConfigProperties.class})
 @ConditionalOnProperty(prefix = "jany.springdoc", name = "enabled", havingValue = "true",
-    matchIfMissing = true)
+        matchIfMissing = true)
 @EnableConfigurationProperties(SpringdocProperties.class)
 public class SpringdocAutoConfiguration implements InitializingBean {
 
     @Bean
     @ConditionalOnMissingBean
-    GenericResponseService responseBuilder(final OperationService operationBuilder,
+    GenericResponseService responseBuilder(final OperationService operationService,
                                            final ErrorInfoProcessor errorInfoProcessor,
                                            final List<ReturnTypeParser> returnTypeParsers,
                                            final SpringDocConfigProperties springDocConfigProperties,
                                            final PropertyResolverUtils propertyResolverUtils) {
-        return new ExceptionResponseBuilder(operationBuilder, returnTypeParsers,
-            springDocConfigProperties, propertyResolverUtils, errorInfoProcessor);
+        return new ExceptionResponseBuilder(operationService, returnTypeParsers,
+                springDocConfigProperties, propertyResolverUtils, errorInfoProcessor);
     }
 
     @Override
     public void afterPropertiesSet() {
         SpringDocUtils.getConfig().replaceParameterObjectWithClass(
-            PageParam.class, PageableDoc.class);
+                PageParam.class, PageableDoc.class);
         PrimitiveType.customClasses().put("java.time.LocalTime", PrimitiveType.PARTIAL_TIME);
     }
 
@@ -81,6 +88,7 @@ public class SpringdocAutoConfiguration implements InitializingBean {
             return new SpringPageConverter(springDocObjectMapper);
         }
 
+        // org.springdoc.core.configuration.SpringDocPageableConfiguration.pageableOpenAPIConverter
         @Bean
         @ConditionalOnMissingBean
         @ConditionalOnProperty(name = SPRINGDOC_PAGEABLE_CONVERTER_ENABLED, matchIfMissing = true)
@@ -88,9 +96,9 @@ public class SpringdocAutoConfiguration implements InitializingBean {
         @SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
         PageableOpenAPIConverter pageableOpenAPIConverter(ObjectMapperProvider objectMapperProvider) {
             SpringDocUtils.getConfig().replaceParameterObjectWithClass(
-                org.springframework.data.domain.Pageable.class, PageableDoc.class);
+                    org.springframework.data.domain.Pageable.class, PageableDoc.class);
             SpringDocUtils.getConfig().replaceParameterObjectWithClass(
-                org.springframework.data.domain.PageRequest.class, PageableDoc.class);
+                    org.springframework.data.domain.PageRequest.class, PageableDoc.class);
             SpringDocUtils.getConfig().addAnnotationsToIgnore(PrincipalId.class);
             return new PageableOpenAPIConverter(objectMapperProvider);
         }

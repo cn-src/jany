@@ -31,6 +31,12 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.*;
+import org.springdoc.core.models.MethodAttributes;
+import org.springdoc.core.parsers.ReturnTypeParser;
+import org.springdoc.core.properties.SpringDocConfigProperties;
+import org.springdoc.core.service.GenericResponseService;
+import org.springdoc.core.service.OperationService;
+import org.springdoc.core.utils.PropertyResolverUtils;
 import org.springframework.web.method.HandlerMethod;
 
 import java.util.*;
