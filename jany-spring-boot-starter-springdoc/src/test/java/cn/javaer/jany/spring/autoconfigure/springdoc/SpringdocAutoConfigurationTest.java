@@ -30,6 +30,7 @@ import org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfigurati
 import org.springdoc.webmvc.core.configuration.SpringDocWebMvcConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration;
@@ -37,6 +38,7 @@ import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,6 +76,8 @@ class SpringdocAutoConfigurationTest {
 
                 MockMvcAutoConfiguration.class,
                 WebMvcAutoConfiguration.class,
+                JacksonAutoConfiguration.class,
+                RepositoryRestMvcConfiguration.class,
                 DispatcherServletAutoConfiguration.class,
                 HttpMessageConvertersAutoConfiguration.class))
         .withPropertyValues("server.error.include-message=always");
