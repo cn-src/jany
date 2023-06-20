@@ -22,8 +22,9 @@ tasks.withType(Javadoc::class.java) {
     isFailOnError = false
 }
 val springBootVersion: String by project
-val okhttp3Version: String by project
-val jooqVersion: String by project
+val ebeanVersion: String by project
+val hutoolVersion: String by project
+val playtikaVersion: String by project
 dependencies {
     api(platform(project(":jany-platform")))
     annotationProcessor(platform(project(":jany-platform")))
@@ -45,10 +46,10 @@ dependencies {
 }
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion") {
-            bomProperty("okhttp3.version", "$okhttp3Version")
-            bomProperty("jooq.version", "$jooqVersion")
-        }
+        mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
+        mavenBom("io.ebean:ebean-bom:$ebeanVersion")
+        mavenBom("cn.hutool:hutool-bom:$hutoolVersion")
+        mavenBom("com.playtika.testcontainers:testcontainers-spring-boot-bom:$playtikaVersion")
     }
     generatedPomCustomization {
         enabled(false)
@@ -103,14 +104,14 @@ publishing {
             pom.withXml {
                 fun Node.first(key: String): Node? = (this.get(key) as List<Node>?)?.firstOrNull()
                 fun Node.select(predicate: (Node) -> Boolean): List<Node>? =
-                    (this.children() as List<Node>?)?.filter(predicate)
+                        (this.children() as List<Node>?)?.filter(predicate)
 
                 asNode().first("dependencyManagement")?.let {
                     asNode().remove(it)
                 }
                 val dependencies = asNode().first("dependencies")
                 dependencies?.select { "true" == it.first("optional")?.text() }
-                    ?.forEach { dependencies.remove(it) }
+                        ?.forEach { dependencies.remove(it) }
             }
         }
     }
