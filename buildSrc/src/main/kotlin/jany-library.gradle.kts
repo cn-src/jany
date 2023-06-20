@@ -25,6 +25,7 @@ val springBootVersion: String by project
 val ebeanVersion: String by project
 val hutoolVersion: String by project
 val playtikaVersion: String by project
+val testcontainersVersion: String by project
 dependencies {
     api(platform(project(":jany-platform")))
     annotationProcessor(platform(project(":jany-platform")))
@@ -50,6 +51,7 @@ dependencyManagement {
         mavenBom("io.ebean:ebean-bom:$ebeanVersion")
         mavenBom("cn.hutool:hutool-bom:$hutoolVersion")
         mavenBom("com.playtika.testcontainers:testcontainers-spring-boot-bom:$playtikaVersion")
+        mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
     }
     generatedPomCustomization {
         enabled(false)
