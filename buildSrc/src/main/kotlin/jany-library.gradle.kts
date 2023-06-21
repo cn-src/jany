@@ -20,6 +20,7 @@ java {
 tasks.withType(Javadoc::class.java) {
     isFailOnError = false
 }
+val springBootVersion: String by project
 dependencies {
     api(platform(project(":jany-platform")))
     annotationProcessor(platform(project(":jany-platform")))
@@ -39,7 +40,11 @@ dependencies {
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.skyscreamer:jsonassert")
 }
-
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
+    }
+}
 tasks.javadoc {
     (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
 }

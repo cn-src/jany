@@ -14,7 +14,6 @@ dependencies {
     api(platform("io.ebean:ebean-bom:${p["ebeanVersion"]}"))
     api(platform("org.testcontainers:testcontainers-bom:${p["testcontainersVersion"]}"))
     api(platform("com.playtika.testcontainers:testcontainers-spring-boot-bom:${p["playtikaVersion"]}"))
-    api(platform("org.springframework.boot:spring-boot-dependencies:${p["springBootVersion"]}"))
 
     constraints {
         api(project(":jany-archunit"))
