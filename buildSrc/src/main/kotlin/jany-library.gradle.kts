@@ -5,6 +5,7 @@ plugins {
     `maven-publish`
     signing
     jacoco
+    id("io.spring.dependency-management")
 }
 
 java {
