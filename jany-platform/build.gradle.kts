@@ -79,6 +79,7 @@ dependencies {
         api("org.apache.commons:commons-collections4:${p["commonsCollections4Version"]}")
         api("commons-io:commons-io:${p["commonsIoVersion"]}")
         api("org.apache.commons:commons-lang3:${p["commonsLang3Version"]}")
+        api("cn.hutool:hutool-all:${p["hutoolVersion"]}")
 
         api("com.github.kagkarlsson:db-scheduler:${p["dbSchedulerVersion"]}")
         api("com.github.kagkarlsson:db-scheduler-spring-boot-starter:${p["dbSchedulerVersion"]}")
