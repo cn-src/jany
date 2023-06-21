@@ -48,8 +48,10 @@ dependencies {
     api("com.yomahub:tlog-common:${p["tlogVersion"]}")
     api("com.yomahub:tlog-web-spring-boot-starter:${p["tlogVersion"]}")
 
-    api("io.github.sevdokimov.logviewer:log-viewer-spring-boot:${p["logviewerVersion"]}")
     api("org.redisson:redisson-spring-boot-starter:${p["redissonVersion"]}")
+    api("org.redisson:redisson-spring-data-27:${p["redissonVersion"]}")
+
+    api("io.github.sevdokimov.logviewer:log-viewer-spring-boot:${p["logviewerVersion"]}")
     api("com.taobao.arthas:arthas-spring-boot-starter:${p["arthasSpringBootVersion"]}")
     api("com.baomidou:dynamic-datasource-spring-boot-starter:${p["dynamicDatasourceVersion"]}")
     api("com.github.lianjiatech:retrofit-spring-boot-starter:${p["retrofitSpringBootVersion"]}")
@@ -64,13 +66,7 @@ dependencies {
     api("org.apache.commons:commons-collections4:${p["commonsCollections4Version"]}")
     api("commons-io:commons-io:${p["commonsIoVersion"]}")
     api("org.apache.commons:commons-lang3:${p["commonsLang3Version"]}")
-
-    // bom
-    api("cn.hutool:hutool-bom:${p["hutoolVersion"]}")
-    api("io.ebean:ebean-bom:${p["ebeanVersion"]}")
-    api("org.testcontainers:testcontainers-bom:${p["testcontainersVersion"]}")
-    api("com.playtika.testcontainers:testcontainers-spring-boot-bom:${p["playtikaVersion"]}")
-
+    api("cn.hutool:hutool-all:${p["hutoolVersion"]}")
 
     api("com.github.kagkarlsson:db-scheduler:${p["dbSchedulerVersion"]}")
     api("com.github.kagkarlsson:db-scheduler-spring-boot-starter:${p["dbSchedulerVersion"]}")

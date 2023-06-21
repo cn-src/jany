@@ -63,8 +63,10 @@ dependencies {
         api("com.yomahub:tlog-common:${p["tlogVersion"]}")
         api("com.yomahub:tlog-web-spring-boot-starter:${p["tlogVersion"]}")
 
-        api("io.github.sevdokimov.logviewer:log-viewer-spring-boot:${p["logviewerVersion"]}")
         api("org.redisson:redisson-spring-boot-starter:${p["redissonVersion"]}")
+        api("org.redisson:redisson-spring-data-27:${p["redissonVersion"]}")
+
+        api("io.github.sevdokimov.logviewer:log-viewer-spring-boot:${p["logviewerVersion"]}")
         runtime("com.taobao.arthas:arthas-spring-boot-starter:${p["arthasSpringBootVersion"]}")
         api("com.baomidou:dynamic-datasource-spring-boot-starter:${p["dynamicDatasourceVersion"]}")
         api("com.github.lianjiatech:retrofit-spring-boot-starter:${p["retrofitSpringBootVersion"]}")
