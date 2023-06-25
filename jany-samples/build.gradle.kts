@@ -75,6 +75,14 @@ dependencies {
     api("com.github.kagkarlsson:db-scheduler:${p["dbSchedulerVersion"]}")
     api("com.github.kagkarlsson:db-scheduler-spring-boot-starter:${p["dbSchedulerVersion"]}")
 
+    api("com.github.binarywang:wx-java-channel-spring-boot-starter:${p["wxJavaVersion"]}")
+    api("com.github.binarywang:wx-java-cp-spring-boot-starter:${p["wxJavaVersion"]}")
+    api("com.github.binarywang:wx-java-miniapp-spring-boot-starter:${p["wxJavaVersion"]}")
+    api("com.github.binarywang:wx-java-mp-spring-boot-starter:${p["wxJavaVersion"]}")
+    api("com.github.binarywang:wx-java-open-spring-boot-starter:${p["wxJavaVersion"]}")
+    api("com.github.binarywang:wx-java-pay-spring-boot-starter:${p["wxJavaVersion"]}")
+    api("com.github.binarywang:wx-java-qidian-spring-boot-starter:${p["wxJavaVersion"]}")
+
     api("org.mybatis:mybatis:${p["mybatisVersion"]}")
     api("org.mybatis:mybatis-spring:${p["mybatisSpringVersion"]}")
     api("org.mybatis.dynamic-sql:mybatis-dynamic-sql:${p["mybatisDynamicSqlVersion"]}")

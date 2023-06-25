@@ -144,7 +144,9 @@ dependencies {
         api("io.zonky.test.postgres:embedded-postgres-binaries-bom:${p["zonkyPostgresVersion"]}")
     }
 }
-
+javaPlatform {
+    allowDependencies()
+}
 publishing {
     publications {
         create<MavenPublication>("maven") {
