@@ -22,9 +22,6 @@ tasks.withType(Javadoc::class.java) {
     isFailOnError = false
 }
 val springBootVersion: String by project
-val playtikaVersion: String by project
-val ebeanVersion: String by project
-val hutoolVersion: String by project
 dependencies {
     api(platform(project(":jany-platform")))
     annotationProcessor(platform(project(":jany-platform")))
@@ -47,9 +44,6 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
-        mavenBom("io.ebean:ebean-bom:$ebeanVersion")
-        mavenBom("cn.hutool:hutool-bom:$hutoolVersion")
-        mavenBom("com.playtika.testcontainers:testcontainers-spring-boot-bom:$playtikaVersion")
     }
     generatedPomCustomization {
         enabled(false)

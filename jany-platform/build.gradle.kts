@@ -6,6 +6,12 @@ plugins {
 val p = project
 operator fun Project.get(prop: String) = project.property(prop)
 dependencies {
+    // bom
+    api("cn.hutool:hutool-bom:${p["hutoolVersion"]}")
+    api("io.ebean:ebean-bom:${p["ebeanVersion"]}")
+    api("org.testcontainers:testcontainers-bom:${p["testcontainersVersion"]}")
+    api("com.playtika.testcontainers:testcontainers-spring-boot-bom:${p["playtikaVersion"]}")
+
     constraints {
         api(project(":jany-archunit"))
         api(project(":jany-core"))
@@ -71,15 +77,16 @@ dependencies {
         api("commons-io:commons-io:${p["commonsIoVersion"]}")
         api("org.apache.commons:commons-lang3:${p["commonsLang3Version"]}")
 
-        // bom
-        api("cn.hutool:hutool-bom:${p["hutoolVersion"]}")
-        api("io.ebean:ebean-bom:${p["ebeanVersion"]}")
-        api("org.testcontainers:testcontainers-bom:${p["testcontainersVersion"]}")
-        api("com.playtika.testcontainers:testcontainers-spring-boot-bom:${p["playtikaVersion"]}")
-
-
         api("com.github.kagkarlsson:db-scheduler:${p["dbSchedulerVersion"]}")
         api("com.github.kagkarlsson:db-scheduler-spring-boot-starter:${p["dbSchedulerVersion"]}")
+
+        api("com.github.binarywang:wx-java-channel-spring-boot-starter:${p["wxJavaVersion"]}")
+        api("com.github.binarywang:wx-java-cp-spring-boot-starter:${p["wxJavaVersion"]}")
+        api("com.github.binarywang:wx-java-miniapp-spring-boot-starter:${p["wxJavaVersion"]}")
+        api("com.github.binarywang:wx-java-mp-spring-boot-starter:${p["wxJavaVersion"]}")
+        api("com.github.binarywang:wx-java-open-spring-boot-starter:${p["wxJavaVersion"]}")
+        api("com.github.binarywang:wx-java-pay-spring-boot-starter:${p["wxJavaVersion"]}")
+        api("com.github.binarywang:wx-java-qidian-spring-boot-starter:${p["wxJavaVersion"]}")
 
         api("org.mybatis:mybatis:${p["mybatisVersion"]}")
         api("org.mybatis:mybatis-spring:${p["mybatisSpringVersion"]}")
