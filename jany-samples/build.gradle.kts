@@ -18,6 +18,8 @@ val input = FileInputStream(file("../gradle.properties"))
 p.load(input)
 input.close()
 dependencies {
+    api("org.springframework.boot:spring-boot-starter-web:${p["springBootVersion"]}")
+
     // 注解库
     api("com.google.code.findbugs:jsr305:${p["jsr305Version"]}")
     api("org.jetbrains:annotations:${p["jetbrainsAnnotationsVersion"]}")
