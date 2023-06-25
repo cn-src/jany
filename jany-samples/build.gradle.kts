@@ -85,8 +85,6 @@ dependencies {
     api("com.github.binarywang:wx-java-pay-spring-boot-starter:${p["wxJavaVersion"]}")
     api("com.github.binarywang:wx-java-qidian-spring-boot-starter:${p["wxJavaVersion"]}")
 
-    api("org.mybatis:mybatis:${p["mybatisVersion"]}")
-    api("org.mybatis:mybatis-spring:${p["mybatisSpringVersion"]}")
     api("org.mybatis.dynamic-sql:mybatis-dynamic-sql:${p["mybatisDynamicSqlVersion"]}")
     api("org.mybatis.caches:mybatis-ehcache:${p["mybatisEhcacheVersion"]}")
     api("org.mybatis.spring.boot:mybatis-spring-boot-starter:${p["mybatisSpringBootVersion"]}")
