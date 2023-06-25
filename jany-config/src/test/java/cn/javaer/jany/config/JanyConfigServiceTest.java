@@ -20,6 +20,7 @@ import com.redis.testcontainers.junit.RedisTestContext;
 import com.redis.testcontainers.junit.RedisTestContextsSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.redisson.Redisson;
 import org.redisson.config.Config;
 import org.testcontainers.containers.GenericContainer;
@@ -34,22 +35,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JanyConfigServiceTest extends AbstractTestcontainersRedisTestBase {
 
-    private static final RedisContainer redis = new RedisContainer(DockerImageName.parse("redis:6.2.6"));
+    private static final RedisContainer redis;
+
+    static {
+        redis = new RedisContainer(RedisContainer.DEFAULT_IMAGE_NAME);
+    }
+
     private static JanyConfigService janyConfigService;
 
     @BeforeAll
     static void beforeAll() {
         Config config = new Config();
-        config.useClusterServers()
-                .addNodeAddress(String.format("redis://%s:%s", redis.getHost(), redis.getFirstMappedPort()));
+        config.useSingleServer()
+                .setAddress(String.format("redis://%s:%s", redis.getHost(), redis.getFirstMappedPort()));
         janyConfigService = new JanyConfigService(Redisson.create(config));
     }
 
-    @Test
+    @ParameterizedTest
     @RedisTestContextsSource
     void name(RedisTestContext context) {
         final Object v1 = janyConfigService.getValue("k1");
         System.out.println(v1);
+//        System.out.println(context.async().get("k1"));
     }
 
     @Override
