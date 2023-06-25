@@ -9,7 +9,7 @@ on:
       - '**.java'
       - '**/build.gradle.kts'
       - 'gradle.properties'
-    branches: [ dev, main ]
+    branches: [ dev-next ]
 
 jobs:
   build:
