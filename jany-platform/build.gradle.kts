@@ -9,6 +9,7 @@ dependencies {
     // bom
     api("cn.hutool:hutool-bom:${p["hutoolVersion"]}")
     api("io.ebean:ebean-bom:${p["ebeanVersion"]}")
+    api("cn.dev33:sa-token-bom:${p["saTokenVersion"]}")
     api("org.testcontainers:testcontainers-bom:${p["testcontainersVersion"]}")
     api("com.playtika.testcontainers:testcontainers-spring-boot-bom:${p["playtikaVersion"]}")
 
@@ -92,22 +93,6 @@ dependencies {
         api("org.mybatis.caches:mybatis-ehcache:${p["mybatisEhcacheVersion"]}")
         api("org.mybatis.spring.boot:mybatis-spring-boot-starter:${p["mybatisSpringBootVersion"]}")
         api("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:${p["mybatisSpringBootVersion"]}")
-
-        api("cn.dev33:sa-token-core:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-alone-redis:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-dao-redis:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-dao-redis-jackson:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-dialect-thymeleaf:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-oauth2:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-quick-login:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-spring-aop:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-temp-jwt:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-jwt:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-context-dubbo:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-servlet:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-spring-boot-starter:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-reactor-spring-boot-starter:${p["saTokenVersion"]}")
-        api("cn.dev33:sa-token-solon-plugin:${p["saTokenVersion"]}")
 
         api("org.mapstruct:mapstruct:${p["mapstructVersion"]}")
         api("org.mapstruct:mapstruct-processor:${p["mapstructVersion"]}")
