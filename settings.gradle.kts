@@ -1,5 +1,6 @@
 rootProject.name = "jany"
 include("jany-archunit")
+include("jany-config")
 include("jany-core")
 include("jany-ebean")
 include("jany-jackson")
