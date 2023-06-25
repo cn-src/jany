@@ -4,9 +4,10 @@ plugins {
 val jacksonVersion: String by project
 dependencies {
     api(project(":jany-core"))
-    api("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    api("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
-    api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+
+    api("com.fasterxml.jackson.core:jackson-databind:")
+    api("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
+    api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
     optionalApi("org.jooq:jooq")
 
