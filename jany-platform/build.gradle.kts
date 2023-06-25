@@ -7,11 +7,11 @@ val p = project
 operator fun Project.get(prop: String) = project.property(prop)
 dependencies {
     // bom
-    api("cn.hutool:hutool-bom:${p["hutoolVersion"]}")
-    api("io.ebean:ebean-bom:${p["ebeanVersion"]}")
-    api("cn.dev33:sa-token-bom:${p["saTokenVersion"]}")
-    api("org.testcontainers:testcontainers-bom:${p["testcontainersVersion"]}")
-    api("com.playtika.testcontainers:testcontainers-spring-boot-bom:${p["playtikaVersion"]}")
+    api(platform("cn.hutool:hutool-bom:${p["hutoolVersion"]}"))
+    api(platform("io.ebean:ebean-bom:${p["ebeanVersion"]}"))
+    api(platform("cn.dev33:sa-token-bom:${p["saTokenVersion"]}"))
+    api(platform("org.testcontainers:testcontainers-bom:${p["testcontainersVersion"]}"))
+    api(platform("com.playtika.testcontainers:testcontainers-spring-boot-bom:${p["playtikaVersion"]}"))
 
     constraints {
         api(project(":jany-archunit"))
