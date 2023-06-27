@@ -1,7 +1,8 @@
 subprojects {
+    val snapshotVersion = "next-SNAPSHOT"
     apply(plugin = "maven-publish")
     group = "cn.javaer.jany"
-    version = "next-SNAPSHOT"
+    version = snapshotVersion
 
     repositories {
         mavenCentral()
@@ -11,7 +12,7 @@ subprojects {
         repositories {
             maven {
                 if (!project.hasProperty("signing.keyId")) {
-                    version = "latest-SNAPSHOT"
+                    version = snapshotVersion
                 }
                 val releasesRepoUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
                 val snapshotsRepoUrl = uri("https://packages.aliyun.com/maven/repository/2163442-snapshot-zWHJ5H/")
