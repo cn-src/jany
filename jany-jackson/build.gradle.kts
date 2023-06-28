@@ -1,11 +1,10 @@
 plugins {
     id("jany-library")
 }
-val jacksonVersion: String by project
 dependencies {
     api(project(":jany-core"))
 
-    api("com.fasterxml.jackson.core:jackson-databind:")
+    api("com.fasterxml.jackson.core:jackson-databind")
     api("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
     api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
