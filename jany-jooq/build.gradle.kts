@@ -1,7 +1,7 @@
 plugins {
     id("jany-library")
 }
-val jooqVersion = dependencyManagement.importedProperties["jooq.version.version"]
+val jooqVersion = dependencyManagement.importedProperties["jooq.version"]
 
 dependencies {
     api(project(":jany-core"))
