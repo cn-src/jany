@@ -45,6 +45,9 @@ dependencyManagement {
     imports {
         mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
     }
+    generatedPomCustomization {
+        enabled(false)
+    }
 }
 tasks.javadoc {
     (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
