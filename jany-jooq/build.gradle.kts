@@ -1,10 +1,12 @@
 plugins {
     id("jany-library")
 }
+val jooqVersion = dependencyManagement.importedProperties["jooq.version.version"]
+
 dependencies {
     api(project(":jany-core"))
     api(project(":jany-jackson"))
-    api("org.jooq:jooq")
+    api("org.jooq:jooq:$jooqVersion")
 
     optionalApi("org.springframework:spring-beans")
     optionalApi("org.postgresql:postgresql")
