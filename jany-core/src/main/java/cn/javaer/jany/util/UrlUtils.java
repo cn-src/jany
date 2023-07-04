@@ -17,14 +17,16 @@ import cn.hutool.core.util.URLUtil;
 
 public class UrlUtils extends URLUtil {
 
-    public static String join(final String... paths) {
+    public static String join(String path, String... paths) {
         final StringBuilder sb = new StringBuilder();
-        for (final String path : paths) {
-            sb.append(path);
-            if (!path.endsWith("/")) {
+        sb.append(path);
+        for (final String p : paths) {
+            if (!p.startsWith("/")) {
                 sb.append("/");
             }
+            sb.append(p);
         }
         return sb.toString();
     }
+
 }
