@@ -19,12 +19,25 @@ public class UrlUtils extends URLUtil {
 
     public static String join(String path, String... paths) {
         final StringBuilder sb = new StringBuilder();
-        sb.append(path);
-        for (final String p : paths) {
-            if (!p.startsWith("/")) {
+        String last = path;
+        if (path == null) {
+            last = "";
+        } else {
+            sb.append(path);
+        }
+        for (String p : paths) {
+            if (p == null) {
+                p = "";
+            }
+            if (!last.endsWith("/") && !p.startsWith("/")) {
                 sb.append("/");
             }
-            sb.append(p);
+            if (last.endsWith("/") && p.startsWith("/")) {
+                sb.append(p.substring(1));
+            } else {
+                sb.append(p);
+            }
+            last = p;
         }
         return sb.toString();
     }
