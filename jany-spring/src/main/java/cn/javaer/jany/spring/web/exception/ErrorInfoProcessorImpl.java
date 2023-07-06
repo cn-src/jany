@@ -19,6 +19,7 @@ package cn.javaer.jany.spring.web.exception;
 import cn.javaer.jany.exception.ErrorCode;
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.util.IoUtils;
+import cn.javaer.jany.util.ReflectUtils;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -57,7 +58,7 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
             this.internalErrorMapping.putAll(internal);
         }
         this.errorInfoProvider = errorInfoProvider.getIfAvailable() == null ?
-            (t) -> null : errorInfoProvider.getIfAvailable();
+                (t) -> null : errorInfoProvider.getIfAvailable();
     }
 
     @Override
@@ -72,6 +73,12 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         if (t.getCause() instanceof InvalidFormatException) {
             clazz = InvalidFormatException.class;
         }
+        else if ("cn.dev33.satoken.exception.SaTokenException".equals(t.getClass().getName())) {
+            final Class<? extends Throwable> aClass = ReflectUtils.classForName("cn.dev33.satoken.exception.SaTokenException");
+            if (t.getCause().getClass().isAssignableFrom(aClass)) {
+                clazz = aClass;
+            }
+        }
         return this.getErrorInfo(clazz);
     }
 
@@ -81,22 +88,20 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         if (this.configuredErrorMapping.containsKey(clazz.getName())) {
             return this.configuredErrorMapping.get(clazz.getName());
         }
-        final ErrorCode errorCode = AnnotatedElementUtils.findMergedAnnotation(clazz,
-            ErrorCode.class);
+        final ErrorCode errorCode = AnnotatedElementUtils.findMergedAnnotation(clazz, ErrorCode.class);
         if (errorCode != null) {
             return ErrorInfo.of(errorCode);
         }
-        final ResponseStatus responseStatus = AnnotationUtils.findAnnotation(
-            clazz, ResponseStatus.class);
+        final ResponseStatus responseStatus = AnnotationUtils.findAnnotation(clazz, ResponseStatus.class);
         if (null != responseStatus) {
             return ErrorInfo.of(responseStatus.code().name(),
-                responseStatus.code().value());
+                    responseStatus.code().value());
         }
         if (internalErrorMapping.containsKey(clazz.getName())) {
             return internalErrorMapping.get(clazz.getName());
         }
         return ErrorInfo.of(HttpStatus.INTERNAL_SERVER_ERROR.name(),
-            HttpStatus.INTERNAL_SERVER_ERROR.value());
+                HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
     @Override
@@ -105,12 +110,12 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         if (e.getCause() instanceof InvalidFormatException) {
             final InvalidFormatException cause = (InvalidFormatException) e.getCause();
             return ErrorMessageSource.getMessage(
-                "RUNTIME_PARAM_INVALID_FORMAT", new Object[]{cause.getValue()});
+                    "RUNTIME_PARAM_INVALID_FORMAT", new Object[]{cause.getValue()});
         }
         if (e instanceof MethodArgumentTypeMismatchException) {
             final MethodArgumentTypeMismatchException ec = (MethodArgumentTypeMismatchException) e;
             return ErrorMessageSource.getMessage(
-                "RUNTIME_PARAM_INVALID_TYPE", new Object[]{ec.getName(), ec.getValue()});
+                    "RUNTIME_PARAM_INVALID_TYPE", new Object[]{ec.getName(), ec.getValue()});
         }
         if (e instanceof MethodArgumentNotValidException) {
             final MethodArgumentNotValidException ec = (MethodArgumentNotValidException) e;
@@ -118,9 +123,9 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
             final StringJoiner sb = new StringJoiner("; ");
             for (final FieldError fieldError : fieldErrors) {
                 final String message = ErrorMessageSource.getMessage(
-                    "RUNTIME_PARAM_INVALID", new Object[]{fieldError.getField(),
-                        fieldError.getRejectedValue(),
-                        fieldError.getDefaultMessage()});
+                        "RUNTIME_PARAM_INVALID", new Object[]{fieldError.getField(),
+                                fieldError.getRejectedValue(),
+                                fieldError.getDefaultMessage()});
                 sb.add(message);
             }
             return sb.toString();
@@ -135,8 +140,8 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
 
     private static Map<String, ErrorInfo> internalErrorMapping() {
         final Properties props = IoUtils.readProperties(
-            ErrorInfoProcessorImpl.class.getResourceAsStream("/default-errors-mappings" +
-                ".properties"));
+                ErrorInfoProcessorImpl.class.getResourceAsStream("/default-errors-mappings" +
+                        ".properties"));
         Map<String, String> mapping = new HashMap<>(props.size());
         for (String propertyName : props.stringPropertyNames()) {
             mapping.put(propertyName, props.getProperty(propertyName));
