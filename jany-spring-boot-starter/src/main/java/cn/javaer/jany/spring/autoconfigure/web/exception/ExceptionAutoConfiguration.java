@@ -26,9 +26,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.condition.SearchStrategy;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.View;
@@ -43,15 +46,19 @@ import java.util.Map;
 @ConditionalOnWebApplication
 @AutoConfigureBefore({ErrorMvcAutoConfiguration.class})
 @ConditionalOnProperty(prefix = "jany.web.exception", name = "enabled", havingValue = "true",
-    matchIfMissing = true)
+        matchIfMissing = true)
 public class ExceptionAutoConfiguration implements InitializingBean {
+
     private final ExceptionMappingProperties exceptionMappingProperties;
+
+    private final ServerProperties serverProperties;
 
     private Map<String, ErrorInfo> useMapping;
 
     public ExceptionAutoConfiguration(
-        final ExceptionMappingProperties exceptionMappingProperties) {
+            final ExceptionMappingProperties exceptionMappingProperties, ServerProperties serverProperties) {
         this.exceptionMappingProperties = exceptionMappingProperties;
+        this.serverProperties = serverProperties;
     }
 
     @Bean
@@ -74,6 +81,14 @@ public class ExceptionAutoConfiguration implements InitializingBean {
     @ConditionalOnMissingBean(value = ErrorAttributes.class, search = SearchStrategy.CURRENT)
     GlobalErrorAttributes globalErrorAttributes(final ErrorInfoProcessor errorInfoProcessor) {
         return new GlobalErrorAttributes(errorInfoProcessor);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(value = ErrorController.class, search = SearchStrategy.CURRENT)
+    public GlobalErrorController basicErrorController(ErrorAttributes errorAttributes,
+                                                      ObjectProvider<ErrorViewResolver> errorViewResolvers) {
+        return new GlobalErrorController(errorAttributes, this.serverProperties.getError(),
+                errorViewResolvers.orderedStream().toList());
     }
 
     @Bean(name = "error")

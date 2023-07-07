@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * @author cn-src
  */
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.HIGHEST_PRECEDENCE + 100)
 public class GlobalErrorAttributes extends DefaultErrorAttributes {
     private final ErrorInfoProcessor extractor;
 
