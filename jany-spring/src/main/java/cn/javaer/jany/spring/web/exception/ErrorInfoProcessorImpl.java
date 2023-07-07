@@ -41,6 +41,7 @@ import java.util.*;
  */
 public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
 
+    private static final String SA_EXCEPTION = "cn.dev33.satoken.exception.SaTokenException";
     private final Map<String, ErrorInfo> internalErrorMapping = new HashMap<>();
 
     private final Map<String, ErrorInfo> configuredErrorMapping = new HashMap<>();
@@ -73,8 +74,9 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         if (t.getCause() instanceof InvalidFormatException) {
             clazz = InvalidFormatException.class;
         }
-        else if ("cn.dev33.satoken.exception.SaTokenException".equals(t.getClass().getName())) {
-            final Class<? extends Throwable> aClass = ReflectUtils.classForName("cn.dev33.satoken.exception.SaTokenException");
+        else if (null != t.getCause() && SA_EXCEPTION.equals(t.getClass().getName())
+                && !SA_EXCEPTION.equals(t.getCause().getClass().getName())) {
+            final Class<? extends Throwable> aClass = ReflectUtils.classForName(SA_EXCEPTION);
             if (aClass.isAssignableFrom(t.getCause().getClass())) {
                 clazz = t.getCause().getClass();
             }
