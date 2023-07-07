@@ -82,7 +82,7 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
                 t = t.getCause();
             }
         }
-        final ErrorInfo errorInfo = this.getRuntimeErrorInfo(t.getClass());
+        final ErrorInfo errorInfo = this.getErrorInfo(t.getClass());
         final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
         String message = ErrorMessageSource.getMessage(errorInfo, t);
         if (StrUtil.isEmpty(message) && StrUtil.isNotEmpty(errorInfo.getMessage())) {
@@ -92,9 +92,8 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         return runtimeErrorInfo;
     }
 
-    @Override
     @NotNull
-    public ErrorInfo getRuntimeErrorInfo(@NotNull final Class<? extends Throwable> clazz) {
+    public ErrorInfo getErrorInfo(@NotNull final Class<? extends Throwable> clazz) {
         if (this.configuredErrorMapping.containsKey(clazz.getName())) {
             return this.configuredErrorMapping.get(clazz.getName());
         }

@@ -49,7 +49,7 @@ public interface ErrorInfoProcessor {
      *
      * @return ErrorInfo
      */
-    @NotNull ErrorInfo getRuntimeErrorInfo(@NotNull Class<? extends Throwable> clazz);
+    @NotNull ErrorInfo getErrorInfo(@NotNull Class<? extends Throwable> clazz);
 
     /**
      * 根据异常，获取运行时错误信息。
