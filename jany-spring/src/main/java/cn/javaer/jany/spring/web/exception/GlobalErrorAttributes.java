@@ -50,7 +50,7 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
 
         final Throwable t = super.getError(webRequest);
         if (t != null) {
-            final ErrorInfo errorInfo = extractor.getErrorInfo(t);
+            final ErrorInfo errorInfo = extractor.getRuntimeErrorInfo(t);
             final String message = ErrorMessageSource.getMessage(errorInfo, t);
             attributes.put(RuntimeErrorInfo.Fields.message, message);
             attributes.put(RuntimeErrorInfo.Fields.error, errorInfo.getError());

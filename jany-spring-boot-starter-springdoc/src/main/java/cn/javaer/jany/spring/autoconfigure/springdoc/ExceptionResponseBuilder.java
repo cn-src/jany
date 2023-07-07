@@ -77,7 +77,7 @@ class ExceptionResponseBuilder extends GenericResponseService {
         final Map<Integer, Set<ErrorInfo>> errorInfos = new LinkedHashMap<>();
         for (final Class<?> exceptionType : exceptionTypes) {
             @SuppressWarnings("unchecked")
-            final ErrorInfo errorInfo = this.errorInfoProcessor.getErrorInfo(
+            final ErrorInfo errorInfo = this.errorInfoProcessor.getRuntimeErrorInfo(
                 (Class<? extends Throwable>) exceptionType);
             if (errorInfos.containsKey(errorInfo.getStatus())) {
                 errorInfos.get(errorInfo.getStatus()).add(errorInfo);

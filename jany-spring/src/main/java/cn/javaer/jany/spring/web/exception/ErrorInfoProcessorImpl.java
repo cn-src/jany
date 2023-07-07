@@ -16,8 +16,10 @@
 
 package cn.javaer.jany.spring.web.exception;
 
+import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.exception.ErrorCode;
 import cn.javaer.jany.exception.ErrorInfo;
+import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.util.IoUtils;
 import cn.javaer.jany.util.ReflectUtils;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -64,29 +66,36 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
 
     @Override
     @NotNull
-    public ErrorInfo getErrorInfo(@NotNull final Throwable t) {
-        final ErrorInfo providerErrorInfo = errorInfoProvider.getErrorInfo(t);
+    public RuntimeErrorInfo getRuntimeErrorInfo(@NotNull Throwable t) {
+        final RuntimeErrorInfo providerErrorInfo = errorInfoProvider.getRuntimeErrorInfo(t);
         if (providerErrorInfo != null) {
             return providerErrorInfo;
         }
 
         Class<? extends Throwable> clazz = t.getClass();
         if (t.getCause() instanceof InvalidFormatException) {
-            clazz = InvalidFormatException.class;
+            t = t.getCause();
         }
         else if (null != t.getCause() && SA_EXCEPTION.equals(t.getClass().getName())
                 && !SA_EXCEPTION.equals(t.getCause().getClass().getName())) {
             final Class<? extends Throwable> aClass = ReflectUtils.classForName(SA_EXCEPTION);
             if (aClass.isAssignableFrom(t.getCause().getClass())) {
-                clazz = t.getCause().getClass();
+                t = t.getCause();
             }
         }
-        return this.getErrorInfo(clazz);
+        final ErrorInfo errorInfo = this.getRuntimeErrorInfo(clazz);
+        final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
+        String message = ErrorMessageSource.getMessage(errorInfo, t);
+        if (StrUtil.isEmpty(message) && StrUtil.isNotEmpty(errorInfo.getMessage())) {
+            message = errorInfo.getMessage();
+        }
+        runtimeErrorInfo.setMessage(message);
+        return runtimeErrorInfo;
     }
 
     @Override
     @NotNull
-    public ErrorInfo getErrorInfo(@NotNull final Class<? extends Throwable> clazz) {
+    public ErrorInfo getRuntimeErrorInfo(@NotNull final Class<? extends Throwable> clazz) {
         if (this.configuredErrorMapping.containsKey(clazz.getName())) {
             return this.configuredErrorMapping.get(clazz.getName());
         }

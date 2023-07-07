@@ -18,6 +18,7 @@ package cn.javaer.jany.spring.web.exception;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.javaer.jany.exception.ErrorInfo;
+import cn.javaer.jany.exception.RuntimeErrorInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.util.CollectionUtils;
@@ -39,7 +40,7 @@ public interface ErrorInfoProcessor {
      *
      * @return ErrorInfo
      */
-    @NotNull ErrorInfo getErrorInfo(@NotNull Throwable t);
+    @NotNull RuntimeErrorInfo getRuntimeErrorInfo(@NotNull Throwable t);
 
     /**
      * 根据异常，提供错误信息。
@@ -48,7 +49,7 @@ public interface ErrorInfoProcessor {
      *
      * @return ErrorInfo
      */
-    @NotNull ErrorInfo getErrorInfo(@NotNull Class<? extends Throwable> clazz);
+    @NotNull ErrorInfo getRuntimeErrorInfo(@NotNull Class<? extends Throwable> clazz);
 
     /**
      * 根据异常，获取运行时错误信息。
