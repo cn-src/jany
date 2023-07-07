@@ -51,11 +51,11 @@ class ExceptionResponseBuilder extends GenericResponseService {
     /**
      * Instantiates a new Generic response builder.
      *
-     * @param operationBuilder the operation builder
-     * @param returnTypeParsers the return type parsers
+     * @param operationBuilder          the operation builder
+     * @param returnTypeParsers         the return type parsers
      * @param springDocConfigProperties the spring doc config properties
-     * @param propertyResolverUtils the property resolver utils
-     * @param errorInfoProcessor ErrorInfoProcessor
+     * @param propertyResolverUtils     the property resolver utils
+     * @param errorInfoProcessor        ErrorInfoProcessor
      */
     public ExceptionResponseBuilder(final OperationService operationBuilder,
                                     final List<ReturnTypeParser> returnTypeParsers,
@@ -63,7 +63,7 @@ class ExceptionResponseBuilder extends GenericResponseService {
                                     final PropertyResolverUtils propertyResolverUtils,
                                     final ErrorInfoProcessor errorInfoProcessor) {
         super(operationBuilder, returnTypeParsers, springDocConfigProperties,
-            propertyResolverUtils);
+                propertyResolverUtils);
         this.errorInfoProcessor = errorInfoProcessor;
     }
 
@@ -72,13 +72,12 @@ class ExceptionResponseBuilder extends GenericResponseService {
     public ApiResponses build(final Components components, final HandlerMethod handlerMethod,
                               final Operation operation, final MethodAttributes methodAttributes) {
         final ApiResponses apiResponses = super.build(components, handlerMethod, operation,
-            methodAttributes);
+                methodAttributes);
         final Class<?>[] exceptionTypes = handlerMethod.getMethod().getExceptionTypes();
         final Map<Integer, Set<ErrorInfo>> errorInfos = new LinkedHashMap<>();
         for (final Class<?> exceptionType : exceptionTypes) {
-            @SuppressWarnings("unchecked")
-            final ErrorInfo errorInfo = this.errorInfoProcessor.getRuntimeErrorInfo(
-                (Class<? extends Throwable>) exceptionType);
+            @SuppressWarnings("unchecked") final ErrorInfo errorInfo = this.errorInfoProcessor.getErrorInfo(
+                    (Class<? extends Throwable>) exceptionType);
             if (errorInfos.containsKey(errorInfo.getStatus())) {
                 errorInfos.get(errorInfo.getStatus()).add(errorInfo);
             }
@@ -87,7 +86,7 @@ class ExceptionResponseBuilder extends GenericResponseService {
             }
         }
         ResolvedSchema resolvedSchema = ModelConverters.getInstance()
-            .readAllAsResolvedSchema(new AnnotatedType().type(RuntimeErrorInfo.class));
+                .readAllAsResolvedSchema(new AnnotatedType().type(RuntimeErrorInfo.class));
         for (Map.Entry<Integer, Set<ErrorInfo>> entry : errorInfos.entrySet()) {
 
             final ApiResponse response = new ApiResponse();
@@ -97,18 +96,18 @@ class ExceptionResponseBuilder extends GenericResponseService {
             for (ErrorInfo errorInfo : entry.getValue()) {
                 StringSchema ss = new StringSchema();
                 String desc = StrUtil.firstNonEmpty(errorInfo.getDoc(),
-                    ErrorMessageSource.getMessage(errorInfo),
-                    errorInfo.getMessage(),
-                    "No description");
+                        ErrorMessageSource.getMessage(errorInfo),
+                        errorInfo.getMessage(),
+                        "No description");
                 ss.description("常量值：" + errorInfo.getError() + "；" + desc);
                 errorSchemas.add(ss);
             }
             schema.required(resolvedSchema.schema.getRequired());
             schema.properties(new LinkedHashMap<>(resolvedSchema.schema.getProperties()));
             schema.addProperty(RuntimeErrorInfo.Fields.error,
-                new Schema().oneOf(errorSchemas));
+                    new Schema().oneOf(errorSchemas));
             response.setContent(new Content().addMediaType("application/json",
-                new MediaType().schema(schema)));
+                    new MediaType().schema(schema)));
             apiResponses.addApiResponse(String.valueOf(entry.getKey()), response);
         }
         return apiResponses;
