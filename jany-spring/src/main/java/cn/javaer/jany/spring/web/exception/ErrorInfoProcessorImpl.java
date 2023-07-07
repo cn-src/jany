@@ -72,7 +72,6 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
             return providerErrorInfo;
         }
 
-        Class<? extends Throwable> clazz = t.getClass();
         if (t.getCause() instanceof InvalidFormatException) {
             t = t.getCause();
         }
@@ -83,7 +82,7 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
                 t = t.getCause();
             }
         }
-        final ErrorInfo errorInfo = this.getRuntimeErrorInfo(clazz);
+        final ErrorInfo errorInfo = this.getRuntimeErrorInfo(t.getClass());
         final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
         String message = ErrorMessageSource.getMessage(errorInfo, t);
         if (StrUtil.isEmpty(message) && StrUtil.isNotEmpty(errorInfo.getMessage())) {
