@@ -75,7 +75,7 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         }
         else if ("cn.dev33.satoken.exception.SaTokenException".equals(t.getClass().getName())) {
             final Class<? extends Throwable> aClass = ReflectUtils.classForName("cn.dev33.satoken.exception.SaTokenException");
-            if (t.getCause().getClass().isAssignableFrom(aClass)) {
+            if (aClass.isAssignableFrom(t.getCause().getClass())) {
                 clazz = t.getCause().getClass();
             }
         }
