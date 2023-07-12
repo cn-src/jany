@@ -18,8 +18,6 @@ val input = FileInputStream(file("../gradle.properties"))
 p.load(input)
 input.close()
 dependencies {
-    api("org.springframework.boot:spring-boot-starter-web:${p["springBootVersion"]}")
-
     // 注解库
     api("com.google.code.findbugs:jsr305:${p["jsr305Version"]}")
     api("org.jetbrains:annotations:${p["jetbrainsAnnotationsVersion"]}")
@@ -66,13 +64,7 @@ dependencies {
     api("org.apache.commons:commons-collections4:${p["commonsCollections4Version"]}")
     api("commons-io:commons-io:${p["commonsIoVersion"]}")
     api("org.apache.commons:commons-lang3:${p["commonsLang3Version"]}")
-
-    // bom
-    api("cn.hutool:hutool-bom:${p["hutoolVersion"]}")
-    api("io.ebean:ebean-bom:${p["ebeanVersion"]}")
-    api("org.testcontainers:testcontainers-bom:${p["playtikaVersion"]}")
-    api("com.playtika.testcontainers:testcontainers-spring-boot-bom:${p["testcontainersVersion"]}")
-
+    api("cn.hutool:hutool-all:${p["hutoolVersion"]}")
 
     api("com.github.kagkarlsson:db-scheduler:${p["dbSchedulerVersion"]}")
     api("com.github.kagkarlsson:db-scheduler-spring-boot-starter:${p["dbSchedulerVersion"]}")
@@ -99,6 +91,7 @@ dependencies {
     api("com.github.gavlyukovskiy:p6spy-spring-boot-starter:${p["datasourceDecoratorVersion"]}")
     api("com.github.gavlyukovskiy:flexy-pool-spring-boot-starter:${p["datasourceDecoratorVersion"]}")
 
+    api("org.springdoc:springdoc-openapi-starter-common:${p["springdocVersion"]}")
     api("org.springdoc:springdoc-openapi-starter-webmvc-ui:${p["springdocVersion"]}")
     api("org.springdoc:springdoc-openapi-starter-webmvc-api:${p["springdocVersion"]}")
     api("org.springdoc:springdoc-openapi-starter-webflux-ui:${p["springdocVersion"]}")
