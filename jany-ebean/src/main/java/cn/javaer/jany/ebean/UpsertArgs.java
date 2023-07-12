@@ -20,8 +20,10 @@ import cn.hutool.core.lang.Assert;
 import io.ebean.DB;
 import io.ebean.Database;
 import lombok.Data;
+import lombok.Singular;
 import lombok.experimental.Accessors;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,7 +44,7 @@ public class UpsertArgs {
 
     private Set<String> updateColumns;
 
-    private String upsertKey;
+    private Set<String> upsertKeys = new HashSet<>();
 
     private UpsertMode mode;
 
@@ -56,6 +58,11 @@ public class UpsertArgs {
         final Set<String> columns = rowList.get(0).keySet();
         this.insertColumns = columns;
         this.updateColumns = columns;
+        return this;
+    }
+
+    public UpsertArgs addUpsertKey(String key) {
+        this.upsertKeys.add(key);
         return this;
     }
 }

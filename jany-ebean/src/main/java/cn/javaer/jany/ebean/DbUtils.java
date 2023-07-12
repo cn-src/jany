@@ -24,10 +24,7 @@ import io.ebean.Database;
 import io.ebean.SqlUpdate;
 
 import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -44,14 +41,14 @@ public class DbUtils {
         Assert.notEmpty(insertArgs.tableName());
 
         final SqlUpdate sql = insertArgs.db().sqlUpdate(new StringBuilder()
-            .append("INSERT INTO ")
-            .append(insertArgs.tableName())
-            .append(" (")
-            .append(String.join(",", insertArgs.columns()))
-            .append(") VALUES (")
-            .append(insertArgs.columns().stream().map(col -> ":" + col).collect(Collectors.joining(",")))
-            .append(")")
-            .toString());
+                .append("INSERT INTO ")
+                .append(insertArgs.tableName())
+                .append(" (")
+                .append(String.join(",", insertArgs.columns()))
+                .append(") VALUES (")
+                .append(insertArgs.columns().stream().map(col -> ":" + col).collect(Collectors.joining(",")))
+                .append(")")
+                .toString());
         return setParameters(sql, insertArgs.rowList());
     }
 
@@ -63,12 +60,12 @@ public class DbUtils {
         Assert.notEmpty(updateArgs.updateKey());
 
         final SqlUpdate sql = updateArgs.db().sqlUpdate(new StringBuilder()
-            .append("UPDATE ")
-            .append(updateArgs.tableName())
-            .append(" SET ")
-            .append(updateArgs.columns().stream().map(col -> col + "=:" + col).collect(Collectors.joining(",")))
-            .append(" WHERE ").append(updateArgs.updateKey()).append(" = :").append(updateArgs.updateKey())
-            .toString());
+                .append("UPDATE ")
+                .append(updateArgs.tableName())
+                .append(" SET ")
+                .append(updateArgs.columns().stream().map(col -> col + "=:" + col).collect(Collectors.joining(",")))
+                .append(" WHERE ").append(updateArgs.updateKey()).append(" = :").append(updateArgs.updateKey())
+                .toString());
         return setParameters(sql, updateArgs.rowList());
     }
 
@@ -133,7 +130,7 @@ public class DbUtils {
         final StringJoiner columns = new StringJoiner(",", "(", ")");
         final StringJoiner values = new StringJoiner(",", "(", ")");
         final StringJoiner sets = new StringJoiner(",");
-        String upsertColumnName = "";
+        final StringJoiner upsertColumns = new StringJoiner(",");
         for (Field field : persistFields) {
             final String columnName = PersistUtils.columnName(field);
             if (!field.isAnnotationPresent(UpsertInsertTransient.class)) {
@@ -144,15 +141,15 @@ public class DbUtils {
                 sets.add(columnName + "= :" + columnName);
             }
             if (field.isAnnotationPresent(UpsertKey.class)) {
-                upsertColumnName = columnName;
+                upsertColumns.add(columnName);
             }
         }
 
         StringBuilder sb = new StringBuilder("INSERT INTO ");
         sb.append(PersistUtils.tableName(entityClass))
-            .append(' ').append(columns)
-            .append(" VALUES ").append(values)
-            .append("ON CONFLICT (").append(upsertColumnName);
+                .append(' ').append(columns)
+                .append(" VALUES ").append(values)
+                .append("ON CONFLICT (").append(upsertColumns);
 
         switch (mode) {
             case UPDATE:
@@ -185,17 +182,22 @@ public class DbUtils {
         Assert.notNull(upsertArgs.mode());
 
         final StringBuilder sqlBuilder = new StringBuilder()
-            .append("INSERT INTO ")
-            .append(upsertArgs.tableName())
-            .append(" (")
-            .append(String.join(",", upsertArgs.insertColumns()))
-            .append(") VALUES (")
-            .append(upsertArgs.insertColumns().stream().map(col -> ":" + col).collect(Collectors.joining(",")))
-            .append(") ON CONFLICT (").append(upsertArgs.upsertKey());
+                .append("INSERT INTO ")
+                .append(upsertArgs.tableName())
+                .append(" (")
+                .append(String.join(",", upsertArgs.insertColumns()))
+                .append(") VALUES (")
+                .append(upsertArgs.insertColumns().stream().map(col -> ":" + col).collect(Collectors.joining(",")))
+                .append(") ON CONFLICT (");
+        final StringJoiner upsertColumns = new StringJoiner(",");
+        for (String key : upsertArgs.upsertKeys()) {
+            upsertColumns.add(key);
+        }
+        sqlBuilder.append(upsertColumns);
         switch (upsertArgs.mode()) {
             case UPDATE:
                 sqlBuilder.append(") DO UPDATE SET ").
-                    append(upsertArgs.updateColumns().stream().map(col -> col + "= :" + col).collect(Collectors.joining(",")));
+                        append(upsertArgs.updateColumns().stream().map(col -> col + "= :" + col).collect(Collectors.joining(",")));
                 break;
             case NOTHING:
                 sqlBuilder.append(") DO NOTHING");
