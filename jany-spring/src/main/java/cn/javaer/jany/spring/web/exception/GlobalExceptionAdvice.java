@@ -16,8 +16,6 @@
 
 package cn.javaer.jany.spring.web.exception;
 
-import cn.hutool.core.util.StrUtil;
-import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.WebContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,8 +43,7 @@ public class GlobalExceptionAdvice {
 
     private final ErrorInfoProcessor errorInfoProcessor;
 
-    public GlobalExceptionAdvice(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-                                 final ErrorProperties errorProperties,
+    public GlobalExceptionAdvice(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") final ErrorProperties errorProperties,
                                  final ErrorInfoProcessor errorInfoProcessor) {
         this.errorProperties = errorProperties;
         this.errorInfoProcessor = errorInfoProcessor;
@@ -56,13 +53,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler({Exception.class})
     public ResponseEntity<RuntimeErrorInfo> handleBadRequestException(
             final HttpServletRequest request, final Exception e) {
-        final ErrorInfo errorInfo = errorInfoProcessor.getErrorInfo(e);
-        final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
-        String message = ErrorMessageSource.getMessage(errorInfo, e);
-        if (StrUtil.isEmpty(message) && StrUtil.isNotEmpty(errorInfo.getMessage())) {
-            message = errorInfo.getMessage();
-        }
-        runtimeErrorInfo.setMessage(message);
+        final RuntimeErrorInfo runtimeErrorInfo = errorInfoProcessor.getRuntimeErrorInfo(e);
         this.fillInfo(runtimeErrorInfo, request, e);
         if (runtimeErrorInfo.getStatus() < 500) {
             this.logger.debug("Http status {}", runtimeErrorInfo.getStatus(), e);

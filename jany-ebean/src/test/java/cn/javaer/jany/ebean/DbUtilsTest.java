@@ -109,7 +109,7 @@ class DbUtilsTest {
             tran.commit();
         }
         try (final Transaction tran = db.beginTransaction()) {
-            DbUtils.upsert(new UpsertArgs().tableName("demo").upsertKey("id").mode(UpsertMode.UPDATE)
+            DbUtils.upsert(new UpsertArgs().tableName("demo").addUpsertKey("id").mode(UpsertMode.UPDATE)
                 .rowList(Arrays.asList(
                     Map.of("id", 1, "name", "name1_updated", "created_date", LocalDateTime.now()),
                     Map.of("id", 2, "name", "name2_updated", "created_date", LocalDateTime.now()),

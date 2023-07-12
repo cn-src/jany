@@ -1,5 +1,6 @@
 *.iml
 .idea/*
+!.idea/FoldableProjectView.xml
 !.idea/inspectionProfiles/
 .gradle
 build/

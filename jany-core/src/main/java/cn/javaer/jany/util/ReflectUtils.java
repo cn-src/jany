@@ -41,67 +41,63 @@ public class ReflectUtils extends ReflectUtil {
     /**
      * 获取所有持久化字段。非静态、非瞬态和未使用给定注解的字段。
      *
-     * @param beanClass 要处理的bean的类
+     * @param beanClass      要处理的bean的类
      * @param transientClass 将字段标记为瞬态的注释类
-     *
      * @return 持久化字段。
      */
     public static Field[] getPersistFields(Class<?> beanClass,
                                            Class<? extends Annotation> transientClass) throws SecurityException {
         return ReflectUtil.getFields(beanClass,
-            field -> ClassUtils.isNotStatic(field)
-                && ClassUtils.isNotTransient(field)
-                && !field.isAnnotationPresent(transientClass));
+                field -> ClassUtils.isNotStatic(field)
+                        && ClassUtils.isNotTransient(field)
+                        && !field.isAnnotationPresent(transientClass));
     }
 
     /**
      * 获取指定 class 中标注了指定注解的字段的名称。
      *
-     * @param clazz class
+     * @param clazz    class
      * @param annClazz 注解
-     *
      * @return 字段名称
      */
     public static Optional<String> fieldName(Class<?> clazz,
                                              Class<? extends Annotation> annClazz) {
         return Arrays.stream(ReflectUtil.getFields(clazz))
-            .filter(it -> it.isAnnotationPresent(annClazz))
-            .findFirst().map(Field::getName);
+                .filter(it -> it.isAnnotationPresent(annClazz))
+                .findFirst().map(Field::getName);
     }
 
     /**
      * 获取指定 class 中标注了指定注解的字段的名称。
      *
-     * @param clazz class
+     * @param clazz    class
      * @param annClazz 注解
-     *
      * @return 字段名称
      */
     public static Set<String> fieldNames(Class<?> clazz, Class<? extends Annotation> annClazz) {
         return Arrays.stream(ReflectUtil.getFields(clazz))
-            .filter(it -> it.isAnnotationPresent(annClazz))
-            .map(Field::getName)
-            .collect(Collectors.toSet());
+                .filter(it -> it.isAnnotationPresent(annClazz))
+                .map(Field::getName)
+                .collect(Collectors.toSet());
     }
 
     public static Optional<Field> fieldByAnnotation(Class<?> clazz,
                                                     Class<? extends Annotation> annClazz) {
         return Arrays.stream(ReflectUtil.getFields(clazz))
-            .filter(it -> it.isAnnotationPresent(annClazz))
-            .findFirst();
+                .filter(it -> it.isAnnotationPresent(annClazz))
+                .findFirst();
     }
 
     /**
      * 获取字段对应的 Getter 方法名称.
      *
      * @param field the field
-     *
      * @return string
      */
     public static String toGetterName(final Field field) {
         return boolean.class.equals(field.getType()) ?
-            "is" + StrUtils.upperFirst(field.getName()) :
-            "get" + StrUtils.upperFirst(field.getName());
+                "is" + StrUtils.upperFirst(field.getName()) :
+                "get" + StrUtils.upperFirst(field.getName());
     }
 
     /**
@@ -109,14 +105,13 @@ public class ReflectUtils extends ReflectUtil {
      *
      * @param fieldName the field name
      * @param fieldType the field type
-     *
      * @return string
      */
     public static String toGetterName(final String fieldName,
                                       final String fieldType) {
         return boolean.class.getName().equals(fieldType) ?
-            "is" + StrUtils.upperFirst(fieldName) :
-            "get" + StrUtils.upperFirst(fieldName);
+                "is" + StrUtils.upperFirst(fieldName) :
+                "get" + StrUtils.upperFirst(fieldName);
     }
 
     /**
@@ -124,7 +119,6 @@ public class ReflectUtils extends ReflectUtil {
      *
      * @param clazz the clazz
      * @param field the field
-     *
      * @return the method handle
      */
     public static Optional<MethodHandle> findGetterByField(final Class<?> clazz,
@@ -132,7 +126,7 @@ public class ReflectUtils extends ReflectUtil {
 
         try {
             return Optional.of(MethodHandles.lookup()
-                .findVirtual(clazz, toGetterName(field), MethodType.methodType(field.getType())));
+                    .findVirtual(clazz, toGetterName(field), MethodType.methodType(field.getType())));
         }
         catch (final NoSuchMethodException e) {
             return Optional.empty();
@@ -146,7 +140,23 @@ public class ReflectUtils extends ReflectUtil {
      * 获取 class.
      *
      * @param className the class name
+     * @return the class
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> Class<T> classForName(final String className) {
+        Assert.notEmpty(className);
+        try {
+            return (Class<T>) Class.forName(className);
+        }
+        catch (ClassNotFoundException e) {
+            throw new UtilException(e);
+        }
+    }
+
+    /**
+     * 获取 class.
      *
+     * @param className the class name
      * @return the class
      */
     public static Optional<Class<?>> getClass(final String className) {

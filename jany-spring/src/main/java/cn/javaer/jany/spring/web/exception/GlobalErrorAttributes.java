@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * @author cn-src
  */
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.HIGHEST_PRECEDENCE + 100)
 public class GlobalErrorAttributes extends DefaultErrorAttributes {
     private final ErrorInfoProcessor extractor;
 
@@ -50,9 +50,8 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
 
         final Throwable t = super.getError(webRequest);
         if (t != null) {
-            final ErrorInfo errorInfo = extractor.getErrorInfo(t);
-            final String message = ErrorMessageSource.getMessage(errorInfo, t);
-            attributes.put(RuntimeErrorInfo.Fields.message, message);
+            final RuntimeErrorInfo errorInfo = extractor.getRuntimeErrorInfo(t);
+            attributes.put(RuntimeErrorInfo.Fields.message, errorInfo.getMessage());
             attributes.put(RuntimeErrorInfo.Fields.error, errorInfo.getError());
             attributes.put(RuntimeErrorInfo.Fields.status, errorInfo.getStatus());
         }

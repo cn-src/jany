@@ -35,14 +35,14 @@ import java.util.Map;
 class ErrorView implements View {
 
     private static final MediaType TEXT_HTML_UTF8 =
-        new MediaType("text", "html", StandardCharsets.UTF_8);
+            new MediaType("text", "html", StandardCharsets.UTF_8);
 
     private static final Log logger = LogFactory.getLog(ErrorView.class);
 
     @Override
     public void render(final Map<String, ?> model, final @NotNull HttpServletRequest request,
                        final HttpServletResponse response)
-        throws Exception {
+            throws Exception {
         if (response.isCommitted()) {
             final String message = this.getMessage(model);
             logger.error(message);
@@ -58,22 +58,24 @@ class ErrorView implements View {
             response.setContentType(this.getContentType());
         }
         builder.append("<!DOCTYPE html><html lang=\"zh\"><head><meta charset=\"UTF-8\"><title>")
-            .append(this.htmlEscape(model.get("status"))).append(' ')
-            .append(this.htmlEscape(message))
-            .append("</title><style> ul li {line-height: 30px;}</style></head>" +
-                "<body style=\"padding-left: 10px\"><h1>错误页面 ")
-            .append(this.htmlEscape(model.get("status"))).append(' ')
-            .append(this.htmlEscape(message))
-            .append("</h1><ul style=\"list-style: none;padding: 0;\"><li>请求路径：")
-            .append(this.htmlEscape(model.get("path")))
-            .append("</li><li>请求时间：")
-            .append(this.htmlEscape(timestamp))
-            .append("</li><li>错误代码：")
-            .append(this.htmlEscape(model.get("error")));
+                .append(this.htmlEscape(model.get("status"))).append(' ')
+                .append(this.htmlEscape(message))
+                .append("</title><style> ul li {line-height: 30px;}</style></head>" +
+                        "<body style=\"padding-left: 10px\"><h1>错误页面 ")
+                .append(this.htmlEscape(model.get("status")))
+                .append("</h1><ul style=\"list-style: none;padding: 0;\"><li>请求路径：")
+                .append(this.htmlEscape(model.get("path")))
+                .append("</li><li>请求时间：")
+                .append(this.htmlEscape(timestamp))
+                .append("</li><li>错误代码：")
+                .append(this.htmlEscape(model.get("error")))
+                .append("</li><li>错误消息：")
+                .append(this.htmlEscape(message));
+        ;
 
         if (requestId != null) {
             builder.append("</li><li>唯一标识：")
-                .append(this.htmlEscape(requestId));
+                    .append(this.htmlEscape(requestId));
         }
         builder.append("</li></ul>");
         if (trace != null) {
