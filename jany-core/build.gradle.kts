@@ -6,6 +6,8 @@ dependencies {
     api("cn.hutool:hutool-core:$hutoolVersion")
 
     optionalApi("cn.hutool:hutool-crypto")
+    optionalApi("cn.hutool:hutool-extra")
+    optionalApi("jakarta.servlet:jakarta.servlet-api")
     optionalApi("org.springdoc:springdoc-openapi-starter-common")
     optionalApi("org.springframework.data:spring-data-commons")
     compileOnly("com.fasterxml.jackson.core:jackson-annotations")
