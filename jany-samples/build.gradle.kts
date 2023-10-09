@@ -3,7 +3,7 @@ import java.util.*
 
 plugins {
     id("java-library")
-    id("com.github.ben-manes.versions") version "0.48.0"
+    id("com.github.ben-manes.versions") version "0.49.0"
     id("io.spring.dependency-management") version "1.1.3"
 }
 
