@@ -43,7 +43,7 @@ class ErrorMessageSourceTest {
     void getMessage_SpEL() {
 
         final String message = ErrorMessageSource.getMessage(ErrorInfo.of401("$SA_TOKEN_NOT_LOGIN"),
-            NotLoginException.newInstance("loginType", NotLoginException.BE_REPLACED, "token"));
+                NotLoginException.newInstance("loginType", NotLoginException.BE_REPLACED, "message", "token"));
         assertThat(message).isEqualTo("您已在别处登录");
     }
 
@@ -51,8 +51,8 @@ class ErrorMessageSourceTest {
     void getMessage_SpEL2() {
 
         final String message = ErrorMessageSource.getMessage(ErrorInfo.of401(
-                "$LOGIN_ERROR_BAD_CREDENTIALS"),
-            new BadCredentialsException(3));
+                        "$LOGIN_ERROR_BAD_CREDENTIALS"),
+                new BadCredentialsException(3));
         System.out.println(message);
 //        assertThat(message).isEqualTo("您已在别处登录");
     }
