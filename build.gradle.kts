@@ -1,7 +1,7 @@
 subprojects {
     apply(plugin = "maven-publish")
     group = "cn.javaer.jany"
-    version = "latest-SNAPSHOT"
+    version = "0.5.0"
 
     repositories {
         mavenCentral()
@@ -21,7 +21,8 @@ subprojects {
                         username = System.getenv("aliyunRepoUsername")
                         password = System.getenv("aliyunRepoPassword")
                     }
-                } else {
+                }
+                else {
                     url = releasesRepoUrl
                     credentials {
                         username = providers.gradleProperty("ossrhRepoUsername").getOrElse("")
