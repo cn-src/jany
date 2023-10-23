@@ -67,7 +67,7 @@ dependencies {
         api("com.github.lianjiatech:retrofit-spring-boot-starter:${p["retrofitSpringBootVersion"]}")
         api("org.ssssssss:magic-api-spring-boot-starter:${p["magicApiVersion"]}")
         api("cloud.tianai.captcha:tianai-captcha-springboot-starter:${p["tianaiCaptchaVersion"]}")
-        api("cn.xuyanwu:spring-file-storage:${p["springFileStorageVersion"]}")
+        api("org.dromara.x-file-storage:x-file-storage-spring:${p["xFileStorageVersion"]}")
         api("org.lionsoul:ip2region:${p["ip2regionVersion"]}")
 
         // 工具库
