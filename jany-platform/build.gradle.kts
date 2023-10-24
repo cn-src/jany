@@ -34,9 +34,6 @@ dependencies {
         api("com.google.code.findbugs:jsr305:${p["jsr305Version"]}")
         api("org.jetbrains:annotations:${p["jetbrainsAnnotationsVersion"]}")
 
-        // 序列化
-        api("com.fasterxml.jackson.datatype:jackson-datatype-eclipse-collections:${p["jacksonDatatypesCollectionsVersion"]}")
-
         // 模板引擎
         api("com.github.jknack:handlebars:${p["handlebarsVersion"]}")
         api("com.deepoove:poi-tl:${p["poiTlVersion"]}")
@@ -47,15 +44,10 @@ dependencies {
         api("io.github.classgraph:classgraph:${p["classgraphVersion"]}")
         // SQL 日志统一输出工具
         api("p6spy:p6spy:${p["p6spyVersion"]}")
-        // 集合查询引擎
-        api("com.googlecode.cqengine:cqengine:${p["cqengineVersion"]}")
         // 对象存储服务-客户端
         api("io.minio:minio:${p["minioVersion"]}")
         // Java 架构检测框架
         api("com.tngtech.archunit:archunit-junit5:${p["archunitVersion"]}")
-        // web 反向代理
-        api("com.github.mkopylec:charon-spring-webmvc:${p["charonVersion"]}")
-        api("com.github.mkopylec:charon-spring-webflux:${p["charonVersion"]}")
         // 日志追踪
         api("com.yomahub:tlog-common:${p["tlogVersion"]}")
         api("com.yomahub:tlog-web-spring-boot-starter:${p["tlogVersion"]}")
@@ -63,7 +55,6 @@ dependencies {
         api("io.github.sevdokimov.logviewer:log-viewer-spring-boot:${p["logviewerVersion"]}")
         api("org.redisson:redisson-spring-boot-starter:${p["redissonVersion"]}")
         runtime("com.taobao.arthas:arthas-spring-boot-starter:${p["arthasSpringBootVersion"]}")
-        api("com.baomidou:dynamic-datasource-spring-boot-starter:${p["dynamicDatasourceVersion"]}")
         api("com.github.lianjiatech:retrofit-spring-boot-starter:${p["retrofitSpringBootVersion"]}")
         api("org.ssssssss:magic-api-spring-boot-starter:${p["magicApiVersion"]}")
         api("cloud.tianai.captcha:tianai-captcha-springboot-starter:${p["tianaiCaptchaVersion"]}")
@@ -72,10 +63,6 @@ dependencies {
 
         // 工具库
         api("com.google.guava:guava:${p["guavaVersion"]}")
-        api("org.eclipse.collections:eclipse-collections:${p["eclipseCollectionsVersion"]}")
-        api("org.apache.commons:commons-collections4:${p["commonsCollections4Version"]}")
-        api("commons-io:commons-io:${p["commonsIoVersion"]}")
-        api("org.apache.commons:commons-lang3:${p["commonsLang3Version"]}")
         api("cn.hutool:hutool-all:${p["hutoolVersion"]}")
 
         api("com.github.kagkarlsson:db-scheduler:${p["dbSchedulerVersion"]}")
@@ -89,16 +76,8 @@ dependencies {
         api("com.github.binarywang:wx-java-pay-spring-boot-starter:${p["wxJavaVersion"]}")
         api("com.github.binarywang:wx-java-qidian-spring-boot-starter:${p["wxJavaVersion"]}")
 
-        api("org.mybatis.dynamic-sql:mybatis-dynamic-sql:${p["mybatisDynamicSqlVersion"]}")
-        api("org.mybatis.caches:mybatis-ehcache:${p["mybatisEhcacheVersion"]}")
-        api("org.mybatis.spring.boot:mybatis-spring-boot-starter:${p["mybatisSpringBootVersion"]}")
-        api("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:${p["mybatisSpringBootVersion"]}")
-
         api("org.mapstruct:mapstruct:${p["mapstructVersion"]}")
         api("org.mapstruct:mapstruct-processor:${p["mapstructVersion"]}")
-
-        api("org.apache.shardingsphere:shardingsphere-jdbc-core:${p["shardingsphereVersion"]}")
-        api("org.apache.shardingsphere.elasticjob:elasticjob-lite-core:${p["elasticjobVersion"]}")
 
         api("com.github.gavlyukovskiy:p6spy-spring-boot-starter:${p["datasourceDecoratorVersion"]}")
         api("com.github.gavlyukovskiy:flexy-pool-spring-boot-starter:${p["datasourceDecoratorVersion"]}")
@@ -108,11 +87,6 @@ dependencies {
         api("org.springdoc:springdoc-openapi-starter-webmvc-api:${p["springdocVersion"]}")
         api("org.springdoc:springdoc-openapi-starter-webflux-ui:${p["springdocVersion"]}")
         api("org.springdoc:springdoc-openapi-starter-webflux-api:${p["springdocVersion"]}")
-
-        api("io.vavr:vavr:${p["vavrVersion"]}")
-        api("io.vavr:vavr-jackson:${p["vavrJacksonVersion"]}")
-        api("io.vavr:vavr-test:${p["vavrVersion"]}")
-        api("io.vavr:vavr-match:${p["vavrVersion"]}")
 
         api("de.codecentric:spring-boot-admin-server:${p["springBootAdminVersion"]}")
         api("de.codecentric:spring-boot-admin-server-ui:${p["springBootAdminVersion"]}")
