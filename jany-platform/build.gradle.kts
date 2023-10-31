@@ -19,7 +19,7 @@ dependencies {
         api(project(":jany-ebean"))
         api(project(":jany-jackson"))
         api(project(":jany-jooq"))
-        api(project(":jany-storage"))
+//        api(project(":jany-storage"))
         api(project(":jany-p6spy"))
         api(project(":jany-spring"))
         api(project(":jany-spring-boot-starter"))
