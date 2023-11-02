@@ -16,9 +16,9 @@
 
 package cn.javaer.jany.spring.util;
 
-import cn.hutool.core.util.ZipUtil;
-import cn.hutool.poi.excel.ExcelWriter;
 import com.deepoove.poi.XWPFTemplate;
+import org.dromara.hutool.core.compress.ZipUtil;
+import org.dromara.hutool.poi.excel.ExcelWriter;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -45,34 +45,31 @@ public interface ResponseUtils {
      * 进行 GZIP压缩，并以 GZIP 响应.
      *
      * @param body body
-     *
      * @return bytes
      */
     static ResponseEntity<byte[]> jsonGzipCompress(@NonNull final String body) {
 
-        return jsonGzip(ZipUtil.gzip(body, "UTF-8"));
+        return jsonGzip(ZipUtil.gzip(body, StandardCharsets.UTF_8));
     }
 
     /**
      * GZIP 响应.
      *
      * @param body body
-     *
      * @return bytes
      */
     static ResponseEntity<byte[]> jsonGzip(final byte[] body) {
 
         return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .header(HttpHeaders.CONTENT_ENCODING, "gzip")
-            .body(body);
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.CONTENT_ENCODING, "gzip")
+                .body(body);
     }
 
     /**
      * 资源响应，文件下载.
      *
      * @param resource 资源
-     *
      * @return 资源
      */
     static ResponseEntity<Resource> resource(@NonNull final Resource resource) {
@@ -84,7 +81,6 @@ public interface ResponseUtils {
      *
      * @param resource 资源
      * @param filename 文件名
-     *
      * @return 资源
      */
     static ResponseEntity<Resource> resource(@NonNull final String filename,
@@ -96,18 +92,17 @@ public interface ResponseUtils {
         file = URLEncoder.encode(filename, StandardCharsets.UTF_8).replace("\\+", "%20");
 
         return ResponseEntity.ok()
-            .contentType(MediaType.APPLICATION_OCTET_STREAM)
-            .header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file + "\"")
-            .body(resource);
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + file + "\"")
+                .body(resource);
     }
 
     /**
      * 资源响应，文件下载，基于 hutool ExcelWriter，会关闭 ExcelWriter 流.
      *
      * @param excelWriter hutool ExcelWriter
-     * @param filename 文件名
-     *
+     * @param filename    文件名
      * @return 资源
      */
     static ResponseEntity<Resource> resource(@NonNull final String filename,
@@ -130,7 +125,6 @@ public interface ResponseUtils {
      *
      * @param template poi-tl XWPFTemplate
      * @param filename 文件名
-     *
      * @return 资源
      */
     static ResponseEntity<Resource> resource(@NonNull final String filename,
@@ -149,9 +143,8 @@ public interface ResponseUtils {
     /**
      * 资源响应，文件下载.
      *
-     * @param in InputStream
+     * @param in       InputStream
      * @param filename 文件名
-     *
      * @return 资源
      */
     static ResponseEntity<Resource> resource(@NonNull final String filename,

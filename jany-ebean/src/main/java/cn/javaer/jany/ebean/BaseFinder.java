@@ -16,15 +16,15 @@
 
 package cn.javaer.jany.ebean;
 
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ClassUtil;
-import cn.hutool.core.util.ReflectUtil;
 import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
 import io.ebean.Finder;
 import io.ebean.PagedList;
 import io.ebean.Query;
+import org.dromara.hutool.core.lang.Assert;
+import org.dromara.hutool.core.reflect.ClassUtil;
+import org.dromara.hutool.core.reflect.FieldUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class BaseFinder<I, T> extends Finder<I, T> {
         final Class<?> clazz = ClassUtil.getTypeArgument(this.getClass(), 1);
         // 必须实现继承才能反射范型
         Assert.isFalse(Object.class.equals(clazz), "Type argument must be not Object");
-        ReflectUtil.setFieldValue(this, "type", clazz);
+        FieldUtil.setFieldValue(this, "type", clazz);
     }
 
     @Override

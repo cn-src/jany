@@ -16,13 +16,14 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
+
+import org.dromara.hutool.core.array.ArrayUtil;
+import org.dromara.hutool.core.util.ObjUtil;
 
 /**
  * @author cn-src
  */
-public class ObjectUtils extends ObjectUtil {
+public class ObjectUtils extends ObjUtil {
 
     /**
      * 如果源对象与所有对象都相等，则返回 true

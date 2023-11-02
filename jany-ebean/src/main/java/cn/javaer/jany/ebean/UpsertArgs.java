@@ -16,12 +16,11 @@
 
 package cn.javaer.jany.ebean;
 
-import cn.hutool.core.lang.Assert;
 import io.ebean.DB;
 import io.ebean.Database;
 import lombok.Data;
-import lombok.Singular;
 import lombok.experimental.Accessors;
+import org.dromara.hutool.core.lang.Assert;
 
 import java.util.HashSet;
 import java.util.List;

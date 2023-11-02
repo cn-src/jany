@@ -13,7 +13,8 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.util.URLUtil;
+
+import org.dromara.hutool.core.net.url.URLUtil;
 
 public class UrlUtils extends URLUtil {
 
@@ -22,7 +23,8 @@ public class UrlUtils extends URLUtil {
         String last = path;
         if (path == null) {
             last = "";
-        } else {
+        }
+        else {
             sb.append(path);
         }
         for (String p : paths) {
@@ -34,7 +36,8 @@ public class UrlUtils extends URLUtil {
             }
             if (last.endsWith("/") && p.startsWith("/")) {
                 sb.append(p.substring(1));
-            } else {
+            }
+            else {
                 sb.append(p);
             }
             last = p;

@@ -16,15 +16,15 @@
 
 package cn.javaer.jany.ebean;
 
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.lang.Opt;
-import cn.hutool.core.map.WeakConcurrentMap;
-import cn.hutool.core.util.ReflectUtil;
 import cn.javaer.jany.util.ClassUtils;
 import cn.javaer.jany.util.StrUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import org.dromara.hutool.core.lang.Assert;
+import org.dromara.hutool.core.lang.Opt;
+import org.dromara.hutool.core.map.WeakConcurrentMap;
+import org.dromara.hutool.core.reflect.FieldUtil;
 
 import java.lang.reflect.Field;
 
@@ -37,24 +37,24 @@ public class PersistUtils {
 
     public static Field[] getPersistFields(Class<?> entityClass) {
         Assert.notNull(entityClass);
-        return FIELDS_CACHE.computeIfAbsent(entityClass, () -> ReflectUtil.getFields(entityClass,
-            field -> !field.getName().startsWith("_ebean")
-                && ClassUtils.isNotStatic(field)
-                && ClassUtils.isNotTransient(field)
-                && !field.isAnnotationPresent(Transient.class)));
+        return FIELDS_CACHE.computeIfAbsent(entityClass, (k) -> FieldUtil.getFields(entityClass,
+                field -> !field.getName().startsWith("_ebean")
+                        && ClassUtils.isNotStatic(field)
+                        && ClassUtils.isNotTransient(field)
+                        && !field.isAnnotationPresent(Transient.class)));
     }
 
     public static String tableName(Class<?> entityClass) {
         return Opt.ofNullable(entityClass.getAnnotation(Table.class))
-            .map(Table::name)
-            .filter(StrUtils::isNotEmpty)
-            .orElse(StrUtils.toSnakeLower(entityClass.getSimpleName()));
+                .map(Table::name)
+                .filter(StrUtils::isNotEmpty)
+                .orElse(StrUtils.toSnakeLower(entityClass.getSimpleName()));
     }
 
     public static String columnName(Field field) {
         return Opt.ofNullable(field.getAnnotation(Column.class))
-            .map(Column::name)
-            .filter(StrUtils::isNotEmpty)
-            .orElse(StrUtils.toSnakeLower(field.getName()));
+                .map(Column::name)
+                .filter(StrUtils::isNotEmpty)
+                .orElse(StrUtils.toSnakeLower(field.getName()));
     }
 }

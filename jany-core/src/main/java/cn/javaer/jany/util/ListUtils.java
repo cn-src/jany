@@ -16,8 +16,8 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.ArrayUtil;
+import org.dromara.hutool.core.array.ArrayUtil;
+import org.dromara.hutool.core.collection.ListUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -32,24 +32,23 @@ public class ListUtils extends ListUtil {
      * 如果对象是集合、数组或可迭代对象，则返回其元素列表；否则，返回包含该对象的列表。
      *
      * @param obj 要转换为列表的对象。
-     *
      * @return 对象列表。
      */
     @Nullable
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static <T> List<T> toList(Object obj) {
         if (obj == null) {
             return null;
         }
         if (obj instanceof Collection) {
-            return ListUtil.toList((Collection) obj);
+            return ListUtil.of((Collection) obj);
         }
         if (obj.getClass().isArray()) {
-            return ListUtil.toList((T[]) ArrayUtil.wrap(obj));
+            return ListUtil.of((T[]) ArrayUtil.wrap(obj));
         }
         if (obj instanceof Iterable) {
-            return ListUtil.toList((Iterable) obj);
+            return ListUtil.of((Iterable) obj);
         }
-        return ListUtil.toList((T) obj);
+        return ListUtil.of((T) obj);
     }
 }

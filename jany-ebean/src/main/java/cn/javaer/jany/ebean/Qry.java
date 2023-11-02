@@ -16,14 +16,14 @@
 
 package cn.javaer.jany.ebean;
 
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ObjectUtil;
 import cn.javaer.jany.model.Page;
 import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
 import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.typequery.TQRootBean;
+import org.dromara.hutool.core.lang.Assert;
+import org.dromara.hutool.core.util.ObjUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public class Qry<T> {
     }
 
     public <V> Qry<T> opt(@NotNull final Consumer<V> fn, final V value) {
-        if (ObjectUtil.isEmpty(value)) {
+        if (ObjUtil.isEmpty(value)) {
             return this;
         }
         fn.accept(value);
@@ -58,7 +58,7 @@ public class Qry<T> {
     }
 
     public <V> Qry<T> opt(@NotNull final BiConsumer<V, V> fn, final V value1, final V value2) {
-        if (ObjectUtil.isEmpty(value1) || ObjectUtil.isEmpty(value2)) {
+        if (ObjUtil.isEmpty(value1) || ObjUtil.isEmpty(value2)) {
             return this;
         }
         fn.accept(value1, value2);
@@ -119,7 +119,7 @@ public class Qry<T> {
         private final Qry<T> qry;
 
         public Step(Qry<T> qry, V value) {
-            this.ignore = ObjectUtil.isEmpty(value);
+            this.ignore = ObjUtil.isEmpty(value);
             this.value = value;
             this.qry = qry;
         }

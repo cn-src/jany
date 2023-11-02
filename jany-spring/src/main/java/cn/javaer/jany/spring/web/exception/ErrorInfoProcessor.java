@@ -16,9 +16,9 @@
 
 package cn.javaer.jany.spring.web.exception;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
+import org.dromara.hutool.core.array.ArrayUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.util.CollectionUtils;

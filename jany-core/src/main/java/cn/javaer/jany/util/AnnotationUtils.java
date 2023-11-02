@@ -16,11 +16,11 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.annotation.AnnotationUtil;
-import cn.hutool.core.lang.Opt;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.ReflectUtil;
+import org.dromara.hutool.core.annotation.AnnotationUtil;
+import org.dromara.hutool.core.array.ArrayUtil;
+import org.dromara.hutool.core.lang.Opt;
+import org.dromara.hutool.core.reflect.method.MethodUtil;
+import org.dromara.hutool.core.util.ObjUtil;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -47,17 +47,17 @@ public class AnnotationUtils extends AnnotationUtil {
     }
 
     public static boolean hasMergedAnnotation(
-        final Class<? extends Annotation> clazz, final Annotation... annotations) {
+            final Class<? extends Annotation> clazz, final Annotation... annotations) {
         return hasMergedAnnotation(clazz, Arrays.asList(annotations));
     }
 
     public static boolean hasMergedAnnotation(
-        final Class<? extends Annotation> clazz, final AnnotatedElement element) {
+            final Class<? extends Annotation> clazz, final AnnotatedElement element) {
         return hasMergedAnnotation(clazz, element.getAnnotations());
     }
 
     public static boolean hasMergedAnnotation(
-        final Class<? extends Annotation> clazz, Iterable<Annotation> annotations) {
+            final Class<? extends Annotation> clazz, Iterable<Annotation> annotations) {
         if (!annotations.iterator().hasNext()) {
             return false;
         }
@@ -77,9 +77,8 @@ public class AnnotationUtils extends AnnotationUtil {
      * 注意：仅支持一层元注解，不递归查找。
      *
      * @param clazz 要获取的注解类型
-     * @param ann 注解的实例
-     * @param <T> T
-     *
+     * @param ann   注解的实例
+     * @param <T>   T
      * @return 返回注解实例
      */
     @SuppressWarnings({"unchecked"})
@@ -93,13 +92,13 @@ public class AnnotationUtils extends AnnotationUtil {
             return Opt.empty();
         }
         final Map<String, Object> annValues = getAnnotationValueMap(ann);
-        if (annValues.values().stream().allMatch(ObjectUtil::isEmpty)) {
+        if (annValues.values().stream().allMatch(ObjUtil::isEmpty)) {
             return Opt.of(meta);
         }
         final Map<String, Object> metaValues = getAnnotationValueMap(meta);
 
         for (Map.Entry<String, Object> entry : annValues.entrySet()) {
-            if (ObjectUtil.isNotEmpty(entry.getValue()) && metaValues.containsKey(entry.getKey())) {
+            if (ObjUtil.isNotEmpty(entry.getValue()) && metaValues.containsKey(entry.getKey())) {
                 metaValues.put(entry.getKey(), entry.getValue());
             }
         }
@@ -107,28 +106,26 @@ public class AnnotationUtils extends AnnotationUtil {
         InvocationHandler handler = new SynthesizedAnnotationInvocationHandler(meta, metaValues);
         Class<?>[] exposedInterfaces = new Class<?>[]{meta.annotationType()};
         return Opt.of((T) Proxy.newProxyInstance(meta.getClass().getClassLoader(),
-            exposedInterfaces, handler));
+                exposedInterfaces, handler));
     }
 
     public static <T extends Annotation> Opt<T> findMergedAnnotation(
-        final Class<T> clazz, final Stream<Annotation> annotations) {
+            final Class<T> clazz, final Stream<Annotation> annotations) {
 
         return annotations
-            .filter(Objects::nonNull)
-            .map(ann -> findMergedAnnotation(clazz, ann))
-            .filter(Opt::isPresent)
-            .findFirst().orElse(Opt.empty());
+                .filter(Objects::nonNull)
+                .map(ann -> findMergedAnnotation(clazz, ann))
+                .filter(Opt::isPresent)
+                .findFirst().orElse(Opt.empty());
     }
 
     /**
      * 查找合成的注解实例，返回第一个符合的注解。
      *
-     * @param clazz 要获取的注解类型
+     * @param clazz       要获取的注解类型
      * @param annotations 注解实例
-     * @param <T> T
-     *
+     * @param <T>         T
      * @return 返回注解实例
-     *
      * @see #findMergedAnnotation(Class, Annotation)
      */
     public static <T extends Annotation> Opt<T> findMergedAnnotation(final Class<T> clazz,
@@ -140,23 +137,21 @@ public class AnnotationUtils extends AnnotationUtil {
     }
 
     public static <T extends Annotation> Opt<T> findMergedAnnotation(
-        final Class<T> clazz, Iterable<Annotation> annotations) {
+            final Class<T> clazz, Iterable<Annotation> annotations) {
         return findMergedAnnotation(clazz, StreamSupport.stream(annotations.spliterator(), false));
     }
 
     /**
      * 查找合成的注解实例，返回第一个符合的注解。
      *
-     * @param <T> T
+     * @param <T>     T
      * @param element 被注解的元素
-     * @param clazz 要获取的注解类型
-     *
+     * @param clazz   要获取的注解类型
      * @return 返回注解实例
-     *
      * @see #findMergedAnnotation(Class, Annotation)
      */
     public static <T extends Annotation> Opt<T> findMergedAnnotation(
-        final Class<T> clazz, final AnnotatedElement element) {
+            final Class<T> clazz, final AnnotatedElement element) {
         return findMergedAnnotation(clazz, element.getAnnotations());
     }
 
@@ -164,19 +159,18 @@ public class AnnotationUtils extends AnnotationUtil {
      * 将注解转换成 Map 形式，key 为注解属性名，value 为注解属性值。
      *
      * @param annotation 要转换的注解对象
-     *
      * @return 注释值的映射。
      */
     public static Map<String, Object> getAnnotationValueMap(final Annotation annotation) {
         final HashMap<String, Object> result = new HashMap<>();
-        ReflectUtil.getMethods(annotation.annotationType(), t -> {
+        MethodUtil.getMethods(annotation.annotationType(), t -> {
             if (ObjectUtils.anyEquals(t.getName(), "hashCode", "toString", "annotationType")) {
                 return false;
             }
             if (ArrayUtil.isNotEmpty(t.getParameterTypes())) {
                 return false;
             }
-            result.put(t.getName(), ReflectUtil.invoke(annotation, t));
+            result.put(t.getName(), MethodUtil.invoke(annotation, t));
             return true;
         });
         return result;

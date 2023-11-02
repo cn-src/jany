@@ -16,8 +16,8 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.lang.Assert;
-import cn.hutool.crypto.SecureUtil;
+import org.dromara.hutool.core.lang.Assert;
+import org.dromara.hutool.crypto.SecureUtil;
 
 import java.util.Map;
 

@@ -16,7 +16,6 @@
 
 package cn.javaer.jany.spring.web.exception;
 
-import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.WebContext;
 import org.springframework.boot.web.error.ErrorAttributeOptions;

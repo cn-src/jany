@@ -16,8 +16,8 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ClassUtil;
+import org.dromara.hutool.core.lang.Assert;
+import org.dromara.hutool.core.reflect.ClassUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

@@ -16,7 +16,7 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.collection.CollUtil;
+import org.dromara.hutool.core.collection.CollUtil;
 
 import java.util.Collection;
 

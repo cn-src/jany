@@ -17,10 +17,10 @@
 
 package cn.javaer.jany.model;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.javaer.jany.model.pojo.Areas;
 import cn.javaer.jany.test.JsonAssert;
 import cn.javaer.jany.test.Log;
+import org.dromara.hutool.core.collection.CollUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

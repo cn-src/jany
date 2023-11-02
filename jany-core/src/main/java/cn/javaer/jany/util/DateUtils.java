@@ -16,8 +16,8 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.NumberUtil;
+import org.dromara.hutool.core.date.DateUtil;
+import org.dromara.hutool.core.math.NumberUtil;
 
 /**
  * @author cn-src

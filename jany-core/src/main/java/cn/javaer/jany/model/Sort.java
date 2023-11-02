@@ -16,12 +16,12 @@
 
 package cn.javaer.jany.model;
 
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.util.StrUtils;
 import lombok.Value;
+import org.dromara.hutool.core.array.ArrayUtil;
+import org.dromara.hutool.core.collection.ListUtil;
+import org.dromara.hutool.core.lang.Assert;
+import org.dromara.hutool.core.text.StrUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
@@ -161,7 +161,7 @@ public class Sort implements Serializable {
 
         Assert.notNull(sort, "Sort must not be null!");
 
-        ArrayList<Order> these = ListUtil.toList(orders);
+        ArrayList<Order> these = ListUtil.of(orders);
         these.addAll(sort.orders);
         return Sort.by(these);
     }

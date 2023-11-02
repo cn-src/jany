@@ -7,7 +7,7 @@ val p = project
 operator fun Project.get(prop: String) = project.property(prop)
 dependencies {
     // bom
-    api(platform("cn.hutool:hutool-bom:${p["hutoolVersion"]}"))
+    api(platform("org.dromara.hutool:hutool-bom:${p["hutoolVersion"]}"))
     api(platform("io.ebean:ebean-bom:${p["ebeanVersion"]}"))
     api(platform("cn.dev33:sa-token-bom:${p["saTokenVersion"]}"))
     api(platform("org.testcontainers:testcontainers-bom:${p["testcontainersVersion"]}"))
@@ -63,7 +63,7 @@ dependencies {
 
         // 工具库
         api("com.google.guava:guava:${p["guavaVersion"]}")
-        api("cn.hutool:hutool-all:${p["hutoolVersion"]}")
+        api("org.dromara.hutool:hutool-all:${p["hutoolVersion"]}")
 
         api("com.github.kagkarlsson:db-scheduler:${p["dbSchedulerVersion"]}")
         api("com.github.kagkarlsson:db-scheduler-spring-boot-starter:${p["dbSchedulerVersion"]}")

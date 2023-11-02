@@ -8,7 +8,7 @@ dependencies {
     api(project(":jany-core"))
     api("io.ebean:ebean:$ebeanVersion")
 
-    optionalApi("cn.hutool:hutool-extra")
+    optionalApi("org.dromara.hutool:hutool-extra")
     optionalApi("org.springframework:spring-context")
 
     testImplementation("io.ebean:ebean-test")

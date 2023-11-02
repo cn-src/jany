@@ -16,12 +16,12 @@
 
 package cn.javaer.jany.model;
 
-import cn.hutool.core.collection.ListUtil;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import org.dromara.hutool.core.collection.ListUtil;
 import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.*;
@@ -50,13 +50,13 @@ public class TreeNode {
     }
 
     public static TreeNode of(String name, TreeNode... children) {
-        return new TreeNode(name, ListUtil.toList(children));
+        return new TreeNode(name, ListUtil.of(children));
     }
 
     @JsonCreator
     public static TreeNode of(@JsonProperty("name") String name,
                               @JsonProperty("children") List<TreeNode> children) {
-        return new TreeNode(name, ListUtil.toList(children));
+        return new TreeNode(name, ListUtil.of(children));
     }
 
     void removeFirstChild() {

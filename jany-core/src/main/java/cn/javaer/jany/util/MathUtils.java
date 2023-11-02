@@ -16,7 +16,7 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.math.MathUtil;
+import org.dromara.hutool.core.math.MathUtil;
 
 /**
  * 用于进行数学运算的工具类。

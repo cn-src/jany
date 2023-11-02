@@ -16,9 +16,9 @@
 
 package cn.javaer.jany.model;
 
-import cn.hutool.core.util.IdUtil;
 import cn.javaer.jany.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.hutool.core.data.id.IdUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

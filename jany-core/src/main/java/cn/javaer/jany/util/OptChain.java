@@ -16,8 +16,8 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ObjectUtil;
+import org.dromara.hutool.core.lang.Assert;
+import org.dromara.hutool.core.util.ObjUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiConsumer;
@@ -51,7 +51,7 @@ public class OptChain<T> {
      */
     public <V> OptChain<T> opt(@NotNull final Function<T, Consumer<V>> fun, final V value) {
         Assert.notNull(fun, "fun must not be null");
-        if (ObjectUtil.isEmpty(value)) {
+        if (ObjUtil.isEmpty(value)) {
             return this;
         }
         fun.apply(root).accept(value);
@@ -74,7 +74,7 @@ public class OptChain<T> {
     public <V1, V2> OptChain<T>
     opt(@NotNull final Function<T, BiConsumer<V1, V2>> fun, final V1 value1, V2 value2) {
         Assert.notNull(fun, "fun must not be null");
-        if (ObjectUtil.isEmpty(value1) || ObjectUtil.isEmpty(value2)) {
+        if (ObjUtil.isEmpty(value1) || ObjUtil.isEmpty(value2)) {
             return this;
         }
         fun.apply(root).accept(value1, value2);

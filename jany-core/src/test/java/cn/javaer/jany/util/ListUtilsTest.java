@@ -17,8 +17,8 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.collection.ListUtil;
 import org.assertj.core.api.Assertions;
+import org.dromara.hutool.core.collection.ListUtil;
 import org.junit.jupiter.api.Test;
 
 /**

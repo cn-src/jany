@@ -13,8 +13,8 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.extra.servlet.JakartaServletUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import org.dromara.hutool.http.server.servlet.JakartaServletUtil;
 
 /**
  * @author cn-src

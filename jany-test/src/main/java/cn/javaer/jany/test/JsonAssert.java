@@ -16,10 +16,10 @@
 
 package cn.javaer.jany.test;
 
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.resource.ResourceUtil;
 import cn.javaer.jany.jackson.Json;
 import lombok.SneakyThrows;
+import org.dromara.hutool.core.io.file.FileUtil;
+import org.dromara.hutool.core.io.resource.ResourceUtil;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 

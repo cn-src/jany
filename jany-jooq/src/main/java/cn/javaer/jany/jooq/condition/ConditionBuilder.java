@@ -16,7 +16,7 @@
 
 package cn.javaer.jany.jooq.condition;
 
-import cn.hutool.core.util.ObjectUtil;
+import org.dromara.hutool.core.util.ObjUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jooq.Condition;
@@ -122,8 +122,8 @@ public class ConditionBuilder {
 //    }
 
     public <T> ConditionBuilder opt(@NotNull final Function<T, Condition> fun, final T
-        value) {
-        if (ObjectUtil.isEmpty(value)) {
+            value) {
+        if (ObjUtil.isEmpty(value)) {
             return this;
         }
 
@@ -133,7 +133,7 @@ public class ConditionBuilder {
 
     public <T1, T2> ConditionBuilder opt(@NotNull final BiFunction<T1, T2, Condition> fun,
                                          final T1 t1, final T2 t2) {
-        if (ObjectUtil.isEmpty(t1) || ObjectUtil.isEmpty(t2)) {
+        if (ObjUtil.isEmpty(t1) || ObjUtil.isEmpty(t2)) {
             return this;
         }
         this.conditions.add(fun.apply(t1, t2));
@@ -142,7 +142,7 @@ public class ConditionBuilder {
 
     public <T1, T2, T3> ConditionBuilder opt(@NotNull final Function3<T1, T2, T3> fun,
                                              final T1 t1, final T2 t2, final T3 t3) {
-        if (ObjectUtil.isEmpty(t1) || ObjectUtil.isEmpty(t2) || ObjectUtil.isEmpty(t3)) {
+        if (ObjUtil.isEmpty(t1) || ObjUtil.isEmpty(t2) || ObjUtil.isEmpty(t3)) {
             return this;
         }
         this.conditions.add(fun.apply(t1, t2, t3));
@@ -179,7 +179,6 @@ public class ConditionBuilder {
          * @param t1 t1
          * @param t2 t2
          * @param t3 t3
-         *
          * @return Condition
          */
         Condition apply(T1 t1, T2 t2, T3 t3);

@@ -16,8 +16,8 @@
 
 package cn.javaer.jany.spring.web.exception;
 
-import cn.hutool.core.util.StrUtil;
 import cn.javaer.jany.exception.ErrorInfo;
+import org.dromara.hutool.core.text.StrUtil;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;

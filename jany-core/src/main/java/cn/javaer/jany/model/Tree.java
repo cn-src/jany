@@ -16,9 +16,9 @@
 
 package cn.javaer.jany.model;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.comparator.CompareUtil;
-import cn.hutool.core.util.StrUtil;
+import org.dromara.hutool.core.collection.CollUtil;
+import org.dromara.hutool.core.comparator.CompareUtil;
+import org.dromara.hutool.core.text.StrUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -16,10 +16,10 @@
 
 package cn.javaer.jany.validation;
 
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.ClassLoaderUtil;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.dromara.hutool.core.classloader.ClassLoaderUtil;
+import org.dromara.hutool.core.io.file.FileNameUtil;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -30,7 +30,7 @@ import java.util.Set;
  * @author cn-src
  */
 public class AbstractFileTypeValidator<A extends Annotation>
-    implements ConstraintValidator<A, Object> {
+        implements ConstraintValidator<A, Object> {
 
     private static final String MULTIPART_FILE = "org.springframework.web.multipart.MultipartFile";
 
@@ -64,7 +64,7 @@ public class AbstractFileTypeValidator<A extends Annotation>
     }
 
     boolean isSuffix(final String fileName) {
-        final String suffix = FileUtil.getSuffix(fileName);
+        final String suffix = FileNameUtil.getSuffix(fileName);
         if (null == suffix) {
             return false;
         }

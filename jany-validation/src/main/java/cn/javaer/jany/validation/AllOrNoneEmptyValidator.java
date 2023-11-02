@@ -16,11 +16,11 @@
 
 package cn.javaer.jany.validation;
 
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.ReflectUtil;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.dromara.hutool.core.array.ArrayUtil;
+import org.dromara.hutool.core.reflect.FieldUtil;
+import org.dromara.hutool.core.util.ObjUtil;
 
 
 /**
@@ -43,7 +43,7 @@ public class AllOrNoneEmptyValidator implements ConstraintValidator<AllOrNoneEmp
         }
         int i = 0;
         for (String field : fields) {
-            if (ObjectUtil.isEmpty(ReflectUtil.getFieldValue(value, field))) {
+            if (ObjUtil.isEmpty(FieldUtil.getFieldValue(value, field))) {
                 i++;
             }
         }

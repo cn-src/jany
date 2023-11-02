@@ -16,7 +16,8 @@
 
 package cn.javaer.jany.format;
 
-import cn.hutool.core.util.DesensitizedUtil;
+
+import org.dromara.hutool.core.data.MaskingUtil;
 
 import java.lang.annotation.*;
 import java.util.function.Function;
@@ -33,13 +34,13 @@ public @interface Desensitized {
     Type type();
 
     enum Type {
-        CHINESE_NAME(DesensitizedUtil::chineseName),
-        ID_CARD(str -> DesensitizedUtil.idCardNum(str, 4, 4)),
-        FIXED_PHONE(DesensitizedUtil::fixedPhone),
-        MOBILE_PHONE(DesensitizedUtil::mobilePhone),
-        EMAIL(DesensitizedUtil::email),
-        CAR_LICENSE(DesensitizedUtil::carLicense),
-        BANK_CARD(DesensitizedUtil::bankCard),
+        CHINESE_NAME(MaskingUtil::chineseName),
+        ID_CARD(str -> MaskingUtil.idCardNum(str, 4, 4)),
+        FIXED_PHONE(MaskingUtil::fixedPhone),
+        MOBILE_PHONE(MaskingUtil::mobilePhone),
+        EMAIL(MaskingUtil::email),
+        CAR_LICENSE(MaskingUtil::carLicense),
+        BANK_CARD(MaskingUtil::bankCard),
         ;
 
         private final UnaryOperator<String> fn;

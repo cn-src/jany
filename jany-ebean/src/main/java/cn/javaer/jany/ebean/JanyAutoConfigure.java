@@ -16,11 +16,11 @@
 
 package cn.javaer.jany.ebean;
 
-import cn.hutool.core.exceptions.UtilException;
-import cn.hutool.extra.spring.SpringUtil;
 import cn.javaer.jany.util.ReflectUtils;
 import io.ebean.config.AutoConfigure;
 import io.ebean.config.DatabaseConfig;
+import org.dromara.hutool.core.exception.HutoolException;
+import org.dromara.hutool.extra.spring.SpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.AbstractEnvironment;
@@ -58,7 +58,7 @@ public class JanyAutoConfigure implements AutoConfigure {
         try {
             env = SpringUtil.getBean(Environment.class);
         }
-        catch (UtilException e) {
+        catch (HutoolException e) {
             log.warn("Can not get spring bean Environment", e);
             return;
         }

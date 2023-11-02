@@ -16,7 +16,8 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.util.StrUtil;
+
+import org.dromara.hutool.core.text.StrUtil;
 
 /**
  * @author cn-src

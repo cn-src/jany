@@ -16,15 +16,18 @@
 
 package cn.javaer.jany.ebean;
 
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ReflectUtil;
 import cn.javaer.jany.util.MathUtils;
 import io.ebean.DB;
 import io.ebean.Database;
 import io.ebean.SqlUpdate;
+import org.dromara.hutool.core.lang.Assert;
+import org.dromara.hutool.core.reflect.FieldUtil;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 /**
@@ -166,7 +169,7 @@ public class DbUtils {
         for (E bean : beans) {
             for (Field field : persistFields) {
                 final String columnName = PersistUtils.columnName(field);
-                sqlUpdate.setParameter(columnName, ReflectUtil.getFieldValue(bean, field));
+                sqlUpdate.setParameter(columnName, FieldUtil.getFieldValue(bean, field));
             }
             sqlUpdate.addBatch();
         }

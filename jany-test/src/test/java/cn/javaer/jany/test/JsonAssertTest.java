@@ -16,8 +16,8 @@
 
 package cn.javaer.jany.test;
 
-import cn.hutool.core.map.MapUtil;
 import org.assertj.core.util.Arrays;
+import org.dromara.hutool.core.map.MapUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

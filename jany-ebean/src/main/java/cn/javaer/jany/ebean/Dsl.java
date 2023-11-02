@@ -16,9 +16,6 @@
 
 package cn.javaer.jany.ebean;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.ReflectUtil;
 import cn.javaer.jany.ebean.expression.Operator;
 import cn.javaer.jany.ebean.expression.Type;
 import cn.javaer.jany.ebean.expression.WhereExpression;
@@ -35,6 +32,10 @@ import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.dromara.hutool.core.bean.BeanUtil;
+import org.dromara.hutool.core.reflect.FieldUtil;
+import org.dromara.hutool.core.text.StrUtil;
+import org.dromara.hutool.core.util.ObjUtil;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -49,16 +50,15 @@ public interface Dsl {
     /**
      * 对已有的查询 query 添加分页条件部分。
      *
-     * @param <T> 实体类型
-     * @param query 查询
+     * @param <T>       实体类型
+     * @param query     查询
      * @param pageParam 分页条件
-     *
      * @return 添加分页条件的查询
      */
     static <T> Query<T> query(Query<T> query, PageParam pageParam) {
         return query(query, pageParam.getSort())
-            .setMaxRows(pageParam.getSize())
-            .setFirstRow(pageParam.getOffset());
+                .setMaxRows(pageParam.getSize())
+                .setFirstRow(pageParam.getOffset());
     }
 
     /**
@@ -69,10 +69,9 @@ public interface Dsl {
      * <p>2. 按 @SortBy 注解的属性排序；
      * <p>3. 按审计字段排序。
      *
-     * @param <T> 实体类型
+     * @param <T>   实体类型
      * @param query 查询
-     * @param sort 排序条件
-     *
+     * @param sort  排序条件
      * @return 添加排序条件的查询
      */
     static <T> Query<T> query(Query<T> query, Sort sort) {
@@ -105,9 +104,9 @@ public interface Dsl {
 
         if (sort.isByAudit()) {
             ReflectUtils.fieldName(beanType, WhenModified.class)
-                .ifPresent(fieldName -> query.orderBy().desc(fieldName));
+                    .ifPresent(fieldName -> query.orderBy().desc(fieldName));
             ReflectUtils.fieldName(beanType, WhenCreated.class)
-                .ifPresent(fieldName -> query.orderBy().desc(fieldName));
+                    .ifPresent(fieldName -> query.orderBy().desc(fieldName));
             return query;
         }
         return query;
@@ -116,43 +115,42 @@ public interface Dsl {
     /**
      * 对已有的查询 query，添加示例对象查询条件。
      *
-     * @param query 待处理的查询对象
+     * @param query   待处理的查询对象
      * @param example 要查询的对象。
-     *
      * @return 查询对象
      */
     static <T> Query<T> queryExample(Query<T> query, Object example) {
         final ExpressionFactory factory = query.getExpressionFactory();
         final ExpressionList<T> where = query.where();
         Map<String, RangeStore> rangeMap = new HashMap<>();
-        ReflectUtil.getFieldMap(example.getClass()).forEach((fieldName, field) -> {
-            final Object value = ReflectUtil.getFieldValue(example, fieldName);
-            if (ObjectUtil.isNotEmpty(value) && !field.isAnnotationPresent(WhereIgnore.class)
-                && !fieldName.startsWith("$")) {
+        FieldUtil.getFieldMap(example.getClass()).forEach((fieldName, field) -> {
+            final Object value = FieldUtil.getFieldValue(example, fieldName);
+            if (ObjUtil.isNotEmpty(value) && !field.isAnnotationPresent(WhereIgnore.class)
+                    && !fieldName.startsWith("$")) {
                 final WhereExpression whereExpression = AnnotationUtils.findMergedAnnotation(WhereExpression.class, field)
-                    .orElse(WhereExpression.DEFAULT);
+                        .orElse(WhereExpression.DEFAULT);
 
                 final Type type = whereExpression.type();
-                String property = ObjectUtil.defaultIfEmpty(whereExpression.property(), fieldName);
+                String property = StrUtil.defaultIfEmpty(whereExpression.property(), fieldName);
 
                 if (type == Type.DEFAULT) {
                     where.add(whereExpression.value().getFun().apple(factory, property, value));
                 }
                 else if (type == Type.RANGE_START) {
                     rangeMap.compute(property, (k, v) -> v == null ?
-                        new RangeStore().setOperator(whereExpression.value()).setStartValue(value)
-                        : v.setStartValue(value));
+                            new RangeStore().setOperator(whereExpression.value()).setStartValue(value)
+                            : v.setStartValue(value));
                 }
                 else if (type == Type.RANGE_END) {
                     rangeMap.compute(property, (k, v) -> v == null ?
-                        new RangeStore().setOperator(whereExpression.value()).setEndValue(value)
-                        : v.setEndValue(value));
+                            new RangeStore().setOperator(whereExpression.value()).setEndValue(value)
+                            : v.setEndValue(value));
                 }
             }
         });
         for (Map.Entry<String, RangeStore> entry : rangeMap.entrySet()) {
             where.add(entry.getValue().operator.getFun().apple(factory, entry.getKey(),
-                new Object[]{entry.getValue().startValue, entry.getValue().endValue}));
+                    new Object[]{entry.getValue().startValue, entry.getValue().endValue}));
         }
         return query;
     }
@@ -170,17 +168,16 @@ public interface Dsl {
     /**
      * 对已有的更新查询 updateQuery 添加 SQL SET 部分，其不会忽略空值，如果是空值将会设置为 null。
      *
-     * @param <T> 实体类型
+     * @param <T>         实体类型
      * @param updateQuery 更新查询
-     * @param obj 值对象
-     *
+     * @param obj         值对象
      * @return 添加 SQL SET 部分的更新查询
      */
     static <T> UpdateQuery<T> update(UpdateQuery<T> updateQuery, Object obj,
                                      boolean ignoreEmpty) {
         final Map<String, Object> beanMap = BeanUtil.beanToMap(obj);
         for (Map.Entry<String, Object> entry : beanMap.entrySet()) {
-            if (!ignoreEmpty && ObjectUtil.isEmpty(entry.getValue())) {
+            if (!ignoreEmpty && ObjUtil.isEmpty(entry.getValue())) {
                 updateQuery.setNull(entry.getKey());
             }
             else {

@@ -16,11 +16,11 @@
 
 package cn.javaer.jany.ebean.expression;
 
-import cn.hutool.core.util.ObjectUtil;
 import cn.javaer.jany.util.ArrayUtils;
 import cn.javaer.jany.util.CollUtils;
 import cn.javaer.jany.util.StrUtils;
 import io.ebean.ExpressionFactory;
+import org.dromara.hutool.core.util.ObjUtil;
 
 /**
  * @author cn-src
@@ -44,9 +44,9 @@ public enum Operator {
 
     ne(ExpressionFactory::ne),
     ieq((factory, property, value) ->
-        factory.ieq(property, ObjectUtil.toString(value))),
+        factory.ieq(property, ObjUtil.toString(value))),
     ine((factory, property, value) ->
-        factory.ine(property, ObjectUtil.toString(value))),
+        factory.ine(property, ObjUtil.toString(value))),
     inRange((factory, property, value) -> {
         Object[] values = (Object[]) value;
         return factory.inRange(property, values[0], values[1]);

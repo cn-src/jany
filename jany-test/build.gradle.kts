@@ -5,7 +5,7 @@ plugins {
 val hutoolVersion: String by project
 
 dependencies {
-    api("cn.hutool:hutool-core:$hutoolVersion")
+    api("org.dromara.hutool:hutool-core:$hutoolVersion")
     api(project(":jany-jackson"))
 
     optionalApi("org.skyscreamer:jsonassert")

@@ -7,9 +7,9 @@ dependencies {
     optionalApi(project(":jany-jackson"))
 
     optionalApi("com.yomahub:tlog-common")
-    optionalApi("cn.hutool:hutool-extra")
-    optionalApi("cn.hutool:hutool-poi")
-    optionalApi("cn.hutool:hutool-http")
+    optionalApi("org.dromara.hutool:hutool-extra")
+    optionalApi("org.dromara.hutool:hutool-poi")
+    optionalApi("org.dromara.hutool:hutool-http")
     optionalApi("com.alibaba:easyexcel")
     optionalApi("com.deepoove:poi-tl")
     optionalApi("org.springframework.boot:spring-boot-starter-web")

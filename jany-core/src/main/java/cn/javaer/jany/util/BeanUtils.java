@@ -16,8 +16,8 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
+import org.dromara.hutool.core.bean.BeanUtil;
+import org.dromara.hutool.core.util.ObjUtil;
 
 import java.util.Map;
 import java.util.SortedMap;
@@ -36,7 +36,7 @@ public class BeanUtils extends BeanUtil {
         final Map<String, Object> map = BeanUtil.beanToMap(bean);
         final TreeMap<String, Object> result = new TreeMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            if (ignoreEmptyValue && ObjectUtil.isEmpty(entry.getValue())) {
+            if (ignoreEmptyValue && ObjUtil.isEmpty(entry.getValue())) {
                 continue;
             }
             result.put(entry.getKey(), entry.getValue());

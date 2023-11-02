@@ -16,7 +16,7 @@
 
 package cn.javaer.jany.storage.minio;
 
-import cn.hutool.core.lang.Assert;
+import org.dromara.hutool.core.lang.Assert;
 import cn.javaer.jany.type.StorableObject;
 import io.minio.*;
 import io.minio.http.Method;

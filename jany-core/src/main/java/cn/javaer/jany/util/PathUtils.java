@@ -16,7 +16,7 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.io.file.PathUtil;
+import org.dromara.hutool.core.io.file.PathUtil;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

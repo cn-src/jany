@@ -16,10 +16,11 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.exceptions.UtilException;
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ClassLoaderUtil;
-import cn.hutool.core.util.ReflectUtil;
+import org.dromara.hutool.core.classloader.ClassLoaderUtil;
+import org.dromara.hutool.core.exception.HutoolException;
+import org.dromara.hutool.core.lang.Assert;
+import org.dromara.hutool.core.reflect.FieldUtil;
+import org.dromara.hutool.core.reflect.ReflectUtil;
 
 import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodHandle;
@@ -47,7 +48,7 @@ public class ReflectUtils extends ReflectUtil {
      */
     public static Field[] getPersistFields(Class<?> beanClass,
                                            Class<? extends Annotation> transientClass) throws SecurityException {
-        return ReflectUtil.getFields(beanClass,
+        return FieldUtil.getFields(beanClass,
                 field -> ClassUtils.isNotStatic(field)
                         && ClassUtils.isNotTransient(field)
                         && !field.isAnnotationPresent(transientClass));
@@ -62,7 +63,7 @@ public class ReflectUtils extends ReflectUtil {
      */
     public static Optional<String> fieldName(Class<?> clazz,
                                              Class<? extends Annotation> annClazz) {
-        return Arrays.stream(ReflectUtil.getFields(clazz))
+        return Arrays.stream(FieldUtil.getFields(clazz))
                 .filter(it -> it.isAnnotationPresent(annClazz))
                 .findFirst().map(Field::getName);
     }
@@ -75,7 +76,7 @@ public class ReflectUtils extends ReflectUtil {
      * @return 字段名称
      */
     public static Set<String> fieldNames(Class<?> clazz, Class<? extends Annotation> annClazz) {
-        return Arrays.stream(ReflectUtil.getFields(clazz))
+        return Arrays.stream(FieldUtil.getFields(clazz))
                 .filter(it -> it.isAnnotationPresent(annClazz))
                 .map(Field::getName)
                 .collect(Collectors.toSet());
@@ -83,7 +84,7 @@ public class ReflectUtils extends ReflectUtil {
 
     public static Optional<Field> fieldByAnnotation(Class<?> clazz,
                                                     Class<? extends Annotation> annClazz) {
-        return Arrays.stream(ReflectUtil.getFields(clazz))
+        return Arrays.stream(FieldUtil.getFields(clazz))
                 .filter(it -> it.isAnnotationPresent(annClazz))
                 .findFirst();
     }
@@ -132,7 +133,7 @@ public class ReflectUtils extends ReflectUtil {
             return Optional.empty();
         }
         catch (final IllegalAccessException e) {
-            throw new IllegalStateException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -149,7 +150,7 @@ public class ReflectUtils extends ReflectUtil {
             return (Class<T>) Class.forName(className);
         }
         catch (ClassNotFoundException e) {
-            throw new UtilException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -164,7 +165,7 @@ public class ReflectUtils extends ReflectUtil {
         try {
             return Optional.of(ClassLoaderUtil.loadClass(className));
         }
-        catch (final UtilException e) {
+        catch (final HutoolException e) {
             return Optional.empty();
         }
     }

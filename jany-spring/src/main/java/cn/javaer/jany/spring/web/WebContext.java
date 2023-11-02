@@ -16,13 +16,13 @@
 
 package cn.javaer.jany.spring.web;
 
-import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.http.useragent.UserAgent;
-import cn.hutool.http.useragent.UserAgentUtil;
 import cn.javaer.jany.util.Empty;
 import cn.javaer.jany.util.ReflectUtils;
 import com.yomahub.tlog.context.TLogContext;
 import jakarta.servlet.http.HttpServletRequest;
+import org.dromara.hutool.http.server.servlet.JakartaServletUtil;
+import org.dromara.hutool.http.useragent.UserAgent;
+import org.dromara.hutool.http.useragent.UserAgentUtil;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 

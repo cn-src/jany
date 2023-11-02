@@ -16,10 +16,10 @@
 
 package cn.javaer.jany.model;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.javaer.jany.util.Empty;
 import lombok.Builder;
 import lombok.Value;
+import org.dromara.hutool.core.array.ArrayUtil;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 

@@ -3,10 +3,10 @@ plugins {
 }
 val hutoolVersion: String by project
 dependencies {
-    api("cn.hutool:hutool-core:$hutoolVersion")
+    api("org.dromara.hutool:hutool-core:$hutoolVersion")
 
-    optionalApi("cn.hutool:hutool-crypto")
-    optionalApi("cn.hutool:hutool-extra")
+    optionalApi("org.dromara.hutool:hutool-crypto")
+    optionalApi("org.dromara.hutool:hutool-http")
     optionalApi("jakarta.servlet:jakarta.servlet-api")
     optionalApi("org.springdoc:springdoc-openapi-starter-common")
     optionalApi("org.springframework.data:spring-data-commons")

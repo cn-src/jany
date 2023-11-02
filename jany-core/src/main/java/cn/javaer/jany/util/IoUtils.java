@@ -16,7 +16,7 @@
 
 package cn.javaer.jany.util;
 
-import cn.hutool.core.io.IoUtil;
+import org.dromara.hutool.core.io.IoUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
