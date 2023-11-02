@@ -29,6 +29,56 @@ import java.util.Objects;
  */
 @Value
 public class ErrorInfo implements Comparable<ErrorInfo> {
+
+    // ---- 40x
+
+    public static final String BAD_REQUEST = "BAD_REQUEST";
+
+    public static final String UNAUTHORIZED = "UNAUTHORIZED";
+
+    public static final String FORBIDDEN = "FORBIDDEN";
+
+    public static final String NOT_FOUND = "NOT_FOUND";
+
+    // ---- 50x
+
+    public static final String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
+
+    /**
+     * 登录错误。
+     */
+    public static final String LOGIN_ERROR = "LOGIN_ERROR";
+
+    /**
+     * 登录错误，用户名或密码错误。
+     */
+    public static final String LOGIN_ERROR_BAD_CREDENTIALS = "LOGIN_ERROR_BAD_CREDENTIALS";
+
+    /**
+     * 登录错误，账户被禁用。
+     */
+    public static final String LOGIN_ERROR_DISABLED = "LOGIN_ERROR_DISABLED";
+
+    /**
+     * Token 已过期。
+     */
+    public static final String TOKEN_EXPIRED = "TOKEN_EXPIRED";
+
+    /**
+     * Token 无效。
+     */
+    public static final String TOKEN_INVALID = "TOKEN_INVALID";
+
+    /**
+     * 被顶替下线。
+     */
+    public static final String SESSION_OUT_REPLACED = "SESSION_OUT_REPLACED";
+
+    /**
+     * 被强制下线。
+     */
+    public static final String SESSION_OUT_KICKED = "SESSION_OUT_KICKED";
+
     String error;
 
     int status;
@@ -97,56 +147,7 @@ public class ErrorInfo implements Comparable<ErrorInfo> {
     @Override
     public int compareTo(final @NotNull ErrorInfo errorInfo) {
         return Comparator.comparing(ErrorInfo::getStatus, Integer::compare)
-            .thenComparing(ErrorInfo::getError, String::compareTo)
-            .compare(this, errorInfo);
+                .thenComparing(ErrorInfo::getError, String::compareTo)
+                .compare(this, errorInfo);
     }
-
-    // ---- 40x
-
-    public static final String BAD_REQUEST = "BAD_REQUEST";
-
-    public static final String UNAUTHORIZED = "UNAUTHORIZED";
-
-    public static final String FORBIDDEN = "FORBIDDEN";
-
-    public static final String NOT_FOUND = "NOT_FOUND";
-
-    // ---- 50x
-
-    public static final String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
-
-    /**
-     * 登录错误。
-     */
-    public static final String LOGIN_ERROR = "LOGIN_ERROR";
-
-    /**
-     * 登录错误，用户名或密码错误。
-     */
-    public static final String LOGIN_ERROR_BAD_CREDENTIALS = "LOGIN_ERROR_BAD_CREDENTIALS";
-
-    /**
-     * 登录错误，账户被禁用。
-     */
-    public static final String LOGIN_ERROR_DISABLED = "LOGIN_ERROR_DISABLED";
-
-    /**
-     * Token 已过期。
-     */
-    public static final String TOKEN_EXPIRED = "TOKEN_EXPIRED";
-
-    /**
-     * Token 无效。
-     */
-    public static final String TOKEN_INVALID = "TOKEN_INVALID";
-
-    /**
-     * 被顶替下线。
-     */
-    public static final String SESSION_OUT_REPLACED = "SESSION_OUT_REPLACED";
-
-    /**
-     * 被强制下线。
-     */
-    public static final String SESSION_OUT_KICKED = "SESSION_OUT_KICKED";
 }
