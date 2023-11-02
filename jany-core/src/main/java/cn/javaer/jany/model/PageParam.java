@@ -42,12 +42,6 @@ public class PageParam {
 
     public static final int DEFAULT_SIZE = 20;
 
-    private PageParam(final int page, final int size, Sort sort) {
-        this.page = Math.max(page, 1);
-        this.size = Math.max(size, 1);
-        this.sort = sort;
-    }
-
     @Parameter(description = "分页-页码", schema =
     @Schema(type = "integer", minimum = "1", defaultValue = "1"))
     int page;
@@ -56,11 +50,16 @@ public class PageParam {
     @Schema(type = "integer", minimum = "1", defaultValue = "20"))
     int size;
 
-    @Schema(name = "sort",
-        description = "分页-排序, 指定字段降序: 'sort=field1,field2,desc&sort=field1,field2',排序方式默认为升序(asc)"
-    )
     @With
+    @Schema(name = "sort",
+            description = "分页-排序, 指定字段降序: 'sort=field1,field2,desc&sort=field1,field2',排序方式默认为升序(asc)")
     Sort sort;
+
+    private PageParam(final int page, final int size, Sort sort) {
+        this.page = Math.max(page, 1);
+        this.size = Math.max(size, 1);
+        this.sort = sort;
+    }
 
     public static PageParam of(final int page, final int size) {
         return new PageParam(page, size, Sort.DEFAULT);
@@ -74,7 +73,6 @@ public class PageParam {
      * spring data Pageable 转 jany PageParam。
      *
      * @param pageable Pageable
-     *
      * @return PageParam
      */
     public static PageParam of(final Pageable pageable) {
@@ -83,12 +81,12 @@ public class PageParam {
             Set<Sort.Order> orders = new LinkedHashSet<>();
             for (org.springframework.data.domain.Sort.Order order : sort) {
                 final cn.javaer.jany.model.Sort.Direction direction =
-                    cn.javaer.jany.model.Sort.Direction.valueOf(order.getDirection().name());
+                        cn.javaer.jany.model.Sort.Direction.valueOf(order.getDirection().name());
                 orders.add(new cn.javaer.jany.model.Sort.Order(direction, order.getProperty()));
             }
 
             return PageParam.of(pageable.getPageNumber() + 1, pageable.getPageSize(),
-                cn.javaer.jany.model.Sort.by(new ArrayList<>(orders)));
+                    cn.javaer.jany.model.Sort.by(new ArrayList<>(orders)));
         }
         return PageParam.of(pageable.getPageNumber() + 1, pageable.getPageSize());
     }

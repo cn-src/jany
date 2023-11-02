@@ -36,6 +36,12 @@ public class Page<T> {
     @SuppressWarnings("rawtypes")
     public final static Page EMPTY = new Page<>(Collections.emptyList(), 0);
 
+    @Schema(description = "分页-内容")
+    private List<T> content;
+
+    @Schema(description = "分页-总数")
+    private long total;
+
     Page(final List<T> content, final long total) {
         if (total < 0) {
             throw new IllegalArgumentException("'total' must not less than 0");
@@ -43,12 +49,6 @@ public class Page<T> {
         this.content = content;
         this.total = total;
     }
-
-    @Schema(description = "分页-内容")
-    private List<T> content;
-
-    @Schema(description = "分页-总数")
-    private long total;
 
     @Schema(description = "是否为空")
     public boolean isEmpty() {
