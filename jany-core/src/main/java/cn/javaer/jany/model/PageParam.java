@@ -80,13 +80,13 @@ public class PageParam {
         if (sort.isSorted()) {
             Set<Sort.Order> orders = new LinkedHashSet<>();
             for (org.springframework.data.domain.Sort.Order order : sort) {
-                final cn.javaer.jany.model.Sort.Direction direction =
-                        cn.javaer.jany.model.Sort.Direction.valueOf(order.getDirection().name());
-                orders.add(new cn.javaer.jany.model.Sort.Order(direction, order.getProperty()));
+                final Sort.Direction direction =
+                        Sort.Direction.valueOf(order.getDirection().name());
+                orders.add(new Sort.Order(direction, order.getProperty()));
             }
 
             return PageParam.of(pageable.getPageNumber() + 1, pageable.getPageSize(),
-                    cn.javaer.jany.model.Sort.by(new ArrayList<>(orders)));
+                    Sort.by(new ArrayList<>(orders)));
         }
         return PageParam.of(pageable.getPageNumber() + 1, pageable.getPageSize());
     }
