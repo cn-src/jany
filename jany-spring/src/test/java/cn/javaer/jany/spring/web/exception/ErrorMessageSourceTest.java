@@ -20,6 +20,8 @@ import cn.dev33.satoken.exception.NotLoginException;
 import cn.javaer.jany.exception.ErrorInfo;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -49,11 +51,9 @@ class ErrorMessageSourceTest {
 
     @Test
     void getMessage_SpEL2() {
-
         final String message = ErrorMessageSource.getMessage(ErrorInfo.of401(
-                        "$LOGIN_ERROR_BAD_CREDENTIALS"),
-                new BadCredentialsException(3));
-        System.out.println(message);
-//        assertThat(message).isEqualTo("您已在别处登录");
+                        "$SA_TOKEN_NOT_LOGIN"),
+                NotLoginException.newInstance("loginType", "99", "message", "token"));
+        assertThat(message).isEqualTo("认证失败，未知错误");
     }
 }
