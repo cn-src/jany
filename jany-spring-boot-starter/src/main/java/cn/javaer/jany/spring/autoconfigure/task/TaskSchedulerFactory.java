@@ -22,8 +22,8 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
-import org.springframework.boot.task.TaskSchedulerBuilder;
-import org.springframework.boot.task.TaskSchedulerCustomizer;
+import org.springframework.boot.task.ThreadPoolTaskSchedulerBuilder;
+import org.springframework.boot.task.ThreadPoolTaskSchedulerCustomizer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
@@ -46,10 +46,10 @@ public class TaskSchedulerFactory implements BeanFactoryAware {
         return createBuilder(properties).build();
     }
 
-    private TaskSchedulerBuilder createBuilder(SchedulerConf properties) {
-        final ObjectProvider<TaskSchedulerCustomizer> taskSchedulerCustomizers =
-            beanFactory.getBeanProvider(TaskSchedulerCustomizer.class);
-        TaskSchedulerBuilder builder = new TaskSchedulerBuilder();
+    private ThreadPoolTaskSchedulerBuilder createBuilder(SchedulerConf properties) {
+        final ObjectProvider<ThreadPoolTaskSchedulerCustomizer> taskSchedulerCustomizers =
+                beanFactory.getBeanProvider(ThreadPoolTaskSchedulerCustomizer.class);
+        ThreadPoolTaskSchedulerBuilder builder = new ThreadPoolTaskSchedulerBuilder();
         builder = builder.poolSize(properties.getPool().getSize());
         final SchedulerConf.Shutdown shutdown = properties.getShutdown();
         builder = builder.awaitTermination(shutdown.isAwaitTermination());
@@ -60,7 +60,7 @@ public class TaskSchedulerFactory implements BeanFactoryAware {
         final GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
         beanDefinition.setBeanClass(ThreadPoolTaskExecutor.class);
         beanDefinition.setLazyInit(true);
-        final TaskSchedulerBuilder fb = builder;
+        final ThreadPoolTaskSchedulerBuilder fb = builder;
         beanDefinition.setInstanceSupplier(() -> {
             final ThreadPoolTaskScheduler scheduler = fb.build();
             if (properties.getRejectedExecutionHandler() != null) {
