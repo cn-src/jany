@@ -17,6 +17,7 @@
 package cn.javaer.jany.ebean;
 
 import cn.javaer.jany.util.ReflectUtils;
+import io.ebean.DatabaseBuilder;
 import io.ebean.config.AutoConfigure;
 import io.ebean.config.DatabaseConfig;
 import org.dromara.hutool.core.exception.HutoolException;
@@ -40,20 +41,20 @@ public class JanyAutoConfigure implements AutoConfigure {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
-    public void preConfigure(DatabaseConfig config) {
+    public void preConfigure(DatabaseBuilder config) {
         config.add(JanyBeanPersistController.INSTANCE);
         ReflectUtils.getClass("org.springframework.core.env.Environment")
-            .ifPresent(clazz -> supportSpring(config));
+                .ifPresent(clazz -> supportSpring(config));
     }
 
     @Override
-    public void postConfigure(DatabaseConfig config) {
+    public void postConfigure(DatabaseBuilder config) {
 
     }
 
     @SuppressWarnings("rawtypes")
-    private void supportSpring(DatabaseConfig config) {
-        Properties properties = config.getProperties();
+    private void supportSpring(DatabaseBuilder config) {
+        Properties properties = new Properties();
         final Environment env;
         try {
             env = SpringUtil.getBean(Environment.class);
@@ -64,11 +65,12 @@ public class JanyAutoConfigure implements AutoConfigure {
         }
         final MutablePropertySources sources = ((AbstractEnvironment) env).getPropertySources();
         StreamSupport.stream(sources.spliterator(), false)
-            .filter(ps -> ps instanceof EnumerablePropertySource)
-            .map(ps -> ((EnumerablePropertySource) ps).getPropertyNames())
-            .flatMap(Arrays::stream)
-            .distinct()
-            .filter(prop -> prop.startsWith("ebean.") || prop.startsWith("datasource."))
-            .forEach(prop -> properties.put(prop, env.getProperty(prop)));
+                .filter(ps -> ps instanceof EnumerablePropertySource)
+                .map(ps -> ((EnumerablePropertySource) ps).getPropertyNames())
+                .flatMap(Arrays::stream)
+                .distinct()
+                .filter(prop -> prop.startsWith("ebean.") || prop.startsWith("datasource."))
+                .forEach(prop -> properties.put(prop, env.getProperty(prop)));
+        config.loadFromProperties(properties);
     }
 }
