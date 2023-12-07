@@ -16,42 +16,49 @@
 
 package cn.javaer.jany.p6spy;
 
+import io.ebean.DatabaseBuilder;
 import io.ebean.config.AutoConfigure;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.datasource.DataSourceConfig;
+
+import java.util.Properties;
 
 /**
  * @author cn-src
  */
 public class P6spyEbeanConfigure implements AutoConfigure {
     @Override
-    public void preConfigure(DatabaseConfig config) {
+    public void preConfigure(DatabaseBuilder config) {
 
     }
 
     @Override
-    public void postConfigure(DatabaseConfig config) {
+    public void postConfigure(DatabaseBuilder config) {
+        final DatabaseBuilder.Settings settings = config.settings();
+        final Properties props = settings.getProperties();
 
         final boolean ebeanEnabled = "true".equalsIgnoreCase(
-            config.getProperties().getProperty("ebean.p6spy.enabled"));
+                props.getProperty("ebean.p6spy.enabled"));
         final boolean janyOnlyEnabled =
-            !config.getProperties().containsKey("ebean.p6spy.enabled") &&
-                "true".equalsIgnoreCase(config.getProperties().getProperty("jany.p6spy.enabled"));
+                !props.containsKey("ebean.p6spy.enabled") &&
+                        "true".equalsIgnoreCase(props.getProperty("jany.p6spy.enabled"));
 
         if (ebeanEnabled || janyOnlyEnabled) {
             P6spyHelper.initConfig();
-            replaceUrl(config.getDataSourceConfig());
-            replaceUrl(config.getReadOnlyDataSourceConfig());
+            replaceUrl(settings.getDataSourceConfig());
+            replaceUrl(settings.getReadOnlyDataSourceConfig());
         }
     }
 
-    public void replaceUrl(DataSourceConfig ds) {
+    public void replaceUrl(
+            io.ebean.datasource.DataSourceBuilder.Settings ds) {
+
         if (ds != null && ds.getUrl() != null && !ds.getUrl().contains(":p6spy:")) {
-            ds.setUrl(ds.getUrl().replaceFirst("jdbc:", "jdbc:p6spy:"));
+            ds.url(ds.getUrl().replaceFirst("jdbc:", "jdbc:p6spy:"));
         }
         if (ds != null && ds.getReadOnlyUrl() != null
-            && !ds.getReadOnlyUrl().contains(":p6spy:")) {
-            ds.setReadOnlyUrl(ds.getReadOnlyUrl().replaceFirst("jdbc:", "jdbc:p6spy:"));
+                && !ds.getReadOnlyUrl().contains(":p6spy:")) {
+            ds.readOnlyUrl(ds.getReadOnlyUrl().replaceFirst("jdbc:", "jdbc:p6spy:"));
         }
     }
 }
