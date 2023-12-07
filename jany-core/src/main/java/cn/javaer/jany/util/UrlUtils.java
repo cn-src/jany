@@ -14,9 +14,9 @@
 package cn.javaer.jany.util;
 
 
-import org.dromara.hutool.core.net.url.URLUtil;
+import org.dromara.hutool.core.net.url.UrlUtil;
 
-public class UrlUtils extends URLUtil {
+public class UrlUtils extends UrlUtil {
 
     public static String join(String path, String... paths) {
         final StringBuilder sb = new StringBuilder();
