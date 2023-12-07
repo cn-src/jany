@@ -19,7 +19,6 @@ package cn.javaer.jany.ebean;
 import cn.javaer.jany.util.ReflectUtils;
 import io.ebean.DatabaseBuilder;
 import io.ebean.config.AutoConfigure;
-import io.ebean.config.DatabaseConfig;
 import org.dromara.hutool.core.exception.HutoolException;
 import org.dromara.hutool.extra.spring.SpringUtil;
 import org.slf4j.Logger;
