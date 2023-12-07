@@ -53,7 +53,7 @@ public class JanyAutoConfigure implements AutoConfigure {
 
     @SuppressWarnings("rawtypes")
     private void supportSpring(DatabaseBuilder config) {
-        Properties properties = new Properties();
+        Properties properties = config.settings().getProperties();
         final Environment env;
         try {
             env = SpringUtil.getBean(Environment.class);
@@ -70,6 +70,5 @@ public class JanyAutoConfigure implements AutoConfigure {
                 .distinct()
                 .filter(prop -> prop.startsWith("ebean.") || prop.startsWith("datasource."))
                 .forEach(prop -> properties.put(prop, env.getProperty(prop)));
-        config.loadFromProperties(properties);
     }
 }
