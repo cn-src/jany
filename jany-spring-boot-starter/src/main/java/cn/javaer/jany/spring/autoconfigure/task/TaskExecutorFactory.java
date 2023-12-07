@@ -21,8 +21,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.task.TaskExecutorBuilder;
-import org.springframework.boot.task.TaskExecutorCustomizer;
+import org.springframework.boot.task.ThreadPoolTaskExecutorBuilder;
+import org.springframework.boot.task.ThreadPoolTaskExecutorCustomizer;
 import org.springframework.core.task.TaskDecorator;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -43,14 +43,14 @@ public class TaskExecutorFactory implements BeanFactoryAware {
         return createBuilder(properties).build();
     }
 
-    private TaskExecutorBuilder createBuilder(ExecutorConf taskProp) {
-        final ObjectProvider<TaskExecutorCustomizer> customizers =
-            beanFactory.getBeanProvider(TaskExecutorCustomizer.class);
+    private ThreadPoolTaskExecutorBuilder createBuilder(ExecutorConf taskProp) {
+        final ObjectProvider<ThreadPoolTaskExecutorCustomizer> customizers =
+                beanFactory.getBeanProvider(ThreadPoolTaskExecutorCustomizer.class);
         final ObjectProvider<TaskDecorator> decorators =
-            beanFactory.getBeanProvider(TaskDecorator.class);
+                beanFactory.getBeanProvider(TaskDecorator.class);
 
         final ExecutorConf.Pool pool = taskProp.getPool();
-        TaskExecutorBuilder builder = new TaskExecutorBuilder();
+        ThreadPoolTaskExecutorBuilder builder = new ThreadPoolTaskExecutorBuilder();
         builder = builder.queueCapacity(pool.getQueueCapacity());
         builder = builder.corePoolSize(pool.getCoreSize());
         builder = builder.maxPoolSize(pool.getMaxSize());
