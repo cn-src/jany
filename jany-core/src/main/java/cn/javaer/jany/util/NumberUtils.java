@@ -28,9 +28,8 @@ public class NumberUtils extends NumberUtil {
     /**
      * 如果字符串为空，则返回默认值。否则，尝试将字符串解析为整数。如果失败，返回默认值。
      *
-     * @param intStr 要转换为整数的字符串。
+     * @param intStr       要转换为整数的字符串。
      * @param defaultValue 默认值。
-     *
      * @return 该方法返回字符串的整数值。
      */
     public static int parseInt(String intStr, int defaultValue) {
@@ -43,5 +42,25 @@ public class NumberUtils extends NumberUtil {
         catch (NumberFormatException ignore) {
             return defaultValue;
         }
+    }
+
+    /**
+     * 如果对象为空，则返回默认值。否则，尝试将对象（数字或字符串）解析为整数。如果失败，返回默认值。
+     *
+     * @param obj          要转换为整数的对象。
+     * @param defaultValue 默认值。
+     * @return 该方法返回字符串的整数值。
+     */
+    public static int parseInt(Object obj, int defaultValue) {
+        if (obj == null) {
+            return defaultValue;
+        }
+        if (obj instanceof Integer) {
+            return (Integer) obj;
+        }
+        if (obj instanceof String) {
+            return parseInt(obj, defaultValue);
+        }
+        return defaultValue;
     }
 }
