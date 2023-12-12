@@ -55,17 +55,19 @@ public class NumberUtils extends NumberUtil {
         if (obj == null) {
             return defaultValue;
         }
+
         if (obj instanceof Integer) {
             return (Integer) obj;
         }
-        if (obj instanceof Short) {
-            return ((Short) obj).intValue();
+        if (obj instanceof Short s) {
+            return s.intValue();
         }
-        if (obj instanceof Long) {
-            return ((Long) obj).intValue();
+        if (obj instanceof Long l) {
+            return l.intValue();
         }
-        if (obj instanceof String) {
-            return parseInt((String) obj, defaultValue);
+
+        if (obj instanceof String str) {
+            return parseInt(str, defaultValue);
         }
         return defaultValue;
     }
