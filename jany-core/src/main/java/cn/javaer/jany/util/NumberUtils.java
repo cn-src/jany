@@ -59,7 +59,7 @@ public class NumberUtils extends NumberUtil {
             return (Integer) obj;
         }
         if (obj instanceof String) {
-            return parseInt(obj, defaultValue);
+            return parseInt((String) obj, defaultValue);
         }
         return defaultValue;
     }
