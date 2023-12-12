@@ -58,6 +58,9 @@ public class NumberUtils extends NumberUtil {
         if (obj instanceof Integer) {
             return (Integer) obj;
         }
+        if (obj instanceof Long) {
+            return ((Long) obj).intValue();
+        }
         if (obj instanceof String) {
             return parseInt((String) obj, defaultValue);
         }
