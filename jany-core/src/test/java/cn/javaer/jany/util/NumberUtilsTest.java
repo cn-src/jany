@@ -27,6 +27,7 @@ class NumberUtilsTest {
         assertThat(NumberUtils.parseInt((Object) "xxx", 2)).isEqualTo(2);
         assertThat(NumberUtils.parseInt(new Object(), 2)).isEqualTo(2);
 
+        assertThat(NumberUtils.parseInt(1.0, 2)).isEqualTo(1);
         assertThat(NumberUtils.parseInt(1, 2)).isEqualTo(1);
         assertThat(NumberUtils.parseInt(3L, 2)).isEqualTo(3);
     }

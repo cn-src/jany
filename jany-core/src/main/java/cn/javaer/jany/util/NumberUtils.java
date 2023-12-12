@@ -56,14 +56,21 @@ public class NumberUtils extends NumberUtil {
             return defaultValue;
         }
 
-        if (obj instanceof Integer) {
-            return (Integer) obj;
+        if (obj instanceof Integer i) {
+            return i;
         }
         if (obj instanceof Short s) {
             return s.intValue();
         }
         if (obj instanceof Long l) {
             return l.intValue();
+        }
+
+        if (obj instanceof Float f) {
+            return f.intValue();
+        }
+        if (obj instanceof Double d) {
+            return d.intValue();
         }
 
         if (obj instanceof String str) {
