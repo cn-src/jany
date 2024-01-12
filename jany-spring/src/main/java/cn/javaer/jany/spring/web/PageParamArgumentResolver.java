@@ -54,8 +54,8 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
         int page = NumberUtils.parseInt(pageStr, PageParam.DEFAULT_PAGE);
         int size = Math.min(defaultMaxSize, NumberUtils.parseInt(sizeStr, PageParam.DEFAULT_SIZE));
 
-        Sort sort = sortResolver.resolveArgument
-            (methodParameter, mavContainer, webRequest, binderFactory);
+        Sort sort = sortResolver.resolveArgument(methodParameter, mavContainer, webRequest, binderFactory);
+
         if (sort != null && sort.isSorted()) {
             return PageParam.of(page, size, sort);
         }
