@@ -64,5 +64,6 @@ public class RuntimeErrorInfo {
     public RuntimeErrorInfo(final ErrorInfo errorInfo) {
         this.error = errorInfo.getError();
         this.status = errorInfo.getStatus();
+        this.message = errorInfo.getMessage();
     }
 }
