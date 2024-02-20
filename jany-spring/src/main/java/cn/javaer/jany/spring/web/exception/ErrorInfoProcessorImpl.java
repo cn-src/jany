@@ -76,10 +76,9 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         final ErrorInfo errorInfo = this.getErrorInfo(t.getClass());
         final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
         String message = ErrorMessageSource.getMessage(errorInfo, t);
-        if (StrUtil.isEmpty(message) && StrUtil.isNotEmpty(errorInfo.getMessage())) {
-            message = errorInfo.getMessage();
+        if (StrUtil.isNotEmpty(message)) {
+            runtimeErrorInfo.setMessage(message);
         }
-        runtimeErrorInfo.setMessage(message);
         return runtimeErrorInfo;
     }
 
