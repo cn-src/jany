@@ -16,6 +16,7 @@
 
 package cn.javaer.jany.spring.web.exception;
 
+import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,9 +31,8 @@ public interface ErrorInfoProvider {
      * 根据异常，提供错误信息。
      *
      * @param t Throwable
-     *
      * @return ErrorInfo
      */
     @Nullable
-    RuntimeErrorInfo getRuntimeErrorInfo(Throwable t);
+    ErrorInfo getErrorInfo(Throwable t);
 }

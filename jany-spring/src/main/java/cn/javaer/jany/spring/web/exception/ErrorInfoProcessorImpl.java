@@ -18,11 +18,9 @@ package cn.javaer.jany.spring.web.exception;
 
 import cn.javaer.jany.exception.ErrorCode;
 import cn.javaer.jany.exception.ErrorInfo;
-import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.util.IoUtils;
 import cn.javaer.jany.util.ReflectUtils;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import org.dromara.hutool.core.text.StrUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
@@ -66,25 +64,19 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
 
     @Override
     @NotNull
-    public RuntimeErrorInfo getRuntimeErrorInfo(@NotNull Throwable t) {
-        final RuntimeErrorInfo providerErrorInfo = errorInfoProvider.getRuntimeErrorInfo(t);
+    public ErrorInfo getErrorInfo(@NotNull Throwable t) {
+        final ErrorInfo providerErrorInfo = errorInfoProvider.getErrorInfo(t);
         if (providerErrorInfo != null) {
             return providerErrorInfo;
         }
 
         t = getOriginalThrowable(t);
-        final ErrorInfo errorInfo = this.getErrorInfo(t.getClass());
-        final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
-        String message = ErrorMessageSource.getMessage(errorInfo, t);
-        if (StrUtil.isNotEmpty(message)) {
-            runtimeErrorInfo.setMessage(message);
-        }
-        return runtimeErrorInfo;
+        return this.getErrorInfo(t.getClass());
     }
 
     @Override
     public String getMessage(@NotNull Throwable t) {
-        return getRuntimeErrorInfo(t).getMessage();
+        return getErrorInfo(t).getMessage();
     }
 
     @NotNull

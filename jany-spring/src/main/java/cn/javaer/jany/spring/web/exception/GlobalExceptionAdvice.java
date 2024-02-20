@@ -16,9 +16,11 @@
 
 package cn.javaer.jany.spring.web.exception;
 
+import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.WebContext;
 import jakarta.servlet.http.HttpServletRequest;
+import org.dromara.hutool.core.text.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
@@ -53,7 +55,13 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler({Exception.class})
     public ResponseEntity<RuntimeErrorInfo> handleBadRequestException(
             final HttpServletRequest request, final Exception e) {
-        final RuntimeErrorInfo runtimeErrorInfo = errorInfoProcessor.getRuntimeErrorInfo(e);
+        final ErrorInfo errorInfo = errorInfoProcessor.getErrorInfo(e);
+        final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
+        String message = ErrorMessageSource.getMessage(errorInfo, e);
+        if (StrUtil.isNotEmpty(message)) {
+            runtimeErrorInfo.setMessage(message);
+        }
+
         this.fillInfo(runtimeErrorInfo, request, e);
         if (runtimeErrorInfo.getStatus() < 500) {
             this.logger.debug("Http status {}", runtimeErrorInfo.getStatus(), e);

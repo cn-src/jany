@@ -39,7 +39,7 @@ public interface ErrorInfoProcessor {
      * @param t Throwable
      * @return ErrorInfo
      */
-    @NotNull RuntimeErrorInfo getRuntimeErrorInfo(@NotNull Throwable t);
+    @NotNull ErrorInfo getErrorInfo(@NotNull Throwable t);
 
     String getMessage(@NotNull Throwable t);
 
