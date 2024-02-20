@@ -78,12 +78,7 @@ public class GlobalExceptionAdvice {
 
         if (ErrorProperties.IncludeAttribute.ALWAYS.equals(this.errorProperties.getIncludeStacktrace())) {
             final String traceMessage = errorInfoProcessor.getTraceMessage(e);
-            if (traceMessage != null) {
-                runtimeErrorInfo.setTraceMessage(traceMessage);
-            }
-            else {
-                runtimeErrorInfo.setTraceMessage(e.getMessage());
-            }
+            runtimeErrorInfo.setTraceMessage(traceMessage);
             final StringWriter stackTrace = new StringWriter();
             e.printStackTrace(new PrintWriter(stackTrace));
             stackTrace.flush();

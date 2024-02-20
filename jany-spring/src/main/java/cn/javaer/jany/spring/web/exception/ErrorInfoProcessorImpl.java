@@ -72,16 +72,7 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
             return providerErrorInfo;
         }
 
-        if (t.getCause() instanceof InvalidFormatException) {
-            t = t.getCause();
-        }
-        else if (null != t.getCause() && SA_EXCEPTION.equals(t.getClass().getName())
-                && !SA_EXCEPTION.equals(t.getCause().getClass().getName())) {
-            final Class<? extends Throwable> aClass = ReflectUtils.classForName(SA_EXCEPTION);
-            if (aClass.isAssignableFrom(t.getCause().getClass())) {
-                t = t.getCause();
-            }
-        }
+        t = getOriginalThrowable(t);
         final ErrorInfo errorInfo = this.getErrorInfo(t.getClass());
         final RuntimeErrorInfo runtimeErrorInfo = new RuntimeErrorInfo(errorInfo);
         String message = ErrorMessageSource.getMessage(errorInfo, t);
@@ -90,6 +81,10 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         }
         runtimeErrorInfo.setMessage(message);
         return runtimeErrorInfo;
+    }
+
+    public String getMessage(@NotNull Throwable t) {
+        return getRuntimeErrorInfo(t).getMessage();
     }
 
     @NotNull
@@ -139,12 +134,26 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
             }
             return sb.toString();
         }
-        return null;
+        return e.getMessage();
     }
 
     @UnmodifiableView
     public Map<String, ErrorInfo> getConfiguredErrorMapping() {
         return Collections.unmodifiableMap(this.configuredErrorMapping);
+    }
+
+    private Throwable getOriginalThrowable(Throwable t) {
+        if (t.getCause() instanceof InvalidFormatException) {
+            return t.getCause();
+        }
+        else if (null != t.getCause() && SA_EXCEPTION.equals(t.getClass().getName())
+                && !SA_EXCEPTION.equals(t.getCause().getClass().getName())) {
+            final Class<? extends Throwable> aClass = ReflectUtils.classForName(SA_EXCEPTION);
+            if (aClass.isAssignableFrom(t.getCause().getClass())) {
+                return t.getCause();
+            }
+        }
+        return t;
     }
 
     private static Map<String, ErrorInfo> internalErrorMapping() {
