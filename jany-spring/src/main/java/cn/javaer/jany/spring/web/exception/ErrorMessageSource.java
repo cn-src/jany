@@ -25,7 +25,6 @@ import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 
 import java.util.Locale;
@@ -41,7 +40,7 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
     private static final ExpressionParser elParser = new SpelExpressionParser();
 
     private static final MessageSourceAccessor ACCESSOR =
-        new MessageSourceAccessor(new ErrorMessageSource(), Locale.CHINESE);
+            new MessageSourceAccessor(new ErrorMessageSource(), Locale.CHINESE);
 
     private static final char EL_KEY_START = '$';
 
@@ -49,7 +48,7 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
         this.setDefaultEncoding("UTF-8");
         try {
             final ClassLoader classLoader = getBundleClassLoader() == null ?
-                Thread.currentThread().getContextClassLoader() : getBundleClassLoader();
+                    Thread.currentThread().getContextClassLoader() : getBundleClassLoader();
             ResourceBundle.getBundle("errors-messages", Locale.CHINESE, classLoader);
             this.setBasenames("errors-messages", "default-errors-messages");
         }
@@ -67,7 +66,7 @@ public class ErrorMessageSource extends ResourceBundleMessageSource {
         if (StringUtils.hasText(message)) {
             return message;
         }
-        return HttpStatus.valueOf(errorInfo.getStatus()).getReasonPhrase();
+        return "";
     }
 
     public static String getMessage(final String error, final Object[] args) {
