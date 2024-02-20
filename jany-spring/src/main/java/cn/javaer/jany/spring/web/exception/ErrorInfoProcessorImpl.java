@@ -83,6 +83,7 @@ public class ErrorInfoProcessorImpl implements ErrorInfoProcessor {
         return runtimeErrorInfo;
     }
 
+    @Override
     public String getMessage(@NotNull Throwable t) {
         return getRuntimeErrorInfo(t).getMessage();
     }

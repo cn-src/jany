@@ -37,16 +37,16 @@ public interface ErrorInfoProcessor {
      * 根据异常，提供错误信息。
      *
      * @param t Throwable
-     *
      * @return ErrorInfo
      */
     @NotNull RuntimeErrorInfo getRuntimeErrorInfo(@NotNull Throwable t);
+
+    String getMessage(@NotNull Throwable t);
 
     /**
      * 根据异常，提供错误信息。
      *
      * @param clazz Throwable
-     *
      * @return ErrorInfo
      */
     @NotNull ErrorInfo getErrorInfo(@NotNull Class<? extends Throwable> clazz);
@@ -55,7 +55,6 @@ public interface ErrorInfoProcessor {
      * 根据异常，获取运行时错误信息。
      *
      * @param e Throwable
-     *
      * @return 错误信息
      */
     @Nullable String getTraceMessage(Throwable e);
@@ -64,7 +63,6 @@ public interface ErrorInfoProcessor {
      * 根据配置转换成 ErrorInfo
      *
      * @param mapping 配置
-     *
      * @return ErrorInfo 配置
      */
     static Map<String, ErrorInfo> convert(Map<String, String> mapping) {
@@ -80,7 +78,7 @@ public interface ErrorInfoProcessor {
                         throw new RuntimeException(value);
                     }
                     final ErrorInfo errorInfo = ErrorInfo.of(split[1].trim(),
-                        Integer.parseInt(split[0].trim()));
+                            Integer.parseInt(split[0].trim()));
                     errorInfoMap.put(entry.getKey(), errorInfo);
                 }
             }
