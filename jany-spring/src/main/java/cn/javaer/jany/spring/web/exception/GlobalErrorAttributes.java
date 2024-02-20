@@ -16,6 +16,7 @@
 
 package cn.javaer.jany.spring.web.exception;
 
+import cn.javaer.jany.exception.ErrorInfo;
 import cn.javaer.jany.exception.RuntimeErrorInfo;
 import cn.javaer.jany.spring.web.WebContext;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -49,7 +50,7 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
 
         final Throwable t = super.getError(webRequest);
         if (t != null) {
-            final RuntimeErrorInfo errorInfo = extractor.getRuntimeErrorInfo(t);
+            final ErrorInfo errorInfo = extractor.getErrorInfo(t);
             attributes.put(RuntimeErrorInfo.Fields.message, errorInfo.getMessage());
             attributes.put(RuntimeErrorInfo.Fields.error, errorInfo.getError());
             attributes.put(RuntimeErrorInfo.Fields.status, errorInfo.getStatus());
