@@ -13,6 +13,6 @@ public interface JanyVersion {
      * @return 程序的版本。
      */
     static String getVersion() {
-        return "1.1.0";
+        return "next-SNAPSHOT";
     }
 }

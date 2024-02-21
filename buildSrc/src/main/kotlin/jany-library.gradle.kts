@@ -21,6 +21,9 @@ java {
 tasks.withType(Javadoc::class.java) {
     isFailOnError = false
 }
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("-parameters")
+}
 val springBootVersion: String by project
 dependencies {
     api(platform(project(":jany-platform")))
