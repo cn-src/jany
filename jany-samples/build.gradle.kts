@@ -29,7 +29,6 @@ dependencies {
     api("org.jetbrains:annotations:${p["jetbrainsAnnotationsVersion"]}")
 
     // 模板引擎
-    api("com.github.jknack:handlebars:${p["handlebarsVersion"]}")
     api("com.deepoove:poi-tl:${p["poiTlVersion"]}")
     api("com.alibaba:easyexcel:${p["easyexcelVersion"]}")
     api("com.alibaba:transmittable-thread-local:${p["transmittableThreadLocalVersion"]}")

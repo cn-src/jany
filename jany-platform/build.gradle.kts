@@ -14,17 +14,13 @@ dependencies {
     api(platform("com.playtika.testcontainers:testcontainers-spring-boot-bom:${p["playtikaVersion"]}"))
 
     constraints {
-//        api(project(":jany-archunit"))
         api(project(":jany-core"))
         api(project(":jany-ebean"))
         api(project(":jany-jackson"))
         api(project(":jany-jooq"))
-//        api(project(":jany-storage"))
         api(project(":jany-p6spy"))
         api(project(":jany-spring"))
         api(project(":jany-spring-boot-starter"))
-//        api(project(":jany-spring-boot-starter-handlebars"))
-//        api(project(":jany-spring-boot-starter-minio"))
         api(project(":jany-spring-boot-starter-p6spy"))
         api(project(":jany-spring-boot-starter-springdoc"))
         api(project(":jany-test"))
