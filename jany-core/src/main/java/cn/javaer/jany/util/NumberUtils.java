@@ -66,13 +66,6 @@ public class NumberUtils extends NumberUtil {
             return l.intValue();
         }
 
-        if (obj instanceof Float f) {
-            return f.intValue();
-        }
-        if (obj instanceof Double d) {
-            return d.intValue();
-        }
-
         if (obj instanceof String str) {
             return parseInt(str, defaultValue);
         }
