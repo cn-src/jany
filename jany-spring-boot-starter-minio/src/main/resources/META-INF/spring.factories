@@ -1,6 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.javaer.jany.spring.autoconfigure.minio.MinioAutoConfiguration
-
-cn.javaer.jany.spring.autoconfigure.minio.test.AutoConfigureMinio=\
-cn.javaer.jany.spring.autoconfigure.minio.MinioAutoConfiguration
