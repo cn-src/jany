@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation("io.spring.gradle:dependency-management-plugin:1.1.4")
+    implementation("io.spring.gradle:dependency-management-plugin:1.1.5")
 }
 
 repositories {
