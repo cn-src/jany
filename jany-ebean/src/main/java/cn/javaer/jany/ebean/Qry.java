@@ -21,7 +21,7 @@ import cn.javaer.jany.model.PageParam;
 import cn.javaer.jany.model.Sort;
 import io.ebean.PagedList;
 import io.ebean.Query;
-import io.ebean.typequery.TQRootBean;
+import io.ebean.typequery.QueryBean;
 import org.dromara.hutool.core.lang.Assert;
 import org.dromara.hutool.core.util.ObjUtil;
 import org.jetbrains.annotations.NotNull;
@@ -107,7 +107,7 @@ public class Qry<T> {
         return new Qry<>(query);
     }
 
-    public static <R, T, QR extends TQRootBean<T, R>> Qry<T> of(QR rootBean) {
+    public static <R, T, QR extends QueryBean<T, R>> Qry<T> of(QR rootBean) {
         return new Qry<>(rootBean.query());
     }
 
