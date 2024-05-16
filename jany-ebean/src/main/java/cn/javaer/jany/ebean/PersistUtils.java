@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import org.dromara.hutool.core.lang.Assert;
 import org.dromara.hutool.core.lang.Opt;
-import org.dromara.hutool.core.map.WeakConcurrentMap;
+import org.dromara.hutool.core.map.reference.WeakConcurrentMap;
 import org.dromara.hutool.core.reflect.FieldUtil;
 
 import java.lang.reflect.Field;

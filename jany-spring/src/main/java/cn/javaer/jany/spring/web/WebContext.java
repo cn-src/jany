@@ -20,7 +20,7 @@ import cn.javaer.jany.util.Empty;
 import cn.javaer.jany.util.ReflectUtils;
 import com.yomahub.tlog.context.TLogContext;
 import jakarta.servlet.http.HttpServletRequest;
-import org.dromara.hutool.http.server.servlet.JakartaServletUtil;
+import org.dromara.hutool.http.server.servlet.ServletUtil;
 import org.dromara.hutool.http.useragent.UserAgent;
 import org.dromara.hutool.http.useragent.UserAgentUtil;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -67,17 +67,17 @@ public class WebContext {
      *
      * @param otherHeaderNames 用于获取 IP 的其他 http header
      * @return the ip
-     * @see JakartaServletUtil#getClientIP(HttpServletRequest, java.lang.String...)
+     * @see ServletUtil#getClientIP(HttpServletRequest, java.lang.String...)
      */
     public static String clientIp(String... otherHeaderNames) {
-        return JakartaServletUtil.getClientIP(httpServletRequest(), otherHeaderNames);
+        return ServletUtil.getClientIP(httpServletRequest(), otherHeaderNames);
     }
 
     public static ClientInfo clientInfo() {
         ClientInfo clientInfo = new ClientInfo();
         HttpServletRequest request = httpServletRequest();
 
-        String ip = JakartaServletUtil.getClientIP(httpServletRequest());
+        String ip = ServletUtil.getClientIP(httpServletRequest());
         clientInfo.setIp(ip);
 
         String userAgentStr = request.getHeader("User-Agent");
