@@ -14,12 +14,12 @@
 package cn.javaer.jany.util;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.dromara.hutool.http.server.servlet.JakartaServletUtil;
+import org.dromara.hutool.http.server.servlet.ServletUtil;
 
 /**
  * @author cn-src
  */
-public class JakartaServletUtils extends JakartaServletUtil {
+public class ServletUtils extends ServletUtil {
 
     public static boolean isJsonRequest(HttpServletRequest request) {
         String contentType = request.getHeader("Content-Type");
