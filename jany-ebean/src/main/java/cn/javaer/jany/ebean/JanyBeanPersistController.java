@@ -22,7 +22,7 @@ import io.ebean.event.BeanPersistRequest;
 import io.ebeaninternal.server.core.PersistRequestBean;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import org.dromara.hutool.core.map.WeakConcurrentMap;
+import org.dromara.hutool.core.map.reference.WeakConcurrentMap;
 import org.dromara.hutool.core.reflect.FieldUtil;
 import org.dromara.hutool.core.util.ObjUtil;
 
