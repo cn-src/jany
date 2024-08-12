@@ -45,9 +45,9 @@ public enum Operator {
 
     ne(ExpressionFactory::ne),
     ieq((factory, property, value) ->
-        factory.ieq(property, StrUtil.toString(value))),
+        factory.ieq(property, StrUtil.toStringOrNull(value))),
     ine((factory, property, value) ->
-        factory.ine(property, StrUtil.toString(value))),
+        factory.ine(property, StrUtil.toStringOrNull(value))),
     inRange((factory, property, value) -> {
         Object[] values = (Object[]) value;
         return factory.inRange(property, values[0], values[1]);
