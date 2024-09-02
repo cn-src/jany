@@ -18,7 +18,7 @@ package cn.javaer.jany.spring.util;
 
 import com.deepoove.poi.XWPFTemplate;
 import org.dromara.hutool.core.compress.ZipUtil;
-import org.dromara.hutool.poi.excel.ExcelWriter;
+import org.dromara.hutool.poi.excel.writer.ExcelWriter;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
