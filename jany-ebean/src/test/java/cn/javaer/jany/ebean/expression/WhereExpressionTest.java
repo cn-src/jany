@@ -30,7 +30,7 @@ class WhereExpressionTest {
     @Test
     void name() throws Exception {
         final Field name = Demo.class.getField("name");
-        final WhereExpression whereExpression = AnnotationUtils.findMergedAnnotation(WhereExpression.class, name).get();
+        final WhereExpression whereExpression = AnnotationUtils.findMergedAnnotation(WhereExpression.class, name).getOrNull();
         assertThat(whereExpression.property()).isEqualTo("name");
     }
 
