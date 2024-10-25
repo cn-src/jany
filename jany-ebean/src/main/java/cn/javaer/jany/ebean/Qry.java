@@ -107,7 +107,7 @@ public class Qry<T> {
         return new Qry<>(query);
     }
 
-    public static <R, T, QR extends QueryBean<T, R>> Qry<T> of(QR rootBean) {
+    public static <R, T, QR extends QueryBean<T, @NotNull QR>> Qry<T> of(QR rootBean) {
         return new Qry<>(rootBean.query());
     }
 
