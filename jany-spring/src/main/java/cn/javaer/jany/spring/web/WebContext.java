@@ -82,7 +82,7 @@ public class WebContext {
 
         String userAgentStr = request.getHeader("User-Agent");
         UserAgent userAgent = UserAgentUtil.parse(userAgentStr);
-        if (null != userAgentStr) {
+        if (null != userAgent) {
             clientInfo.setBrowser(userAgent.getBrowser().getName());
             clientInfo.setOs(userAgent.getOs().getName());
         }
