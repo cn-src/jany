@@ -2,7 +2,7 @@ subprojects {
     val snapshotVersion = "next-SNAPSHOT"
     apply(plugin = "maven-publish")
     group = "cn.javaer.jany"
-    version = snapshotVersion
+    version = "1.3.0"
 
     repositories {
         mavenCentral()
