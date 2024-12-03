@@ -23,7 +23,6 @@ import cn.javaer.jany.spring.web.exception.ErrorInfoProcessor;
 import io.swagger.v3.core.util.PrimitiveType;
 import org.springdoc.core.configuration.SpringDocConfiguration;
 import org.springdoc.core.converters.PageableOpenAPIConverter;
-import org.springdoc.core.parsers.ReturnTypeParser;
 import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springdoc.core.providers.ObjectMapperProvider;
 import org.springdoc.core.service.GenericResponseService;
@@ -41,8 +40,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 import static org.springdoc.core.utils.Constants.SPRINGDOC_PAGEABLE_CONVERTER_ENABLED;
 
@@ -64,10 +61,9 @@ public class SpringdocAutoConfiguration implements InitializingBean {
     @ConditionalOnMissingBean
     GenericResponseService responseBuilder(final OperationService operationService,
                                            final ErrorInfoProcessor errorInfoProcessor,
-                                           final List<ReturnTypeParser> returnTypeParsers,
                                            final SpringDocConfigProperties springDocConfigProperties,
                                            final PropertyResolverUtils propertyResolverUtils) {
-        return new ExceptionResponseBuilder(operationService, returnTypeParsers,
+        return new ExceptionResponseBuilder(operationService,
                 springDocConfigProperties, propertyResolverUtils, errorInfoProcessor);
     }
 

@@ -31,7 +31,6 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.hutool.core.text.StrUtil;
 import org.springdoc.core.models.MethodAttributes;
-import org.springdoc.core.parsers.ReturnTypeParser;
 import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springdoc.core.service.GenericResponseService;
 import org.springdoc.core.service.OperationService;
@@ -51,18 +50,16 @@ class ExceptionResponseBuilder extends GenericResponseService {
     /**
      * Instantiates a new Generic response builder.
      *
-     * @param operationBuilder          the operation builder
-     * @param returnTypeParsers         the return type parsers
+     * @param operationService          the operation service
      * @param springDocConfigProperties the spring doc config properties
      * @param propertyResolverUtils     the property resolver utils
      * @param errorInfoProcessor        ErrorInfoProcessor
      */
-    public ExceptionResponseBuilder(final OperationService operationBuilder,
-                                    final List<ReturnTypeParser> returnTypeParsers,
+    public ExceptionResponseBuilder(final OperationService operationService,
                                     final SpringDocConfigProperties springDocConfigProperties,
                                     final PropertyResolverUtils propertyResolverUtils,
                                     final ErrorInfoProcessor errorInfoProcessor) {
-        super(operationBuilder, returnTypeParsers, springDocConfigProperties,
+        super(operationService, springDocConfigProperties,
                 propertyResolverUtils);
         this.errorInfoProcessor = errorInfoProcessor;
     }
