@@ -20,10 +20,7 @@ import org.dromara.hutool.core.collection.CollUtil;
 import org.dromara.hutool.core.comparator.CompareUtil;
 import org.dromara.hutool.core.text.StrUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -49,19 +46,8 @@ public class Tree {
         if (CollUtil.isEmpty(models)) {
             return Collections.emptyList();
         }
-
         List<E> es = new ArrayList<>(models);
-        es.sort((o1, o2) -> {
-            final Long t1 = treeConf.getSortFn().apply(o1);
-            final Long t2 = treeConf.getSortFn().apply(o2);
-            if (t1 == null) {
-                return t2 == null ? 0 : -1;
-            }
-            if (t2 == null) {
-                return 1;
-            }
-            return CompareUtil.compare(t1, t2, true);
-        });
+        es.sort(Comparator.comparingLong(treeConf.getSortFn()));
 
         final TreeNode root = TreeNode.of("");
         TreeNode current = root;

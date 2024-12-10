@@ -54,7 +54,7 @@ public class TreeConf<E> {
         this.namesFn = namesFn == null ? Empty.function() : namesFn;
         this.sortFn = sortFn == null ? EMPTY_SORT_FN : sortFn;
         this.handler = handler == null ? TreeHandler.empty() : handler;
-        this.emptyMode = emptyMode == null ? EmptyMode.IGNORE_EMPTY_LEAVES : emptyMode;
+        this.emptyMode = emptyMode;
     }
 
     /**
