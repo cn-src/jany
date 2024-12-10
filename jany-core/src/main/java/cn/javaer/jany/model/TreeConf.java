@@ -38,12 +38,12 @@ public class TreeConf<E> {
         /**
          * 如果当前节点 name 为空，则忽略当前节点以及其子节点。
          */
-        IGNORE_CHILDREN,
+        IGNORE_EMPTY_NODES,
 
         /**
          * 忽略所有为空的叶子节点（即：所有末级节点为非空）。
          */
-        IGNORE_LEAF
+        IGNORE_EMPTY_LEAVES
     }
 
     private TreeConf(Function<E, List<String>> namesFn, Function<E, Long> sortFn,
@@ -76,27 +76,27 @@ public class TreeConf<E> {
 
     public static <E> TreeConf<E> of(Function<E, String[]> namesFun) {
         return new TreeConf<>(e -> Arrays.asList(namesFun.apply(e)), Empty.function(),
-            TreeHandler.empty(), null);
+                TreeHandler.empty(), null);
     }
 
     @SafeVarargs
     public static <E> TreeConf<E> of(Function<E, String> nameFun, Function<E, String>... namesFun) {
         return new TreeConf<>(toNamesFn(nameFun, namesFun),
-            Empty.function(), TreeHandler.empty(), null);
+                Empty.function(), TreeHandler.empty(), null);
     }
 
     @SafeVarargs
     public static <E> TreeConf<E> ofIgnoreChildrenIfEmpty(Function<E, String> nameFun,
                                                           Function<E, String>... namesFun) {
         return new TreeConf<>(toNamesFn(nameFun, namesFun),
-            Empty.function(), TreeHandler.empty(), EmptyMode.IGNORE_CHILDREN);
+                Empty.function(), TreeHandler.empty(), EmptyMode.IGNORE_EMPTY_NODES);
     }
 
     @SafeVarargs
     public static <E> TreeConf<E> ofIgnoreLeafIfEmpty(Function<E, String> nameFun,
                                                       Function<E, String>... namesFun) {
         return new TreeConf<>(toNamesFn(nameFun, namesFun),
-            Empty.function(), TreeHandler.empty(), EmptyMode.IGNORE_LEAF);
+                Empty.function(), TreeHandler.empty(), EmptyMode.IGNORE_EMPTY_LEAVES);
     }
 
     @SafeVarargs
