@@ -42,6 +42,10 @@ public class Tree {
 
     public static <E> List<TreeNode> of(final List<E> models, TreeConf<E> treeConf) {
 
+        if (treeConf == null) {
+            throw new IllegalArgumentException("TreeConf cannot be null");
+        }
+
         if (CollUtil.isEmpty(models)) {
             return Collections.emptyList();
         }
@@ -50,6 +54,12 @@ public class Tree {
         es.sort((o1, o2) -> {
             final Long t1 = treeConf.getSortFn().apply(o1);
             final Long t2 = treeConf.getSortFn().apply(o2);
+            if (t1 == null) {
+                return t2 == null ? 0 : -1;
+            }
+            if (t2 == null) {
+                return 1;
+            }
             return CompareUtil.compare(t1, t2, true);
         });
 
@@ -78,7 +88,7 @@ public class Tree {
                 else {
                     final TreeNode treeNode = TreeNode.of(name);
                     treeNode.treeInfo = new TreeInfo<>(treeNode, row, depth,
-                        current.childrenMap.size());
+                            current.childrenMap.size());
                     current.childrenMap.put(name, treeNode);
                     call.add(treeNode);
                     current = treeNode;
