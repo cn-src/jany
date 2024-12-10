@@ -64,7 +64,7 @@ class TreeTest {
 
     @Test
     void ofOneAllPropsEmpty_namedLeaf() {
-        final TreeConf<Areas> conf = TreeConf.ofIgnoreLeafIfEmpty(Areas::getArea1, Areas::getArea2,
+        final TreeConf<Areas> conf = TreeConf.ofIgnoreEmptyLeaves(Areas::getArea1, Areas::getArea2,
             Areas::getArea3);
         final List<TreeNode> treeNodes = Tree.of(Collections.singletonList(new Areas()), conf);
         JsonAssert.assertEqualsAndOrder("model/TreeTest.ofOneAllPropsEmpty_namedLeaf.json",
@@ -149,7 +149,7 @@ class TreeTest {
 
     @Test
     void ofBreakEmpty() {
-        final TreeConf<Areas> conf = TreeConf.ofIgnoreChildrenIfEmpty(Areas::getArea1,
+        final TreeConf<Areas> conf = TreeConf.ofIgnoreEmptyNodes(Areas::getArea1,
             Areas::getArea2,
             Areas::getArea3);
         final List<TreeNode> treeNodes = Tree.of(TEST_HAS_EMPTY_DATA, conf);
@@ -158,7 +158,7 @@ class TreeTest {
 
     @Test
     void ofNamedLeaf() {
-        final TreeConf<Areas> conf = TreeConf.ofIgnoreLeafIfEmpty(Areas::getArea1, Areas::getArea2,
+        final TreeConf<Areas> conf = TreeConf.ofIgnoreEmptyLeaves(Areas::getArea1, Areas::getArea2,
             Areas::getArea3);
         final List<TreeNode> treeNodes = Tree.of(TEST_HAS_EMPTY_DATA, conf);
         JsonAssert.assertEqualsAndOrder("model/TreeTest.ofNamedLeaf.json", Log.json(treeNodes));

@@ -25,6 +25,7 @@ import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.ToLongFunction;
 
 /**
  * @author cn-src
@@ -32,6 +33,8 @@ import java.util.function.Function;
 @Value
 @Builder
 public class TreeConf<E> {
+
+    ToLongFunction<E> EMPTY_SORT_FN = it -> 0;
 
     public enum EmptyMode {
 
@@ -46,12 +49,12 @@ public class TreeConf<E> {
         IGNORE_EMPTY_LEAVES
     }
 
-    private TreeConf(Function<E, List<String>> namesFn, Function<E, Long> sortFn,
+    private TreeConf(Function<E, List<String>> namesFn, ToLongFunction<E> sortFn,
                      TreeHandler<E> handler, EmptyMode emptyMode) {
         this.namesFn = namesFn == null ? Empty.function() : namesFn;
-        this.sortFn = sortFn == null ? Empty.function() : sortFn;
+        this.sortFn = sortFn == null ? EMPTY_SORT_FN : sortFn;
         this.handler = handler == null ? TreeHandler.empty() : handler;
-        this.emptyMode = emptyMode;
+        this.emptyMode = emptyMode == null ? EmptyMode.IGNORE_EMPTY_LEAVES : emptyMode;
     }
 
     /**
@@ -62,7 +65,7 @@ public class TreeConf<E> {
     /**
      * 节点排序函数。
      */
-    Function<E, Long> sortFn;
+    ToLongFunction<E> sortFn;
 
     /**
      * 节点额外处理函数。
@@ -75,28 +78,24 @@ public class TreeConf<E> {
     EmptyMode emptyMode;
 
     public static <E> TreeConf<E> of(Function<E, String[]> namesFun) {
-        return new TreeConf<>(e -> Arrays.asList(namesFun.apply(e)), Empty.function(),
-                TreeHandler.empty(), null);
+        return new TreeConf<>(e -> Arrays.asList(namesFun.apply(e)), null, null, null);
     }
 
     @SafeVarargs
     public static <E> TreeConf<E> of(Function<E, String> nameFun, Function<E, String>... namesFun) {
-        return new TreeConf<>(toNamesFn(nameFun, namesFun),
-                Empty.function(), TreeHandler.empty(), null);
+        return new TreeConf<>(toNamesFn(nameFun, namesFun), null, null, null);
     }
 
     @SafeVarargs
-    public static <E> TreeConf<E> ofIgnoreChildrenIfEmpty(Function<E, String> nameFun,
-                                                          Function<E, String>... namesFun) {
-        return new TreeConf<>(toNamesFn(nameFun, namesFun),
-                Empty.function(), TreeHandler.empty(), EmptyMode.IGNORE_EMPTY_NODES);
+    public static <E> TreeConf<E> ofIgnoreEmptyNodes(Function<E, String> nameFun,
+                                                     Function<E, String>... namesFun) {
+        return new TreeConf<>(toNamesFn(nameFun, namesFun), null, null, EmptyMode.IGNORE_EMPTY_NODES);
     }
 
     @SafeVarargs
-    public static <E> TreeConf<E> ofIgnoreLeafIfEmpty(Function<E, String> nameFun,
+    public static <E> TreeConf<E> ofIgnoreEmptyLeaves(Function<E, String> nameFun,
                                                       Function<E, String>... namesFun) {
-        return new TreeConf<>(toNamesFn(nameFun, namesFun),
-                Empty.function(), TreeHandler.empty(), EmptyMode.IGNORE_EMPTY_LEAVES);
+        return new TreeConf<>(toNamesFn(nameFun, namesFun), null, null, EmptyMode.IGNORE_EMPTY_LEAVES);
     }
 
     @SafeVarargs
