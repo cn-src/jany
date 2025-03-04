@@ -63,6 +63,7 @@ public class MapMatcher<K, R> {
      * @return null 此方法不返回任何值，执行函数或抛出异常后返回null
      * @throws NoSuchElementException 如果没有找到与键关联的函数时抛出此异常
      */
+    @SuppressWarnings("UnusedReturnValue")
     public R applyOrThrowBy(K key) {
         // 尝试从映射中获取与键关联的函数
         Function<K, R> fn = mapping.get(key);
