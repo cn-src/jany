@@ -16,6 +16,7 @@
 
 package cn.javaer.jany.exception;
 
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.jetbrains.annotations.NotNull;
 
@@ -79,6 +80,7 @@ public class ErrorInfo implements Comparable<ErrorInfo> {
      */
     public static final String SESSION_OUT_KICKED = "SESSION_OUT_KICKED";
 
+    @EqualsAndHashCode.Include
     String error;
 
     int status;
@@ -128,26 +130,9 @@ public class ErrorInfo implements Comparable<ErrorInfo> {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || this.getClass() != o.getClass()) {
-            return false;
-        }
-        final ErrorInfo that = (ErrorInfo) o;
-        return Objects.equals(this.error, that.error);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.error);
-    }
-
-    @Override
-    public int compareTo(final @NotNull ErrorInfo errorInfo) {
-        return Comparator.comparing(ErrorInfo::getStatus, Integer::compare)
-                .thenComparing(ErrorInfo::getError, String::compareTo)
+    public int compareTo(@NotNull final ErrorInfo errorInfo) {
+        return Comparator.comparingInt(ErrorInfo::getStatus)
+                .thenComparing(ErrorInfo::getError)
                 .compare(this, errorInfo);
     }
 }
