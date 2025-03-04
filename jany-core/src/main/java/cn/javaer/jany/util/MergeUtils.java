@@ -33,16 +33,15 @@ import java.util.function.Function;
 public interface MergeUtils {
 
     /**
-     * Merge list.
+     * 合并两个列表，根据指定的合并条件和处理逻辑生成新的列表。
      *
-     * @param <S> the type parameter
-     * @param <R> the type parameter
-     * @param sList the s list
-     * @param mergePredicate the merge predicate
-     * @param handler the handler
-     * @param rCreator the r creator
-     *
-     * @return the list
+     * @param <S>            the type parameter
+     * @param <R>            the type parameter
+     * @param sList          源列表
+     * @param mergePredicate 合并条件
+     * @param handler        处理逻辑
+     * @param rCreator       新结果对象创建函数
+     * @return 合并后的新列表
      */
     static <S, R> List<R> merge(final List<S> sList,
                                 final BiPredicate<S, R> mergePredicate,
@@ -59,27 +58,26 @@ public interface MergeUtils {
         final List<R> results = new ArrayList<>();
         for (final S s : sList) {
             final R r = results.stream()
-                .filter(it -> mergePredicate.test(s, it))
-                .findFirst()
-                .orElseGet(() -> {
-                    final R initR = rCreator.apply(s);
-                    results.add(initR);
-                    return initR;
-                });
+                    .filter(it -> mergePredicate.test(s, it))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        final R initR = rCreator.apply(s);
+                        results.add(initR);
+                        return initR;
+                    });
             handler.accept(s, r);
         }
         return results;
     }
 
     /**
-     * Merge list.
+     * 合并两个列表，根据指定的合并条件和处理逻辑生成新的列表。
      *
-     * @param <S> the type parameter
-     * @param sList the s list
-     * @param mergePredicate the merge predicate
-     * @param handler the handler
-     *
-     * @return the list
+     * @param <S>            the type parameter
+     * @param sList          源列表
+     * @param mergePredicate 合并条件
+     * @param handler        处理逻辑
+     * @return 合并后的新列表
      */
     static <S> List<S> merge(final List<S> sList,
                              final BiPredicate<S, S> mergePredicate,
@@ -90,14 +88,13 @@ public interface MergeUtils {
     /**
      * 将 pList 的数据合并到 sList 中，并返回新的 List.
      *
-     * @param <S> S
-     * @param <P> P
-     * @param <R> R
-     * @param sList 源 List
-     * @param pList 进行合并的 List
+     * @param <S>            S
+     * @param <P>            P
+     * @param <R>            R
+     * @param sList          源 List
+     * @param pList          进行合并的 List
      * @param mergePredicate 合并条件
-     * @param resultFun 新结果对象创建函数
-     *
+     * @param resultFun      新结果对象创建函数
      * @return 新 List
      */
     static <S, P, R> List<R> merge(final List<S> sList, final List<P> pList,
@@ -129,13 +126,12 @@ public interface MergeUtils {
     /**
      * 将 pList 的数据合并到 sList 中，并返回新的 sList.
      *
-     * @param <S> S
-     * @param <P> P
-     * @param sList 源 List
-     * @param pList 进行合并的 List
+     * @param <S>            S
+     * @param <P>            P
+     * @param sList          源 List
+     * @param pList          进行合并的 List
      * @param mergePredicate 合并条件
-     * @param resultFun 新结果对象创建函数
-     *
+     * @param resultFun      新结果对象创建函数
      * @return 新的 S List
      */
     static <S, P> List<S> merge(final List<S> sList, final List<P> pList,
@@ -148,18 +144,17 @@ public interface MergeUtils {
     }
 
     /**
-     * Merge list.
+     * 合并两个列表，根据两个不同的合并条件和处理逻辑生成新的列表。
      *
-     * @param <S> the type parameter
-     * @param <P> the type parameter
-     * @param <R> the type parameter
-     * @param sList the s list
-     * @param pList the p list
-     * @param mergePredicate1 the merge predicate 1
-     * @param mergePredicate2 the merge predicate 2
-     * @param resultFun the result fun
-     *
-     * @return the list
+     * @param <S>             the type parameter
+     * @param <P>             the type parameter
+     * @param <R>             the type parameter
+     * @param sList           源列表
+     * @param pList           进行合并的列表
+     * @param mergePredicate1 第一个合并条件
+     * @param mergePredicate2 第二个合并条件
+     * @param resultFun       新结果对象创建函数
+     * @return 合并后的新列表
      */
     static <S, P, R> List<R> merge(final List<S> sList, final List<P> pList,
                                    final BiPredicate<S, P> mergePredicate1,
@@ -194,17 +189,16 @@ public interface MergeUtils {
     }
 
     /**
-     * Merge list.
+     * 合并两个列表，根据两个不同的合并条件和处理逻辑生成新的列表。
      *
-     * @param <S> the type parameter
-     * @param <P> the type parameter
-     * @param sList the s list
-     * @param pList the p list
-     * @param mergePredicate1 the merge predicate 1
-     * @param mergePredicate2 the merge predicate 2
-     * @param resultFun the result fun
-     *
-     * @return the list
+     * @param <S>             the type parameter
+     * @param <P>             the type parameter
+     * @param sList           源列表
+     * @param pList           进行合并的列表
+     * @param mergePredicate1 第一个合并条件
+     * @param mergePredicate2 第二个合并条件
+     * @param resultFun       处理逻辑
+     * @return 合并后的新列表
      */
     static <S, P> List<S> merge(final List<S> sList, final List<P> pList,
                                 final BiPredicate<S, P> mergePredicate1,
@@ -217,26 +211,25 @@ public interface MergeUtils {
     }
 
     /**
-     * Merge list.
+     * 合并三个列表，根据两个不同的合并条件和处理逻辑生成新的列表。
      *
-     * @param <R> the type parameter
-     * @param <S> the type parameter
-     * @param <P1> the type parameter
-     * @param <P2> the type parameter
-     * @param sList the s list
-     * @param p1List the p 1 list
-     * @param mergePredicate1 the merge predicate 1
-     * @param p2List the p 2 list
-     * @param mergePredicate2 the merge predicate 2
-     * @param resultFun the result fun
-     *
-     * @return the list
+     * @param <R>             the type parameter
+     * @param <S>             the type parameter
+     * @param <P1>            the type parameter
+     * @param <P2>            the type parameter
+     * @param sList           源列表
+     * @param p1List          第一个进行合并的列表
+     * @param mergePredicate1 第一个合并条件
+     * @param p2List          第二个进行合并的列表
+     * @param mergePredicate2 第二个合并条件
+     * @param resultFun       新结果对象创建函数
+     * @return 合并后的新列表
      */
     static <R, S, P1, P2> List<R> merge(
-        final List<S> sList,
-        final List<P1> p1List, final BiPredicate<S, P1> mergePredicate1,
-        final List<P2> p2List, final BiPredicate<S, P2> mergePredicate2,
-        final Function3<S, Optional<P1>, Optional<P2>, R> resultFun) {
+            final List<S> sList,
+            final List<P1> p1List, final BiPredicate<S, P1> mergePredicate1,
+            final List<P2> p2List, final BiPredicate<S, P2> mergePredicate2,
+            final Function3<S, Optional<P1>, Optional<P2>, R> resultFun) {
 
         Objects.requireNonNull(mergePredicate1);
         Objects.requireNonNull(mergePredicate2);
@@ -282,25 +275,24 @@ public interface MergeUtils {
     }
 
     /**
-     * Merge list.
+     * 合并三个列表，根据两个不同的合并条件和处理逻辑生成新的列表。
      *
-     * @param <S> the type parameter
-     * @param <P1> the type parameter
-     * @param <P2> the type parameter
-     * @param sList the s list
-     * @param p1List the p 1 list
-     * @param mergePredicate1 the merge predicate 1
-     * @param p2List the p 2 list
-     * @param mergePredicate2 the merge predicate 2
-     * @param resultFun the result fun
-     *
-     * @return the list
+     * @param <S>             the type parameter
+     * @param <P1>            the type parameter
+     * @param <P2>            the type parameter
+     * @param sList           源列表
+     * @param p1List          第一个进行合并的列表
+     * @param mergePredicate1 第一个合并条件
+     * @param p2List          第二个进行合并的列表
+     * @param mergePredicate2 第二个合并条件
+     * @param resultFun       处理逻辑
+     * @return 合并后的新列表
      */
     static <S, P1, P2> List<S> merge(
-        final List<S> sList,
-        final List<P1> p1List, final BiPredicate<S, P1> mergePredicate1,
-        final List<P2> p2List, final BiPredicate<S, P2> mergePredicate2,
-        final Consumer3<S, Optional<P1>, Optional<P2>> resultFun) {
+            final List<S> sList,
+            final List<P1> p1List, final BiPredicate<S, P1> mergePredicate1,
+            final List<P2> p2List, final BiPredicate<S, P2> mergePredicate2,
+            final Consumer3<S, Optional<P1>, Optional<P2>> resultFun) {
         return merge(sList, p1List, mergePredicate1, p2List, mergePredicate2, (s, p1, p2) -> {
             resultFun.accept(s, p1, p2);
             return s;
@@ -308,17 +300,16 @@ public interface MergeUtils {
     }
 
     /**
-     * Merge list list.
+     * 合并两个列表，根据指定的合并条件和处理逻辑生成新的列表。
      *
-     * @param <S> the type parameter
-     * @param <P> the type parameter
-     * @param <R> the type parameter
-     * @param sList the s list
-     * @param pList the p list
-     * @param mergePredicate the merge predicate
-     * @param resultFun the result fun
-     *
-     * @return the list
+     * @param <S>            the type parameter
+     * @param <P>            the type parameter
+     * @param <R>            the type parameter
+     * @param sList          源列表
+     * @param pList          进行合并的列表
+     * @param mergePredicate 合并条件
+     * @param resultFun      新结果对象创建函数
+     * @return 合并后的新列表
      */
     static <S, P, R> List<R> mergeList(final List<S> sList, final List<P> pList,
                                        final BiPredicate<S, P> mergePredicate,
