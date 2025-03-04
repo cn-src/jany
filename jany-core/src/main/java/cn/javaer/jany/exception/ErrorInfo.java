@@ -89,16 +89,16 @@ public class ErrorInfo implements Comparable<ErrorInfo> {
 
     String doc;
 
-    ErrorInfo(final String error, final int status) {
-        Objects.requireNonNull(error);
+    private ErrorInfo(final String error, final int status) {
+        Objects.requireNonNull(error, "Error code cannot be null");
         this.error = error;
         this.status = status;
-        this.doc = "";
-        this.message = "";
+        this.doc = null;
+        this.message = null;
     }
 
-    ErrorInfo(final String error, final int status, final String message, final String doc) {
-        Objects.requireNonNull(error);
+    private ErrorInfo(final String error, final int status, final String message, final String doc) {
+        Objects.requireNonNull(error, "Error code cannot be null");
         this.error = error;
         this.status = status;
         this.message = message;
@@ -106,27 +106,14 @@ public class ErrorInfo implements Comparable<ErrorInfo> {
     }
 
     public static ErrorInfo of(final ErrorCode errorCode) {
+        if (errorCode == null) {
+            throw new IllegalArgumentException("ErrorCode cannot be null");
+        }
         return new ErrorInfo(errorCode.error(), errorCode.status(), errorCode.message(), errorCode.doc());
     }
 
     public static ErrorInfo of(final String error, final int status) {
         return new ErrorInfo(error, status);
-    }
-
-    public static ErrorInfo of400(final String error) {
-        return new ErrorInfo(error, 400);
-    }
-
-    public static ErrorInfo of401(final String error) {
-        return new ErrorInfo(error, 401);
-    }
-
-    public static ErrorInfo of403(final String error) {
-        return new ErrorInfo(error, 403);
-    }
-
-    public static ErrorInfo of500(final String error) {
-        return new ErrorInfo(error, 500);
     }
 
     @Override
