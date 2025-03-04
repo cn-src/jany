@@ -38,6 +38,13 @@ import java.util.stream.StreamSupport;
  */
 public class AnnotationUtils extends AnnotationUtil {
 
+    /**
+     * 判断指定注解类型是否存在于给定注解实例或其元注解中。
+     *
+     * @param clazz 注解类型
+     * @param ann   注解实例
+     * @return 如果存在则返回 true，否则返回 false
+     */
     public static boolean hasMergedAnnotation(final Class<? extends Annotation> clazz,
                                               final Annotation ann) {
         if (clazz.equals(ann.annotationType())) {
@@ -46,16 +53,37 @@ public class AnnotationUtils extends AnnotationUtil {
         return ann.annotationType().isAnnotationPresent(clazz);
     }
 
+    /**
+     * 判断指定注解类型是否存在于给定注解实例数组或其元注解中。
+     *
+     * @param clazz       注解类型
+     * @param annotations 注解实例数组
+     * @return 如果存在则返回 true，否则返回 false
+     */
     public static boolean hasMergedAnnotation(
             final Class<? extends Annotation> clazz, final Annotation... annotations) {
         return hasMergedAnnotation(clazz, Arrays.asList(annotations));
     }
 
+    /**
+     * 判断指定注解类型是否存在于给定元素的注解或其元注解中。
+     *
+     * @param clazz   注解类型
+     * @param element 被注解的元素
+     * @return 如果存在则返回 true，否则返回 false
+     */
     public static boolean hasMergedAnnotation(
             final Class<? extends Annotation> clazz, final AnnotatedElement element) {
         return hasMergedAnnotation(clazz, element.getAnnotations());
     }
 
+    /**
+     * 判断指定注解类型是否存在于给定注解集合或其元注解中。
+     *
+     * @param clazz       注解类型
+     * @param annotations 注解集合
+     * @return 如果存在则返回 true，否则返回 false
+     */
     public static boolean hasMergedAnnotation(
             final Class<? extends Annotation> clazz, Iterable<Annotation> annotations) {
         if (!annotations.iterator().hasNext()) {
@@ -109,6 +137,14 @@ public class AnnotationUtils extends AnnotationUtil {
                 exposedInterfaces, handler));
     }
 
+    /**
+     * 查找合成的注解实例，返回第一个符合的注解。
+     *
+     * @param clazz       注解类型
+     * @param annotations 注解流
+     * @param <T>         T
+     * @return 返回注解实例
+     */
     public static <T extends Annotation> Opt<T> findMergedAnnotation(
             final Class<T> clazz, final Stream<Annotation> annotations) {
 
@@ -122,8 +158,8 @@ public class AnnotationUtils extends AnnotationUtil {
     /**
      * 查找合成的注解实例，返回第一个符合的注解。
      *
-     * @param clazz       要获取的注解类型
-     * @param annotations 注解实例
+     * @param clazz       注解类型
+     * @param annotations 注解实例数组
      * @param <T>         T
      * @return 返回注解实例
      * @see #findMergedAnnotation(Class, Annotation)
@@ -136,6 +172,14 @@ public class AnnotationUtils extends AnnotationUtil {
         return findMergedAnnotation(clazz, Arrays.stream(annotations));
     }
 
+    /**
+     * 查找合成的注解实例，返回第一个符合的注解。
+     *
+     * @param clazz       注解类型
+     * @param annotations 注解集合
+     * @param <T>         T
+     * @return 返回注解实例
+     */
     public static <T extends Annotation> Opt<T> findMergedAnnotation(
             final Class<T> clazz, Iterable<Annotation> annotations) {
         return findMergedAnnotation(clazz, StreamSupport.stream(annotations.spliterator(), false));
@@ -144,9 +188,8 @@ public class AnnotationUtils extends AnnotationUtil {
     /**
      * 查找合成的注解实例，返回第一个符合的注解。
      *
-     * @param <T>     T
+     * @param clazz   注解类型
      * @param element 被注解的元素
-     * @param clazz   要获取的注解类型
      * @return 返回注解实例
      * @see #findMergedAnnotation(Class, Annotation)
      */
