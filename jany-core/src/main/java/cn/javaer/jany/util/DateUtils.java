@@ -24,20 +24,32 @@ import org.dromara.hutool.core.math.NumberUtil;
  */
 public class DateUtils extends DateUtil {
 
+    /**
+     * 将给定的纳秒数转换为更易读的时间格式
+     * 此方法根据纳秒数的大小，将其转换为毫秒、秒、分钟、小时或天，并附加相应的单位
+     *
+     * @param nanos 待转换的纳秒数
+     * @return 转换后的易读时间字符串
+     */
     @SuppressWarnings("AlibabaUndefineMagicConstant")
     public static String humanReadable(long nanos) {
+        // 对于小于1秒的纳秒数，转换为毫秒
         if (nanos < 1000_000_000) {
             return nanos / 1000000 + "ms";
         }
+        // 对于小于1分钟的纳秒数，转换为秒，并保留一位小数
         else if (nanos < 60_000_000_000L) {
             return NumberUtil.div((double) nanos, 1000000000D, 1) + "s";
         }
+        // 对于小于1小时的纳秒数，转换为分钟，并保留一位小数
         else if (nanos < 3600_000_000_000L) {
             return NumberUtil.div((double) nanos, 60_000_000_000D, 1) + "m";
         }
+        // 对于小于1天的纳秒数，转换为小时，并保留一位小数
         else if (nanos < 86400_000_000_000L) {
             return NumberUtil.div((double) nanos, 3600_000_000_000D, 1) + "h";
         }
+        // 对于大于等于1天的纳秒数，转换为天，并保留一位小数
         else {
             return NumberUtil.div((double) nanos, 86400_000_000_000D, 1) + "d";
         }
