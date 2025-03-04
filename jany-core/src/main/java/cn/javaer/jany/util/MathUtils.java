@@ -24,11 +24,20 @@ import org.dromara.hutool.core.math.MathUtil;
  * @author cn-src
  */
 public class MathUtils extends MathUtil {
+    /**
+     * 计算整数数组中所有元素的总和
+     *
+     * @param arr 整数数组，包含需要相加的元素
+     * @return 数组中所有元素的总和
+     */
     public static int sum(int[] arr) {
+        // 初始化总和变量为0
         int sum = 0;
+        // 遍历数组中的每个元素，将其累加到总和变量中
         for (int j : arr) {
             sum += j;
         }
+        // 返回计算得到的总和
         return sum;
     }
 }
