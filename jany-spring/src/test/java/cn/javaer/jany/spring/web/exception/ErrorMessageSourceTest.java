@@ -44,15 +44,15 @@ class ErrorMessageSourceTest {
     @Test
     void getMessage_SpEL() {
 
-        final String message = ErrorMessageSource.getMessage(ErrorInfo.of401("$SA_TOKEN_NOT_LOGIN"),
+        final String message = ErrorMessageSource.getMessage(ErrorInfo.of("$SA_TOKEN_NOT_LOGIN", 401),
                 NotLoginException.newInstance("loginType", NotLoginException.BE_REPLACED, "message", "token"));
         assertThat(message).isEqualTo("您已在别处登录");
     }
 
     @Test
     void getMessage_SpEL2() {
-        final String message = ErrorMessageSource.getMessage(ErrorInfo.of401(
-                        "$SA_TOKEN_NOT_LOGIN"),
+        final String message = ErrorMessageSource.getMessage(ErrorInfo.of(
+                        "$SA_TOKEN_NOT_LOGIN", 401),
                 NotLoginException.newInstance("loginType", "99", "message", "token"));
         assertThat(message).isEqualTo("认证失败，未知错误");
     }
