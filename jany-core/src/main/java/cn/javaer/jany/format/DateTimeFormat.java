@@ -71,21 +71,16 @@ public @interface DateTimeFormat {
          * 日期转换日期时间
          *
          * @param localDate LocalDate
-         * @param format DateFillFormat
-         *
+         * @param format    DateFillFormat
          * @return LocalDateTime
          */
         static LocalDateTime format(final LocalDate localDate,
                                     final DateTimeFormat format) {
 
-            switch (format.time()) {
-                case MIN:
-                    return localDate.atTime(LocalTime.MIN);
-                case MAX:
-                    return localDate.atTime(LocalTime.MAX);
-                default:
-                    throw new IllegalStateException();
-            }
+            return switch (format.time()) {
+                case MIN -> localDate.atTime(LocalTime.MIN);
+                case MAX -> localDate.atTime(LocalTime.MAX);
+            };
         }
     }
 }
