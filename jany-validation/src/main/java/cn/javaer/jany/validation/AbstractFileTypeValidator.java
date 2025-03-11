@@ -43,15 +43,13 @@ public class AbstractFileTypeValidator<A extends Annotation>
             return true;
         }
 
-        if (value instanceof CharSequence) {
-            final CharSequence str = (CharSequence) value;
-            if (str.length() == 0) {
+        if (value instanceof CharSequence str) {
+            if (str.isEmpty()) {
                 return true;
             }
             return isSuffix(str.toString());
         }
-        if (value instanceof File) {
-            File file = (File) value;
+        if (value instanceof File file) {
             if (file.isDirectory()) {
                 return false;
             }
@@ -72,10 +70,9 @@ public class AbstractFileTypeValidator<A extends Annotation>
     }
 
     boolean isSuffix(final Object file) {
-        if (!(file instanceof MultipartFile)) {
+        if (!(file instanceof MultipartFile multipartFile)) {
             return false;
         }
-        final MultipartFile multipartFile = (MultipartFile) file;
         if (multipartFile.isEmpty()) {
             return false;
         }
