@@ -17,6 +17,7 @@
 package cn.javaer.jany.model;
 
 import cn.javaer.jany.util.StrUtils;
+import lombok.Getter;
 import lombok.Value;
 import org.dromara.hutool.core.array.ArrayUtil;
 import org.dromara.hutool.core.collection.ListUtil;
@@ -24,6 +25,7 @@ import org.dromara.hutool.core.lang.Assert;
 import org.dromara.hutool.core.text.StrUtil;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,8 +33,10 @@ import java.util.stream.Collectors;
 /**
  * @author cn-src
  */
+@Getter
 public class Sort implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -7725678213239466317L;
 
     private static final Sort UNSORTED = Sort.by(new Order[0]);
@@ -149,14 +153,6 @@ public class Sort implements Serializable {
         return !isSorted();
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public boolean isByAudit() {
-        return byAudit;
-    }
-
     public Sort and(Sort sort) {
 
         Assert.notNull(sort, "Sort must not be null!");
@@ -189,11 +185,9 @@ public class Sort implements Serializable {
             return true;
         }
 
-        if (!(obj instanceof Sort)) {
+        if (!(obj instanceof Sort that)) {
             return false;
         }
-
-        Sort that = (Sort) obj;
 
         return ListUtil.unmodifiable(this.orders).equals(ListUtil.unmodifiable(that.orders));
     }
@@ -268,6 +262,7 @@ public class Sort implements Serializable {
     @Value
     public static class Order implements Serializable {
 
+        @Serial
         private static final long serialVersionUID = 4508487941220443606L;
 
         private static final boolean DEFAULT_IGNORE_CASE = false;
