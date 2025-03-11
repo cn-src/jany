@@ -34,16 +34,16 @@ import java.time.LocalDateTime;
 @FieldNameConstants
 public class RuntimeErrorInfo {
     @NotNull
-    @Schema(description = "错误代码", required = true)
+    @Schema(description = "错误代码", requiredMode = Schema.RequiredMode.REQUIRED)
     private final String error;
 
-    @Schema(description = "状态码", required = true)
+    @Schema(description = "状态码", requiredMode = Schema.RequiredMode.REQUIRED)
     private int status;
 
-    @Schema(description = "请求路径", required = true)
+    @Schema(description = "请求路径", requiredMode = Schema.RequiredMode.REQUIRED)
     private String path;
 
-    @Schema(description = "时间戳", required = true)
+    @Schema(description = "时间戳", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime timestamp;
 
     @Schema(description = "提示消息")
