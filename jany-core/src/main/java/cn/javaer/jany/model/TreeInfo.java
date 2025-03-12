@@ -23,7 +23,7 @@ import lombok.Value;
  */
 @Value
 public class TreeInfo<E> {
-    TreeNode node;
+    TreeNode<E> node;
 
     E model;
 

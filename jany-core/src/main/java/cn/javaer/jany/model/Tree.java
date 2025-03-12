@@ -30,13 +30,13 @@ public class Tree {
     }
 
     @SafeVarargs
-    public static <E> List<TreeNode> of(final List<E> models,
-                                        Function<E, String> nameFun,
-                                        Function<E, String>... namesFun) {
+    public static <E> List<TreeNode<E>> of(final List<E> models,
+                                           Function<E, String> nameFun,
+                                           Function<E, String>... namesFun) {
         return of(models, TreeConf.of(nameFun, namesFun));
     }
 
-    public static <E> List<TreeNode> of(final List<E> models, TreeConf<E> treeConf) {
+    public static <E> List<TreeNode<E>> of(final List<E> models, TreeConf<E> treeConf) {
 
         if (treeConf == null) {
             throw new IllegalArgumentException("TreeConf cannot be null");
@@ -48,9 +48,9 @@ public class Tree {
         List<E> es = new ArrayList<>(models);
         es.sort(Comparator.comparingLong(treeConf.getSortFn()));
 
-        final TreeNode root = TreeNode.of("");
-        TreeNode current = root;
-        List<TreeNode> call = new ArrayList<>(50);
+        final TreeNode<E> root = TreeNode.of("");
+        TreeNode<E> current = root;
+        List<TreeNode<E>> call = new ArrayList<>(50);
         for (final E row : es) {
             int depth = 1;
             final List<String> names = treeConf.getNamesFn().apply(row);
@@ -71,7 +71,7 @@ public class Tree {
                     current = current.childrenMap.get(name);
                 }
                 else {
-                    final TreeNode treeNode = TreeNode.of(name);
+                    final TreeNode<E> treeNode = TreeNode.of(name);
                     treeNode.treeInfo = new TreeInfo<>(treeNode, row, depth,
                             current.childrenMap.size());
                     current.childrenMap.put(name, treeNode);
@@ -82,16 +82,15 @@ public class Tree {
             }
             current = root;
         }
-        for (TreeNode n : call) {
+        for (TreeNode<E> n : call) {
             n.moveToChildren();
-            // noinspection unchecked
             treeConf.getHandler().apply(n.treeInfo);
         }
         root.moveToChildren();
         return root.getChildren();
     }
 
-    public static <E> List<E> toModel(final List<TreeNode> treeTreeNodes,
+    public static <E> List<E> toModel(final List<TreeNode<E>> treeTreeNodes,
                                       final Function<List<String>, E> resultFun) {
         Objects.requireNonNull(resultFun);
 
@@ -100,8 +99,8 @@ public class Tree {
         }
 
         final List<E> result = new ArrayList<>();
-        TreeNode current = TreeNode.of("", treeTreeNodes);
-        ArrayList<TreeNode> stack = new ArrayList<>();
+        TreeNode<E> current = TreeNode.of("", treeTreeNodes);
+        ArrayList<TreeNode<E>> stack = new ArrayList<>();
         stack.add(current);
 
         // 遍历树结构，转换成二维表结构用于存库，深度优先遍历
@@ -120,7 +119,7 @@ public class Tree {
                 }
                 result.add(resultFun.apply(names));
                 // 迭代清理一条线的所有孤叶节点（没有子节点的节点 ）
-                TreeNode peek;
+                TreeNode<E> peek;
                 do {
                     // 移除当前已经使用的节点，以及当前节点在父节点的位置
                     stack.remove(stack.size() - 1);

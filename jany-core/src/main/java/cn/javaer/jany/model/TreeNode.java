@@ -29,34 +29,34 @@ import java.util.*;
 /**
  * @author cn-src
  */
-public class TreeNode {
+public class TreeNode<E> {
     @Getter
     final String name;
 
-    final List<TreeNode> children;
+    final List<TreeNode<E>> children;
 
-    Map<String, TreeNode> childrenMap;
+    Map<String, TreeNode<E>> childrenMap;
 
-    @SuppressWarnings("rawtypes")
-    TreeInfo treeInfo;
+    TreeInfo<E> treeInfo;
 
     @JsonAnySetter
     final Map<String, Object> dynamic = new HashMap<>();
 
-    private TreeNode(String name, List<TreeNode> children) {
+    private TreeNode(String name, List<TreeNode<E>> children) {
         this.name = name;
         this.children = children;
         this.childrenMap = new LinkedHashMap<>();
     }
 
-    public static TreeNode of(String name, TreeNode... children) {
-        return new TreeNode(name, ListUtil.of(children));
+    @SafeVarargs
+    public static <E> TreeNode<E> of(String name, TreeNode<E>... children) {
+        return new TreeNode<>(name, ListUtil.of(children));
     }
 
     @JsonCreator
-    public static TreeNode of(@JsonProperty("name") String name,
-                              @JsonProperty("children") List<TreeNode> children) {
-        return new TreeNode(name, ListUtil.of(children));
+    public static <E> TreeNode<E> of(@JsonProperty("name") String name,
+                                     @JsonProperty("children") List<TreeNode<E>> children) {
+        return new TreeNode<>(name, ListUtil.of(children));
     }
 
     void removeFirstChild() {
@@ -71,7 +71,7 @@ public class TreeNode {
     }
 
     @UnmodifiableView
-    public List<TreeNode> getChildren() {
+    public List<TreeNode<E>> getChildren() {
         return Collections.unmodifiableList(children);
     }
 
@@ -84,9 +84,9 @@ public class TreeNode {
     @Override
     public String toString() {
         return new StringJoiner(", ", TreeNode.class.getSimpleName() + "[", "]")
-            .add("name='" + name + "'")
-            .add("@children.size=" + children.size())
-            .add("@dynamic.size=" + dynamic.size())
-            .toString();
+                .add("name='" + name + "'")
+                .add("@children.size=" + children.size())
+                .add("@dynamic.size=" + dynamic.size())
+                .toString();
     }
 }
