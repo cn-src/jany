@@ -31,6 +31,7 @@ dependencies {
     // 模板引擎
     api("com.deepoove:poi-tl:${p["poiTlVersion"]}")
     api("com.alibaba:easyexcel:${p["easyexcelVersion"]}")
+    api("cn.idev.excel:fastexcel:${p["fastexcelVersion"]}")
     api("com.alibaba:transmittable-thread-local:${p["transmittableThreadLocalVersion"]}")
 
     // 类信息扫描工具
